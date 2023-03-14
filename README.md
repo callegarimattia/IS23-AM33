@@ -9,14 +9,14 @@ Java implementation of the table game [My Shelfie](https://craniointernational.c
 
 ## Development State
 | Functionality | State |
-|---|---|
+|---|--|
 |Regole semplificate |:construction:|
 |Regole complete |:construction:|
 |TUI|:construction:|
 |GUI|:construction:|
 |RMI|:construction:|
 |Socket|:construction:|
-|Partite Multiple|:x:|
+|Partite Multiple|:construction:|
 |Persistenza|:x:|
 |Resilienza disconnessioni|:x:|
 |Chat|:x:|
