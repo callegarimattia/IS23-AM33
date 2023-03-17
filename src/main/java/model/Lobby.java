@@ -2,29 +2,54 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Lobby {
-    private final ArrayList<User> waitingUsers = new ArrayList<>();
+    static AtomicInteger nextID = new AtomicInteger();
+    private final ArrayList<User> lobbyUsers = new ArrayList<>();
+    private final int ID;
+    private Game game;
+    private boolean inGame = false;
     private final int gameSize;
 
     public Lobby(User firstUser, int gameSize) {
-        this.waitingUsers.add(firstUser);
+        this.lobbyUsers.add(firstUser);
+        firstUser.setInLobby(true);
+        this.ID = nextID.incrementAndGet();
         this.gameSize = gameSize;
     }
 
+    public Game getGame() {
+        return game;
+    }
+
+    public boolean isInGame() {
+        return inGame;
+    }
+
+    public int getGameSize() {
+        return gameSize;
+    }
+
     public List<User> getUsers() {
-        return waitingUsers;
+        return lobbyUsers;
     }
 
-    public boolean isReady() {
-        return waitingUsers.size() == gameSize;
+    public boolean isFull() {
+        return lobbyUsers.size() == gameSize;
     }
 
-    public void join(User newUser) {
-        waitingUsers.add(newUser);
+    public int getID() {
+        return ID;
     }
 
-    public void leave(User oldUser) {
-        waitingUsers.remove(oldUser);
+    public void add(User newUser) {
+        lobbyUsers.add(newUser);
+        newUser.setInLobby(true);
+    }
+
+    public void remove(User toBeRemovedUser) {
+        lobbyUsers.remove(toBeRemovedUser);
+        toBeRemovedUser.setInLobby(false);
     }
 }

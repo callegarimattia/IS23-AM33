@@ -1,7 +1,7 @@
 package model;
 
 public class Shelf {
-    private optional Tiles[][] matrix;
+    /*private optional Tiles[][] matrix;
 
     public boolean isCommonGoalAchieved(Goal goal){
 
@@ -11,6 +11,6 @@ public class Shelf {
     }
     public int scoreTilesCluster(){
 
-    }
+    }*/
 
 }
