@@ -5,10 +5,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Lobby {
-    static AtomicInteger nextID = new AtomicInteger();
+    private static AtomicInteger nextID = new AtomicInteger();
     private final ArrayList<User> lobbyUsers = new ArrayList<>();
     private final int ID;
-    private Game game;
     private boolean inGame = false;
     private final int gameSize;
 
@@ -17,10 +16,6 @@ public class Lobby {
         firstUser.setInLobby(true);
         this.ID = nextID.incrementAndGet();
         this.gameSize = gameSize;
-    }
-
-    public Game getGame() {
-        return game;
     }
 
     public boolean isInGame() {
@@ -44,11 +39,13 @@ public class Lobby {
     }
 
     public void add(User newUser) {
+        if (inGame) throw new LobbiesHandlerException("Lobby has active game.");
         lobbyUsers.add(newUser);
         newUser.setInLobby(true);
     }
 
     public void remove(User toBeRemovedUser) {
+        if (inGame) throw new LobbiesHandlerException("Lobby has active game.");
         lobbyUsers.remove(toBeRemovedUser);
         toBeRemovedUser.setInLobby(false);
     }
