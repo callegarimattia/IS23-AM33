@@ -9,7 +9,8 @@ public class Player {
         public Player(String userName) {
                 this.userName = userName;
         }
-        //public int calculateScore() {
-        //
-        // }
+
+        public int calculateScore() {
+                return 0;
+        }
 }

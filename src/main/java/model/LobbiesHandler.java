@@ -30,7 +30,6 @@ public class LobbiesHandler {
         if (gameSize > 4 || gameSize < 2) throw new LobbiesHandlerException("Game size is invalid");
 
         Lobby newLobby = new Lobby(firstUser, gameSize);
-        firstUser.setInLobby(true);
         lobbies.add(newLobby);
     }
 
