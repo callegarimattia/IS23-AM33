@@ -6,11 +6,14 @@ import model.Tile;
 public abstract class PersonalGoal {
     /**
      * @param playerMatrix is the Matrix on which the method will iterate
-     * @return the points the player earned from this PersonalGoal
-     * @method countRights controls if the Player achieved the goals described by his PersonalGoal
+     * @return the number of goal tiles the player collected from this PersonalGoal
      */
     public abstract int countRights(Tile[][] playerMatrix) throws PersonalGoalException;
 
+    /**
+     * @param count is the number of goal tiles the player collected from this PersonalGoal
+     * @return the points obtained by the player from this Personal Goal
+     */
     public int calcPoints(int count) {
         switch (count) {
             default:

@@ -1,13 +1,10 @@
 package model;
-import model.CommonGoals.CommonGoal;
-import model.CommonGoals.CommonGoal1;
-import model.PersonalGoals.PersonalGoal;
 
 import java.time.LocalTime;
 import java.util.List;
 
 public class Game {
-    private Board MainBoard;
+    private Board4 MainBoard;
     private Player currentTurnPlayer;
     private int gameID;
     private LocalTime lastMove;
