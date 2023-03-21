@@ -30,7 +30,6 @@ public class Board4 {
             k --;
         }
         this.RandomTiles(MyBag, mainBoard);
-        System.out.println(":::::::"+MyBag.getTotalTiles());
     }
 
     private void RandomTiles(TilesBag myBag, Tile[][] mainBoard){
@@ -43,6 +42,7 @@ public class Board4 {
 
     }
 
+    /* Da togliere c'è solo per test di stampa */
     public void Print(){
         for(int x =0 ; x < 9; x++){
             for(int y =0; y< 9; y++ ){
