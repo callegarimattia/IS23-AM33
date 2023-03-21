@@ -1,7 +1,6 @@
 package model;
 
-import java.sql.Array;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TilesBag {
     private int numOfCat;
@@ -22,55 +21,79 @@ public class TilesBag {
         totalTiles = 132;
     }
 
-    public int pickedTile(){
-        int x = -1;
-        if(totalTiles==0) x = -1;
-        Random rn = new Random();
-        int type = rn.nextInt(5) + 0;  // in teoria da 0 a 5
-        switch (type) {
+    public int getTotalTiles() {
+        return totalTiles;
+    }
+
+    public void RestoreTile(Tile myTile){
+        totalTiles ++;
+        switch (myTile){
             default:
-                if(numOfCat > 0){
+                numOfCat ++;
+            case BOOK:
+                numOfBook ++;
+            case GAME:
+                numOfGame ++;
+            case FRAME:
+                numOfFrame ++;
+            case TROPHY:
+                numOfTrophy ++;
+            case PLANT:
+                numOfPlant ++;
+        }
+    }
+
+    public Tile pickedTile(){
+        Tile returnTile = Tile.EMPTY;
+        if(totalTiles==0) return returnTile;
+        int type = ThreadLocalRandom.current().nextInt(0, 5 + 1);
+        switch (type) {
+            case 0:
+                if(this.numOfCat > 0){
                     this.numOfCat--;
                     totalTiles --;
-                    x = 0;
+                    return returnTile = Tile.CAT;
                 }
-                else pickedTile();
+                else return returnTile = this.pickedTile();
             case 1:
                 if(numOfBook > 0){
                     this.numOfBook--;
                     totalTiles --;
-                    x = 1;
+                    return returnTile = Tile.BOOK;
                 }
-                else pickedTile();
+                else return returnTile = this.pickedTile();
             case 2:
                 if(numOfGame > 0){
                     this.numOfGame--;
                     totalTiles --;
-                    x = 2;
+                    return returnTile = Tile.GAME;
                 }
-                else pickedTile();
+                else return returnTile = this.pickedTile();
+
             case 3:
                 if(numOfFrame > 0){
                     this.numOfFrame--;
                     totalTiles --;
-                    x = 3;
+                    return returnTile = Tile.FRAME;
                 }
-                else pickedTile();
+                else return returnTile = this.pickedTile();
+
             case 4:
                 if(numOfTrophy > 0){
                     this.numOfTrophy--;
                     totalTiles --;
-                    x = 4;
+                    return returnTile = Tile.TROPHY;
                 }
-                else pickedTile();
+                else return returnTile = this.pickedTile();
+
             case 5:
                 if(numOfPlant > 0){
                     this.numOfPlant--;
                     totalTiles --;
-                    x = 5;
+                    return returnTile = Tile.PLANT;
                 }
-                else pickedTile();
+                else return returnTile = this.pickedTile();
         }
-        return x;
+        return returnTile;
     }
 }
