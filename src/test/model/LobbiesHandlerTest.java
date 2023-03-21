@@ -9,58 +9,62 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LobbiesHandlerTest {
-    LobbiesHandler tester;
+
+    GamesHandler gameTester = new GamesHandler();
+    LobbiesHandler lobbyTester = new LobbiesHandler();
     User mattia = new User("Mattia");
 
     @BeforeEach
     void init() {
-        tester = new LobbiesHandler();
+        lobbyTester.initLobbiesHandler(gameTester);
+        gameTester.initGameHandler(lobbyTester);
+
     }
 
     @AfterEach
     void teardown() {
-        tester.getLobbies().clear();
-        tester.getUsers().clear();
-        assertTrue(tester.getUsers().isEmpty());
-        assertTrue(tester.getLobbies().isEmpty());
+        lobbyTester.getLobbies().clear();
+        lobbyTester.getUsers().clear();
+        assertTrue(lobbyTester.getUsers().isEmpty());
+        assertTrue(lobbyTester.getLobbies().isEmpty());
     }
 
     @Test
     void createUser() {
-        tester.createUser("Mattia");
-        assertTrue(tester.getUsers().contains(mattia));
+        lobbyTester.createUser("Mattia");
+        assertTrue(lobbyTester.getUsers().contains(mattia));
     }
 
     @Test
     void createUser_SameName() {
-        tester.createUser("Mattia");
-        assertThrows(LobbiesHandlerException.class, () -> tester.createUser("Mattia"));
+        lobbyTester.createUser("Mattia");
+        assertThrows(LobbiesHandlerException.class, () -> lobbyTester.createUser("Mattia"));
     }
 
     @Test
     void searchUser() {
-        tester.createUser("Mattia");
-        assertEquals(mattia, tester.searchUser("Mattia"));
+        lobbyTester.createUser("Mattia");
+        assertEquals(mattia, lobbyTester.searchUser("Mattia"));
 
     }
 
     @Test
     void searchUser_NotPresent() {
-        assertThrows(LobbiesHandlerException.class, () -> tester.searchUser("Mattia"));
+        assertThrows(LobbiesHandlerException.class, () -> lobbyTester.searchUser("Mattia"));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {2, 3, 4})
     void createLobby(int numOfPlayers) {
-        tester.createUser("Mattia");
-        tester.createLobby(mattia, numOfPlayers);
-        assertTrue(tester.getLobbies().stream().anyMatch(lobby -> lobby.getUsers().contains(mattia) && lobby.getGameSize() == numOfPlayers));
+        lobbyTester.createUser("Mattia");
+        lobbyTester.createLobby(mattia, numOfPlayers);
+        assertTrue(lobbyTester.getLobbies().stream().anyMatch(lobby -> lobby.getUsers().contains(mattia) && lobby.getGameSize() == numOfPlayers));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 5, -12})
     void createLobby_InvalidGameSizes(int numOfPlayers) {
-        tester.createUser("Mattia");
-        assertThrows(LobbiesHandlerException.class, () -> tester.createLobby(mattia, numOfPlayers));
+        lobbyTester.createUser("Mattia");
+        assertThrows(LobbiesHandlerException.class, () -> lobbyTester.createLobby(mattia, numOfPlayers));
     }
 }

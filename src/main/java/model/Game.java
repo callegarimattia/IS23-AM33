@@ -1,36 +1,37 @@
 package model;
 
-import java.time.LocalTime;
+import model.PersonalGoals.PersonalGoalDrawer;
+
 import java.util.List;
+import java.util.Random;
 
 
 public class Game {
-    private Board4 MainBoard;
-    private Player currentTurnPlayer;
-    private int gameID;
-    private LocalTime lastMove;
+    private Board mainBoard;
+    private Random random = new Random();
+
+    private PersonalGoalDrawer personalGoalDrawer = new PersonalGoalDrawer();
+    private int indexCurrentPlayer = random.nextInt() % 4;
+
+    private long timeLastMove;
     private List<Player> players;
-    /*private CommonGoal pickCommonGoal(){
-    }*/
 
-    public Player getCurrentTurnPlayer(){
-        return currentTurnPlayer;
+    public Game(List<Player> players) {
+        this.players = players;
+        players.forEach(player -> player.setPersonalGoal(personalGoalDrawer.draw()));
+        mainBoard = new Board(players.size());
     }
 
-    public void nextTurn()
-    {
-
+    private void pickNextPlayer() {
+        indexCurrentPlayer = (indexCurrentPlayer + 1) % 4;
     }
-    public boolean timeElapsed(){
+
+    public boolean isCommonGoalAchieved(Player player) {
         return true;
     }
 
-    public boolean isCommonGoalAchieved(Player player){
-        return true;
-    }
-
-    public int scorePersonalGoalAchieved(Player player){
-        int score=0;
+    public int scorePersonalGoalAchieved(Player player) {
+        int score = 0;
         return score;
     }
 
@@ -39,7 +40,7 @@ public class Game {
         return score;
     }
 
-    public boolean PickTileisAcceptable(Tile tile1){
+    public boolean pickedTileisAcceptable(Tile tile1) {
 
         return true;
     }

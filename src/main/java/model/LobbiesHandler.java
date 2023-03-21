@@ -7,6 +7,12 @@ public class LobbiesHandler implements LobbyInterface {
     private final Set<Lobby> lobbies = new HashSet<>();
     private final Set<User> users = new HashSet<>();
 
+    private GamesHandler gameHandler;
+
+    public void initLobbiesHandler(GamesHandler gamesHandler) {
+        this.gameHandler = gamesHandler;
+    }
+
     /**
      * Creates and then adds a new user to the users pool with given username.
      * It checks whether the username is already present and throws an exception if true.
@@ -66,8 +72,8 @@ public class LobbiesHandler implements LobbyInterface {
         throw new LobbiesHandlerException("Lobby not found!");
     }
 
-    private void removeLobby(int lobbyID) {
-        lobbies.removeIf(lobby -> lobby.getID() == lobbyID);
+    private void removeLobby(Lobby toBeRemovedLobby) {
+        lobbies.removeIf(lobby -> lobby.equals(toBeRemovedLobby));
     }
 
     /**
@@ -84,7 +90,6 @@ public class LobbiesHandler implements LobbyInterface {
         if (joiningUser.isInGame()) throw new LobbiesHandlerException("User is in an active game.");
         if (!lobbies.contains(toBeJoinedlobby)) throw new LobbiesHandlerException("Lobby doesn't exist.");
         if (toBeJoinedlobby.isFull()) throw new LobbiesHandlerException("Lobby is full");
-        if (toBeJoinedlobby.isInGame()) throw new LobbiesHandlerException("Game already started in lobby.");
 
         toBeJoinedlobby.add(joiningUser);
     }
@@ -105,6 +110,16 @@ public class LobbiesHandler implements LobbyInterface {
             if (lobby.getUsers().contains(leavingUser))
                 lobby.remove(leavingUser);
         }
+    }
+
+    public void restoreLobby(Lobby toBeAddedLobby) {
+        lobbies.add(toBeAddedLobby);
+    }
+
+    public void startLobby(Lobby toBeStartedLobby) {
+        if (toBeStartedLobby.isFull())
+            removeLobby(toBeStartedLobby);
+        gameHandler.startGame(toBeStartedLobby);
     }
 
     public Set<Lobby> getLobbies() {
