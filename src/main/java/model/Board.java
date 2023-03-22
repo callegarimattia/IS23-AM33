@@ -48,7 +48,14 @@ public class Board {
     }
 
     private void init2players() {
-        //to be implemented
+        mainBoard[0][3] = Tile.UNAVAILABLE;
+        mainBoard[2][2] = Tile.UNAVAILABLE;
+        mainBoard[2][6] = Tile.UNAVAILABLE;
+        mainBoard[3][8] = Tile.UNAVAILABLE;
+        mainBoard[5][0] = Tile.UNAVAILABLE;
+        mainBoard[6][2] = Tile.UNAVAILABLE;
+        mainBoard[6][6] = Tile.UNAVAILABLE;
+        mainBoard[8][5] = Tile.UNAVAILABLE;
     }
 
     private void RandomTiles(TilesBag myBag, Tile[][] mainBoard) {
