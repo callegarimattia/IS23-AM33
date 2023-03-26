@@ -1,16 +1,23 @@
 package model;
 
 public class Shelf {
-    /*private optional Tiles[][] matrix;
+    private Tile[][] shelf;
 
-    public boolean isCommonGoalAchieved(Goal goal){
-
+    public Shelf() {
+        // crea shelf empty
     }
-    public int scorePersonalGoalAchieved(){
 
+    public int getMaxEmptyInColumns() {
+        // DA MODIFICARE
+        int count = 0;
+        for (int i = 0; i < 0; i++) {
+            if (shelf[1][1].equals(Tile.EMPTY)) {
+                count++;
+            }
+        }
+        return count;
     }
-    public int scoreTilesCluster(){
 
-    }*/
-
+    public void insertTiles(int column, Tile tile1, Tile tile2, Tile tile3) {
+    }
 }

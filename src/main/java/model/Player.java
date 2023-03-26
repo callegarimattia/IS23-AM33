@@ -7,17 +7,16 @@ public class Player {
         private PersonalGoal personalGoal;
         private int score;
         private final String userName;
-        //private PersonalGoal personalGoal;
 
         public Player(String userName) {
                 this.userName = userName;
         }
 
-        public int calculateScore() {
-                return 0;
-        }
-
         public void setPersonalGoal(PersonalGoal personalGoal) {
                 this.personalGoal = personalGoal;
+        }
+
+        public String getUserName() {
+                return userName;
         }
 }

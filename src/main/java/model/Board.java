@@ -66,15 +66,15 @@ public class Board {
     }
 
     /* Da togliere c'è solo per test di stampa */
-    public void Print(){
+    /*public void Print(){
         for(int x =0 ; x < 9; x++){
             for(int y =0; y< 9; y++ ){
                 System.out.print(mainBoard[x][y]+"\t");
             }
             System.out.println("\n");
         }
-    }
-    public Tile[][] getMainBoard(){
-        return mainBoard;
+    }*/
+    public void removeTiles(int x1, int x2, int y1, int y2) {
+
     }
 }
