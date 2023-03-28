@@ -4,7 +4,7 @@ public class Board {
     private final Tile[][] mainBoard;
     private final TilesBag MyBag;
 
-
+// DA MODIFICARE TUTTI I CICLI FOR SOSTITUENDO I NUMERI CON DEI DEFINE!!!
     public Board(int numOfPlayers) {
         MyBag = new TilesBag();
         mainBoard = new Tile[9][9];
