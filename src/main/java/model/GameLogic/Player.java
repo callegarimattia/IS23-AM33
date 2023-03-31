@@ -27,4 +27,8 @@ public class Player {
         public PersonalGoal getPersonalGoal() {
                 return personalGoal;
         }
+
+        public int pointsNearTiles() { return 0;}
+
+
 }

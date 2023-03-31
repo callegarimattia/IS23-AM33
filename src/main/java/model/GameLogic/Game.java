@@ -37,13 +37,14 @@ public class Game {
         return score;
     }
 
-    public boolean pickAndInsert(User user, List<Integer> xPos, List<Integer> yPos, int column) {
+    public boolean pickAndInsert(User user, List<Integer> xPos, List<Integer> yPos, int column) throws inputException {
         if (!user.getUserName().equals(players.get(indexCurrentPlayer).getUserName()))
             return false;                // controlli che user è currPlayer
         if (!players.get(indexCurrentPlayer).getMyShelf().isColumnValid(xPos.size(), column)) return false;
 
-        if (!mainBoard.removeTiles(xPos, yPos)) return false;
+        ArrayList<Tile> pickedTiles = mainBoard.removeTiles(xPos, yPos);
         // aggiornare la shelf
+        players.get(indexCurrentPlayer).getMyShelf().insertTiles(column, pickedTiles);
 
         return true;
 

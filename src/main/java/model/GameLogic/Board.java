@@ -1,6 +1,8 @@
 package model.GameLogic;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class Board {
     private final Tile[][] mainBoard;
@@ -86,21 +88,24 @@ public class Board {
         return true;
     }
 
-    public boolean removeTiles(List<Integer> xPos, List<Integer> yPos) {
-        if (xPos.size() != yPos.size() || xPos.size() > 3 || xPos.isEmpty()) return false;
+    public ArrayList<Tile> removeTiles(List<Integer> xPos, List<Integer> yPos) throws inputException {
+        if (xPos.size() != yPos.size() || xPos.size() > 3 || xPos.isEmpty()) throw new inputException();
         for (Integer x : xPos) {
-            if (x < 0 || x >= MAX_ROW_NUM) return false;
+            if (x < 0 || x >= MAX_ROW_NUM) throw new inputException();
         }
         for (Integer y : yPos) {
-            if (y < 0 || y >= MAX_COL_NUM) return false;
+            if (y < 0 || y >= MAX_COL_NUM) throw new inputException();
         }
-        if (!areTilesPickable(xPos, yPos)) return false;
+        if (!areTilesPickable(xPos, yPos)) throw new inputException();
+
+        ArrayList<Tile> pickedTiles = new ArrayList<Tile>();
 
         for (int i = 0; i < xPos.size(); i++) {
+            pickedTiles.add(mainBoard[xPos.get(i)][yPos.get(i)]);
             mainBoard[xPos.get(i)][yPos.get(i)] = Tile.EMPTY;
         }
 
-        return true;
+        return pickedTiles;
     }
 
     public int getMAX_ROW_NUM() {
