@@ -1,5 +1,8 @@
 package model.GameLogic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Shelf {
 
     private final int ROW_NUMBER = 6;
@@ -22,6 +25,13 @@ public class Shelf {
         return count >= numTilesToBeInserted;
     }
 
-    public void insertTiles(int column, Tile tile1, Tile tile2, Tile tile3) {
+    public boolean insertTiles(int column, ArrayList<Tile> pickedTiles) {
+        int ROW = 0;
+        if (isColumnValid(pickedTiles.size(), column)) return false;
+        for ( ROW = ROW_NUMBER-1; shelf[ROW][column]==Tile.EMPTY; ROW--);
+        for (int x=0; x< pickedTiles.size(); x++){
+            shelf[ROW - x][column]=pickedTiles.get(x);
+        }
+        return true;
     }
 }
