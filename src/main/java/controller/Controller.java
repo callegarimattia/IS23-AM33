@@ -1,7 +1,7 @@
 package controller;
 
-import model.GamesHandler;
-import model.LobbiesHandler;
+import model.Lobbies.GamesHandler;
+import model.Lobbies.LobbiesHandler;
 
 public class Controller {
     private GamesHandler gamesHandler;
