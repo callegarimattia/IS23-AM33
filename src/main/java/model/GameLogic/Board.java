@@ -1,6 +1,7 @@
 package model.GameLogic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -85,8 +86,48 @@ public class Board {
 
     private boolean areTilesPickable(List<Integer> xPos, List<Integer> yPos) {
         //controlla che siano adiacenti e che abbiano almeno una tile vuota vicina
+        ArrayList<Integer> xSort = new ArrayList<>(xPos);
+        ArrayList<Integer> ySort = new ArrayList<>(yPos);
+        Collections.sort(xSort);
+        Collections.sort(ySort);
+        for(int i = 0; i < xPos.size(); i++){
+            if(!isPickable(xPos.get(i), yPos.get(i))) return false;
+        }
+
+        if (xPos.size() == 1) return true;
+
+        boolean isAligned = true;
+        for(int i = 0;  i < xPos.size()-1; i++){
+            if (xPos.get(i) != xPos.get(i+1)) isAligned = false;
+        }
+        if (isAligned == true) {
+            for(int i = 0;  i < xPos.size()-1; i++){
+                if (ySort.get(i) != ySort.get(i+1) - 1) isAligned = false;
+            }
+        }
+        if (isAligned == true) {
+            return true;
+        }
+
+        for(int i = 0;  i < yPos.size()-1; i++){
+            if (yPos.get(i) != yPos.get(i+1)) return false;
+        }
+        for(int i = 0;  i < xPos.size()-1; i++){
+            if (xSort.get(i) != xSort.get(i+1) - 1) return false;
+        }
         return true;
     }
+
+    private boolean isPickable(int xPos, int yPos){
+        if(mainBoard[xPos][yPos].equals(Tile.UNAVAILABLE) || mainBoard[xPos][yPos].equals(Tile.EMPTY)) return false;
+        if(xPos ==0 || yPos == 0 || xPos == 8 || yPos == 8) return true;
+        if(mainBoard[xPos+1][yPos].equals(Tile.UNAVAILABLE) || mainBoard[xPos+1][yPos].equals(Tile.EMPTY)) return true;
+        if(mainBoard[xPos-1][yPos].equals(Tile.UNAVAILABLE) || mainBoard[xPos-1][yPos].equals(Tile.EMPTY)) return true;
+        if(mainBoard[xPos][yPos+1].equals(Tile.UNAVAILABLE) || mainBoard[xPos][yPos+1].equals(Tile.EMPTY)) return true;
+        if(mainBoard[xPos][yPos-1].equals(Tile.UNAVAILABLE) || mainBoard[xPos][yPos-1].equals(Tile.EMPTY)) return true;
+        return false;
+    }
+
 
     public ArrayList<Tile> removeTiles(List<Integer> xPos, List<Integer> yPos) throws inputException {
         if (xPos.size() != yPos.size() || xPos.size() > 3 || xPos.isEmpty()) throw new inputException();
