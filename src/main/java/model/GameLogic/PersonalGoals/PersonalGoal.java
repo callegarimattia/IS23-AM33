@@ -11,10 +11,10 @@ public abstract class PersonalGoal {
     public abstract int countRights(Tile[][] playerMatrix) throws PersonalGoalException;
 
     /**
-     * @param count is the number of goal tiles the player collected from this PersonalGoal
      * @return the points obtained by the player from this Personal Goal
      */
-    public int calcPoints(int count) {
+    public int calcPoints(Tile[][] playerMatrix) throws PersonalGoalException {
+        int count = countRights(playerMatrix);
         switch (count) {
             default:
                 return 0;
