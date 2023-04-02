@@ -30,12 +30,10 @@ public class Player {
         }
 
         public int getPersonalGoalScoreAndCluster() throws PersonalGoalException {
-               int score = personalGoal.calcPoints(myShelf.getShelf());
-                score += myShelf.ClusterScore();
+               score = personalGoal.calcPoints(myShelf.getShelf());
+               score += myShelf.ClusterScore();
                return score;
         }
-
-        public int pointsNearTiles() { return 0;}
 
 
 }
