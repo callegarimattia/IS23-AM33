@@ -1,6 +1,8 @@
 package model.Lobbies;
 
+import model.GameLogic.PersonalGoals.PersonalGoalException;
 import model.GameLogic.Tile;
+import model.GameLogic.inputException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,16 +29,19 @@ public class GamesHandler implements GamesHandlerInterface {
     }
 
     @Override
-    public boolean pickTiles(User user, int posX1, int posX2, int posY1, int posY2) {
-        // cerca utente tra le lobby e trova il game
-        //
-        // chiama metodo di game (aggiorna il modello)
-
+    public boolean pickAndInsert(User user,List<Integer> xPos, List<Integer> yPos, int column) throws PersonalGoalException, inputException {
+        // controllo di univocità user
+        for (Lobby lobby : inGameLobbies){
+            List<User> users = lobby.getUsers();
+            for(User iter : users)
+                if (user.getUserName().equals(iter.getUserName())){
+                    //  forse sarebbe meglio non esporre game e avere il metodo picktiles su Lobby che lo chiama
+                    //  a sua volta sua Game, non so
+                    lobby.getGame().pickAndInsert(iter.getUserName(),yPos,xPos,column);
+                    return true;
+                }
+        }
         return false;
     }
 
-    @Override
-    public boolean insertTiles(User user, int column, Tile tile1, Tile tile2, Tile tile3) {
-        return false;
-    }
 }
