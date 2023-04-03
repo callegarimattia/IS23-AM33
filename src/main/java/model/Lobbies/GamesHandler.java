@@ -1,5 +1,6 @@
 package model.Lobbies;
 
+import model.GameLogic.LastRoundException;
 import model.GameLogic.PersonalGoals.PersonalGoalException;
 import model.GameLogic.Tile;
 import model.GameLogic.inputException;
@@ -29,8 +30,8 @@ public class GamesHandler implements GamesHandlerInterface {
     }
 
     @Override
-    public boolean pickAndInsert(User user,List<Integer> xPos, List<Integer> yPos, int column) throws PersonalGoalException, inputException {
-        // controllo di univocità user
+    public boolean pickAndInsert(User user,List<Integer> xPos, List<Integer> yPos, int column) throws PersonalGoalException, inputException, LastRoundException {
+        // controllo di univocità user tbd
         for (Lobby lobby : inGameLobbies){
             List<User> users = lobby.getUsers();
             for(User iter : users)
