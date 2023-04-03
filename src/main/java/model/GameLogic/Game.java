@@ -4,25 +4,22 @@ import model.GameLogic.CommonGoals.CommonGoal;
 import model.GameLogic.CommonGoals.CommonGoal1;
 import model.GameLogic.PersonalGoals.PersonalGoalDrawer;
 import model.GameLogic.PersonalGoals.PersonalGoalException;
-import model.Lobbies.User;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Game {
-    private Board mainBoard;
-    private Random random = new Random();
-    private PersonalGoalDrawer personalGoalDrawer = new PersonalGoalDrawer();
+    private final Board mainBoard;
+    private final Random random = new Random();
+    private final PersonalGoalDrawer personalGoalDrawer = new PersonalGoalDrawer();
     private int indexCurrentPlayer;
-    private List<Player> players;
+    private final List<Player> players;
 
     // dovranno in realta poi essere scritte e generate randomicamente dal file Json:
-    private CommonGoal comG1;
-    private CommonGoal comG2;
-    ArrayList<String> solvOrder1;  // tiene traccia dell' ordine di completamento del primo common goal
-    ArrayList<String> solvOrder2;
-
+    private final CommonGoal comG1;
+    private final CommonGoal comG2;
+    private List<String> solvOrder1;  // tiene traccia dell' ordine di completamento del primo common goal
+    private List<String> solvOrder2;
 
 
     public Game(List<Player> players) {
@@ -59,14 +56,13 @@ public class Game {
         return score;
     }
 
-    public boolean pickAndInsert(String nickName, List<Integer> xPos, List<Integer> yPos, int column) throws inputException, PersonalGoalException {
+    public boolean pickAndInsert(String nickName, List<MainBoardCoordinates> coordinates, int column) throws inputException, PersonalGoalException {
         if (nickName.equals(players.get(indexCurrentPlayer).getUserName()))
             return false;                // controlli che user è currPlayer
-        if (!players.get(indexCurrentPlayer).getMyShelf().isColumnValid(xPos.size(), column)) return false;
+        if (!players.get(indexCurrentPlayer).getMyShelf().isColumnValid(coordinates.size(), column)) return false;
 
-        ArrayList<Tile> pickedTiles = mainBoard.removeTiles(xPos, yPos);  // bisogna gestire le exception
         // aggiornare la shelf
-        if(players.get(indexCurrentPlayer).getMyShelf().insertTiles(column, pickedTiles)) return false;
+        if (players.get(indexCurrentPlayer).getMyShelf().insertTiles(column, pickedTiles)) return false;
 
         players.get(indexCurrentPlayer).setScore(updateCurrPlayerScore());
 

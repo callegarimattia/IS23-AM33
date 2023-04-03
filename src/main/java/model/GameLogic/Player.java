@@ -4,7 +4,7 @@ import model.GameLogic.PersonalGoals.PersonalGoal;
 import model.GameLogic.PersonalGoals.PersonalGoalException;
 
 public class Player {
-        private Shelf myShelf = new Shelf();
+        private final Shelf myShelf = new Shelf();
         private PersonalGoal personalGoal;
         private int score;
         private final String userName;

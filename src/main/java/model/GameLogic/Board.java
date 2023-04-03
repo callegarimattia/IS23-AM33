@@ -7,9 +7,7 @@ import java.util.List;
 
 public class Board {
     private final Tile[][] mainBoard;
-
     private final int MAX_ROW_NUM = 9;
-
     private final int MAX_COL_NUM = 9;
     private final TilesBag MyBag;
 
@@ -38,13 +36,11 @@ public class Board {
 
         RandomTiles(MyBag, mainBoard);
     }
-
     private void EmptyMatrixInitializer() {
         for (int x = 0; x < 9; x++)
             for (int y = 0; y < 9; y++)
                 mainBoard[x][y] = Tile.EMPTY;
     }
-
     private void init3players() {
         mainBoard[3][1] = Tile.UNAVAILABLE;
         mainBoard[4][0] = Tile.UNAVAILABLE;
@@ -66,23 +62,12 @@ public class Board {
         mainBoard[6][6] = Tile.UNAVAILABLE;
         mainBoard[8][5] = Tile.UNAVAILABLE;
     }
-
     private void RandomTiles(TilesBag myBag, Tile[][] mainBoard) {
         for (int x = 0; x < 9; x++)
             for (int y = 0; y < 9; y++)
                 if (mainBoard[x][y].equals(Tile.EMPTY))
                     mainBoard[x][y] = myBag.pickedTile();
     }
-
-    /* Da togliere c'è solo per test di stampa */
-    /*public void Print(){
-        for(int x =0 ; x < 9; x++){
-            for(int y =0; y< 9; y++ ){
-                System.out.print(mainBoard[x][y]+"\t");
-            }
-            System.out.println("\n");
-        }
-    }*/
 
     private boolean areTilesPickable(List<Integer> xPos, List<Integer> yPos) {
         //controlla che siano adiacenti e che abbiano almeno una tile vuota vicina
@@ -91,7 +76,7 @@ public class Board {
         Collections.sort(xSort);
         Collections.sort(ySort);
         for(int i = 0; i < xPos.size(); i++){
-            if(!isPickable(xPos.get(i), yPos.get(i))) return false;
+            if (!isPickable(new MainBoardCoordinates(xSort.get(i), ySort.get(i)))) return false;
         }
 
         if (xPos.size() == 1) return true;
@@ -100,53 +85,46 @@ public class Board {
         for(int i = 0;  i < xPos.size()-1; i++){
             if (xPos.get(i) != xPos.get(i+1)) isAligned = false;
         }
-        if (isAligned == true) {
-            for(int i = 0;  i < xPos.size()-1; i++){
-                if (ySort.get(i) != ySort.get(i+1) - 1) isAligned = false;
+        if (isAligned) {
+            for (int i = 0; i < xPos.size() - 1; i++) {
+                if (ySort.get(i) != ySort.get(i + 1) - 1) isAligned = false;
             }
         }
-        if (isAligned == true) {
+        if (isAligned) {
             return true;
         }
 
-        for(int i = 0;  i < yPos.size()-1; i++){
-            if (yPos.get(i) != yPos.get(i+1)) return false;
+        for (int i = 0; i < yPos.size() - 1; i++) {
+            if (yPos.get(i) != yPos.get(i + 1)) return false;
         }
-        for(int i = 0;  i < xPos.size()-1; i++){
-            if (xSort.get(i) != xSort.get(i+1) - 1) return false;
+        for (int i = 0; i < xPos.size() - 1; i++) {
+            if (xSort.get(i) != xSort.get(i + 1) - 1) return false;
         }
         return true;
     }
 
-    private boolean isPickable(int xPos, int yPos){
-        if(mainBoard[xPos][yPos].equals(Tile.UNAVAILABLE) || mainBoard[xPos][yPos].equals(Tile.EMPTY)) return false;
-        if(xPos ==0 || yPos == 0 || xPos == 8 || yPos == 8) return true;
-        if(mainBoard[xPos+1][yPos].equals(Tile.UNAVAILABLE) || mainBoard[xPos+1][yPos].equals(Tile.EMPTY)) return true;
-        if(mainBoard[xPos-1][yPos].equals(Tile.UNAVAILABLE) || mainBoard[xPos-1][yPos].equals(Tile.EMPTY)) return true;
-        if(mainBoard[xPos][yPos+1].equals(Tile.UNAVAILABLE) || mainBoard[xPos][yPos+1].equals(Tile.EMPTY)) return true;
-        if(mainBoard[xPos][yPos-1].equals(Tile.UNAVAILABLE) || mainBoard[xPos][yPos-1].equals(Tile.EMPTY)) return true;
+    private boolean isPickable(MainBoardCoordinates coordinate) {
+        Tile tile = mainBoard[coordinate.getX()][coordinate.getY()];
+        // If tile isn't on the board return false
+        if (tile.equals(Tile.UNAVAILABLE) || tile.equals(Tile.EMPTY)) return false;
+        // Check neighbors for at least one empty
+        int empty = 0;
+        Tile nearTile = mainBoard[coordinate.getX() - 1][coordinate.getY()];
+        if (nearTile.equals(Tile.UNAVAILABLE) || nearTile.equals(Tile.EMPTY)) return true;
+        nearTile = mainBoard[coordinate.getX() + 1][coordinate.getY()];
+        if (nearTile.equals(Tile.UNAVAILABLE) || nearTile.equals(Tile.EMPTY)) return true;
+        nearTile = mainBoard[coordinate.getX()][coordinate.getY() + 1];
+        if (nearTile.equals(Tile.UNAVAILABLE) || nearTile.equals(Tile.EMPTY)) return true;
+        nearTile = mainBoard[coordinate.getX()][coordinate.getY() - 1];
+        if (nearTile.equals(Tile.UNAVAILABLE) || nearTile.equals(Tile.EMPTY)) return true;
         return false;
     }
 
+    public void removeTiles(List<MainBoardCoordinates> coordinates) {
+        if (coordinates.isEmpty()) return;
 
-    public ArrayList<Tile> removeTiles(List<Integer> xPos, List<Integer> yPos) throws inputException {
-        if (xPos.size() != yPos.size() || xPos.size() > 3 || xPos.isEmpty()) throw new inputException();
-        for (Integer x : xPos) {
-            if (x < 0 || x >= MAX_ROW_NUM) throw new inputException();
-        }
-        for (Integer y : yPos) {
-            if (y < 0 || y >= MAX_COL_NUM) throw new inputException();
-        }
-        if (!areTilesPickable(xPos, yPos)) throw new inputException();
-
-        ArrayList<Tile> pickedTiles = new ArrayList<Tile>();
-
-        for (int i = 0; i < xPos.size(); i++) {
-            pickedTiles.add(mainBoard[xPos.get(i)][yPos.get(i)]);
-            mainBoard[xPos.get(i)][yPos.get(i)] = Tile.EMPTY;
-        }
-
-        return pickedTiles;
+        for (MainBoardCoordinates coordinates1 : coordinates)
+            mainBoard[coordinates1.getX()][coordinates1.getY()] = Tile.EMPTY;
     }
 
     public int getMAX_ROW_NUM() {
