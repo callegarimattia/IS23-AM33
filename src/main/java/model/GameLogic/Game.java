@@ -59,7 +59,7 @@ public class Game {
         return score;
     }
 
-    public boolean pickAndInsert(String nickName, List<Integer> xPos, List<Integer> yPos, int column) throws inputException, PersonalGoalException {
+    public boolean pickAndInsert(String nickName, List<Integer> xPos, List<Integer> yPos, int column) throws inputException, PersonalGoalException, LastRoundException {
         if (nickName.equals(players.get(indexCurrentPlayer).getUserName()))
             return false;                // controlli che user è currPlayer
         if (!players.get(indexCurrentPlayer).getMyShelf().isColumnValid(xPos.size(), column)) return false;

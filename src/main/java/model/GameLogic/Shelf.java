@@ -25,13 +25,23 @@ public class Shelf {
         return count >= numTilesToBeInserted;
     }
 
-    public boolean insertTiles(int column, ArrayList<Tile> pickedTiles) {
+    public boolean insertTiles(int column, ArrayList<Tile> pickedTiles) throws LastRoundException {
         int ROW = 0;
         if (isColumnValid(pickedTiles.size(), column)) return false;
-        for ( ROW = ROW_NUMBER-1; shelf[ROW][column]==Tile.EMPTY; ROW--);
-        for (int x=0; x< pickedTiles.size(); x++){
-            shelf[ROW - x][column]=pickedTiles.get(x);
-        }
+        for ( ROW = ROW_NUMBER-1; shelf[ROW][column]==Tile.EMPTY; ROW--)
+            for (int x=0; x< pickedTiles.size(); x++){
+                shelf[ROW - x][column]=pickedTiles.get(x);
+            }
+        if(isFull()) throw new LastRoundException();  // to be handled
+        return true;
+    }
+
+    private boolean isFull(){
+        for (int ROW = 0; ROW < ROW_NUMBER; ROW++)
+            for (int COL = 0; COL < COL_NUMBER; COL++) {
+                if(!shelf[ROW][COL].equals(Tile.EMPTY))
+                    return false;
+            }
         return true;
     }
 
