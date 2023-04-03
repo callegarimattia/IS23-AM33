@@ -59,11 +59,11 @@ public class Game {
     public boolean pickAndInsert(String nickName, List<MainBoardCoordinates> coordinates, int column) throws inputException, PersonalGoalException, LastRoundException {
         if (nickName.equals(players.get(indexCurrentPlayer).getUserName()))
             return false;                // controlli che user è currPlayer
-        if (!players.get(indexCurrentPlayer).getMyShelf().isColumnValid(xPos.size(), column)) return false;
+        if (!players.get(indexCurrentPlayer).getMyShelf().isColumnValid(coordinates.size(), column)) return false;
 
-        ArrayList<Tile> pickedTiles = mainBoard.removeTiles(xPos, yPos);  // bisogna gestire le exception
+        //ArrayList<Tile> pickedTiles = mainBoard.removeTiles(xPos, yPos);  // bisogna gestire le exception
         // aggiornare la shelf
-        if(players.get(indexCurrentPlayer).getMyShelf().insertTiles(column, pickedTiles)) return false;
+        //if(players.get(indexCurrentPlayer).getMyShelf().insertTiles(column, pickedTiles)) return false;
 
         players.get(indexCurrentPlayer).setScore(updateCurrPlayerScore());
 
