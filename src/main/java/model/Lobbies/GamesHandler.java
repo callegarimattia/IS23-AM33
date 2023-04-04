@@ -1,9 +1,7 @@
 package model.Lobbies;
 
-import model.GameLogic.LastRoundException;
+import model.GameLogic.*;
 import model.GameLogic.PersonalGoals.PersonalGoalException;
-import model.GameLogic.Tile;
-import model.GameLogic.inputException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,7 @@ public class GamesHandler implements GamesHandlerInterface {
     }
 
     @Override
-    public boolean pickAndInsert(User user,List<Integer> xPos, List<Integer> yPos, int column) throws PersonalGoalException, inputException, LastRoundException {
+    public boolean pickAndInsert(User user, List<MainBoardCoordinates> coordinates, int column) throws PersonalGoalException, inputException, LastRoundException {
         // controllo di univocità user tbd
         for (Lobby lobby : inGameLobbies){
             List<User> users = lobby.getUsers();
@@ -38,7 +36,7 @@ public class GamesHandler implements GamesHandlerInterface {
                 if (user.getUserName().equals(iter.getUserName())){
                     //  forse sarebbe meglio non esporre game e avere il metodo picktiles su Lobby che lo chiama
                     //  a sua volta sua Game, non so
-                    lobby.getGame().pickAndInsert(iter.getUserName(),yPos,xPos,column);
+                    lobby.getGame().pickAndInsert(iter.getUserName(),coordinates,column);
                     return true;
                 }
         }

@@ -120,11 +120,14 @@ public class Board {
         return false;
     }
 
-    public void removeTiles(List<MainBoardCoordinates> coordinates) {
-        if (coordinates.isEmpty()) return;
-
-        for (MainBoardCoordinates coordinates1 : coordinates)
+    public ArrayList<Tile> removeTiles(List<MainBoardCoordinates> coordinates) {
+        if (coordinates.isEmpty()) return null;
+        ArrayList<Tile> pickedTiles = new ArrayList<Tile>();
+        for (MainBoardCoordinates coordinates1 : coordinates){
+            pickedTiles.add(mainBoard[coordinates1.getX()][coordinates1.getY()]);
             mainBoard[coordinates1.getX()][coordinates1.getY()] = Tile.EMPTY;
+        }
+        return pickedTiles;
     }
 
     public int getMAX_ROW_NUM() {
