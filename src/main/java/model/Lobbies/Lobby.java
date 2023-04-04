@@ -56,4 +56,7 @@ public class Lobby {
         this.game = new Game(players);
     }
 
+    public Game getGame() {
+        return game;
+    }
 }

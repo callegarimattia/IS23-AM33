@@ -1,10 +1,14 @@
 package model.Lobbies;
 
+import model.GameLogic.LastRoundException;
+import model.GameLogic.PersonalGoals.PersonalGoalException;
 import model.GameLogic.Tile;
+import model.GameLogic.inputException;
+
+import java.util.List;
 
 public interface GamesHandlerInterface {
-    boolean pickTiles(User user, int posX1, int posX2, int posY1, int posY2);
 
-    boolean insertTiles(User user, int column, Tile tile1, Tile tile2, Tile tile3);
+    boolean pickAndInsert(User user, List<Integer> xPos, List<Integer> yPos, int column) throws PersonalGoalException, inputException, LastRoundException;
 
 }

@@ -25,13 +25,23 @@ public class Shelf {
         return count >= numTilesToBeInserted;
     }
 
-    public boolean insertTiles(int column, ArrayList<Tile> pickedTiles) {
+    public boolean insertTiles(int column, ArrayList<Tile> pickedTiles) throws LastRoundException {
         int ROW = 0;
         if (isColumnValid(pickedTiles.size(), column)) return false;
-        for ( ROW = ROW_NUMBER-1; shelf[ROW][column]==Tile.EMPTY; ROW--);
-        for (int x=0; x< pickedTiles.size(); x++){
-            shelf[ROW - x][column]=pickedTiles.get(x);
-        }
+        for ( ROW = ROW_NUMBER-1; shelf[ROW][column]==Tile.EMPTY; ROW--)
+            for (int x=0; x< pickedTiles.size(); x++){
+                shelf[ROW - x][column]=pickedTiles.get(x);
+            }
+        if(isFull()) throw new LastRoundException();  // to be handled
+        return true;
+    }
+
+    private boolean isFull(){
+        for (int ROW = 0; ROW < ROW_NUMBER; ROW++)
+            for (int COL = 0; COL < COL_NUMBER; COL++) {
+                if(!shelf[ROW][COL].equals(Tile.EMPTY))
+                    return false;
+            }
         return true;
     }
 
@@ -42,48 +52,39 @@ public class Shelf {
     public int ClusterScore(){
         int[][] clusterShelf = new int[ROW_NUMBER][COL_NUMBER];
         for (int ROW = 0; ROW < ROW_NUMBER; ROW++)
-            for (int COL = 0; COL < COL_NUMBER; COL++){
+            for (int COL = 0; COL < COL_NUMBER; COL++) {
                 clusterShelf[ROW][COL] = -1;
-                if(shelf[ROW][COL] == Tile.EMPTY)
+                if (shelf[ROW][COL] == Tile.EMPTY)
                     clusterShelf[ROW][COL] = 0;
             }
+
         int x = 1;
-        for (int ROW = 0; ROW < ROW_NUMBER; ROW++){
-            for (int COL = 0; COL < COL_NUMBER; COL++){
-                if(clusterShelf[ROW][COL]==-1)
+        for (int ROW = 0; ROW < ROW_NUMBER; ROW++) {
+            for (int COL = 0; COL < COL_NUMBER; COL++) {
+                if (clusterShelf[ROW][COL] == -1)
                     clusterShelf[ROW][COL] = x;
-                if(!shelf[ROW][COL].equals(Tile.EMPTY) && shelf[ROW][COL+1].equals(shelf[ROW][COL]) && COL+1 <= COL_NUMBER-1)
-                    clusterShelf[ROW][COL+1] = clusterShelf[ROW][COL];
-                if(!shelf[ROW][COL].equals(Tile.EMPTY) && shelf[ROW+1][COL].equals(shelf[ROW][COL]) && ROW+1 <= ROW_NUMBER-1){
-                    clusterShelf[ROW+1][COL] = clusterShelf[ROW][COL];
+                if (!shelf[ROW][COL].equals(Tile.EMPTY) && COL!=COL_NUMBER-1 && shelf[ROW][COL + 1].equals(shelf[ROW][COL]) )
+                    clusterShelf[ROW][COL + 1] = clusterShelf[ROW][COL];
+                if (!shelf[ROW][COL].equals(Tile.EMPTY) && ROW!=ROW_NUMBER-1 && shelf[ROW + 1][COL].equals(shelf[ROW][COL])) {
+                    clusterShelf[ROW + 1][COL] = clusterShelf[ROW][COL];
                 }
                 x++;
             }
         }
-        int points = 0;
+
         int[] clustArr = new int[x];  // 0 by default
-        for (int ROW = 0; ROW < ROW_NUMBER; ROW++){
-            for (int COL = 0; COL < COL_NUMBER; COL++){
+        for (int ROW = 0; ROW < ROW_NUMBER; ROW++) {
+            for (int COL = 0; COL < COL_NUMBER; COL++) {
                 clustArr[clusterShelf[ROW][COL]]++;
             }
         }
-        for(int y = 1; y <= x; y++ ){
-            switch (y){
-                default:
-                    ;
-                case 3:
-                    points += 2;
-                case 4:
-                    points += 3;
-                case 5:
-                    points += 5;;
-               /* case >=6:
-                    points += 8;*/
-            }
-            if (y >= 6)
-                points += 8;
+        int points = 0;
+        for (int k = 1; k < clustArr.length-1; k++) {
+            if(clustArr[k]==3) points +=2;
+            if(clustArr[k]==4) points +=3;
+            if(clustArr[k]==5) points +=5;
+            if(clustArr[k]>=6) points +=8;
         }
-
         return points;
     }
 }
