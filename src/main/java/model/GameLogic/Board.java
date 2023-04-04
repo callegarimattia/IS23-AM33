@@ -124,8 +124,8 @@ public class Board {
         if (coordinates.isEmpty()) return null;
         ArrayList<Tile> pickedTiles = new ArrayList<Tile>();
         for (MainBoardCoordinates coordinates1 : coordinates){
-            mainBoard[coordinates1.getX()][coordinates1.getY()] = Tile.EMPTY;
             pickedTiles.add(mainBoard[coordinates1.getX()][coordinates1.getY()]);
+            mainBoard[coordinates1.getX()][coordinates1.getY()] = Tile.EMPTY;
         }
         return pickedTiles;
     }
