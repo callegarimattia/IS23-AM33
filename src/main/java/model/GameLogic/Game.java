@@ -5,6 +5,7 @@ import model.GameLogic.CommonGoals.CommonGoal1;
 import model.GameLogic.PersonalGoals.PersonalGoalDrawer;
 import model.GameLogic.PersonalGoals.PersonalGoalException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -14,12 +15,14 @@ public class Game {
     private final PersonalGoalDrawer personalGoalDrawer = new PersonalGoalDrawer();
     private int indexCurrentPlayer;
     private final List<Player> players;
+    private final String firstPlayer;
 
     // dovranno in realta poi essere scritte e generate randomicamente dal file Json:
     private final CommonGoal comG1;
     private final CommonGoal comG2;
     private List<String> solvOrder1;  // tiene traccia dell' ordine di completamento del primo common goal
     private List<String> solvOrder2;
+    private boolean isLastRound;
 
 
     public Game(List<Player> players) {
@@ -30,6 +33,8 @@ public class Game {
         comG1 = new CommonGoal1();    // dovranno in realta poi essere scritte e generate randomicamente dal file Json:
         comG2 = new CommonGoal1();
         indexCurrentPlayer = random.nextInt() % players.size();
+        firstPlayer = players.get(indexCurrentPlayer).getUserName();
+        isLastRound = false;
     }
 
     private void pickNextPlayer() {
@@ -61,9 +66,15 @@ public class Game {
             return false;                // controlli che user è currPlayer
         if (!players.get(indexCurrentPlayer).getMyShelf().isColumnValid(coordinates.size(), column)) return false;
 
-        //ArrayList<Tile> pickedTiles = mainBoard.removeTiles(xPos, yPos);  // bisogna gestire le exception
+        ArrayList<Tile> pickedTiles = mainBoard.removeTiles(coordinates);  // bisogna gestire le exception
         // aggiornare la shelf
-        //if(players.get(indexCurrentPlayer).getMyShelf().insertTiles(column, pickedTiles)) return false;
+        try{
+            if(players.get(indexCurrentPlayer).getMyShelf().insertTiles(column, pickedTiles)) return false;
+        }
+        catch (LastRoundException e){  // inizia l utimo giro, da gestire le conseguenze
+            isLastRound = true;
+        }
+
 
         players.get(indexCurrentPlayer).setScore(updateCurrPlayerScore());
 
