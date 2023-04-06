@@ -1,9 +1,9 @@
 package model;
 
-import model.GameLogic.PersonalGoals.PersonalGoal;
-import model.GameLogic.PersonalGoals.PersonalGoal2;
-import model.GameLogic.PersonalGoals.PersonalGoalException;
-import model.GameLogic.Tile;
+import model.gameLogic.personalGoals.PersonalGoal;
+import model.gameLogic.personalGoals.PersonalGoal2;
+import model.gameLogic.personalGoals.PersonalGoalException;
+import model.gameLogic.Tile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

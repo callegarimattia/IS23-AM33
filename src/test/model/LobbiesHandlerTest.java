@@ -1,9 +1,9 @@
 package model;
 
-import model.Lobbies.GamesHandler;
-import model.Lobbies.LobbiesHandler;
-import model.Lobbies.LobbiesHandlerException;
-import model.Lobbies.User;
+import model.lobbies.GamesHandler;
+import model.lobbies.LobbiesHandler;
+import model.lobbies.LobbiesHandlerException;
+import model.lobbies.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
