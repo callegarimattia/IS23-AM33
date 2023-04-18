@@ -1,5 +1,6 @@
 package model.lobbies;
 
+import controller.GamesHandler;
 import model.gameLogic.Game;
 import model.gameLogic.Player;
 
@@ -12,6 +13,8 @@ public class Lobby {
     private final List<User> lobbyUsers = new ArrayList<>();
     private final int ID;
     private Game game;
+
+    private GamesHandler gamesHandler;
 
     private final int gameSize;
 
@@ -58,5 +61,9 @@ public class Lobby {
 
     public Game getGame() {
         return game;
+    }
+
+    public void initGameHandler() {
+
     }
 }

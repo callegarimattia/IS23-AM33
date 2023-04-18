@@ -119,8 +119,9 @@ public class LobbiesHandler implements LobbyInterface {
 
     public void startLobby(Lobby toBeStartedLobby) {
         if (toBeStartedLobby.isFull()) {
-            lobbies.remove(toBeStartedLobby);
             inGameLobbies.add(toBeStartedLobby);
+            lobbies.remove(toBeStartedLobby);
+
         }
     }
 
