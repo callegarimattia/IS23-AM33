@@ -1,0 +1,18 @@
+title Initialisation Phase
+autonumber 
+
+participant Client
+
+participant Server
+	
+Client->Server: ping
+
+Server-->Client: pong
+
+Client->Server: login
+
+Server-->Client: ok
+
+Client->Server: username
+
+Server-->Client: ok
