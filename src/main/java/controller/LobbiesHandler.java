@@ -10,13 +10,9 @@ import java.util.Set;
 
 public class LobbiesHandler implements LobbyInterface {
     private final Set<Lobby> lobbies = new HashSet<>();
+
+    private final Set<Lobby> inGameLobbies = new HashSet<>();
     private final Set<User> users = new HashSet<>();
-
-    private GamesHandler gameHandler;
-
-    public void initLobbiesHandler(GamesHandler gamesHandler) {
-        this.gameHandler = gamesHandler;
-    }
 
     /**
      * Creates and then adds a new user to the users pool with given username.
@@ -122,9 +118,11 @@ public class LobbiesHandler implements LobbyInterface {
     }
 
     public void startLobby(Lobby toBeStartedLobby) {
-        if (toBeStartedLobby.isFull())
-            removeLobby(toBeStartedLobby);
-        gameHandler.startGame(toBeStartedLobby);
+        if (toBeStartedLobby.isFull()) {
+            inGameLobbies.add(toBeStartedLobby);
+            lobbies.remove(toBeStartedLobby);
+
+        }
     }
 
     public Set<Lobby> getLobbies() {

@@ -1,7 +1,5 @@
-package model;
+package controller;
 
-import model.lobbies.GamesHandler;
-import model.lobbies.LobbiesHandler;
 import model.lobbies.LobbiesHandlerException;
 import model.lobbies.User;
 import org.junit.jupiter.api.AfterEach;
@@ -14,14 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LobbiesHandlerTest {
 
-    GamesHandler gameTester = new GamesHandler();
     LobbiesHandler lobbyTester = new LobbiesHandler();
     User mattia = new User("Mattia");
 
     @BeforeEach
     void init() {
-        lobbyTester.initLobbiesHandler(gameTester);
-        gameTester.initGameHandler(lobbyTester);
 
     }
 
