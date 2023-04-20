@@ -38,15 +38,19 @@ public class Game {
         return mainBoard;
     }
 
-    private void pickNextPlayer() {
-        if (indexCurrentPlayer != lastPlayer)
+    private boolean pickNextPlayer() {
+        if (indexCurrentPlayer != lastPlayer) {
             indexCurrentPlayer = (indexCurrentPlayer + 1) % players.size();
-        else gameEnd();
+            return true;
+        }
+        gameEnd();
+        return false;
     }
 
     public void gameEnd() {
-    } //tbd
-
+        // mostra i punteggi
+        // mostra il vincitore
+    }
 
     //  ho lasciato il metodo updateCurrPlayerScore nella classe Game altrimenti se l avessi messo in Player avrei
     // ogni volta dovuto passargli i 2 common goal e l ordine di completamento dei common goal (le due liste)
@@ -68,7 +72,7 @@ public class Game {
         return score;
     }
 
-    public boolean pickAndInsert(String nickName, List<MainBoardCoordinates> coordinates, int column) throws InputException, PersonalGoalException, LastRoundException {
+    public boolean pickAndInsert(String nickName, List<MainBoardCoordinates> coordinates, int column) throws PersonalGoalException, GameEndedException {
         if (nickName.equals(players.get(indexCurrentPlayer).getUserName()))
             return false;                // controlli che user è currPlayer
         if (!players.get(indexCurrentPlayer).getMyShelf().isColumnValid(coordinates.size(), column)) return false;
@@ -76,17 +80,18 @@ public class Game {
         ArrayList<Tile> pickedTiles = mainBoard.removeTiles(coordinates);  // bisogna gestire le exception
         // aggiornare la shelf
         try {
-            if (players.get(indexCurrentPlayer).getMyShelf().insertTiles(column, pickedTiles)) return false;
-        } catch (LastRoundException e) {  // inizia l utimo giro, da gestire le conseguenze
-            lastPlayer = (indexCurrentPlayer - 1) % players.size();
+            if (!players.get(indexCurrentPlayer).getMyShelf().insertTiles(column, pickedTiles)) return false;
+        } catch (LastRoundException e) {  // inizia l utimo giro se primo a completare shelf, da gestire le conseguenze
+            if (lastPlayer == -1) lastPlayer = (indexCurrentPlayer - 1) % players.size();
         }
-
 
         players.get(indexCurrentPlayer).setScore(updateCurrPlayerScore());
 
-        pickNextPlayer();
-        return true;
+        if (!pickNextPlayer()) {
+            throw new GameEndedException();
+        }
 
+        return true;
         // da sistemare
     }
 }

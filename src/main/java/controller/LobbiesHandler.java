@@ -1,16 +1,21 @@
 package controller;
 
+import model.gameLogic.GameEndedException;
+import model.gameLogic.InputException;
+import model.gameLogic.LastRoundException;
+import model.gameLogic.MainBoardCoordinates;
+import model.gameLogic.personalGoals.PersonalGoalException;
 import model.lobbies.LobbiesHandlerException;
 import model.lobbies.Lobby;
 import model.lobbies.LobbyInterface;
 import model.lobbies.User;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class LobbiesHandler implements LobbyInterface {
     private final Set<Lobby> lobbies = new HashSet<>();
-
     private final Set<Lobby> inGameLobbies = new HashSet<>();
     private final Set<User> users = new HashSet<>();
 
@@ -113,23 +118,34 @@ public class LobbiesHandler implements LobbyInterface {
         }
     }
 
-    public void restoreLobby(Lobby toBeAddedLobby) {
-        lobbies.add(toBeAddedLobby);
+    public void startGame(Lobby toBeStartedLobby) throws LobbiesHandlerException {
+        if (!toBeStartedLobby.isFull()) throw new LobbiesHandlerException("Lobby isn't full!");
+        inGameLobbies.add(toBeStartedLobby);
+        lobbies.remove(toBeStartedLobby);
+        //create game controller for the lobby
+
     }
 
-    public void startLobby(Lobby toBeStartedLobby) {
-        if (toBeStartedLobby.isFull()) {
-            inGameLobbies.add(toBeStartedLobby);
-            lobbies.remove(toBeStartedLobby);
-
+    public void pickAndInsert(User turnUser, List<MainBoardCoordinates> coordinates, int column) throws PersonalGoalException, InputException, LobbiesHandlerException, LastRoundException {
+        for (Lobby lobby : inGameLobbies) {
+            for (User user : lobby.getUsers()) {
+                if (user.equals(turnUser)) {
+                    try {
+                        lobby.getGamesHandler().pickAndInsert(turnUser, coordinates, column);
+                    } catch (GameEndedException e) {
+                        inGameLobbies.remove(lobby);
+                        lobbies.add(lobby);
+                    }
+                }
+            }
         }
-    }
-
-    public Set<Lobby> getLobbies() {
-        return lobbies;
     }
 
     public Set<User> getUsers() {
         return users;
+    }
+
+    public Set<Lobby> getLobbies() {
+        return lobbies;
     }
 }

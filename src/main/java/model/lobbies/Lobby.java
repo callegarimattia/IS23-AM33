@@ -1,7 +1,7 @@
 package model.lobbies;
 
-import controller.GamesHandler;
 import model.gameLogic.Game;
+import model.gameLogic.GameHandler;
 import model.gameLogic.Player;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class Lobby {
     private final int ID;
     private Game game;
 
-    private GamesHandler gamesHandler;
+    private GameHandler gameHandler;
 
     private final int gameSize;
 
@@ -65,5 +65,9 @@ public class Lobby {
 
     public void initGameHandler() {
 
+    }
+
+    public GameHandler getGamesHandler() {
+        return gameHandler;
     }
 }
