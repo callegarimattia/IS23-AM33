@@ -1,0 +1,15 @@
+title Client log out
+
+participant Client
+
+participant Server
+
+Client->Server: ping
+
+Server-->Client: pong
+
+Client->Server: log out request
+
+Server-->Client: ok (closed socket)
+
+
