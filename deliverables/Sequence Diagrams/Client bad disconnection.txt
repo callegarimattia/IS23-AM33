@@ -1,0 +1,13 @@
+title Client bad disconnection
+
+participant Client
+
+participant Server
+
+Server-->Client: (30 sec timeout) ping
+
+Client--xServer: X
+
+Server-->Client: closed socket
+
+

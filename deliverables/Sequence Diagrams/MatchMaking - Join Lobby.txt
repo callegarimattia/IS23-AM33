@@ -1,0 +1,28 @@
+title MatchMaking - Join Lobby
+	
+participant N-Users/Clients
+
+participant Client
+
+participant Server
+
+Client->Server: ping
+
+Server-->Client: pong
+
+Client->Server: lobby list request
+
+Server-->Client: lobby list
+
+Client->Server: join lobby (lobby ID)
+
+Server-->Client: KO (lobby full)
+
+Client->Server: join lobby (lobby ID)
+
+Server-->Client: OK
+
+Server-->N-Users/Clients: updated lobby list
+
+
+
