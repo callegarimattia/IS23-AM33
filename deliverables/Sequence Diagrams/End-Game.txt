@@ -1,0 +1,14 @@
+title End-Game
+
+participant N-Clients
+
+participant Server
+	
+Server-->N-Clients: updated model
+
+Server-->N-Clients: game ended
+
+Server-->N-Clients: socket closed
+
+
+

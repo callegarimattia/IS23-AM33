@@ -1,0 +1,15 @@
+title Client reconnection
+
+participant Client
+
+participant Server
+
+Client->Server: ping
+
+Server-->Client: X
+
+Client->Server: new socket (login phase UML)
+
+
+
+
