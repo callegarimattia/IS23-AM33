@@ -6,7 +6,7 @@ public class Shelf {
 
     private final int ROW_NUMBER = 6;
     private final int COL_NUMBER = 5;
-    private Tile[][] shelf = new Tile[ROW_NUMBER][COL_NUMBER];
+    private final Tile[][] shelf = new Tile[ROW_NUMBER][COL_NUMBER];
 
     public Shelf() {
         for (int ROW = 0; ROW < ROW_NUMBER; ROW++)

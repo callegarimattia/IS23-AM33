@@ -4,6 +4,7 @@ import model.lobbies.LobbiesHandlerException;
 import model.lobbies.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -24,36 +25,34 @@ class LobbiesHandlerTest {
     void teardown() {
         lobbyTester.getLobbies().clear();
         lobbyTester.getUsers().clear();
-        assertTrue(lobbyTester.getUsers().isEmpty());
-        assertTrue(lobbyTester.getLobbies().isEmpty());
     }
 
     @Test
+    @DisplayName("Create User")
     void createUser() {
         lobbyTester.createUser("Mattia");
         assertTrue(lobbyTester.getUsers().contains(mattia));
     }
 
     @Test
+    @DisplayName("Create User - Same name exception")
     void createUser_SameName() {
         lobbyTester.createUser("Mattia");
         assertThrows(LobbiesHandlerException.class, () -> lobbyTester.createUser("Mattia"));
     }
 
     @Test
+    @DisplayName("Username Search tests")
     void searchUser() {
         lobbyTester.createUser("Mattia");
         assertEquals(mattia, lobbyTester.searchUser("Mattia"));
-
-    }
-
-    @Test
-    void searchUser_NotPresent() {
+        lobbyTester.getUsers().clear();
         assertThrows(LobbiesHandlerException.class, () -> lobbyTester.searchUser("Mattia"));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {2, 3, 4})
+    @DisplayName("Lobby creation test")
     void createLobby(int numOfPlayers) {
         lobbyTester.createUser("Mattia");
         lobbyTester.createLobby(mattia, numOfPlayers);
@@ -61,7 +60,8 @@ class LobbiesHandlerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {1, 5, -12})
+    @ValueSource(ints = {1, 5, -3})
+    @DisplayName("Lobby creation with invalid game size")
     void createLobby_InvalidGameSizes(int numOfPlayers) {
         lobbyTester.createUser("Mattia");
         assertThrows(LobbiesHandlerException.class, () -> lobbyTester.createLobby(mattia, numOfPlayers));

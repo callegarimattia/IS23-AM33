@@ -1,12 +1,21 @@
 package model.gameLogic;
 
+import com.google.common.io.CharStreams;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 public class Board {
-    private final Tile[][] mainBoard;
+    private final Tile[][] mainBoard = new Tile[9][9];
     private final int MAX_ROW_NUM = 9;
     private final int MAX_COL_NUM = 9;
     private final TilesBag MyBag;
@@ -14,33 +23,38 @@ public class Board {
     // DA MODIFICARE TUTTI I CICLI FOR SOSTITUENDO I NUMERI CON DEI DEFINE!!!
     public Board(int numOfPlayers) {
         MyBag = new TilesBag();
-        mainBoard = new Tile[9][9];
-        this.EmptyMatrixInitializer();
-        int k = 3;
-        for (int i = 0; i <= 3; i++) {
-            for (int j = 0; j <= k; j++) {
-                if (i != 0 || j != 3) {
-                    this.mainBoard[i][j] = Tile.UNAVAILABLE;
-                    this.mainBoard[8 - j][i] = Tile.UNAVAILABLE;
-                }
-                if (8 - i != 8 || 8 - j != 5) {
-                    this.mainBoard[8 - i][8 - j] = Tile.UNAVAILABLE;
-                    this.mainBoard[j][8 - i] = Tile.UNAVAILABLE;
-                }
-            }
-            k--;
+        try {
+            deserializeJSONBoard(numOfPlayers);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        if (numOfPlayers < 4) init3players();
-        if (numOfPlayers < 3) init2players();
-
         RandomTiles(MyBag, mainBoard);
     }
-    private void EmptyMatrixInitializer() {
-        for (int x = 0; x < 9; x++)
-            for (int y = 0; y < 9; y++)
-                mainBoard[x][y] = Tile.EMPTY;
+
+    private void deserializeJSONBoard(int numOfPlayers) throws IOException {
+        JsonArray matrix;
+        InputStream mainBoardJSON = Board.class.getResourceAsStream("/boardJSON/mainBoard.json5");
+        assert mainBoardJSON != null;
+        String json = CharStreams.toString(new InputStreamReader(mainBoardJSON, StandardCharsets.UTF_8));
+        JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
+        switch (numOfPlayers) {
+            case 4:
+                matrix = jsonObject.getAsJsonArray("4players");
+                break;
+            case 3:
+                matrix = jsonObject.getAsJsonArray("3players");
+                break;
+            case 2:
+                matrix = jsonObject.getAsJsonArray("2players");
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + numOfPlayers);
+        }
+        for (int i = 0; i < 9; i++) {
+            mainBoard[i] = new Gson().fromJson(matrix.get(i), Tile[].class);
+        }
     }
+
     private void init3players() {
         mainBoard[3][1] = Tile.UNAVAILABLE;
         mainBoard[4][0] = Tile.UNAVAILABLE;
@@ -82,12 +96,18 @@ public class Board {
         if (xPos.size() == 1) return true;
 
         boolean isAligned = true;
-        for(int i = 0;  i < xPos.size()-1; i++){
-            if (xPos.get(i) != xPos.get(i+1)) isAligned = false;
+        for(int i = 0;  i < xPos.size()-1; i++) {
+            if (xPos.get(i) != xPos.get(i + 1)) {
+                isAligned = false;
+                break;
+            }
         }
         if (isAligned) {
             for (int i = 0; i < xPos.size() - 1; i++) {
-                if (ySort.get(i) != ySort.get(i + 1) - 1) isAligned = false;
+                if (ySort.get(i) != ySort.get(i + 1) - 1) {
+                    isAligned = false;
+                    break;
+                }
             }
         }
         if (isAligned) {
@@ -116,8 +136,7 @@ public class Board {
         nearTile = mainBoard[coordinate.getX()][coordinate.getY() + 1];
         if (nearTile.equals(Tile.UNAVAILABLE) || nearTile.equals(Tile.EMPTY)) return true;
         nearTile = mainBoard[coordinate.getX()][coordinate.getY() - 1];
-        if (nearTile.equals(Tile.UNAVAILABLE) || nearTile.equals(Tile.EMPTY)) return true;
-        return false;
+        return nearTile.equals(Tile.UNAVAILABLE) || nearTile.equals(Tile.EMPTY);
     }
 
     public ArrayList<Tile> removeTiles(List<MainBoardCoordinates> coordinates) {
@@ -130,11 +149,4 @@ public class Board {
         return pickedTiles;
     }
 
-    public int getMAX_ROW_NUM() {
-        return MAX_ROW_NUM;
-    }
-
-    public int getMAX_COL_NUM() {
-        return MAX_COL_NUM;
-    }
 }
