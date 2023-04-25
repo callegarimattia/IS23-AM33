@@ -20,7 +20,6 @@ public class Board {
     private final int MAX_COL_NUM = 9;
     private final TilesBag MyBag;
 
-    // DA MODIFICARE TUTTI I CICLI FOR SOSTITUENDO I NUMERI CON DEI DEFINE!!!
     public Board(int numOfPlayers) {
         MyBag = new TilesBag();
         try {
@@ -55,27 +54,6 @@ public class Board {
         }
     }
 
-    private void init3players() {
-        mainBoard[3][1] = Tile.UNAVAILABLE;
-        mainBoard[4][0] = Tile.UNAVAILABLE;
-        mainBoard[7][3] = Tile.UNAVAILABLE;
-        mainBoard[8][4] = Tile.UNAVAILABLE;
-        mainBoard[0][4] = Tile.UNAVAILABLE;
-        mainBoard[1][5] = Tile.UNAVAILABLE;
-        mainBoard[4][8] = Tile.UNAVAILABLE;
-        mainBoard[5][7] = Tile.UNAVAILABLE;
-    }
-
-    private void init2players() {
-        mainBoard[0][3] = Tile.UNAVAILABLE;
-        mainBoard[2][2] = Tile.UNAVAILABLE;
-        mainBoard[2][6] = Tile.UNAVAILABLE;
-        mainBoard[3][8] = Tile.UNAVAILABLE;
-        mainBoard[5][0] = Tile.UNAVAILABLE;
-        mainBoard[6][2] = Tile.UNAVAILABLE;
-        mainBoard[6][6] = Tile.UNAVAILABLE;
-        mainBoard[8][5] = Tile.UNAVAILABLE;
-    }
     private void RandomTiles(TilesBag myBag, Tile[][] mainBoard) {
         for (int x = 0; x < 9; x++)
             for (int y = 0; y < 9; y++)
@@ -142,11 +120,14 @@ public class Board {
     public ArrayList<Tile> removeTiles(List<MainBoardCoordinates> coordinates) {
         if (coordinates.isEmpty()) return null;
         ArrayList<Tile> pickedTiles = new ArrayList<Tile>();
-        for (MainBoardCoordinates coordinates1 : coordinates){
+        for (MainBoardCoordinates coordinates1 : coordinates) {
             pickedTiles.add(mainBoard[coordinates1.getX()][coordinates1.getY()]);
             mainBoard[coordinates1.getX()][coordinates1.getY()] = Tile.EMPTY;
         }
         return pickedTiles;
     }
 
+    public Tile[][] getMainBoard() {
+        return mainBoard;
+    }
 }
