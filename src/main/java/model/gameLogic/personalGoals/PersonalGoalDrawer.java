@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 public class PersonalGoalDrawer {
-    private LinkedList<PersonalGoal> pile;
+    private final LinkedList<PersonalGoal> pile;
 
     public PersonalGoalDrawer() {
         this.pile = new LinkedList<>();

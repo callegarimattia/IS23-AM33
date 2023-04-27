@@ -8,14 +8,17 @@ public enum Tile {
      * UNAVAILABLE will be used for the positions in the dashboard that are not
      * valid due to the rules about number of players in the game
      */
-
+    EMPTY,
+    UNAVAILABLE,
     CAT,
     BOOK,
     GAME,
     FRAME,
     TROPHY,
-    PLANT,
-    EMPTY,
-    UNAVAILABLE
+    PLANT;
 
+    @Override
+    public String toString() {
+        return "Tile{}";
+    }
 }

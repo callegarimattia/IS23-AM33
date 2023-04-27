@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Lobby {
-    private static AtomicInteger nextID = new AtomicInteger();
+    private static final AtomicInteger nextID = new AtomicInteger();
     private final List<User> lobbyUsers = new ArrayList<>();
     private final int ID;
     private Game game;
