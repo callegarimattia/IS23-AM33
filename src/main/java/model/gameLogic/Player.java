@@ -1,7 +1,6 @@
 package model.gameLogic;
 
 import model.gameLogic.personalGoals.PersonalGoal;
-import model.gameLogic.personalGoals.PersonalGoalException;
 
 public class Player {
         private final Shelf myShelf = new Shelf();
@@ -29,7 +28,7 @@ public class Player {
                 return myShelf;
         }
 
-        public int getPersonalGoalScoreAndCluster() throws PersonalGoalException {
+        public int getPersonalGoalScoreAndCluster() {
                score = personalGoal.calcPoints(myShelf.getShelf());
                score += myShelf.ClusterScore();
                return score;

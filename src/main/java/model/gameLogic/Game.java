@@ -3,7 +3,6 @@ package model.gameLogic;
 import model.gameLogic.commonGoals.CommonGoal;
 import model.gameLogic.commonGoals.CommonGoal1;
 import model.gameLogic.personalGoals.PersonalGoalDrawer;
-import model.gameLogic.personalGoals.PersonalGoalException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +12,7 @@ import java.util.Random;
 public class Game {
     private final Board mainBoard;
     private final Random random = new Random();
-    private final PersonalGoalDrawer personalGoalDrawer = new PersonalGoalDrawer();
+    private PersonalGoalDrawer personalGoalDrawer = null;
     private int indexCurrentPlayer = 0;
     private final List<Player> players;
 
@@ -25,6 +24,12 @@ public class Game {
     private int lastPlayer = -1;
 
     public Game(List<Player> players) {
+        try {
+            personalGoalDrawer = new PersonalGoalDrawer();
+        }
+        catch (Exception e){
+            System.out.println("Json reading error");
+        }
         this.players = players;
         players.forEach(player -> player.setPersonalGoal(personalGoalDrawer.draw()));
         //pick two common goal
@@ -54,7 +59,7 @@ public class Game {
 
     //  ho lasciato il metodo updateCurrPlayerScore nella classe Game altrimenti se l avessi messo in Player avrei
     // ogni volta dovuto passargli i 2 common goal e l ordine di completamento dei common goal (le due liste)
-    private int updateCurrPlayerScore() throws PersonalGoalException {
+    private int updateCurrPlayerScore() {
         int score = players.get(indexCurrentPlayer).getPersonalGoalScoreAndCluster();
 
         if (!solvOrder1.contains(players.get(indexCurrentPlayer).getUserName())) {
@@ -72,7 +77,7 @@ public class Game {
         return score;
     }
 
-    public boolean pickAndInsert(String nickName, List<MainBoardCoordinates> coordinates, int column) throws PersonalGoalException, GameEndedException {
+    public boolean pickAndInsert(String nickName, List<MainBoardCoordinates> coordinates, int column) throws GameEndedException {
         if (nickName.equals(players.get(indexCurrentPlayer).getUserName()))
             return false;                // controlli che user è currPlayer
         if (!players.get(indexCurrentPlayer).getMyShelf().isColumnValid(coordinates.size(), column)) return false;
