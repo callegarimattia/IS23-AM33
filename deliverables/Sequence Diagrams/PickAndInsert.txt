@@ -5,12 +5,6 @@ participant N-Clients
 participant Client
 
 participant Server
-	
-Server-->N-Clients: updated model (from previous player move)
-Server-->Client: updated model (from previous player move)
-Client->Server: ping
-
-Server-->Client: pong
 
 Client->Server: pick and insert request
 

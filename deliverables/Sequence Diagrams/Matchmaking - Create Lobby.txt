@@ -1,4 +1,4 @@
-title MatchMaking - Join Lobby
+title MatchMaking - Create Lobby
 	
 participant N-Users/Clients
 
@@ -10,13 +10,9 @@ Client->Server: lobby list request
 
 Server-->Client: lobby list
 
-Client->Server: join lobby (lobby ID)
+Client->Server: create lobby (num of players)
 
-Server-->Client: KO (lobby full)
-
-Client->Server: join lobby (lobby ID)
-
-Server-->Client: OK
+Server-->Client: ok (lobby ID)
 
 Server-->N-Users/Clients: updated lobby list
 

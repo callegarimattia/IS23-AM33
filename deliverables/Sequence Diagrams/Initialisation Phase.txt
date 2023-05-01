@@ -9,10 +9,6 @@ Client->Server: ping
 
 Server-->Client: pong
 
-Client->Server: login
-
-Server-->Client: ok
-
-Client->Server: username
+Client->Server: login (username)
 
 Server-->Client: ok

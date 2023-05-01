@@ -8,6 +8,8 @@ Server-->N-Clients: updated model
 
 Server-->N-Clients: game ended
 
+Server<--N-Clients: ACK
+
 Server-->N-Clients: socket closed
 
 
