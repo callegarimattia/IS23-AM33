@@ -4,7 +4,6 @@ import model.gameLogic.GameEndedException;
 import model.gameLogic.InputException;
 import model.gameLogic.LastRoundException;
 import model.gameLogic.MainBoardCoordinates;
-import model.gameLogic.personalGoals.PersonalGoalException;
 import model.lobbies.LobbiesHandlerException;
 import model.lobbies.Lobby;
 import model.lobbies.LobbyInterface;
@@ -126,7 +125,7 @@ public class LobbiesHandler implements LobbyInterface {
 
     }
 
-    public void pickAndInsert(User turnUser, List<MainBoardCoordinates> coordinates, int column) throws PersonalGoalException, InputException, LobbiesHandlerException, LastRoundException {
+    public void pickAndInsert(User turnUser, List<MainBoardCoordinates> coordinates, int column) throws  InputException, LobbiesHandlerException, LastRoundException {
         for (Lobby lobby : inGameLobbies) {
             for (User user : lobby.getUsers()) {
                 if (user.equals(turnUser)) {

@@ -17,8 +17,4 @@ public enum Tile {
     TROPHY,
     PLANT;
 
-    @Override
-    public String toString() {
-        return "Tile{}";
-    }
 }

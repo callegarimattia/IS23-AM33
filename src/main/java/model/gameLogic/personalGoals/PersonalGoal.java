@@ -3,19 +3,20 @@ package model.gameLogic.personalGoals;
 
 import model.gameLogic.Tile;
 
-public abstract class PersonalGoal {
+public class PersonalGoal {
+    private int[] coordinates;  //  devono essere passati dal json
+    private Tile[] values;     //  devono essere passati dal json
     /**
      * @param playerMatrix is the Matrix on which the method will iterate
-     * @return the number of goal tiles the player collected from this PersonalGoal
-     */
-    public abstract int countRights(Tile[][] playerMatrix) throws PersonalGoalException;
-
-    /**
      * @return the points obtained by the player from this Personal Goal
      */
-    public int calcPoints(Tile[][] playerMatrix) throws PersonalGoalException {
-        int count = countRights(playerMatrix);
-        switch (count) {
+    public int calcPoints(Tile[][] playerMatrix){
+        int collected = 0, k =0;
+        for (int i = 0; i < 6; i++){
+            if (playerMatrix[coordinates[k]][coordinates[k+1]] == values[i]) collected++;
+            k += 2;
+        }
+        switch (collected) {
             default:
                 return 0;
             case 1:
