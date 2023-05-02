@@ -33,4 +33,5 @@ public class PersonalGoal {
                 return 12;
         }
     }
+
 }
