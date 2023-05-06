@@ -2,6 +2,8 @@ package model.gameLogic;
 
 import model.gameLogic.commonGoals.CommonGoal;
 import model.gameLogic.commonGoals.CommonGoal1;
+import model.gameLogic.listenerStuff.GameUpdateEvent;
+import model.gameLogic.listenerStuff.ListenerModel;
 import model.gameLogic.personalGoals.PersonalGoalDrawer;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class Game {
     private List<String> solvOrder1;  // tiene traccia dell' ordine di completamento del primo common goal
     private List<String> solvOrder2;
     private int lastPlayer = -1;
+    private ListenerModel myListener;
 
     public Game(List<Player> players) {
         try {
@@ -37,6 +40,9 @@ public class Game {
         comG1 = new CommonGoal1();    // dovranno in realta poi essere scritte e generate randomicamente dal file Json:
         comG2 = new CommonGoal1();
         Collections.shuffle(players);
+
+        // creo il listener e gli passo i "4" socket che mi arrivano da sopra (lobby/gamehandler)
+
     }
 
     public Board getMainBoard() {
@@ -92,11 +98,18 @@ public class Game {
 
         players.get(indexCurrentPlayer).setScore(updateCurrPlayerScore());
 
+        GameUpdateEvent ev = new GameUpdateEvent(this,players.get(indexCurrentPlayer).getMyShelf().getShelf(),mainBoard.getMainBoard(),players.get(indexCurrentPlayer).getUserName());
+        this.myListener.OnGameUpdate(ev);
+
         if (!pickNextPlayer()) {
             throw new GameEndedException();
         }
 
         return true;
         // da sistemare
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 }
