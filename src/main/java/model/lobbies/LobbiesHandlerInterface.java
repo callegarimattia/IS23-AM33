@@ -1,6 +1,6 @@
 package model.lobbies;
 
-public interface LobbyInterface {
+public interface LobbiesHandlerInterface {
     void createUser(String newUsername) throws LobbiesHandlerException;
 
     void createLobby(User firstUser, int gameSize) throws LobbiesHandlerException;

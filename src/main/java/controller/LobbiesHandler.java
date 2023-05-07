@@ -6,15 +6,14 @@ import model.gameLogic.LastRoundException;
 import model.gameLogic.MainBoardCoordinates;
 import model.lobbies.LobbiesHandlerException;
 import model.lobbies.Lobby;
-import model.lobbies.LobbyInterface;
+import model.lobbies.LobbiesHandlerInterface;
 import model.lobbies.User;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class LobbiesHandler implements LobbyInterface {
-    private final Set<Lobby> lobbies = new HashSet<>();
+public class LobbiesHandler implements LobbiesHandlerInterface {
+    private final Set<Lobby> waitingLobbies = new HashSet<>();
     private final Set<Lobby> inGameLobbies = new HashSet<>();
     private final Set<User> users = new HashSet<>();
 
@@ -26,11 +25,13 @@ public class LobbiesHandler implements LobbyInterface {
      * @throws LobbiesHandlerException
      */
     public void createUser(String newUsername) throws LobbiesHandlerException {
-        for (User user : users) {
-            if (user.getUserName().equals(newUsername)) throw new LobbiesHandlerException("Username already taken");
+        synchronized (users){
+            for (User user : users) {
+                if (user.getUserName().equals(newUsername)) throw new LobbiesHandlerException("Username already taken");
+            }
+            User newUser = new User(newUsername);
+            users.add(newUser);
         }
-        User newUser = new User(newUsername);
-        users.add(newUser);
     }
 
     /**
@@ -41,14 +42,19 @@ public class LobbiesHandler implements LobbyInterface {
      * @return user
      * @throws LobbiesHandlerException
      */
-    public User searchUser(String username) throws LobbiesHandlerException {
+    public User searchUser(String username) throws LobbiesHandlerException {  // da cancellare credo
         for (User user : users)
             if (user.getUserName().equals(username)) return user;
         throw new LobbiesHandlerException("User not found!");
     }
 
     public void removeUser(String toBeRemovedUsername) {
-        users.removeIf(user -> user.getUserName().equals(toBeRemovedUsername));
+        synchronized (users){
+            //   users.removeIf(user -> user.getUserName().equals(toBeRemovedUsername));  non so farlo con la lambda
+            for(User user : users)
+                if(user.getUserName().equals(toBeRemovedUsername) && user.isInLobby())
+                    users.remove(user);
+        }
     }
 
     /**
@@ -60,27 +66,32 @@ public class LobbiesHandler implements LobbyInterface {
      * @param gameSize
      * @throws LobbiesHandlerException
      */
-    public void createLobby(User firstUser, int gameSize) throws LobbiesHandlerException {
+    public synchronized void createLobby(User firstUser, int gameSize) throws LobbiesHandlerException {
         if (!users.contains(firstUser)) throw new LobbiesHandlerException("User doesn't exist");
         if (firstUser.isInLobby() || firstUser.isInGame())
             throw new LobbiesHandlerException("User can't create a lobby right now!");
         if (gameSize > 4 || gameSize < 2) throw new LobbiesHandlerException("Game size is invalid");
 
         Lobby newLobby = new Lobby(firstUser, gameSize);
-        lobbies.add(newLobby);
+        waitingLobbies.add(newLobby);
     }
 
-    private Lobby searchLobby(int lobbyId) throws LobbiesHandlerException {
-        for (Lobby lobby : lobbies) {
+    private Lobby searchLobby(int lobbyId) throws LobbiesHandlerException {  // da togliere
+        for (Lobby lobby : waitingLobbies) {
             if (lobby.getID() == lobbyId) return lobby;
         }
         throw new LobbiesHandlerException("Lobby not found!");
     }
 
-    private void removeLobby(Lobby toBeRemovedLobby) {
-        lobbies.removeIf(lobby -> lobby.equals(toBeRemovedLobby));
+    private void removeLobby(Lobby toBeRemovedLobby, User user) {  // solo il creatore può e solo quando non è startata
+        synchronized (waitingLobbies){
+            if(user.equals(toBeRemovedLobby.getUsers().get(0))){
+                for (User us : toBeRemovedLobby.getUsers())
+                    us.setInLobby(false);
+                waitingLobbies.removeIf(lobby -> lobby.equals(toBeRemovedLobby));
+            }
+        }
     }
-
     /**
      * Let a valid user, which is not in a lobby or game, join a not full lobby which hasn't started its game..
      * If one of the conditions isn't met it throws an exception
@@ -89,14 +100,15 @@ public class LobbiesHandler implements LobbyInterface {
      * @param toBeJoinedLobby
      * @throws LobbiesHandlerException
      */
-    public void joinLobby(User joiningUser, Lobby toBeJoinedLobby) throws LobbiesHandlerException {
+    public synchronized void joinLobby(User joiningUser, Lobby toBeJoinedLobby) throws LobbiesHandlerException {
         if (!users.contains(joiningUser)) throw new LobbiesHandlerException("User doesn't exist.");
         if (joiningUser.isInLobby()) throw new LobbiesHandlerException("User is already in a lobby.");
         if (joiningUser.isInGame()) throw new LobbiesHandlerException("User is in an active game.");
-        if (!lobbies.contains(toBeJoinedLobby)) throw new LobbiesHandlerException("Lobby doesn't exist.");
+        if (inGameLobbies.contains(toBeJoinedLobby)) throw new LobbiesHandlerException("Lobby already started");
+        if (!waitingLobbies.contains(toBeJoinedLobby)) throw new LobbiesHandlerException("Lobby doesn't exist.");
         if (toBeJoinedLobby.isFull()) throw new LobbiesHandlerException("Lobby is full");
 
-        toBeJoinedLobby.add(joiningUser);
+        if(toBeJoinedLobby.add(joiningUser)) startGame(toBeJoinedLobby);
     }
 
     /**
@@ -106,21 +118,22 @@ public class LobbiesHandler implements LobbyInterface {
      * @param leavingUser
      * @throws LobbiesHandlerException
      */
-    public void leaveLobby(User leavingUser) throws LobbiesHandlerException {
+    public synchronized void leaveLobby(User leavingUser) throws LobbiesHandlerException {
         if (!users.contains(leavingUser)) throw new LobbiesHandlerException("User doesn't exist.");
         if (!leavingUser.isInLobby()) throw new LobbiesHandlerException("User isn't in a lobby");
         if (leavingUser.isInGame()) throw new LobbiesHandlerException("Can't leave the lobby while in game!");
 
-        for (Lobby lobby : lobbies) {
+        for (Lobby lobby : waitingLobbies) {
             if (lobby.getUsers().contains(leavingUser))
                 lobby.remove(leavingUser);
         }
     }
 
-    public void startGame(Lobby toBeStartedLobby) throws LobbiesHandlerException {
+    private synchronized void startGame(Lobby toBeStartedLobby) throws LobbiesHandlerException {
         if (!toBeStartedLobby.isFull()) throw new LobbiesHandlerException("Lobby isn't full!");
         inGameLobbies.add(toBeStartedLobby);
-        lobbies.remove(toBeStartedLobby);
+        waitingLobbies.remove(toBeStartedLobby);
+        toBeStartedLobby.initGame();
         //create game controller for the lobby
 
     }
@@ -129,22 +142,24 @@ public class LobbiesHandler implements LobbyInterface {
         for (Lobby lobby : inGameLobbies) {
             for (User user : lobby.getUsers()) {
                 if (user.equals(turnUser)) {
-                    try {
-                        lobby.getGamesHandler().pickAndInsert(turnUser, coordinates, column);
-                    } catch (GameEndedException e) {
-                        inGameLobbies.remove(lobby);
-                        lobbies.add(lobby);
+                    synchronized (lobby){
+                        try {
+                            lobby.getGameHandler().pickAndInsert(turnUser, coordinates, column);
+                        } catch (GameEndedException e) {
+                            inGameLobbies.remove(lobby);
+                            waitingLobbies.add(lobby);
+                        }
                     }
                 }
             }
         }
     }
 
-    public Set<User> getUsers() {
+    public Set<User> getUsers() {  // delete
         return users;
     }
 
-    public Set<Lobby> getLobbies() {
-        return lobbies;
+    public Set<Lobby> getLobbies() {  // delete
+        return waitingLobbies;
     }
 }

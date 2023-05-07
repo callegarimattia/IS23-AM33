@@ -1,7 +1,6 @@
 package model.lobbies;
 
 import model.gameLogic.Game;
-import model.gameLogic.GameHandler;
 import model.gameLogic.Player;
 
 import java.util.ArrayList;
@@ -12,7 +11,8 @@ public class Lobby {
     private static final AtomicInteger nextID = new AtomicInteger();
     private final List<User> lobbyUsers = new ArrayList<>();
     private final int ID;
-    private Game game;
+
+ // private Game game;   non serve averlo tra gli attributi, ci accedo solo tramite gameHandler
 
     private GameHandler gameHandler;
 
@@ -25,7 +25,7 @@ public class Lobby {
         this.gameSize = gameSize;
     }
 
-    public int getGameSize() {
+    public int getGameSize() {   // da cancellare, inutile ma ce in un test
         return gameSize;
     }
 
@@ -41,9 +41,12 @@ public class Lobby {
         return ID;
     }
 
-    public void add(User newUser) {
+    public boolean add(User newUser) {  // ritorna true se deve essere startata
         lobbyUsers.add(newUser);
         newUser.setInLobby(true);
+        if(lobbyUsers.size()==gameSize)
+            return true;
+        return false;
     }
 
     public void remove(User toBeRemovedUser) {
@@ -54,20 +57,15 @@ public class Lobby {
     public void initGame() {
         List<Player> players = new ArrayList<>();
         for (User user : lobbyUsers) {
+            user.setInGame(true);
+            user.setInLobby(false);
             players.add(new Player(user.getUserName()));
         }
-        this.game = new Game(players);
+        Game myGame = new Game(players);
+        gameHandler = new GameHandler(myGame);
     }
 
-    public Game getGame() {
-        return game;
-    }
-
-    public void initGameHandler() {
-
-    }
-
-    public GameHandler getGamesHandler() {
+    public GameHandler getGameHandler() {
         return gameHandler;
     }
 }
