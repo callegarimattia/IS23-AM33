@@ -4,21 +4,21 @@ participant N-Users/Clients
 
 participant Client
 
-participant Server
+participant server.server
 
-Client->Server: lobby list request
+Client->server.server: lobby list request
 
-Server-->Client: lobby list
+server.server-->Client: lobby list
 
-Client->Server: join lobby (lobby ID)
+Client->server.server: join lobby (lobby ID)
 
-Server-->Client: KO (lobby full)
+server.server-->Client: KO (lobby full)
 
-Client->Server: join lobby (lobby ID)
+Client->server.server: join lobby (lobby ID)
 
-Server-->Client: OK
+server.server-->Client: OK
 
-Server-->N-Users/Clients: updated lobby list
+server.server-->N-Users/Clients: updated lobby list
 
 
 

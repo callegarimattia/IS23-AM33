@@ -1,1 +1,146 @@
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="257" height="344"><desc>title%20Initialisation%20Phase%0Aautonumber%20%0A%0Aparticipant%20Client%0A%0Aparticipant%20Server%0A%09%0AClient-%3EServer%3A%20ping%0A%0AServer--%3EClient%3A%20pong%0A%0AClient-%3EServer%3A%20login%20(username)%0A%0AServer--%3EClient%3A%20ok%0A</desc><defs/><g><g/><g/><g/><g/><g/><g/><g/><g/><g><rect fill="white" stroke="none" x="0" y="0" width="257" height="344"/></g><g><text fill="black" stroke="none" font-family="sans-serif" font-size="16.5pt" font-style="normal" font-weight="normal" text-decoration="normal" x="37.227095030565096" y="24.50280495" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">Initialisation Phase</text></g><g/><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 44.631447682160164 95.887643371 L 44.631447682160164 344.182733531" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="12.565541,5.445067766666667"/><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 210.41812506939974 95.887643371 L 210.41812506939974 344.182733531" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="12.565541,5.445067766666667"/></g><g><path fill="none" stroke="none"/><g><path fill="white" stroke="black" paint-order="fill stroke markers" d=" M 8.167601650000002 51.782594461 L 81.09529371432032 51.782594461 L 81.09529371432032 95.887643371 L 8.167601650000002 95.887643371 L 8.167601650000002 51.782594461 Z" stroke-miterlimit="10" stroke-width="2.613632528" stroke-dasharray=""/></g><g><g/><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="25.891297230500008" y="79.55244007099999" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">Client</text></g><path fill="none" stroke="none"/><g><path fill="white" stroke="black" paint-order="fill stroke markers" d=" M 171.10532579016927 51.782594461 L 249.73092434863023 51.782594461 L 249.73092434863023 95.887643371 L 171.10532579016927 95.887643371 L 171.10532579016927 51.782594461 Z" stroke-miterlimit="10" stroke-width="2.613632528" stroke-dasharray=""/></g><g><g/><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="188.82902137066927" y="79.55244007099999" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">Server</text></g></g><g><g><g><rect fill="white" stroke="none" x="105.10314662785025" y="128.558049971" width="44.84327949585938" height="21.23576429"/></g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="119.77962341191275" y="143.259732941" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">ping</text><g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="bold" text-decoration="normal" x="107.55342712285025" y="143.259732941" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">1 </text></g></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 44.631447682160164 149.793814261 L 196.96880768573305 149.793814261" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray=""/><g transform="translate(210.41812506939974,149.793814261) translate(-210.41812506939974,-149.793814261)"><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 196.80545565273306 142.98747955266666 L 210.41812506939974 149.793814261 L 196.80545565273306 156.60014896933333 Z"/></g></g><g><g><rect fill="white" stroke="none" x="102.65504176945181" y="174.296619211" width="49.73948921265625" height="21.23576429"/></g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="117.33151855351431" y="188.99830218099999" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">pong</text><g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="bold" text-decoration="normal" x="105.10532226445181" y="188.99830218099999" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">2 </text></g></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 210.41812506939974 195.532383501 L 58.08076506582683 195.532383501" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"/><g transform="translate(44.631447682160164,195.532383501) translate(-44.631447682160164,-195.532383501)"><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 58.244117098826834 188.72604879266666 L 44.631447682160164 195.532383501 L 58.244117098826834 202.33871820933334 Z"/></g></g><g><g><rect fill="white" stroke="none" x="63.96143825382681" y="220.035188451" width="127.12669624390625" height="21.23576429"/></g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="78.63791503788931" y="234.736871421" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">login (username)</text><g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="bold" text-decoration="normal" x="66.41171874882681" y="234.736871421" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">3 </text></g></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 44.631447682160164 241.270952741 L 196.96880768573305 241.270952741" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray=""/><g transform="translate(210.41812506939974,241.270952741) translate(-210.41812506939974,-241.270952741)"><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 196.80545565273306 234.46461803266666 L 210.41812506939974 241.270952741 L 196.80545565273306 248.07728744933334 Z"/></g></g><g><g><rect fill="white" stroke="none" x="111.21982295841666" y="265.77375769099996" width="32.609926834726565" height="21.23576429"/></g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="125.89629974247916" y="280.47544066099994" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">ok</text><g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="bold" text-decoration="normal" x="113.67010345341666" y="280.47544066099994" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">4 </text></g></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 210.41812506939974 287.009521981 L 58.08076506582683 287.009521981" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"/><g transform="translate(44.631447682160164,287.009521981) translate(-44.631447682160164,-287.009521981)"><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 58.244117098826834 280.20318727266664 L 44.631447682160164 287.009521981 L 58.244117098826834 293.8158566893333 Z"/></g></g></g><g/><g/></g></svg>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="257"
+     height="344">
+    <desc>
+        title%20Initialisation%20Phase%0Aautonumber%20%0A%0Aparticipant%20Client%0A%0Aparticipant%20Server%0A%09%0AClient-%3EServer%3A%20ping%0A%0AServer--%3EClient%3A%20pong%0A%0AClient-%3EServer%3A%20login%20(username)%0A%0AServer--%3EClient%3A%20ok%0A
+    </desc>
+    <defs/>
+    <g>
+        <g/>
+        <g/>
+        <g/>
+        <g/>
+        <g/>
+        <g/>
+        <g/>
+        <g/>
+        <g>
+            <rect fill="white" stroke="none" x="0" y="0" width="257" height="344"/>
+        </g>
+        <g>
+            <text fill="black" stroke="none" font-family="sans-serif" font-size="16.5pt" font-style="normal" font-weight="normal" text-decoration="normal" x="37.227095030565096" y="24.50280495" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">Initialisation Phase</text>
+        </g>
+        <g/>
+        <g>
+            <path fill="none" stroke="black" paint-order="fill stroke markers"
+                  d=" M 44.631447682160164 95.887643371 L 44.631447682160164 344.182733531" stroke-miterlimit="10"
+                  stroke-width="1.3612669416666667" stroke-dasharray="12.565541,5.445067766666667"/>
+            <path fill="none" stroke="black" paint-order="fill stroke markers"
+                  d=" M 210.41812506939974 95.887643371 L 210.41812506939974 344.182733531" stroke-miterlimit="10"
+                  stroke-width="1.3612669416666667" stroke-dasharray="12.565541,5.445067766666667"/>
+        </g>
+        <g>
+            <path fill="none" stroke="none"/>
+            <g>
+                <path fill="white" stroke="black" paint-order="fill stroke markers"
+                      d=" M 8.167601650000002 51.782594461 L 81.09529371432032 51.782594461 L 81.09529371432032 95.887643371 L 8.167601650000002 95.887643371 L 8.167601650000002 51.782594461 Z"
+                      stroke-miterlimit="10" stroke-width="2.613632528" stroke-dasharray=""/>
+            </g>
+            <g>
+                <g/>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="25.891297230500008" y="79.55244007099999"
+                      text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">Client</text>
+            </g>
+            <path fill="none" stroke="none"/>
+            <g>
+                <path fill="white" stroke="black" paint-order="fill stroke markers"
+                      d=" M 171.10532579016927 51.782594461 L 249.73092434863023 51.782594461 L 249.73092434863023 95.887643371 L 171.10532579016927 95.887643371 L 171.10532579016927 51.782594461 Z"
+                      stroke-miterlimit="10" stroke-width="2.613632528" stroke-dasharray=""/>
+            </g>
+            <g>
+                <g/>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="188.82902137066927" y="79.55244007099999"
+                      text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">server.server</text>
+            </g>
+        </g>
+        <g>
+            <g>
+                <g>
+                    <rect fill="white" stroke="none" x="105.10314662785025" y="128.558049971" width="44.84327949585938"
+                          height="21.23576429"/>
+                </g>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="119.77962341191275" y="143.259732941"
+                      text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">ping</text>
+                <g>
+                    <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="bold" text-decoration="normal" x="107.55342712285025" y="143.259732941" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">1 </text>
+                </g>
+            </g>
+            <g>
+                <path fill="none" stroke="black" paint-order="fill stroke markers"
+                      d=" M 44.631447682160164 149.793814261 L 196.96880768573305 149.793814261" stroke-miterlimit="10"
+                      stroke-width="1.3612669416666667" stroke-dasharray=""/>
+                <g transform="translate(210.41812506939974,149.793814261) translate(-210.41812506939974,-149.793814261)">
+                    <path fill="black" stroke="none" paint-order="stroke fill markers"
+                          d=" M 196.80545565273306 142.98747955266666 L 210.41812506939974 149.793814261 L 196.80545565273306 156.60014896933333 Z"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <rect fill="white" stroke="none" x="102.65504176945181" y="174.296619211" width="49.73948921265625"
+                          height="21.23576429"/>
+                </g>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="117.33151855351431" y="188.99830218099999"
+                      text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">pong</text>
+                <g>
+                    <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="bold" text-decoration="normal" x="105.10532226445181" y="188.99830218099999" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">2 </text>
+                </g>
+            </g>
+            <g>
+                <path fill="none" stroke="black" paint-order="fill stroke markers"
+                      d=" M 210.41812506939974 195.532383501 L 58.08076506582683 195.532383501" stroke-miterlimit="10"
+                      stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"/>
+                <g transform="translate(44.631447682160164,195.532383501) translate(-44.631447682160164,-195.532383501)">
+                    <path fill="black" stroke="none" paint-order="stroke fill markers"
+                          d=" M 58.244117098826834 188.72604879266666 L 44.631447682160164 195.532383501 L 58.244117098826834 202.33871820933334 Z"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <rect fill="white" stroke="none" x="63.96143825382681" y="220.035188451" width="127.12669624390625"
+                          height="21.23576429"/>
+                </g>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="78.63791503788931" y="234.736871421"
+                      text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">login (username)</text>
+                <g>
+                    <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="bold" text-decoration="normal" x="66.41171874882681" y="234.736871421" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">3 </text>
+                </g>
+            </g>
+            <g>
+                <path fill="none" stroke="black" paint-order="fill stroke markers"
+                      d=" M 44.631447682160164 241.270952741 L 196.96880768573305 241.270952741" stroke-miterlimit="10"
+                      stroke-width="1.3612669416666667" stroke-dasharray=""/>
+                <g transform="translate(210.41812506939974,241.270952741) translate(-210.41812506939974,-241.270952741)">
+                    <path fill="black" stroke="none" paint-order="stroke fill markers"
+                          d=" M 196.80545565273306 234.46461803266666 L 210.41812506939974 241.270952741 L 196.80545565273306 248.07728744933334 Z"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <rect fill="white" stroke="none" x="111.21982295841666" y="265.77375769099996"
+                          width="32.609926834726565" height="21.23576429"/>
+                </g>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="125.89629974247916" y="280.47544066099994"
+                      text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">ok</text>
+                <g>
+                    <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="bold" text-decoration="normal" x="113.67010345341666" y="280.47544066099994" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">4 </text>
+                </g>
+            </g>
+            <g>
+                <path fill="none" stroke="black" paint-order="fill stroke markers"
+                      d=" M 210.41812506939974 287.009521981 L 58.08076506582683 287.009521981" stroke-miterlimit="10"
+                      stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"/>
+                <g transform="translate(44.631447682160164,287.009521981) translate(-44.631447682160164,-287.009521981)">
+                    <path fill="black" stroke="none" paint-order="stroke fill markers"
+                          d=" M 58.244117098826834 280.20318727266664 L 44.631447682160164 287.009521981 L 58.244117098826834 293.8158566893333 Z"/>
+                </g>
+            </g>
+        </g>
+        <g/>
+        <g/>
+    </g>
+</svg>

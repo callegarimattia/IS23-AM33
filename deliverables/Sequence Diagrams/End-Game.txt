@@ -2,15 +2,15 @@ title End-Game
 
 participant N-Clients
 
-participant Server
+participant server.server
 	
-Server-->N-Clients: updated model
+server.server-->N-Clients: updated model
 
-Server-->N-Clients: game ended
+server.server-->N-Clients: game ended
 
-Server<--N-Clients: ACK
+server.server<--N-Clients: ACK
 
-Server-->N-Clients: socket closed
+server.server-->N-Clients: socket closed
 
 
 

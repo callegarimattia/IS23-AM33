@@ -2,10 +2,10 @@ title Client log out
 
 participant Client
 
-participant Server
+participant server.server
 
-Client->Server: log out request
+Client->server.server: log out request
 
-Server-->Client: ok (closed socket)
+server.server-->Client: ok (closed socket)
 
 

@@ -1,15 +1,15 @@
 package model;
 
 import com.google.gson.Gson;
-import model.gameLogic.Tile;
-import model.gameLogic.personalGoals.PersonalGoal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import server.model.gameLogic.Tile;
+import server.model.gameLogic.personalGoals.PersonalGoal;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

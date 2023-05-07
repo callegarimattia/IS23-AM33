@@ -1,6 +1,7 @@
 package model.gameLogic;
 
-import model.gameLogic.personalGoals.PersonalGoal;
+import server.model.gameLogic.Player;
+import server.model.gameLogic.Tile;
 
 public class PlayerTest {
 
