@@ -1,6 +1,4 @@
-package model.gameLogic;
-
-import java.util.ArrayList;
+package server.model;
 
 public class ShelfTest {
 /*

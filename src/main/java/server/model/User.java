@@ -1,4 +1,4 @@
-package server.model.lobbies;
+package server.model;
 
 import java.util.Objects;
 

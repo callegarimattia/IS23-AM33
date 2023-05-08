@@ -1,4 +1,4 @@
-package server.model.gameLogic;
+package server.model;
 
 public class MainBoardCoordinates {
     private int x;

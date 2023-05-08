@@ -1,7 +1,6 @@
 package client;
 import server.listenerStuff.GameUpdateEvent;
 import server.listenerStuff.LobbiesUpdateEvent;
-import server.model.gameLogic.Tile;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

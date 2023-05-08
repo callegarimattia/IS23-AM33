@@ -1,6 +1,6 @@
-package server.model.gameLogic;
+package server.model;
 
-import server.model.gameLogic.personalGoals.PersonalGoal;
+import server.model.personalGoals.PersonalGoal;
 
 public class Player {
         private final Shelf myShelf = new Shelf();

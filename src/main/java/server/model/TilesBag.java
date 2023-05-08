@@ -1,4 +1,4 @@
-package server.model.gameLogic;
+package server.model;
 
 import java.util.concurrent.ThreadLocalRandom;
 

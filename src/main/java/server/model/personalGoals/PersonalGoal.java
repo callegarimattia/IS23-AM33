@@ -1,7 +1,7 @@
-package server.model.gameLogic.personalGoals;
+package server.model.personalGoals;
 
 
-import server.model.gameLogic.Tile;
+import server.model.Tile;
 
 public class PersonalGoal {
     private int[] coordinates;  //  devono essere passati dal json

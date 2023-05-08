@@ -1,4 +1,4 @@
-package server.model.gameLogic;
+package server.model;
 
 import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Board {
@@ -61,50 +60,11 @@ public class Board {
                     mainBoard[x][y] = myBag.pickedTile();
     }
 
-    private boolean areTilesPickable(List<Integer> xPos, List<Integer> yPos) {
-        //controlla che siano adiacenti e che abbiano almeno una tile vuota vicina
-        ArrayList<Integer> xSort = new ArrayList<>(xPos);
-        ArrayList<Integer> ySort = new ArrayList<>(yPos);
-        Collections.sort(xSort);
-        Collections.sort(ySort);
-        for(int i = 0; i < xPos.size(); i++){
-            if (!isPickable(new MainBoardCoordinates(xSort.get(i), ySort.get(i)))) return false;
-        }
-
-        if (xPos.size() == 1) return true;
-
-        boolean isAligned = true;
-        for(int i = 0;  i < xPos.size()-1; i++) {
-            if (xPos.get(i) != xPos.get(i + 1)) {
-                isAligned = false;
-                break;
-            }
-        }
-        if (isAligned) {
-            for (int i = 0; i < xPos.size() - 1; i++) {
-                if (ySort.get(i) != ySort.get(i + 1) - 1) {
-                    isAligned = false;
-                    break;
-                }
-            }
-        }
-        if (isAligned) {
-            return true;
-        }
-
-        for (int i = 0; i < yPos.size() - 1; i++) {
-            if (yPos.get(i) != yPos.get(i + 1)) return false;
-        }
-        for (int i = 0; i < xPos.size() - 1; i++) {
-            if (xSort.get(i) != xSort.get(i + 1) - 1) return false;
-        }
-        return true;
-    }
-
     private boolean isPickable(MainBoardCoordinates coordinate) {
         Tile tile = mainBoard[coordinate.getX()][coordinate.getY()];
         // If tile isn't on the board return false
         if (tile.equals(Tile.UNAVAILABLE) || tile.equals(Tile.EMPTY)) return false;
+        // If tile is on the edge
         // Check neighbors for at least one empty
         int empty = 0;
         Tile nearTile = mainBoard[coordinate.getX() - 1][coordinate.getY()];

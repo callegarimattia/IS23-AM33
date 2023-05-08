@@ -1,4 +1,6 @@
-package server.model.gameLogic;
+package server.model;
+
+import server.exceptions.LastRoundException;
 
 import java.util.ArrayList;
 

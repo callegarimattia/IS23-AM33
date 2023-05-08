@@ -1,6 +1,6 @@
 package server.listenerStuff;
 
-import server.model.gameLogic.Tile;
+import server.model.Tile;
 
 import java.util.EventObject;
 

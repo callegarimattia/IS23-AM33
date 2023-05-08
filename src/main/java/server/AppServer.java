@@ -21,7 +21,5 @@ public class AppServer {
         registry.bind("LobbiesHandler", lobbiesHandler);
         System.out.println("Server bound and ready");
         // il thread main termina ma vi sono i thread RMI ancora attivi ---> il server è online
-
-
     }
 }

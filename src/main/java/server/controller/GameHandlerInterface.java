@@ -1,8 +1,9 @@
-package server.model.lobbies;
+package server.controller;
 
-import server.model.gameLogic.InputException;
-import server.model.gameLogic.LastRoundException;
-import server.model.gameLogic.MainBoardCoordinates;
+import server.exceptions.InputException;
+import server.exceptions.LastRoundException;
+import server.model.MainBoardCoordinates;
+import server.model.User;
 
 import java.util.List;
 
