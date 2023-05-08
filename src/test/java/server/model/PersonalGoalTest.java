@@ -1,11 +1,10 @@
-package model;
+package server.model;
 
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import server.model.gameLogic.Tile;
-import server.model.gameLogic.personalGoals.PersonalGoal;
+import server.model.personalGoals.PersonalGoal;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,20 +1,17 @@
 package server.controller;
-import client.ClientRMI;
-import server.listenerStuff.GameUpdateEvent;
+
+import server.exceptions.GameEndedException;
+import server.exceptions.InputException;
+import server.exceptions.LastRoundException;
+import server.exceptions.LobbiesHandlerException;
 import server.listenerStuff.ListenerModel;
 import server.listenerStuff.LobbiesUpdateEvent;
-import server.listenerStuff.ModelUpdateListener;
-import server.model.gameLogic.GameEndedException;
-import server.model.gameLogic.InputException;
-import server.model.gameLogic.LastRoundException;
-import server.model.gameLogic.MainBoardCoordinates;
-import server.model.lobbies.LobbiesHandlerException;
-import server.model.lobbies.Lobby;
-import server.model.lobbies.User;
+import server.model.Lobby;
+import server.model.MainBoardCoordinates;
+import server.model.User;
 import server.rmi.ServerRMI;
+
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -1,4 +1,8 @@
-package server.model.lobbies;
+package server.controller;
+
+import server.exceptions.LobbiesHandlerException;
+import server.model.Lobby;
+import server.model.User;
 
 public interface LobbiesHandlerInterface {
     void createUser(String newUsername) throws LobbiesHandlerException;

@@ -1,10 +1,8 @@
-package model.gameLogic;
+package server.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import server.model.gameLogic.Board;
-import server.model.gameLogic.Tile;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

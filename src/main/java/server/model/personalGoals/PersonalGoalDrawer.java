@@ -1,4 +1,4 @@
-package server.model.gameLogic.personalGoals;
+package server.model.personalGoals;
 
 import com.google.gson.Gson;
 

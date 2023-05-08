@@ -1,6 +1,6 @@
 package server.listenerStuff;
 
-import server.model.lobbies.Lobby;
+import server.model.Lobby;
 
 import java.util.EventObject;
 import java.util.Set;

@@ -1,10 +1,12 @@
-package server.model.gameLogic;
+package server.model;
 
+import server.exceptions.GameEndedException;
+import server.exceptions.LastRoundException;
 import server.listenerStuff.GameUpdateEvent;
 import server.listenerStuff.ListenerModel;
-import server.model.gameLogic.commonGoals.CommonGoal;
-import server.model.gameLogic.commonGoals.CommonGoal1;
-import server.model.gameLogic.personalGoals.PersonalGoalDrawer;
+import server.model.commonGoals.CommonGoal;
+import server.model.commonGoals.CommonGoal1;
+import server.model.personalGoals.PersonalGoalDrawer;
 
 import java.util.ArrayList;
 import java.util.Collections;

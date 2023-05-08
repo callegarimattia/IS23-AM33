@@ -3,13 +3,12 @@ package client;
 import server.listenerStuff.GameUpdateEvent;
 import server.listenerStuff.ListenerModel;
 import server.listenerStuff.LobbiesUpdateEvent;
-import server.model.gameLogic.Tile;
+import server.model.Tile;
 import server.rmi.ServerRMI;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Scanner;
 
 public class ClientRMI_Impl extends UnicastRemoteObject implements ClientRMI, Client{
     private Tile[][] mainBoard = new Tile[9][9];
@@ -23,7 +22,7 @@ public class ClientRMI_Impl extends UnicastRemoteObject implements ClientRMI, Cl
     }
 
 
-    // RMI invocherà direttamente questo metodo
+    // RMI del server invocherà direttamente questo metodo
     @Override
     public void GameUpdate(GameUpdateEvent evt) {
         mainBoard = evt.getNewBoard();
@@ -41,6 +40,5 @@ public class ClientRMI_Impl extends UnicastRemoteObject implements ClientRMI, Cl
         server = (ServerRMI) Naming.lookup("rmi://" + serverHost + "/Server");
         server.setListener(myListener);
     }
-
 
 }

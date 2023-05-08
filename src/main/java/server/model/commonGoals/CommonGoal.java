@@ -1,6 +1,6 @@
-package server.model.gameLogic.commonGoals;
+package server.model.commonGoals;
 
-import server.model.gameLogic.Tile;
+import server.model.Tile;
 
 public abstract class CommonGoal {
 

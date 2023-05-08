@@ -1,7 +1,6 @@
-package server.model.lobbies;
+package server.model;
 
-import server.model.gameLogic.Game;
-import server.model.gameLogic.Player;
+import server.controller.GameHandler;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,4 @@
-package model.gameLogic;
-
-import server.model.gameLogic.Player;
-import server.model.gameLogic.Tile;
+package server.model;
 
 public class PlayerTest {
 

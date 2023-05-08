@@ -1,15 +1,12 @@
 package server.rmi;
 
-import client.ClientRMI;
+import server.exceptions.LobbiesHandlerException;
 import server.listenerStuff.ListenerModel;
-import server.model.lobbies.LobbiesHandlerException;
-import server.model.lobbies.Lobby;
-import server.model.lobbies.User;
+import server.model.Lobby;
+import server.model.User;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 
 public interface ServerRMI extends Remote {
 

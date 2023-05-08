@@ -1,4 +1,4 @@
-package server.model.gameLogic;
+package server.exceptions;
 
 public class GameEndedException extends RuntimeException {
 }

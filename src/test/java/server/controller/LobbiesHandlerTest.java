@@ -1,4 +1,4 @@
-package controller;
+package server.controller;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,9 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import server.controller.LobbiesHandler;
-import server.model.lobbies.LobbiesHandlerException;
-import server.model.lobbies.User;
+import server.exceptions.LobbiesHandlerException;
+import server.model.User;
 
 import java.rmi.RemoteException;
 
