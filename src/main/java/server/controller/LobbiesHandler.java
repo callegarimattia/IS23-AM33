@@ -1,7 +1,9 @@
 package server.controller;
 import client.ClientRMI;
+import server.listenerStuff.GameUpdateEvent;
 import server.listenerStuff.ListenerModel;
 import server.listenerStuff.LobbiesUpdateEvent;
+import server.listenerStuff.ModelUpdateListener;
 import server.model.gameLogic.GameEndedException;
 import server.model.gameLogic.InputException;
 import server.model.gameLogic.LastRoundException;
@@ -14,6 +16,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,8 +25,9 @@ public class LobbiesHandler extends UnicastRemoteObject implements ServerRMI {
     private final Set<Lobby> waitingLobbies = new HashSet<>();
     private final Set<Lobby> inGameLobbies = new HashSet<>();
     private final Set<User> users = new HashSet<>();
-    private final ListenerModel listener = new ListenerModel();
 
+    List<ListenerModel> RMI_Lobbies = new ArrayList<>();
+//  List<ListenerModel> RMI_Game = new ArrayList<>();
 
     public LobbiesHandler() throws RemoteException {
     }
@@ -88,7 +92,8 @@ public class LobbiesHandler extends UnicastRemoteObject implements ServerRMI {
 
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
         try {
-            listener.OnLobbyUpdate(evt);
+            for(ListenerModel listener : RMI_Lobbies)
+                listener.OnLobbyUpdate(evt);
         }
         catch (RemoteException exc){
             System.out.println("RMI connection failed");
@@ -139,7 +144,8 @@ public class LobbiesHandler extends UnicastRemoteObject implements ServerRMI {
         if (toBeJoinedLobby.add(joiningUser)) startGame(toBeJoinedLobby);
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
         try {
-            listener.OnLobbyUpdate(evt);
+            for(ListenerModel listener : RMI_Lobbies)
+                listener.OnLobbyUpdate(evt);
         }
         catch (RemoteException exc){
             System.out.println("RMI connection failed");
@@ -164,7 +170,8 @@ public class LobbiesHandler extends UnicastRemoteObject implements ServerRMI {
         }
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
         try {
-            listener.OnLobbyUpdate(evt);
+            for(ListenerModel listener : RMI_Lobbies)
+                listener.OnLobbyUpdate(evt);
         }
         catch (RemoteException exc){
             System.out.println("RMI connection failed");
@@ -179,7 +186,8 @@ public class LobbiesHandler extends UnicastRemoteObject implements ServerRMI {
         //create game controller for the lobby
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
         try {
-            listener.OnLobbyUpdate(evt);
+            for(ListenerModel listener : RMI_Lobbies)
+                listener.OnLobbyUpdate(evt);
         }
         catch (RemoteException exc){
             System.out.println("RMI connection failed");
@@ -203,12 +211,12 @@ public class LobbiesHandler extends UnicastRemoteObject implements ServerRMI {
         }
     }
 
-    public synchronized void join(ClientRMI client) throws RemoteException {  // new RMI connection
-        listener.addRMI_Lobbies(client);
+    public void setListener(ListenerModel myListener){
+        RMI_Lobbies.add(myListener);
     }
 
-    public synchronized void leave(ClientRMI client) throws RemoteException {  // closing RMI connection
-        listener.removeRMI_Lobbies(client);
+    public void removeListener(ListenerModel myListener){
+        RMI_Lobbies.remove(myListener);
     }
 
     public Set<User> getUsers() {  // delete

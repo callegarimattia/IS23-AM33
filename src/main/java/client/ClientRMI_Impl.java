@@ -1,6 +1,7 @@
 package client;
 
 import server.listenerStuff.GameUpdateEvent;
+import server.listenerStuff.ListenerModel;
 import server.listenerStuff.LobbiesUpdateEvent;
 import server.model.gameLogic.Tile;
 import server.rmi.ServerRMI;
@@ -35,10 +36,10 @@ public class ClientRMI_Impl extends UnicastRemoteObject implements ClientRMI, Cl
         //...
     }
 
-    public void joinServer(String serverHost) throws Exception {
+    public void joinServer(String serverHost, ListenerModel myListener) throws Exception {
         ServerRMI server;
         server = (ServerRMI) Naming.lookup("rmi://" + serverHost + "/Server");
-        server.join(this);
+        server.setListener(myListener);
     }
 
 
