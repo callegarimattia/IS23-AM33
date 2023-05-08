@@ -2,12 +2,12 @@ title Client bad disconnection
 
 participant Client
 
-participant Server
+participant server.server
 
-Server-->Client: (30 sec timeout) ping
+server.server-->Client: (30 sec timeout) ping
 
 Client--xServer: X
 
-Server-->Client: closed socket
+server.server-->Client: closed socket
 
 

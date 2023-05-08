@@ -4,13 +4,13 @@ participant N-Clients
 
 participant Client
 
-participant Server
+participant server.server
 
-Client->Server: pick and insert request
+Client->server.server: pick and insert request
 
-Server-->Client: ok
+server.server-->Client: ok
 
-Server-->Client: updated model
+server.server-->Client: updated model
 
-Server-->N-Clients: updated model
+server.server-->N-Clients: updated model
 

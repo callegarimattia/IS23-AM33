@@ -2,13 +2,13 @@ title Client reconnection
 
 participant Client
 
-participant Server
+participant server.server
 
-Client->Server: ping
+Client->server.server: ping
 
-Server-->Client: X
+server.server-->Client: X
 
-Client->Server: new socket (login phase UML)
+Client->server.server: new socket (login phase UML)
 
 
 

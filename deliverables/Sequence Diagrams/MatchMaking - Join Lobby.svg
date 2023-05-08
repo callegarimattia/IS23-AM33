@@ -1,1 +1,205 @@
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="419" height="481"><desc>title%20MatchMaking%20-%20Join%20Lobby%0A%09%0Aparticipant%20N-Users%2FClients%0A%0Aparticipant%20Client%0A%0Aparticipant%20Server%0A%0AClient-%3EServer%3A%20lobby%20list%20request%0A%0AServer--%3EClient%3A%20lobby%20list%0A%0AClient-%3EServer%3A%20join%20lobby%20(lobby%20ID)%0A%0AServer--%3EClient%3A%20KO%20(lobby%20full)%0A%0AClient-%3EServer%3A%20join%20lobby%20(lobby%20ID)%0A%0AServer--%3EClient%3A%20OK%0A%0AServer--%3EN-Users%2FClients%3A%20updated%20lobby%20list%0A%0A%0A%0A</desc><defs/><g><g/><g/><g/><g/><g/><g/><g/><g><rect fill="white" stroke="none" x="0" y="0" width="419" height="481"/></g><g><text fill="black" stroke="none" font-family="sans-serif" font-size="16.5pt" font-style="normal" font-weight="normal" text-decoration="normal" x="81.4266426883112" y="24.50280495" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">MatchMaking - Join Lobby</text></g><g/><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 77.20838249661328 95.887643371 L 77.20838249661328 481.398441251" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="12.565541,5.445067766666667"/><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 199.0482126753867 95.887643371 L 199.0482126753867 481.398441251" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="12.565541,5.445067766666667"/><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 372.1648766348919 95.887643371 L 372.1648766348919 481.398441251" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="12.565541,5.445067766666667"/></g><g><path fill="none" stroke="none"/><g><path fill="white" stroke="black" paint-order="fill stroke markers" d=" M 8.167601649999995 51.782594461 L 146.24916334322657 51.782594461 L 146.24916334322657 95.887643371 L 8.167601649999995 95.887643371 L 8.167601649999995 51.782594461 Z" stroke-miterlimit="10" stroke-width="2.613632528" stroke-dasharray=""/></g><g><g/><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="25.8912972305" y="79.55244007099999" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">N-Users/Clients</text></g><path fill="none" stroke="none"/><g><path fill="white" stroke="black" paint-order="fill stroke markers" d=" M 162.58436664322653 51.782594461 L 235.51205870754686 51.782594461 L 235.51205870754686 95.887643371 L 162.58436664322653 95.887643371 L 162.58436664322653 51.782594461 Z" stroke-miterlimit="10" stroke-width="2.613632528" stroke-dasharray=""/></g><g><g/><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="180.30806222372655" y="79.55244007099999" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">Client</text></g><path fill="none" stroke="none"/><g><path fill="white" stroke="black" paint-order="fill stroke markers" d=" M 332.85207735566144 51.782594461 L 411.4776759141224 51.782594461 L 411.4776759141224 95.887643371 L 332.85207735566144 95.887643371 L 332.85207735566144 51.782594461 Z" stroke-miterlimit="10" stroke-width="2.613632528" stroke-dasharray=""/></g><g><g/><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="350.57577293616146" y="79.55244007099999" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">Server</text></g></g><g><g><g><rect fill="white" stroke="none" x="228.1527164916823" y="128.558049971" width="114.90765632691406" height="21.23576429"/></g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="230.60299698668229" y="143.259732941" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">lobby list request</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 199.0482126753867 149.793814261 L 358.7155592512253 149.793814261" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray=""/><g transform="translate(372.1648766348919,149.793814261) translate(-372.1648766348919,-149.793814261)"><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 358.55220721822525 142.98747955266666 L 372.1648766348919 149.793814261 L 358.55220721822525 156.60014896933333 Z"/></g></g><g><g><rect fill="white" stroke="none" x="254.63802990720964" y="174.296619211" width="61.93702949585938" height="21.23576429"/></g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="257.08831040220963" y="188.99830218099999" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">lobby list</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 372.1648766348919 195.532383501 L 212.49753005905336 195.532383501" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"/><g transform="translate(199.0482126753867,195.532383501) translate(-199.0482126753867,-195.532383501)"><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 212.66088209205338 188.72604879266666 L 199.0482126753867 195.532383501 L 212.66088209205338 202.33871820933334 Z"/></g></g><g><g><rect fill="white" stroke="none" x="218.3782032470534" y="220.035188451" width="134.45668281617188" height="21.23576429"/></g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="220.82848374205338" y="234.736871421" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">join lobby (lobby ID)</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 199.0482126753867 241.270952741 L 358.7155592512253 241.270952741" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray=""/><g transform="translate(372.1648766348919,241.270952741) translate(-372.1648766348919,-241.270952741)"><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 358.55220721822525 234.46461803266666 L 372.1648766348919 241.270952741 L 358.55220721822525 248.07728744933334 Z"/></g></g><g><g><rect fill="white" stroke="none" x="236.7174900512526" y="265.77375769099996" width="97.77810920777344" height="21.23576429"/></g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="239.1677705462526" y="280.47544066099994" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">KO (lobby full)</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 372.1648766348919 287.009521981 L 212.49753005905336 287.009521981" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"/><g transform="translate(199.0482126753867,287.009521981) translate(-199.0482126753867,-287.009521981)"><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 212.66088209205338 280.20318727266664 L 199.0482126753867 287.009521981 L 212.66088209205338 293.8158566893333 Z"/></g></g><g><g><rect fill="white" stroke="none" x="218.3782032470534" y="311.51232693099996" width="134.45668281617188" height="21.23576429"/></g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="220.82848374205338" y="326.21400990099994" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">join lobby (lobby ID)</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 199.0482126753867 332.748091221 L 358.7155592512253 332.748091221" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray=""/><g transform="translate(372.1648766348919,332.748091221) translate(-372.1648766348919,-332.748091221)"><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 358.55220721822525 325.94175651266664 L 372.1648766348919 332.748091221 L 358.55220721822525 339.5544259293333 Z"/></g></g><g><g><rect fill="white" stroke="none" x="272.5657108764479" y="357.25089617099997" width="26.08166755738281" height="21.23576429"/></g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="275.0159913714479" y="371.95257914099994" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">OK</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 372.1648766348919 378.486660461 L 212.49753005905336 378.486660461" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"/><g transform="translate(199.0482126753867,378.486660461) translate(-199.0482126753867,-378.486660461)"><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 212.66088209205338 371.68032575266665 L 199.0482126753867 378.486660461 L 212.66088209205338 385.2929951693333 Z"/></g></g><g><g><rect fill="white" stroke="none" x="165.18555256196353" y="402.98946541099997" width="119.00215400757813" height="21.23576429"/></g><text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="167.63583305696352" y="417.69114838099995" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">updated lobby list</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 372.1648766348919 424.225229701 L 90.65769988027995 424.225229701" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"/><g transform="translate(77.20838249661328,424.225229701) translate(-77.20838249661328,-424.225229701)"><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 90.82105191327994 417.41889499266665 L 77.20838249661328 424.225229701 L 90.82105191327994 431.0315644093333 Z"/></g></g></g><g/><g/><g/></g></svg>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="419"
+     height="481">
+    <desc>
+        title%20MatchMaking%20-%20Join%20Lobby%0A%09%0Aparticipant%20N-Users%2FClients%0A%0Aparticipant%20Client%0A%0Aparticipant%20Server%0A%0AClient-%3EServer%3A%20lobby%20list%20request%0A%0AServer--%3EClient%3A%20lobby%20list%0A%0AClient-%3EServer%3A%20join%20lobby%20(lobby%20ID)%0A%0AServer--%3EClient%3A%20KO%20(lobby%20full)%0A%0AClient-%3EServer%3A%20join%20lobby%20(lobby%20ID)%0A%0AServer--%3EClient%3A%20OK%0A%0AServer--%3EN-Users%2FClients%3A%20updated%20lobby%20list%0A%0A%0A%0A
+    </desc>
+    <defs/>
+    <g>
+        <g/>
+        <g/>
+        <g/>
+        <g/>
+        <g/>
+        <g/>
+        <g/>
+        <g>
+            <rect fill="white" stroke="none" x="0" y="0" width="419" height="481"/>
+        </g>
+        <g>
+            <text fill="black" stroke="none" font-family="sans-serif" font-size="16.5pt" font-style="normal" font-weight="normal" text-decoration="normal" x="81.4266426883112" y="24.50280495" text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">MatchMaking - Join Lobby</text>
+        </g>
+        <g/>
+        <g>
+            <path fill="none" stroke="black" paint-order="fill stroke markers"
+                  d=" M 77.20838249661328 95.887643371 L 77.20838249661328 481.398441251" stroke-miterlimit="10"
+                  stroke-width="1.3612669416666667" stroke-dasharray="12.565541,5.445067766666667"/>
+            <path fill="none" stroke="black" paint-order="fill stroke markers"
+                  d=" M 199.0482126753867 95.887643371 L 199.0482126753867 481.398441251" stroke-miterlimit="10"
+                  stroke-width="1.3612669416666667" stroke-dasharray="12.565541,5.445067766666667"/>
+            <path fill="none" stroke="black" paint-order="fill stroke markers"
+                  d=" M 372.1648766348919 95.887643371 L 372.1648766348919 481.398441251" stroke-miterlimit="10"
+                  stroke-width="1.3612669416666667" stroke-dasharray="12.565541,5.445067766666667"/>
+        </g>
+        <g>
+            <path fill="none" stroke="none"/>
+            <g>
+                <path fill="white" stroke="black" paint-order="fill stroke markers"
+                      d=" M 8.167601649999995 51.782594461 L 146.24916334322657 51.782594461 L 146.24916334322657 95.887643371 L 8.167601649999995 95.887643371 L 8.167601649999995 51.782594461 Z"
+                      stroke-miterlimit="10" stroke-width="2.613632528" stroke-dasharray=""/>
+            </g>
+            <g>
+                <g/>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="25.8912972305" y="79.55244007099999"
+                      text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">N-Users/Clients</text>
+            </g>
+            <path fill="none" stroke="none"/>
+            <g>
+                <path fill="white" stroke="black" paint-order="fill stroke markers"
+                      d=" M 162.58436664322653 51.782594461 L 235.51205870754686 51.782594461 L 235.51205870754686 95.887643371 L 162.58436664322653 95.887643371 L 162.58436664322653 51.782594461 Z"
+                      stroke-miterlimit="10" stroke-width="2.613632528" stroke-dasharray=""/>
+            </g>
+            <g>
+                <g/>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="180.30806222372655" y="79.55244007099999"
+                      text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">Client</text>
+            </g>
+            <path fill="none" stroke="none"/>
+            <g>
+                <path fill="white" stroke="black" paint-order="fill stroke markers"
+                      d=" M 332.85207735566144 51.782594461 L 411.4776759141224 51.782594461 L 411.4776759141224 95.887643371 L 332.85207735566144 95.887643371 L 332.85207735566144 51.782594461 Z"
+                      stroke-miterlimit="10" stroke-width="2.613632528" stroke-dasharray=""/>
+            </g>
+            <g>
+                <g/>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="350.57577293616146" y="79.55244007099999"
+                      text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">server.server</text>
+            </g>
+        </g>
+        <g>
+            <g>
+                <g>
+                    <rect fill="white" stroke="none" x="228.1527164916823" y="128.558049971" width="114.90765632691406"
+                          height="21.23576429"/>
+                </g>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="230.60299698668229" y="143.259732941"
+                      text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">lobby list request</text>
+            </g>
+            <g>
+                <path fill="none" stroke="black" paint-order="fill stroke markers"
+                      d=" M 199.0482126753867 149.793814261 L 358.7155592512253 149.793814261" stroke-miterlimit="10"
+                      stroke-width="1.3612669416666667" stroke-dasharray=""/>
+                <g transform="translate(372.1648766348919,149.793814261) translate(-372.1648766348919,-149.793814261)">
+                    <path fill="black" stroke="none" paint-order="stroke fill markers"
+                          d=" M 358.55220721822525 142.98747955266666 L 372.1648766348919 149.793814261 L 358.55220721822525 156.60014896933333 Z"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <rect fill="white" stroke="none" x="254.63802990720964" y="174.296619211" width="61.93702949585938"
+                          height="21.23576429"/>
+                </g>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="257.08831040220963" y="188.99830218099999"
+                      text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">lobby list</text>
+            </g>
+            <g>
+                <path fill="none" stroke="black" paint-order="fill stroke markers"
+                      d=" M 372.1648766348919 195.532383501 L 212.49753005905336 195.532383501" stroke-miterlimit="10"
+                      stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"/>
+                <g transform="translate(199.0482126753867,195.532383501) translate(-199.0482126753867,-195.532383501)">
+                    <path fill="black" stroke="none" paint-order="stroke fill markers"
+                          d=" M 212.66088209205338 188.72604879266666 L 199.0482126753867 195.532383501 L 212.66088209205338 202.33871820933334 Z"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <rect fill="white" stroke="none" x="218.3782032470534" y="220.035188451" width="134.45668281617188"
+                          height="21.23576429"/>
+                </g>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="220.82848374205338" y="234.736871421"
+                      text-anchor="start" dominant-baseline="alphabetic"
+                      xml:space="preserve">join lobby (lobby ID)</text>
+            </g>
+            <g>
+                <path fill="none" stroke="black" paint-order="fill stroke markers"
+                      d=" M 199.0482126753867 241.270952741 L 358.7155592512253 241.270952741" stroke-miterlimit="10"
+                      stroke-width="1.3612669416666667" stroke-dasharray=""/>
+                <g transform="translate(372.1648766348919,241.270952741) translate(-372.1648766348919,-241.270952741)">
+                    <path fill="black" stroke="none" paint-order="stroke fill markers"
+                          d=" M 358.55220721822525 234.46461803266666 L 372.1648766348919 241.270952741 L 358.55220721822525 248.07728744933334 Z"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <rect fill="white" stroke="none" x="236.7174900512526" y="265.77375769099996"
+                          width="97.77810920777344" height="21.23576429"/>
+                </g>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="239.1677705462526" y="280.47544066099994"
+                      text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">KO (lobby full)</text>
+            </g>
+            <g>
+                <path fill="none" stroke="black" paint-order="fill stroke markers"
+                      d=" M 372.1648766348919 287.009521981 L 212.49753005905336 287.009521981" stroke-miterlimit="10"
+                      stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"/>
+                <g transform="translate(199.0482126753867,287.009521981) translate(-199.0482126753867,-287.009521981)">
+                    <path fill="black" stroke="none" paint-order="stroke fill markers"
+                          d=" M 212.66088209205338 280.20318727266664 L 199.0482126753867 287.009521981 L 212.66088209205338 293.8158566893333 Z"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <rect fill="white" stroke="none" x="218.3782032470534" y="311.51232693099996"
+                          width="134.45668281617188" height="21.23576429"/>
+                </g>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="220.82848374205338" y="326.21400990099994"
+                      text-anchor="start" dominant-baseline="alphabetic"
+                      xml:space="preserve">join lobby (lobby ID)</text>
+            </g>
+            <g>
+                <path fill="none" stroke="black" paint-order="fill stroke markers"
+                      d=" M 199.0482126753867 332.748091221 L 358.7155592512253 332.748091221" stroke-miterlimit="10"
+                      stroke-width="1.3612669416666667" stroke-dasharray=""/>
+                <g transform="translate(372.1648766348919,332.748091221) translate(-372.1648766348919,-332.748091221)">
+                    <path fill="black" stroke="none" paint-order="stroke fill markers"
+                          d=" M 358.55220721822525 325.94175651266664 L 372.1648766348919 332.748091221 L 358.55220721822525 339.5544259293333 Z"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <rect fill="white" stroke="none" x="272.5657108764479" y="357.25089617099997"
+                          width="26.08166755738281" height="21.23576429"/>
+                </g>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="275.0159913714479" y="371.95257914099994"
+                      text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">OK</text>
+            </g>
+            <g>
+                <path fill="none" stroke="black" paint-order="fill stroke markers"
+                      d=" M 372.1648766348919 378.486660461 L 212.49753005905336 378.486660461" stroke-miterlimit="10"
+                      stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"/>
+                <g transform="translate(199.0482126753867,378.486660461) translate(-199.0482126753867,-378.486660461)">
+                    <path fill="black" stroke="none" paint-order="stroke fill markers"
+                          d=" M 212.66088209205338 371.68032575266665 L 199.0482126753867 378.486660461 L 212.66088209205338 385.2929951693333 Z"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <rect fill="white" stroke="none" x="165.18555256196353" y="402.98946541099997"
+                          width="119.00215400757813" height="21.23576429"/>
+                </g>
+                <text fill="black" stroke="none" font-family="sans-serif" font-size="11pt" font-style="normal"
+                      font-weight="normal" text-decoration="normal" x="167.63583305696352" y="417.69114838099995"
+                      text-anchor="start" dominant-baseline="alphabetic" xml:space="preserve">updated lobby list</text>
+            </g>
+            <g>
+                <path fill="none" stroke="black" paint-order="fill stroke markers"
+                      d=" M 372.1648766348919 424.225229701 L 90.65769988027995 424.225229701" stroke-miterlimit="10"
+                      stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"/>
+                <g transform="translate(77.20838249661328,424.225229701) translate(-77.20838249661328,-424.225229701)">
+                    <path fill="black" stroke="none" paint-order="stroke fill markers"
+                          d=" M 90.82105191327994 417.41889499266665 L 77.20838249661328 424.225229701 L 90.82105191327994 431.0315644093333 Z"/>
+                </g>
+            </g>
+        </g>
+        <g/>
+        <g/>
+        <g/>
+    </g>
+</svg>

@@ -3,12 +3,12 @@ autonumber
 
 participant Client
 
-participant Server
+participant server.server
 	
-Client->Server: ping
+Client->server.server: ping
 
-Server-->Client: pong
+server.server-->Client: pong
 
-Client->Server: login (username)
+Client->server.server: login (username)
 
-Server-->Client: ok
+server.server-->Client: ok

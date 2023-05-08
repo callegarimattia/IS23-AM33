@@ -1,13 +1,16 @@
 package controller;
 
-import model.lobbies.LobbiesHandlerException;
-import model.lobbies.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import server.controller.LobbiesHandler;
+import server.model.lobbies.LobbiesHandlerException;
+import server.model.lobbies.User;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,6 +18,9 @@ class LobbiesHandlerTest {
 
     LobbiesHandler lobbyTester = new LobbiesHandler();
     User mattia = new User("Mattia");
+
+    LobbiesHandlerTest() throws RemoteException {
+    }
 
     @BeforeEach
     void init() {
@@ -53,7 +59,7 @@ class LobbiesHandlerTest {
     @ParameterizedTest
     @ValueSource(ints = {2, 3, 4})
     @DisplayName("Lobby creation test")
-    void createLobby(int numOfPlayers) {
+    void createLobby(int numOfPlayers) throws RemoteException {
         lobbyTester.createUser("Mattia");
         lobbyTester.createLobby(mattia, numOfPlayers);
         assertTrue(lobbyTester.getLobbies().stream().anyMatch(lobby -> lobby.getUsers().contains(mattia) && lobby.getGameSize() == numOfPlayers));
