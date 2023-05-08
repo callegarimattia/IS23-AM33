@@ -86,4 +86,12 @@ public class Shelf {
         }
         return points;
     }
+
+    public Tile[][] copyMatrix (){
+        Tile[][] copy = new Tile[6][5];
+        for (int x = 0; x < 6; x++)
+            for (int y = 0; y < 5; y++)
+                copy[x][y] = shelf[x][y];
+        return copy;
+    }
 }

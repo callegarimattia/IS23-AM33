@@ -1,5 +1,5 @@
 package server.controller;
-
+import client.ClientRMI;
 import server.listenerStuff.ListenerModel;
 import server.listenerStuff.LobbiesUpdateEvent;
 import server.model.gameLogic.GameEndedException;
@@ -9,17 +9,24 @@ import server.model.gameLogic.MainBoardCoordinates;
 import server.model.lobbies.LobbiesHandlerException;
 import server.model.lobbies.Lobby;
 import server.model.lobbies.User;
-import server.rmi.RmiLobbiesInterface;
-
+import server.rmi.ServerRMI;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class LobbiesHandler implements RmiLobbiesInterface {
+public class LobbiesHandler extends UnicastRemoteObject implements ServerRMI {
     private final Set<Lobby> waitingLobbies = new HashSet<>();
     private final Set<Lobby> inGameLobbies = new HashSet<>();
     private final Set<User> users = new HashSet<>();
     private final ListenerModel listener = new ListenerModel();
+
+
+    public LobbiesHandler() throws RemoteException {
+    }
 
     /**
      * Creates and then adds a new user to the users pool with given username.
@@ -70,7 +77,7 @@ public class LobbiesHandler implements RmiLobbiesInterface {
      * @param gameSize
      * @throws LobbiesHandlerException
      */
-    public synchronized void createLobby(User firstUser, int gameSize) throws LobbiesHandlerException {
+    public synchronized void createLobby(User firstUser, int gameSize) throws LobbiesHandlerException{
         if (!users.contains(firstUser)) throw new LobbiesHandlerException("User doesn't exist");
         if (firstUser.isInLobby() || firstUser.isInGame())
             throw new LobbiesHandlerException("User can't create a lobby right now!");
@@ -80,7 +87,13 @@ public class LobbiesHandler implements RmiLobbiesInterface {
         waitingLobbies.add(newLobby);
 
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
-        listener.OnLobbyUpdate(evt);
+        try {
+            listener.OnLobbyUpdate(evt);
+        }
+        catch (RemoteException exc){
+            System.out.println("RMI connection failed");
+        }
+
     }
 
     private Set<Lobby> waitingLobbiesCopy() {
@@ -125,7 +138,12 @@ public class LobbiesHandler implements RmiLobbiesInterface {
 
         if (toBeJoinedLobby.add(joiningUser)) startGame(toBeJoinedLobby);
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
-        listener.OnLobbyUpdate(evt);
+        try {
+            listener.OnLobbyUpdate(evt);
+        }
+        catch (RemoteException exc){
+            System.out.println("RMI connection failed");
+        }
     }
 
     /**
@@ -145,7 +163,12 @@ public class LobbiesHandler implements RmiLobbiesInterface {
                 lobby.remove(leavingUser);
         }
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
-        listener.OnLobbyUpdate(evt);
+        try {
+            listener.OnLobbyUpdate(evt);
+        }
+        catch (RemoteException exc){
+            System.out.println("RMI connection failed");
+        }
     }
 
     private synchronized void startGame(Lobby toBeStartedLobby) throws LobbiesHandlerException {
@@ -155,7 +178,12 @@ public class LobbiesHandler implements RmiLobbiesInterface {
         toBeStartedLobby.initGame();
         //create game controller for the lobby
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
-        listener.OnLobbyUpdate(evt);
+        try {
+            listener.OnLobbyUpdate(evt);
+        }
+        catch (RemoteException exc){
+            System.out.println("RMI connection failed");
+        }
     }
 
     public void pickAndInsert(User turnUser, List<MainBoardCoordinates> coordinates, int column) throws InputException, LobbiesHandlerException, LastRoundException {
@@ -175,6 +203,14 @@ public class LobbiesHandler implements RmiLobbiesInterface {
         }
     }
 
+    public synchronized void join(ClientRMI client) throws RemoteException {  // new RMI connection
+        listener.addRMI_Lobbies(client);
+    }
+
+    public synchronized void leave(ClientRMI client) throws RemoteException {  // closing RMI connection
+        listener.removeRMI_Lobbies(client);
+    }
+
     public Set<User> getUsers() {  // delete
         return users;
     }
@@ -182,4 +218,5 @@ public class LobbiesHandler implements RmiLobbiesInterface {
     public Set<Lobby> getLobbies() {  // delete
         return waitingLobbies;
     }
+
 }

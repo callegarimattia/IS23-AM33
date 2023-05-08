@@ -24,7 +24,7 @@ public class Game {
     private List<String> solvOrder1;  // tiene traccia dell' ordine di completamento del primo common goal
     private List<String> solvOrder2;
     private int lastPlayer = -1;
-    private ListenerModel myListener;
+    private final ListenerModel myListener = new ListenerModel();
 
     public Game(List<Player> players) {
         try {
@@ -98,7 +98,7 @@ public class Game {
 
         players.get(indexCurrentPlayer).setScore(updateCurrPlayerScore());
 
-        GameUpdateEvent ev = new GameUpdateEvent(this,players.get(indexCurrentPlayer).getMyShelf().getShelf(),mainBoard.getMainBoard(),players.get(indexCurrentPlayer).getUserName());
+        GameUpdateEvent ev = new GameUpdateEvent(this,players.get(indexCurrentPlayer).getMyShelf().copyMatrix(),mainBoard.copyMatrix(),players.get(indexCurrentPlayer).getUserName());
         this.myListener.OnGameUpdate(ev);
 
         if (!pickNextPlayer()) {

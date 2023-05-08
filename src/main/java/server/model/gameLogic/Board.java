@@ -15,9 +15,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class Board {
-    private final Tile[][] mainBoard = new Tile[9][9];
     private final int MAX_ROW_NUM = 9;
     private final int MAX_COL_NUM = 9;
+    private final Tile[][] mainBoard = new Tile[MAX_ROW_NUM][MAX_COL_NUM];
     private final TilesBag MyBag;
 
     public Board(int numOfPlayers) {
@@ -129,5 +129,13 @@ public class Board {
 
     public Tile[][] getMainBoard() {
         return mainBoard;
+    }
+
+    public Tile[][] copyMatrix (){
+        Tile[][] copy = new Tile[9][9];
+        for (int x = 0; x < 9; x++)
+            for (int y = 0; y < 9; y++)
+                copy[x][y] = mainBoard[x][y];
+        return copy;
     }
 }
