@@ -11,8 +11,8 @@ public class AppClient {
             client = new ClientTCP(args[1]);
 
         } else {
-            client = new ClientRMI_Impl(args[1]);
-            ((ClientRMI_Impl) client).joinServer("localhost", myListener);   // in futuro non sarà local host
+            client = new ClientRMI_Impl(args[1],args[2],myListener);
+
         }
     }
 }

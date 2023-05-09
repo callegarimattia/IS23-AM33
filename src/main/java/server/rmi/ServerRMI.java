@@ -1,5 +1,6 @@
 package server.rmi;
 
+import client.ClientRMI;
 import server.exceptions.LobbiesHandlerException;
 import server.listenerStuff.ListenerModel;
 import server.model.Lobby;
@@ -17,7 +18,10 @@ public interface ServerRMI extends Remote {
     void joinLobby(User joiningUser, Lobby toBeJoinedlobby) throws LobbiesHandlerException, RemoteException;
 
     void leaveLobby(User leavingUser) throws LobbiesHandlerException, RemoteException;
-    public void setListener(ListenerModel myListener);
 
     public void removeListener(ListenerModel myListener);
+
+    public void joinServer(ListenerModel newListener, String newUsername, ClientRMI newClient);
+
+    public boolean setUsername(String newUsername);
 }
