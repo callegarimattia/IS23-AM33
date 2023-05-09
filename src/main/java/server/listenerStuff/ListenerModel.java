@@ -5,6 +5,7 @@ import client.ClientRMI;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class ListenerModel implements ModelUpdateListener {  //  Mailer
 
@@ -34,4 +35,6 @@ public class ListenerModel implements ModelUpdateListener {  //  Mailer
     public void removeRMI_Lobbies(ClientRMI toBeRemovedClient){
         RMI_Lobby_clients.remove(toBeRemovedClient);
     }
+
+
 }

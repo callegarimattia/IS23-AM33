@@ -1,5 +1,6 @@
 package server.controller;
 
+import client.ClientRMI;
 import server.exceptions.GameEndedException;
 import server.exceptions.InputException;
 import server.exceptions.LastRoundException;
@@ -208,8 +209,24 @@ public class LobbiesHandler extends UnicastRemoteObject implements ServerRMI {
         }
     }
 
-    public void setListener(ListenerModel myListener){
+    public void joinServer(ListenerModel myListener, String newUsername, ClientRMI newClient){
         RMI_Lobbies.add(myListener);
+        boolean created = false;
+        while (created != true){
+            try{
+                this.createUser(newUsername);
+                created = true;
+            }
+            catch (LobbiesHandlerException exc){
+                newUsername = newClient.newUserNameRequested;
+            }
+        }
+
+    }
+
+    @Override
+    public boolean setUsername(String newUsername) {
+        return false;
     }
 
     public void removeListener(ListenerModel myListener){
