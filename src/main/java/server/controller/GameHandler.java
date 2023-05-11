@@ -2,6 +2,7 @@ package server.controller;
 
 import server.exceptions.InputException;
 import server.exceptions.LastRoundException;
+import server.listenerStuff.GameUpdateEvent;
 import server.model.Game;
 import server.model.MainBoardCoordinates;
 import server.model.Player;
@@ -10,7 +11,7 @@ import server.model.User;
 import java.util.List;
 
 
-public class GameHandler implements GameHandlerInterface {
+public class GameHandler implements GameHandlerInterface {   // controller per Game
 
     private Game myGame;
 
@@ -25,6 +26,10 @@ public class GameHandler implements GameHandlerInterface {
             }
         }
         return false;
+    }
+
+    public void ChatMessage(String Sender, String Text, List<String> recipients){  // special value if recipients is broadcast
+        //...
     }
 
     public GameHandler(Game myGame) {

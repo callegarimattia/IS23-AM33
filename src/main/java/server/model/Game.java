@@ -3,11 +3,11 @@ package server.model;
 import server.exceptions.GameEndedException;
 import server.exceptions.LastRoundException;
 import server.listenerStuff.GameUpdateEvent;
-import server.listenerStuff.ListenerModel;
 import server.model.commonGoals.CommonGoal;
 import server.model.commonGoals.CommonGoal1;
 import server.model.personalGoals.PersonalGoalDrawer;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +26,6 @@ public class Game {
     private List<String> solvOrder1;  // tiene traccia dell' ordine di completamento del primo common goal
     private List<String> solvOrder2;
     private int lastPlayer = -1;
-    private final ListenerModel myListener = new ListenerModel();
 
     public Game(List<Player> players) {
         try {
@@ -101,14 +100,20 @@ public class Game {
         players.get(indexCurrentPlayer).setScore(updateCurrPlayerScore());
 
         GameUpdateEvent ev = new GameUpdateEvent(this,players.get(indexCurrentPlayer).getMyShelf().copyMatrix(),mainBoard.copyMatrix(),players.get(indexCurrentPlayer).getUserName());
-        this.myListener.OnGameUpdate(ev);
-
-        if (!pickNextPlayer()) {
-            throw new GameEndedException();
-        }
+        OnGameUpdate(ev);
 
         return true;
         // da sistemare
+    }
+
+    private void OnGameUpdate(GameUpdateEvent evt){
+        for(Player player: players)
+            try {
+                player.getMyClient().GameUpdate(evt);
+            }
+            catch (RemoteException e){
+                System.out.println("remote method invocation failed");
+            }
     }
 
     public List<Player> getPlayers() {

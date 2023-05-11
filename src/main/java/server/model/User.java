@@ -1,14 +1,22 @@
 package server.model;
 
+import client.Client;
+
 import java.util.Objects;
 
 public class User {
-    private final String userName;
+    private String userName = null;
     private boolean inGame = false;
     private boolean inLobby = false;
 
+    private Client myClient = null;
+
     public User(String userName) {
         this.userName = userName;
+    }
+
+    public User(Client client) {
+        myClient = client;
     }
 
     public User(User userCopy) {
@@ -48,5 +56,13 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(userName);
+    }
+
+    public Client getMyClient() {
+        return myClient;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

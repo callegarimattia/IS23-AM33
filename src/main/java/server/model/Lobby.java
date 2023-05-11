@@ -66,11 +66,13 @@ public class Lobby {
         for (User user : lobbyUsers) {
             user.setInGame(true);
             user.setInLobby(false);
-            players.add(new Player(user.getUserName()));
+            players.add(new Player(user.getUserName(), user.getMyClient()));
         }
         Game myGame = new Game(players);
         gameHandler = new GameHandler(myGame);
     }
+
+    // quando il game sarà finito devo cancellare gli users e la lobby da lobbyHandler
 
     public GameHandler getGameHandler() {
         return gameHandler;

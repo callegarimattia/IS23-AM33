@@ -1,31 +1,26 @@
 package server.controller;
 
-import client.ClientRMI;
+import client.Client;
 import server.exceptions.GameEndedException;
 import server.exceptions.InputException;
 import server.exceptions.LastRoundException;
 import server.exceptions.LobbiesHandlerException;
-import server.listenerStuff.ListenerModel;
 import server.listenerStuff.LobbiesUpdateEvent;
 import server.model.Lobby;
 import server.model.MainBoardCoordinates;
 import server.model.User;
-import server.rmi.ServerRMI;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class LobbiesHandler extends UnicastRemoteObject implements ServerRMI {
+public class LobbiesHandler extends UnicastRemoteObject implements LobbiesHandlerInterface {  // Controller per Lobby
     private final Set<Lobby> waitingLobbies = new HashSet<>();
     private final Set<Lobby> inGameLobbies = new HashSet<>();
     private final Set<User> users = new HashSet<>();
 
-    List<ListenerModel> RMI_Lobbies = new ArrayList<>();
-//  List<ListenerModel> RMI_Game = new ArrayList<>();
 
     public LobbiesHandler() throws RemoteException {
     }
@@ -63,10 +58,10 @@ public class LobbiesHandler extends UnicastRemoteObject implements ServerRMI {
 
     public void removeUser(String toBeRemovedUsername) {
         synchronized (users){
-            //   users.removeIf(user -> user.getUserName().equals(toBeRemovedUsername));  non so farlo con la lambda
             for(User user : users)
                 if(user.getUserName().equals(toBeRemovedUsername) && user.isInLobby())
                     users.remove(user);
+            // bisogna anche rimuoverlo dalla lobby nel caso sia in una lobby e chiudere connessione
         }
     }
 
@@ -89,13 +84,7 @@ public class LobbiesHandler extends UnicastRemoteObject implements ServerRMI {
         waitingLobbies.add(newLobby);
 
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
-        try {
-            for(ListenerModel listener : RMI_Lobbies)
-                listener.OnLobbyUpdate(evt);
-        }
-        catch (RemoteException exc){
-            System.out.println("RMI connection failed");
-        }
+        OnLobbyUpdate(evt);
 
     }
 
@@ -124,30 +113,39 @@ public class LobbiesHandler extends UnicastRemoteObject implements ServerRMI {
         }
     }
     /**
-     * Let a valid user, which is not in a lobby or game, join a not full lobby which hasn't started its game..
-     * If one of the conditions isn't met it throws an exception
+     * Let a valid user, which is not in a lobby or game, join a not full lobby which hasn't started its game yet.
+     * If one of the conditions isn't met it throws an exception.
      *
      * @param joiningUser
-     * @param toBeJoinedLobby
+     * @param lobbyID
      * @throws LobbiesHandlerException
      */
-    public synchronized void joinLobby(User joiningUser, Lobby toBeJoinedLobby) throws LobbiesHandlerException {
+    public synchronized void joinLobby(User joiningUser, int lobbyID) throws LobbiesHandlerException {
         if (!users.contains(joiningUser)) throw new LobbiesHandlerException("User doesn't exist.");
         if (joiningUser.isInLobby()) throw new LobbiesHandlerException("User is already in a lobby.");
         if (joiningUser.isInGame()) throw new LobbiesHandlerException("User is in an active game.");
+
+        Lobby toBeJoinedLobby = null;
+        for(Lobby lobby : waitingLobbies)
+            if(lobby.getID() == lobbyID)
+                toBeJoinedLobby = lobby;
         if (inGameLobbies.contains(toBeJoinedLobby)) throw new LobbiesHandlerException("Lobby already started");
         if (!waitingLobbies.contains(toBeJoinedLobby)) throw new LobbiesHandlerException("Lobby doesn't exist.");
         if (toBeJoinedLobby.isFull()) throw new LobbiesHandlerException("Lobby is full");
 
         if (toBeJoinedLobby.add(joiningUser)) startGame(toBeJoinedLobby);
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
-        try {
-            for(ListenerModel listener : RMI_Lobbies)
-                listener.OnLobbyUpdate(evt);
-        }
-        catch (RemoteException exc){
-            System.out.println("RMI connection failed");
-        }
+        OnLobbyUpdate(evt);
+    }
+
+    private void OnLobbyUpdate(LobbiesUpdateEvent evt){   // per ora solo RMI
+        for(User user: users)
+            try {
+                user.getMyClient().LobbiesUpdate(evt);
+            }
+            catch (RemoteException e){
+                System.out.println("remote method invocation failed");
+            }
     }
 
     /**
@@ -167,71 +165,42 @@ public class LobbiesHandler extends UnicastRemoteObject implements ServerRMI {
                 lobby.remove(leavingUser);
         }
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
-        try {
-            for(ListenerModel listener : RMI_Lobbies)
-                listener.OnLobbyUpdate(evt);
-        }
-        catch (RemoteException exc){
-            System.out.println("RMI connection failed");
-        }
+        OnLobbyUpdate(evt);
     }
 
     private synchronized void startGame(Lobby toBeStartedLobby) throws LobbiesHandlerException {
         if (!toBeStartedLobby.isFull()) throw new LobbiesHandlerException("Lobby isn't full!");
         inGameLobbies.add(toBeStartedLobby);
         waitingLobbies.remove(toBeStartedLobby);
-        toBeStartedLobby.initGame();
-        //create game controller for the lobby
+        toBeStartedLobby.initGame();  //creates game and game controller
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
-        try {
-            for(ListenerModel listener : RMI_Lobbies)
-                listener.OnLobbyUpdate(evt);
-        }
-        catch (RemoteException exc){
-            System.out.println("RMI connection failed");
-        }
+        OnLobbyUpdate(evt);
     }
 
-    public void pickAndInsert(User turnUser, List<MainBoardCoordinates> coordinates, int column) throws InputException, LobbiesHandlerException, LastRoundException {
-        for (Lobby lobby : inGameLobbies) {
-            for (User user : lobby.getUsers()) {
-                if (user.equals(turnUser)) {
-                    synchronized (lobby) {
-                        try {
-                            lobby.getGameHandler().pickAndInsert(turnUser, coordinates, column);
-                        } catch (GameEndedException e) {
-                            inGameLobbies.remove(lobby);
-                            waitingLobbies.add(lobby);
-                        }
-                    }
-                }
-            }
-        }
-    }
 
-    public void joinServer(ListenerModel myListener, String newUsername, ClientRMI newClient){
-        RMI_Lobbies.add(myListener);
-        boolean created = false;
-        while (created != true){
-            try{
-                this.createUser(newUsername);
-                created = true;
-            }
-            catch (LobbiesHandlerException exc){
-                newUsername = newClient.newUserNameRequested;
-            }
-        }
-
+    public void joinServer(Client newClient){
+        User newUser = new User(newClient);
+        users.add(newUser);
     }
 
     @Override
-    public boolean setUsername(String newUsername) {
+    public boolean setUsername(String newUsername, Client client) {
+        for(Lobby lobby: inGameLobbies)
+            for(User user : lobby.getUsers())
+                if(user.getUserName() == newUsername)
+                    return false;
+        for(Lobby lobby: waitingLobbies)
+            for(User user : lobby.getUsers())
+                if(user.getUserName() == newUsername)
+                    return false;
+        for(User user: users)
+            if(user.getMyClient()==client){
+                user.setUserName(newUsername);
+                return true;
+            }
         return false;
     }
 
-    public void removeListener(ListenerModel myListener){
-        RMI_Lobbies.remove(myListener);
-    }
 
     public Set<User> getUsers() {  // delete
         return users;

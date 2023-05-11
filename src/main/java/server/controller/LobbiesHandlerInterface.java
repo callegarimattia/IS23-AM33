@@ -1,16 +1,24 @@
 package server.controller;
 
+import client.Client;
 import server.exceptions.LobbiesHandlerException;
 import server.model.Lobby;
 import server.model.User;
 
-public interface LobbiesHandlerInterface {
-    void createUser(String newUsername) throws LobbiesHandlerException;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-    void createLobby(User firstUser, int gameSize) throws LobbiesHandlerException;
+public interface LobbiesHandlerInterface extends Remote {
 
-    void joinLobby(User joiningUser, Lobby toBeJoinedlobby) throws LobbiesHandlerException;
+    void createUser(String newUsername) throws LobbiesHandlerException, RemoteException;
 
-    void leaveLobby(User leavingUser) throws LobbiesHandlerException;
+    void createLobby(User firstUser, int gameSize) throws LobbiesHandlerException, RemoteException;
 
+    void joinLobby(User joiningUser, int lobbyID) throws LobbiesHandlerException, RemoteException;
+
+    void leaveLobby(User leavingUser) throws LobbiesHandlerException, RemoteException;
+
+    public boolean setUsername(String newUsername, Client client) throws RemoteException;
+
+    public void joinServer(Client newClient) throws RemoteException;
 }
