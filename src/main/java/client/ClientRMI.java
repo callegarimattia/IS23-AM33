@@ -1,9 +1,9 @@
 package client;
 
+import server.controller.LobbiesHandler;
 import server.listenerStuff.GameUpdateEvent;
 import server.listenerStuff.LobbiesUpdateEvent;
 import server.model.Tile;
-import server.controller.LobbiesHandlerInterface;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -17,7 +17,7 @@ public class ClientRMI extends UnicastRemoteObject implements Client {
     private int indexCurrentPlayer = 0;
     private String userName;
     private String serverHost;
-    private LobbiesHandlerInterface server;
+    private LobbiesHandler server;
 
     //...
 
@@ -49,7 +49,7 @@ public class ClientRMI extends UnicastRemoteObject implements Client {
 
     private void joinServer() {
         try{
-            server = (LobbiesHandlerInterface) Naming.lookup("rmi://" + serverHost + "/Server");
+            server = (LobbiesHandler) Naming.lookup("rmi://" + serverHost + "/Server");
         }
         catch (RemoteException | NotBoundException | MalformedURLException e){
             System.out.println("look-up failed, try again");

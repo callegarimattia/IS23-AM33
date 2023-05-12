@@ -13,12 +13,12 @@ import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LobbiesHandlerTest {
+class LobbiesHandlerImplTest {
 
-    LobbiesHandler lobbyTester = new LobbiesHandler();
+    LobbiesHandlerImpl lobbyTester = new LobbiesHandlerImpl();
     User mattia = new User("Mattia");
 
-    LobbiesHandlerTest() throws RemoteException {
+    LobbiesHandlerImplTest() throws RemoteException {
     }
 
     @BeforeEach

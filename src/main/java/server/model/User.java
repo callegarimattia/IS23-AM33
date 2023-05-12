@@ -2,9 +2,10 @@ package server.model;
 
 import client.Client;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
     private String userName = null;
     private boolean inGame = false;
     private boolean inLobby = false;
