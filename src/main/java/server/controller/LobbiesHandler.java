@@ -1,5 +1,10 @@
 package server.controller;
 
+import server.model.Lobby;
+import server.model.User;
+
+import java.util.Set;
+
 public interface LobbiesHandler {
 
     boolean createUser(String newUsername);
@@ -14,4 +19,7 @@ public interface LobbiesHandler {
 
     boolean leaveLobby(String leavingUser);
 
+    Set<Lobby> getLobbies();
+
+    Set<User> getUsers();
 }

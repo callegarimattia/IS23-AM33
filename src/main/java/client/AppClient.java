@@ -9,8 +9,9 @@ public class AppClient {
             client = new ClientTCP();   // tbd
 
         } else {
-            ClientRMItest clientTest = new ClientRMItest();
+            ClientRMI clientTest = new ClientRMI();
             clientTest.newConnection("localhost");
+            System.out.println("Connection established!");
         }
         // da qui è uguale sia per TCP che per RMIclient.
         //

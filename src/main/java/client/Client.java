@@ -1,9 +1,9 @@
 package client;
 
 public interface Client {
-    void newConnection();
+    void newConnection(String serverIP);
 
-    //void pickAndInsert();
+    //void pickAndInsert()
 
     void joinLobby(int lobbyID);
 

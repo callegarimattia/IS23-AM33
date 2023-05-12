@@ -1,57 +1,64 @@
 package client;
 
-import server.controller.LobbiesHandler;
-import server.model.Tile;
+import server.Server;
 
-public class ClientRMI {
-    private Tile[][] mainBoard = new Tile[9][9];
-    private int indexCurrentPlayer = 0;
-    private String userName;
-    private String serverHost;
-    private LobbiesHandler server;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.Scanner;
 
-    //...
-    /*
-    public ClientRMI(String serverHost, String userName) throws Exception {
-        this.userName = userName;
-        this.serverHost = serverHost;
-        joinServer();
-
-        while (!server.setUsername(userName, this)){
-            Scanner input = new Scanner(System.in);
-            System.out.println("UserName not available, enter a new one: ");
-            userName = input.next();
-        }
-    }
-
-
-    // RMI del server invocherà direttamente questo metodo
-    @Override
-    public void GameUpdate(GameUpdateEvent evt) {
-        mainBoard = evt.getNewBoard();
-        //...
-
-    }
+public class ClientRMI implements Client {
+    Registry registry;
+    Server server;
+    Scanner scanner = new Scanner(System.in);
 
     @Override
-    public void LobbiesUpdate(LobbiesUpdateEvent evt) {
-        //...
+    public void newConnection(String serverIP) {
+        try {
+            Registry registry = LocateRegistry.getRegistry(serverIP, 1099);
+            server = (Server) registry
+                    .lookup("Server");
+            String newUsername = scanner.nextLine();
+            while (!server.createUser(newUsername)) {
+                //Just a test... (later we reiterate until a valid username is given)
+                System.out.println("User already present!");
+                newUsername = scanner.nextLine();
+            }
+            System.out.println(server.searchUser(newUsername));
+        } catch (RemoteException | NotBoundException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
     }
 
-    /*private void joinServer() {
-        try{
-            server = (LobbiesHandler) Naming.lookup("rmi://" + serverHost + "/Server");
-        }
-        catch (RemoteException | NotBoundException | MalformedURLException e){
-            System.out.println("look-up failed, try again");
-            return;
-        }
-        try{
-            server.joinServer(this);   // in realta gli sto solo passando il riferimento
-        }
-        catch (RemoteException e){
-            System.out.println("server join failed, try again");
+    public void joinLobby() {
+        try {
+            server.joinLobby("mattia", 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
-    */
+
+    @Override
+    public void joinLobby(int lobbyID) {
+
+    }
+
+    @Override
+    public void leaveLobby() {
+
+    }
+
+    @Override
+    public void createLobby(int gameSize) {
+
+    }
+
+    @Override
+    public void sendMessage(String userName, String message, int visibility) {
+
+    }
 }

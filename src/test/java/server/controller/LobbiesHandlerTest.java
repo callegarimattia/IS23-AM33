@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LobbiesHandlerTest {
 
-    LobbiesHandler lobbyTester = new LobbiesHandler();
+    LobbiesHandler lobbyTester = new LobbiesHandlerImpl();
     User mattia = new User("Mattia");
 
     LobbiesHandlerTest() throws RemoteException {
