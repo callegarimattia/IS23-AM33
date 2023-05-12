@@ -1,6 +1,5 @@
 package server.controller;
 
-import client.Client;
 import server.Server;
 import server.exceptions.LobbiesHandlerException;
 import server.listenerStuff.LobbiesUpdateEvent;
@@ -41,10 +40,10 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
      * @param username of user to be searched
      * @return user or null if not present
      */
-    public User searchUser(String username) {  // da cancellare credo
+    public boolean searchUser(String username) {  // da cancellare credo
         for (User user : users)
-            if (user.getUserName().equals(username)) return user;
-        return null;
+            if (user.getUserName().equals(username)) return true;
+        return false;
     }
 
     public void removeUser(String toBeRemovedUsername) {
@@ -61,37 +60,34 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
      * If user isn't in the user pool, the game size is invalid or user is already in a lobby or game,
      * it throws an exception
      *
-     * @param firstUser
+     * @param username
      * @param gameSize
      * @throws LobbiesHandlerException
      */
-    public synchronized void createLobby(User firstUser, int gameSize) throws LobbiesHandlerException {
-        if (!users.contains(firstUser)) throw new LobbiesHandlerException("User doesn't exist");
-        if (firstUser.isInLobby() || firstUser.isInGame())
-            throw new LobbiesHandlerException("User can't create a lobby right now!");
-        if (gameSize > 4 || gameSize < 2) throw new LobbiesHandlerException("Game size is invalid");
+    public synchronized boolean createLobby(String username, int gameSize) {
+        User firstUser = null;
+        for (User user : users) {
+            if (user.getUserName().equals(username)) firstUser = user;
+        }
+        if (firstUser == null) return false;
+
+        if (firstUser.isInLobby() ||
+                firstUser.isInGame() ||
+                gameSize > 4 || gameSize < 2) return false;
 
         Lobby newLobby = new Lobby(firstUser, gameSize);
         waitingLobbies.add(newLobby);
 
-        LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
+        LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
         OnLobbyUpdate(evt);
-
+        return true;
     }
 
-    private Set<Lobby> waitingLobbiesCopy() {
-        Set<Lobby> copy = new HashSet<>();
-        for (Lobby lobby : this.waitingLobbies) {
-            copy.add(new Lobby(lobby));
-        }
-        return copy;
-    }
-
-    private Lobby searchLobby(int lobbyId) throws LobbiesHandlerException {  // da togliere
+    public boolean searchLobby(int lobbyId) {
         for (Lobby lobby : waitingLobbies) {
-            if (lobby.getID() == lobbyId) return lobby;
+            if (lobby.getID() == lobbyId) return true;
         }
-        throw new LobbiesHandlerException("Lobby not found!");
+        return false;
     }
 
     private void removeLobby(Lobby toBeRemovedLobby, User user) {  // solo il creatore può e solo quando non è startata
@@ -108,26 +104,30 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
      * Let a valid user, which is not in a lobby or game, join a not full lobby which hasn't started its game yet.
      * If one of the conditions isn't met it throws an exception.
      *
-     * @param joiningUser
+     * @param username
      * @param lobbyID
      * @throws LobbiesHandlerException
      */
-    public synchronized void joinLobby(User joiningUser, int lobbyID) throws LobbiesHandlerException {
-        if (!users.contains(joiningUser)) throw new LobbiesHandlerException("User doesn't exist.");
-        if (joiningUser.isInLobby()) throw new LobbiesHandlerException("User is already in a lobby.");
-        if (joiningUser.isInGame()) throw new LobbiesHandlerException("User is in an active game.");
+    public synchronized boolean joinLobby(String username, int lobbyID) {
+        User joiningUser = null;
+        for (User user : users) {
+            if (user.getUserName().equals(username)) joiningUser = user;
+        }
+        if (joiningUser == null) return false;
 
-        Lobby toBeJoinedLobby = null;
+        if (joiningUser.isInLobby()
+                || joiningUser.isInGame()) return false;
+
         for (Lobby lobby : waitingLobbies)
-            if (lobby.getID() == lobbyID)
-                toBeJoinedLobby = lobby;
-        if (inGameLobbies.contains(toBeJoinedLobby)) throw new LobbiesHandlerException("Lobby already started");
-        if (!waitingLobbies.contains(toBeJoinedLobby)) throw new LobbiesHandlerException("Lobby doesn't exist.");
-        if (toBeJoinedLobby.isFull()) throw new LobbiesHandlerException("Lobby is full");
-
-        if (toBeJoinedLobby.add(joiningUser)) startGame(toBeJoinedLobby);
-        LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
-        OnLobbyUpdate(evt);
+            if (lobby.getID() == lobbyID) {
+                if (lobby.isFull()) return false;
+                else {
+                    LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
+                    OnLobbyUpdate(evt);
+                    return lobby.add(joiningUser);
+                }
+            }
+        return false;
     }
 
     private void OnLobbyUpdate(LobbiesUpdateEvent evt) {   // per ora solo RMI
@@ -143,55 +143,42 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
      * Lets a user leave a lobby.
      * If user is invalid, or isn't in a lobby, or is in a game, then it throws an exception.
      *
-     * @param leavingUser
+     * @param username
      * @throws LobbiesHandlerException
      */
-    public synchronized void leaveLobby(User leavingUser) throws LobbiesHandlerException {
-        if (!users.contains(leavingUser)) throw new LobbiesHandlerException("User doesn't exist.");
-        if (!leavingUser.isInLobby()) throw new LobbiesHandlerException("User isn't in a lobby");
-        if (leavingUser.isInGame()) throw new LobbiesHandlerException("Can't leave the lobby while in game!");
+    public synchronized boolean leaveLobby(String username) {
+        User leavingUser = null;
+        for (User user : users) {
+            if (user.getUserName().equals(username)) leavingUser = user;
+        }
+        if (leavingUser == null) return false;
+
+        if (!users.contains(leavingUser)
+                || !leavingUser.isInLobby()
+                || leavingUser.isInGame()) return false;
 
         for (Lobby lobby : waitingLobbies) {
             if (lobby.getUsers().contains(leavingUser))
                 lobby.remove(leavingUser);
         }
-        LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
+        LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
         OnLobbyUpdate(evt);
+        return true;
     }
 
-    private synchronized void startGame(Lobby toBeStartedLobby) throws LobbiesHandlerException {
-        if (!toBeStartedLobby.isFull()) throw new LobbiesHandlerException("Lobby isn't full!");
+    private synchronized boolean startGame(int toBeStartedLobbyID) {
+        Lobby toBeStartedLobby = null;
+        for (Lobby lobby : waitingLobbies)
+            if (lobby.getID() == toBeStartedLobbyID) toBeStartedLobby = lobby;
+        if (toBeStartedLobby == null) return false;
+        if (!toBeStartedLobby.isFull()) return false;
         inGameLobbies.add(toBeStartedLobby);
         waitingLobbies.remove(toBeStartedLobby);
         toBeStartedLobby.initGame();  //creates game and game controller
-        LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbiesCopy());
+        LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
         OnLobbyUpdate(evt);
+        return true;
     }
-
-
-    public void joinServer(Client newClient) {
-        User newUser = new User(newClient);
-        users.add(newUser);
-    }
-
-    @Override
-    public boolean setUsername(String newUsername, Client client) {
-        for (Lobby lobby : inGameLobbies)
-            for (User user : lobby.getUsers())
-                if (user.getUserName().equals(newUsername))
-                    return false;
-        for (Lobby lobby : waitingLobbies)
-            for (User user : lobby.getUsers())
-                if (user.getUserName().equals(newUsername))
-                    return false;
-        for (User user : users)
-            if (user.getMyClient() == client) {
-                user.setUserName(newUsername);
-                return true;
-            }
-        return false;
-    }
-
 
     public Set<User> getUsers() {  // delete
         return users;

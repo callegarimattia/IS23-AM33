@@ -1,32 +1,43 @@
 package client;
 
 import server.Server;
-import server.model.User;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Scanner;
 
 public class ClientRMItest {
     Registry registry;
+    Server server;
+    Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public void newConnection(String serverIP) {
         try {
-            Registry registry = LocateRegistry.getRegistry();
-            Server server = (Server) registry
+            Registry registry = LocateRegistry.getRegistry(serverIP, 1099);
+            server = (Server) registry
                     .lookup("Server");
-            if (!server.createUser("mattia")) {
+            String newUsername = scanner.nextLine();
+            while (!server.createUser(newUsername)) {
                 //Just a test... (later we reiterate until a valid username is given)
                 System.out.println("User already present!");
-                System.exit(1);
+                newUsername = scanner.nextLine();
             }
-            User user = server.searchUser("mattia");
-            System.out.println(user.toString());
+            System.out.println(server.searchUser(newUsername));
         } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
             System.exit(1);
+        }
+    }
+
+    public void joinLobby() {
+        try {
+            server.joinLobby("mattia", 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }

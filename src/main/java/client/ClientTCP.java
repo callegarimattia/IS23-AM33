@@ -5,7 +5,7 @@ import server.listenerStuff.LobbiesUpdateEvent;
 
 import java.rmi.RemoteException;
 
-public class ClientTCP implements Client {
+public class ClientTCP implements VirtualView {
     @Override
     public void GameUpdate(GameUpdateEvent evt) throws RemoteException {
 

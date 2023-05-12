@@ -1,6 +1,6 @@
 package server.model;
 
-import client.Client;
+import client.VirtualView;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,13 +10,13 @@ public class User implements Serializable {
     private boolean inGame = false;
     private boolean inLobby = false;
 
-    private Client myClient = null;
+    private VirtualView myClient = null;
 
     public User(String userName) {
         this.userName = userName;
     }
 
-    public User(Client client) {
+    public User(VirtualView client) {
         myClient = client;
     }
 
@@ -59,7 +59,7 @@ public class User implements Serializable {
         return Objects.hash(userName);
     }
 
-    public Client getMyClient() {
+    public VirtualView getMyClient() {
         return myClient;
     }
 

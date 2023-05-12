@@ -1,18 +1,9 @@
 package client;
 
 import server.controller.LobbiesHandler;
-import server.listenerStuff.GameUpdateEvent;
-import server.listenerStuff.LobbiesUpdateEvent;
 import server.model.Tile;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.Scanner;
-
-public class ClientRMI extends UnicastRemoteObject implements Client {
+public class ClientRMI {
     private Tile[][] mainBoard = new Tile[9][9];
     private int indexCurrentPlayer = 0;
     private String userName;
@@ -20,7 +11,7 @@ public class ClientRMI extends UnicastRemoteObject implements Client {
     private LobbiesHandler server;
 
     //...
-
+    /*
     public ClientRMI(String serverHost, String userName) throws Exception {
         this.userName = userName;
         this.serverHost = serverHost;
@@ -47,7 +38,7 @@ public class ClientRMI extends UnicastRemoteObject implements Client {
         //...
     }
 
-    private void joinServer() {
+    /*private void joinServer() {
         try{
             server = (LobbiesHandler) Naming.lookup("rmi://" + serverHost + "/Server");
         }
@@ -62,5 +53,5 @@ public class ClientRMI extends UnicastRemoteObject implements Client {
             System.out.println("server join failed, try again");
         }
     }
-
+    */
 }
