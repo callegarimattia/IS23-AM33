@@ -1,9 +1,9 @@
 package client;
 
-import server.controller.LobbiesHandler;
 import server.listenerStuff.GameUpdateEvent;
 import server.listenerStuff.LobbiesUpdateEvent;
 import server.model.Tile;
+import server.controller.LobbiesHandlerInterface;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -17,7 +17,8 @@ public class ClientRMI extends UnicastRemoteObject implements Client {
     private int indexCurrentPlayer = 0;
     private String userName;
     private String serverHost;
-    private LobbiesHandler server;
+    private LobbiesHandlerInterface server;
+    private int userID;
 
     //...
 
@@ -25,12 +26,13 @@ public class ClientRMI extends UnicastRemoteObject implements Client {
         this.userName = userName;
         this.serverHost = serverHost;
         joinServer();
-
-        while (!server.setUsername(userName, this)){
+        System.out.println(userID);
+        while (!server.setUsername(userName, userID)){
             Scanner input = new Scanner(System.in);
             System.out.println("UserName not available, enter a new one: ");
             userName = input.next();
         }
+        System.out.println("username setted");
     }
 
 
@@ -49,14 +51,14 @@ public class ClientRMI extends UnicastRemoteObject implements Client {
 
     private void joinServer() {
         try{
-            server = (LobbiesHandler) Naming.lookup("rmi://" + serverHost + "/Server");
+            server = (LobbiesHandlerInterface) Naming.lookup("rmi://" + serverHost + "/LobbiesHandler");
         }
         catch (RemoteException | NotBoundException | MalformedURLException e){
             System.out.println("look-up failed, try again");
             return;
         }
         try{
-            server.joinServer(this);   // in realta gli sto solo passando il riferimento
+            userID = server.joinServer(this);   // in realta gli sto solo passando il riferimento
         }
         catch (RemoteException e){
             System.out.println("server join failed, try again");

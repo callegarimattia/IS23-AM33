@@ -1,6 +1,6 @@
 package server.model;
 
-import server.controller.GameHandlerImpl;
+import server.controller.GameHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Lobby {
 
     // private Game game;   non serve averlo tra gli attributi, ci accedo solo tramite gameHandler
 
-    private GameHandlerImpl gameHandlerImpl;
+    private GameHandler gameHandler;
 
     private final int gameSize;
 
@@ -69,12 +69,12 @@ public class Lobby {
             players.add(new Player(user.getUserName(), user.getMyClient()));
         }
         Game myGame = new Game(players);
-        gameHandlerImpl = new GameHandlerImpl(myGame);
+        gameHandler = new GameHandler(myGame);
     }
 
     // quando il game sarà finito devo cancellare gli users e la lobby da lobbyHandler
 
-    public GameHandlerImpl getGameHandler() {
-        return gameHandlerImpl;
+    public GameHandler getGameHandler() {
+        return gameHandler;
     }
 }

@@ -2,16 +2,16 @@ package server.model;
 
 import client.Client;
 
-import java.io.Serializable;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class User implements Serializable {
+public class User {
     private String userName = null;
     private boolean inGame = false;
     private boolean inLobby = false;
-
     private Client myClient = null;
 
+    private int ID;
     public User(String userName) {
         this.userName = userName;
     }
@@ -67,13 +67,11 @@ public class User implements Serializable {
         this.userName = userName;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                ", inGame=" + inGame +
-                ", inLobby=" + inLobby +
-                ", myClient=" + myClient +
-                '}';
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 }
