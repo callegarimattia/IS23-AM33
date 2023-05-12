@@ -1,6 +1,7 @@
 package client;
 
 import server.Server;
+import server.model.User;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -20,7 +21,8 @@ public class ClientRMItest {
                 System.out.println("User already present!");
                 System.exit(1);
             }
-            System.out.println(server.searchUser("mattia").toString());
+            User user = server.searchUser("mattia");
+            System.out.println(user.toString());
         } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
