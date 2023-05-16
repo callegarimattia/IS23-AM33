@@ -18,10 +18,6 @@ public class User implements Serializable {
         this.userName = userName;
     }
 
-    public User(VirtualView client) {
-        myClient = client;
-    }
-
     public User(User userCopy) {
         this.userName = userCopy.getUserName();
         this.inGame = userCopy.isInGame();
@@ -61,12 +57,12 @@ public class User implements Serializable {
         return Objects.hash(userName);
     }
 
-    public VirtualView getMyClient() {
-        return myClient;
+    public void setMyClient(VirtualView myClient) {
+        this.myClient = myClient;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public VirtualView getMyClient() {
+        return myClient;
     }
 
     @Override

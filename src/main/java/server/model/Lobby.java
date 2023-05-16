@@ -17,17 +17,7 @@ public class Lobby {
 
     private final int gameSize;
 
-    public Lobby(Lobby lobbyCopy) {
-        this.ID = lobbyCopy.getID();
-        this.gameSize = lobbyCopy.getGameSize();
-        for (User user : lobbyCopy.getUsers()) {
-            lobbyUsers.add(new User(user));
-        }
-    }
-
-    public Lobby(User firstUser, int gameSize) {
-        this.lobbyUsers.add(firstUser);
-        firstUser.setInLobby(true);
+    public Lobby(int gameSize) {
         this.ID = nextID.incrementAndGet();
         this.gameSize = gameSize;
     }

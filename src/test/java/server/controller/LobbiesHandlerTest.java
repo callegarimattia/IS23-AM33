@@ -69,6 +69,6 @@ class LobbiesHandlerTest {
     @DisplayName("Lobby creation with invalid game size")
     void createLobby_InvalidGameSizes(int numOfPlayers) {
         lobbyTester.createUser("Mattia");
-        assertFalse(lobbyTester.createLobby("Mattia", numOfPlayers));
+        assert (lobbyTester.createLobby("Mattia", numOfPlayers) == -3);
     }
 }

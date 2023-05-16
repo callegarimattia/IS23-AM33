@@ -13,7 +13,7 @@ public interface LobbiesHandler {
 
     boolean searchLobby(int lobbyId);
 
-    boolean createLobby(String firstUser, int gameSize);
+    int createLobby(String firstUser, int gameSize);
 
     boolean joinLobby(String joiningUser, int lobbyID);
 

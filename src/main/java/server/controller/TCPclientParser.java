@@ -1,15 +1,13 @@
 package server.controller;
 
-import com.google.gson.Gson;
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import server.model.Tile;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 
 class TCPclientParser implements Runnable {
     private Socket mySocket = null;
@@ -83,9 +81,6 @@ class TCPclientParser implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
-
 
     }
 }

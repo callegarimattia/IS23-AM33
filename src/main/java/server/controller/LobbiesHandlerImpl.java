@@ -1,12 +1,13 @@
 package server.controller;
+
 import server.Server;
 import server.exceptions.LobbiesHandlerException;
 import server.listenerStuff.LobbiesUpdateEvent;
 import server.model.Lobby;
 import server.model.User;
+
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,6 +32,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
      * @param newUsername
      * @throws LobbiesHandlerException
      */
+    @Override
     public boolean createUser(String newUsername) {
         synchronized (users) {
             for (User user : users) {
@@ -49,6 +51,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
      * @param username of user to be searched
      * @return user or null if not present
      */
+    @Override
     public boolean searchUser(String username) {  // da cancellare credo
         for (User user : users)
             if (user.getUserName().equals(username)) return true;
@@ -71,34 +74,36 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
      *
      * @param username
      * @param gameSize
-     * @throws LobbiesHandlerException
      */
-    public synchronized boolean createLobby(String username, int gameSize) {
+    @Override
+    public synchronized int createLobby(String username, int gameSize) {
         User firstUser = null;
         for (User user : users) {
             if (user.getUserName().equals(username)) firstUser = user;
         }
-        if (firstUser == null) return false;
+        if (firstUser == null) return -1;
 
         if (firstUser.isInLobby() ||
-                firstUser.isInGame() ||
-                gameSize > 4 || gameSize < 2) return false;
+                firstUser.isInGame()) return -2;
 
-        Lobby newLobby = new Lobby(firstUser, gameSize);
+        if (gameSize > 4 || gameSize < 2) return -3;
+
+        Lobby newLobby = new Lobby(gameSize);
         waitingLobbies.add(newLobby);
+        joinLobby(username, newLobby.getID());
 
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
         OnLobbyUpdate(evt);
-        return true;
+        return newLobby.getID();
     }
 
+    @Override
     public boolean searchLobby(int lobbyId) {
         for (Lobby lobby : waitingLobbies) {
             if (lobby.getID() == lobbyId) return true;
         }
         return false;
     }
-
     private void removeLobby(Lobby toBeRemovedLobby, User user) {  // solo il creatore può e solo quando non è startata
         synchronized (waitingLobbies) {
             if (user.equals(toBeRemovedLobby.getUsers().get(0))) {
@@ -117,6 +122,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
      * @param lobbyID
      * @throws LobbiesHandlerException
      */
+    @Override
     public synchronized boolean joinLobby(String username, int lobbyID) {
         User joiningUser = null;
         for (User user : users) {
@@ -155,6 +161,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
      * @param username
      * @throws LobbiesHandlerException
      */
+    @Override
     public synchronized boolean leaveLobby(String username) {
         User leavingUser = null;
         for (User user : users) {
@@ -189,15 +196,17 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         return true;
     }
 
+    @Override
     public Set<User> getUsers() {  // delete
         return users;
     }
 
+    @Override
     public Set<Lobby> getLobbies() {  // delete
         return waitingLobbies;
     }
 
-    private void startTCP(){
+    private void startTCP() {
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(TCPport);
@@ -205,10 +214,10 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             System.err.println(e.getMessage());
             return;
         }
-        System.out.println("Server ready");
-        TCPaccepter TCPaccepter = new TCPaccepter(serverSocket,this);
-        TCPaccepter.run();
-
+        Runnable TCPaccepter = new TCPaccepter(serverSocket, this);
+        Thread th = new Thread(TCPaccepter);
+        th.start();
+        System.out.println("------------------- TCP SERVER ONLINE -------------------");
     }
 
 }
