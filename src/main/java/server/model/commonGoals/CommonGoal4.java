@@ -16,17 +16,17 @@ public class CommonGoal4 extends CommonGoal{
             type1 = matrix[0][i];
             counter = 1;
             for(int j=0; j<COL_NUMBER;j++){
-                if(matrix[j][i]!=type1){
+                if(matrix[i][j]!=type1){
                     if(type2 == Tile.EMPTY){
-                        type2 = matrix[j][i];
+                        type2 = matrix[i][j];
                         counter++;
                     } else if (type2 != Tile.EMPTY) {
-                        if(matrix[j][i]!=type2){
+                        if(matrix[i][j]!=type2){
                             if(type3 == Tile.EMPTY) {
-                                type3 = matrix[j][i];
+                                type3 = matrix[i][j];
                                 counter++;
                             } else if (type3 != Tile.EMPTY) {
-                                if(type3 != matrix[j][i]){
+                                if(type3 != matrix[i][j]){
                                     counter = ROW_NUMBER;
                                 }
                             }
