@@ -61,6 +61,8 @@ public class Board {
     }
 
     private boolean isPickable(MainBoardCoordinates coordinate) {
+
+        //NOT WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         Tile tile = mainBoard[coordinate.getX()][coordinate.getY()];
         // If tile isn't on the board return false
         if (tile.equals(Tile.UNAVAILABLE) || tile.equals(Tile.EMPTY)) return false;
@@ -79,7 +81,7 @@ public class Board {
 
     public ArrayList<Tile> removeTiles(List<MainBoardCoordinates> coordinates) {
         if (coordinates.isEmpty()) return null;
-        ArrayList<Tile> pickedTiles = new ArrayList<Tile>();
+        ArrayList<Tile> pickedTiles = new ArrayList<>();
         for (MainBoardCoordinates coordinates1 : coordinates) {
             pickedTiles.add(mainBoard[coordinates1.getX()][coordinates1.getY()]);
             mainBoard[coordinates1.getX()][coordinates1.getY()] = Tile.EMPTY;
