@@ -1,16 +1,23 @@
 package client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 public interface Client {
-    void newConnection(String serverIP);
+
+    //  ha solo i metodi/comandi che chiama l utente
+
+    void newConnection(String serverIP, int port);
 
     //void pickAndInsert()
 
+
+    void createUser(String newUsername);
     void joinLobby(int lobbyID);
 
     void leaveLobby();
 
     void createLobby(int gameSize);
 
-    void sendMessage(String userName, String message, int visibility);
+    void sendChatMessage(String userName, String message, int visibility);
 
 }

@@ -13,3 +13,4 @@ public class LobbiesUpdateEvent extends EventObject {
         this.waitingLobbies = waitingLobbies;
     }
 }
+

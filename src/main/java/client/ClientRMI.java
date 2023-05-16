@@ -9,14 +9,16 @@ import java.rmi.registry.Registry;
 import java.util.Scanner;
 
 public class ClientRMI implements Client {
+    private ClientDataStructure data;
+    private int port = 1099;
     Registry registry;
     Server server;
     Scanner scanner = new Scanner(System.in);
 
     @Override
-    public void newConnection(String serverIP) {
+    public void newConnection(String serverIP, int port) {
         try {
-            Registry registry = LocateRegistry.getRegistry(serverIP, 1099);
+            Registry registry = LocateRegistry.getRegistry(serverIP, port);
             server = (Server) registry
                     .lookup("Server");
             String newUsername = scanner.nextLine();
@@ -32,6 +34,7 @@ public class ClientRMI implements Client {
             System.exit(1);
         }
     }
+
 
     public void joinLobby() {
         try {
@@ -58,7 +61,12 @@ public class ClientRMI implements Client {
     }
 
     @Override
-    public void sendMessage(String userName, String message, int visibility) {
+    public void sendChatMessage(String userName, String message, int visibility) {
+
+    }
+
+    @Override
+    public void createUser(String newUsername) {
 
     }
 }

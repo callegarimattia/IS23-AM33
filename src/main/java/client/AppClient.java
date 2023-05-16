@@ -10,9 +10,12 @@ public class AppClient {
 
         } else {
             ClientRMI clientTest = new ClientRMI();
-            clientTest.newConnection("localhost");
+            clientTest.newConnection("localhost", 1099);
             System.out.println("Connection established!");
         }
+
+        //  ciclo while che chiede comandi all utente
+
         // da qui è uguale sia per TCP che per RMIclient.
         //
         //...

@@ -21,8 +21,9 @@ public class AppServer {
         Server stub = (Server) UnicastRemoteObject
                 .exportObject((Server) lobbiesHandler, 0);
         registry.rebind("Server", stub);
+        System.out.println("------------------- RMI SERVER ONLINE-------------------");
 
-        System.out.println("-------------------SERVER ONLINE-------------------");
-        // il thread main termina ma vi sono i thread RMI ancora attivi ---> il server è online
+
+
     }
 }

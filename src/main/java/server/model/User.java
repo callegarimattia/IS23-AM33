@@ -3,12 +3,14 @@ package server.model;
 import client.VirtualView;
 
 import java.io.Serializable;
+import java.net.Socket;
 import java.util.Objects;
 
 public class User implements Serializable {
     private String userName = null;
     private boolean inGame = false;
     private boolean inLobby = false;
+    private Socket mySocket;
 
     private VirtualView myClient = null;
 
@@ -75,5 +77,13 @@ public class User implements Serializable {
                 ", inLobby=" + inLobby +
                 ", myClient=" + myClient +
                 '}';
+    }
+
+    public Socket getMySocket() {
+        return mySocket;
+    }
+
+    public void setMySocket(Socket mySocket) {
+        this.mySocket = mySocket;
     }
 }

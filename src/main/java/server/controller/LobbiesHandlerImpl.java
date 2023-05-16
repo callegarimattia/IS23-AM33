@@ -1,11 +1,12 @@
 package server.controller;
-
 import server.Server;
 import server.exceptions.LobbiesHandlerException;
 import server.listenerStuff.LobbiesUpdateEvent;
 import server.model.Lobby;
 import server.model.User;
-
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +15,14 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
     private final Set<Lobby> waitingLobbies = new HashSet<>();
     private final Set<Lobby> inGameLobbies = new HashSet<>();
     private final Set<User> users = new HashSet<>();
+
+    private int TCPport = 2345;  // sarebbe meglio prenderla da arg/json
+
+
+    public LobbiesHandlerImpl() {
+        startTCP();
+    }
+
 
     /**
      * Creates and then adds a new user to the users pool with given username.
@@ -188,4 +197,20 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         return waitingLobbies;
     }
 
+    private void startTCP(){
+        ServerSocket serverSocket = null;
+        try {
+            serverSocket = new ServerSocket(TCPport);
+        } catch (final IOException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+        System.out.println("Server ready");
+        TCPaccepter TCPaccepter = new TCPaccepter(serverSocket,this);
+        TCPaccepter.run();
+
+    }
+
 }
+
+
