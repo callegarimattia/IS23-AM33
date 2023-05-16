@@ -31,7 +31,7 @@ public class Board {
 
     private void deserializeJSONBoard(int numOfPlayers) throws IOException {
         JsonArray matrix;
-        InputStream mainBoardJSON = Board.class.getResourceAsStream("/boardJSON/mainBoard.json5");
+        InputStream mainBoardJSON = Board.class.getResourceAsStream("/JSONs/mainBoard.json5");
         assert mainBoardJSON != null;
         String json = CharStreams.toString(new InputStreamReader(mainBoardJSON, StandardCharsets.UTF_8));
         JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();

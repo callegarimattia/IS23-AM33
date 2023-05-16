@@ -1,10 +1,11 @@
 package server.model.personalGoals;
 
+import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
-
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.LinkedList;
 
@@ -13,11 +14,11 @@ public class PersonalGoalDrawer {
 
     public PersonalGoalDrawer() throws IOException {
         this.pile = new LinkedList<>();
-        String data = new String(Files.readAllBytes(Paths.get("src/main/resources/PersonalGoalsJson/data.json")));
-        Gson g = new Gson();
-        PersonalGoal[] gjg = g.fromJson(data, PersonalGoal[].class);
-        for(PersonalGoal p : gjg)
-            pile.add(p);
+        InputStream json = PersonalGoalDrawer.class.getResourceAsStream("/JSONs/data.json");
+        assert json != null;
+        String data = CharStreams.toString(new InputStreamReader(json, StandardCharsets.UTF_8));
+        PersonalGoal[] gjg = new Gson().fromJson(data, PersonalGoal[].class);
+        Collections.addAll(pile, gjg);
         Collections.shuffle(pile);
     }
 
