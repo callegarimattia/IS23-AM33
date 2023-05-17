@@ -27,12 +27,13 @@ public class Shelf {
     }
 
     public boolean insertTiles(int column, ArrayList<Tile> pickedTiles) throws LastRoundException {
-        int ROW = 0;
+        int ROW =  ROW_NUMBER-1;
         if (isColumnValid(pickedTiles.size(), column)) return false;
-        for ( ROW = ROW_NUMBER-1; shelf[ROW][column]==Tile.EMPTY; ROW--)
-            for (int x=0; x< pickedTiles.size(); x++){
-                shelf[ROW - x][column]=pickedTiles.get(x);
-            }
+        while (!shelf[ROW][column].equals(Tile.EMPTY))
+            ROW--;
+        for (int x=0; x< pickedTiles.size(); x++){
+            shelf[ROW - x][column]=pickedTiles.get(x);
+        }
         if(isFull()) throw new LastRoundException();  // to be handled
         return true;
     }

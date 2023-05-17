@@ -32,7 +32,7 @@ public class Game {
             personalGoalDrawer = new PersonalGoalDrawer();
         }
         catch (Exception e){
-            System.out.println("Json reading error");
+            System.out.println("Perosnal Goal Json reading error");
         }
         this.players = players;
         players.forEach(player -> player.setPersonalGoal(personalGoalDrawer.draw()));
@@ -40,7 +40,7 @@ public class Game {
         mainBoard = new Board(players.size());
         comG1 = new CommonGoal1();    // dovranno in realta poi essere scritte e generate randomicamente dal file Json:
         comG2 = new CommonGoal1();
-        Collections.shuffle(players);
+        Collections.shuffle(players);  // ordine casuale per scegliere primo giocatore
 
         // creo il listener e gli passo i "4" socket che mi arrivano da sopra (lobby/gamehandler)
 
@@ -64,8 +64,6 @@ public class Game {
         // mostra il vincitore
     }
 
-    //  ho lasciato il metodo updateCurrPlayerScore nella classe Game altrimenti se l avessi messo in Player avrei
-    // ogni volta dovuto passargli i 2 common goal e l ordine di completamento dei common goal (le due liste)
     private int updateCurrPlayerScore() {
         int score = players.get(indexCurrentPlayer).getPersonalGoalScoreAndCluster();
 
@@ -85,12 +83,22 @@ public class Game {
     }
 
     public boolean pickAndInsert(String nickName, List<MainBoardCoordinates> coordinates, int column) throws GameEndedException {
-        if (nickName.equals(players.get(indexCurrentPlayer).getUserName()))
+        //  potremmo anche controllare che la socket/riferim client dal quale arriva il comando sia effettivamente quella del current player,
+        //  altrimenti controllando solo la stringa potrebbe arrivare il comando da un altro client che si spaccia per il current player
+
+        if (!nickName.equals(players.get(indexCurrentPlayer).getUserName()))
             return false;                // controlli che user è currPlayer
         if (!players.get(indexCurrentPlayer).getMyShelf().isColumnValid(coordinates.size(), column)) return false;
+        ArrayList<Tile> pickedTiles = null;
+        try {
+            pickedTiles = mainBoard.removeTiles(coordinates);   //  prendo le tiles da pickare
+        }
+        catch (Exception e){
+            System.out.println("Invalid Pick");
+            return false;
+        }
 
-        ArrayList<Tile> pickedTiles = mainBoard.removeTiles(coordinates);  // bisogna gestire le exception
-        // aggiornare la shelf
+        // e poi le metto nella shelf del player
         try {
             if (!players.get(indexCurrentPlayer).getMyShelf().insertTiles(column, pickedTiles)) return false;
         } catch (LastRoundException e) {  // inizia l utimo giro se primo a completare shelf, da gestire le conseguenze
@@ -102,18 +110,29 @@ public class Game {
         GameUpdateEvent ev = new GameUpdateEvent(this,players.get(indexCurrentPlayer).getMyShelf().copyMatrix(),mainBoard.copyMatrix(),players.get(indexCurrentPlayer).getUserName());
         OnGameUpdate(ev);
 
+        pickNextPlayer();
+
         return true;
         // da sistemare
     }
 
     private void OnGameUpdate(GameUpdateEvent evt){
-        for(Player player: players)
-            try {
-                player.getMyClient().GameUpdate(evt);
+        for(Player player: players){
+            if(player.getMyClient()!=null){
+                try {
+                    player.getMyClient().GameUpdate(evt);
+                }
+                catch (RemoteException e){
+                    System.out.println("remote method invocation failed");
+                }
             }
-            catch (RemoteException e){
-                System.out.println("remote method invocation failed");
-            }
+
+         //   if(socket!=null)
+                 //   gameupdt sulla socket
+
+        }
+
+
     }
 
     public List<Player> getPlayers() {

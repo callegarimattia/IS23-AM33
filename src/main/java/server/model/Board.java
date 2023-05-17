@@ -61,30 +61,31 @@ public class Board {
     }
 
     private boolean isPickable(MainBoardCoordinates coordinate) {
-
-        //NOT WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        Tile tile = mainBoard[coordinate.getX()][coordinate.getY()];
-        // If tile isn't on the board return false
-        if (tile.equals(Tile.UNAVAILABLE) || tile.equals(Tile.EMPTY)) return false;
-        // If tile is on the edge
-        // Check neighbors for at least one empty
-        int empty = 0;
-        Tile nearTile = mainBoard[coordinate.getX() - 1][coordinate.getY()];
-        if (nearTile.equals(Tile.UNAVAILABLE) || nearTile.equals(Tile.EMPTY)) return true;
-        nearTile = mainBoard[coordinate.getX() + 1][coordinate.getY()];
-        if (nearTile.equals(Tile.UNAVAILABLE) || nearTile.equals(Tile.EMPTY)) return true;
-        nearTile = mainBoard[coordinate.getX()][coordinate.getY() + 1];
-        if (nearTile.equals(Tile.UNAVAILABLE) || nearTile.equals(Tile.EMPTY)) return true;
-        nearTile = mainBoard[coordinate.getX()][coordinate.getY() - 1];
-        return nearTile.equals(Tile.UNAVAILABLE) || nearTile.equals(Tile.EMPTY);
+        int x = coordinate.getX();
+        int y = coordinate.getY();
+        if (mainBoard[x][y].equals(Tile.EMPTY) || mainBoard[x][y].equals(Tile.UNAVAILABLE))
+            return false;
+        if(x==0 || x==8 || y==3 || y==4)
+            return true;
+        if (mainBoard[x+1][y].equals(Tile.EMPTY) || mainBoard[x+1][y].equals(Tile.UNAVAILABLE)||
+            mainBoard[x-1][y].equals(Tile.EMPTY) || mainBoard[x-1][y].equals(Tile.UNAVAILABLE)||
+            mainBoard[x][y+1].equals(Tile.EMPTY) || mainBoard[x][y+1].equals(Tile.UNAVAILABLE)||
+            mainBoard[x][y-1].equals(Tile.EMPTY) || mainBoard[x][y-1].equals(Tile.UNAVAILABLE))
+            return true;
+        return false;
     }
 
-    public ArrayList<Tile> removeTiles(List<MainBoardCoordinates> coordinates) {
+
+    //  è importante che siano ordinate: coordinates[0] deve essere la prima ad essere pickata
+    public ArrayList<Tile> removeTiles(List<MainBoardCoordinates> coordinates) throws Exception {
         if (coordinates.isEmpty()) return null;
+        for (MainBoardCoordinates XY : coordinates)
+            if(!this.isPickable(XY))
+                throw new Exception();
         ArrayList<Tile> pickedTiles = new ArrayList<>();
-        for (MainBoardCoordinates coordinates1 : coordinates) {
-            pickedTiles.add(mainBoard[coordinates1.getX()][coordinates1.getY()]);
-            mainBoard[coordinates1.getX()][coordinates1.getY()] = Tile.EMPTY;
+        for (MainBoardCoordinates XY : coordinates) {
+            pickedTiles.add(mainBoard[XY.getX()][XY.getY()]);
+            mainBoard[XY.getX()][XY.getY()] = Tile.EMPTY;
         }
         return pickedTiles;
     }
