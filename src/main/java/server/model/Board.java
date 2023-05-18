@@ -67,12 +67,10 @@ public class Board {
             return false;
         if(x==0 || x==8 || y==3 || y==4)
             return true;
-        if (mainBoard[x+1][y].equals(Tile.EMPTY) || mainBoard[x+1][y].equals(Tile.UNAVAILABLE)||
-            mainBoard[x-1][y].equals(Tile.EMPTY) || mainBoard[x-1][y].equals(Tile.UNAVAILABLE)||
-            mainBoard[x][y+1].equals(Tile.EMPTY) || mainBoard[x][y+1].equals(Tile.UNAVAILABLE)||
-            mainBoard[x][y-1].equals(Tile.EMPTY) || mainBoard[x][y-1].equals(Tile.UNAVAILABLE))
-            return true;
-        return false;
+        return mainBoard[x + 1][y].equals(Tile.EMPTY) || mainBoard[x + 1][y].equals(Tile.UNAVAILABLE) ||
+                mainBoard[x - 1][y].equals(Tile.EMPTY) || mainBoard[x - 1][y].equals(Tile.UNAVAILABLE) ||
+                mainBoard[x][y + 1].equals(Tile.EMPTY) || mainBoard[x][y + 1].equals(Tile.UNAVAILABLE) ||
+                mainBoard[x][y - 1].equals(Tile.EMPTY) || mainBoard[x][y - 1].equals(Tile.UNAVAILABLE);
     }
 
 

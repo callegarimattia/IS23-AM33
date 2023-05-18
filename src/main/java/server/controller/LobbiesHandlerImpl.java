@@ -9,6 +9,9 @@ import server.model.User;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +25,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
 
     public LobbiesHandlerImpl() {
         startTCP();
+        startRMI();
     }
 
 
@@ -40,6 +44,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             }
             User newUser = new User(newUsername);
             users.add(newUser);
+            System.out.println("SERVER: NEW USERNAME ADDED - '" + newUsername +"'");
             return true;
         }
     }
@@ -104,6 +109,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         }
         return false;
     }
+
     private void removeLobby(Lobby toBeRemovedLobby, User user) {  // solo il creatore può e solo quando non è startata
         synchronized (waitingLobbies) {
             if (user.equals(toBeRemovedLobby.getUsers().get(0))) {
@@ -139,6 +145,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
                 else {
                     LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
                     OnLobbyUpdate(evt);
+                    System.out.println("SERVER: LOBBY " + lobbyID + " JOINED BY '" + username);
                     return lobby.add(joiningUser);
                 }
             }
@@ -173,12 +180,18 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
                 || !leavingUser.isInLobby()
                 || leavingUser.isInGame()) return false;
 
+        int lobbyID = -1;
         for (Lobby lobby : waitingLobbies) {
-            if (lobby.getUsers().contains(leavingUser))
+            if (lobby.getUsers().contains(leavingUser)) {
                 lobby.remove(leavingUser);
+                lobbyID = lobby.getID();
+            }
         }
+        if (lobbyID == -1) return false;
+
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
         OnLobbyUpdate(evt);
+        System.out.println("SERVER: LOBBY " + lobbyID + " LEAVED BY " + username);
         return true;
     }
 
@@ -193,6 +206,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         toBeStartedLobby.initGame();  //creates game and game controller
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
         OnLobbyUpdate(evt);
+        System.out.println("SERVER: LOBBY " + toBeStartedLobbyID + " GAME STARTED");
         return true;
     }
 
@@ -220,6 +234,18 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         System.out.println("------------------- TCP SERVER ONLINE -------------------");
     }
 
+    private void startRMI(){
+        Registry registry = null;
+        try {
+            registry = LocateRegistry.createRegistry(1099);
+            Server stub = (Server) UnicastRemoteObject
+                    .exportObject((Server) this, 0);
+            registry.rebind("Server", stub);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("------------------- RMI SERVER ONLINE -------------------");
+    }
 }
 
 

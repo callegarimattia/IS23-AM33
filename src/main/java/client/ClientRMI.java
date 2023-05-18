@@ -6,6 +6,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class ClientRMI implements Client {
@@ -23,10 +24,11 @@ public class ClientRMI implements Client {
             Registry registry = LocateRegistry.getRegistry(serverIP, port);
             server = (Server) registry
                     .lookup("Server");
+            System.out.println("Connection established!");
+            System.out.println("Insert a new username:");
             String newUsername = scanner.nextLine();
-
             while (!server.createUser(newUsername)) {
-                System.out.println("User already present!");
+                System.out.println("Username not available, please provide another one: ");
                 newUsername = scanner.nextLine();
             }
             this.username = newUsername;

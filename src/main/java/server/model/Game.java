@@ -32,7 +32,7 @@ public class Game {
             personalGoalDrawer = new PersonalGoalDrawer();
         }
         catch (Exception e){
-            System.out.println("Perosnal Goal Json reading error");
+            System.out.println("Personal Goal Json reading error");
         }
         this.players = players;
         players.forEach(player -> player.setPersonalGoal(personalGoalDrawer.draw()));

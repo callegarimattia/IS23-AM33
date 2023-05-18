@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.Objects;
 
 public class User implements Serializable {
-    private String userName = null;
+    private final String userName;
     private boolean inGame = false;
     private boolean inLobby = false;
     private Socket mySocket;
@@ -16,12 +16,6 @@ public class User implements Serializable {
 
     public User(String userName) {
         this.userName = userName;
-    }
-
-    public User(User userCopy) {
-        this.userName = userCopy.getUserName();
-        this.inGame = userCopy.isInGame();
-        this.inLobby = userCopy.isInLobby();
     }
 
     public String getUserName() {
@@ -67,12 +61,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                ", inGame=" + inGame +
-                ", inLobby=" + inLobby +
-                ", myClient=" + myClient +
-                '}';
+        return "user:" + userName;
     }
 
     public Socket getMySocket() {
