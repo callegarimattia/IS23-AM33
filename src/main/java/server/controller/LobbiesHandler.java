@@ -22,4 +22,6 @@ public interface LobbiesHandler {
     Set<Lobby> getLobbies();
 
     Set<User> getUsers();
+
+    void startServer();
 }

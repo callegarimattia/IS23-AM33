@@ -22,13 +22,6 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
 
     private int TCPport = 2345;  // sarebbe meglio prenderla da arg/json
 
-
-    public LobbiesHandlerImpl() {
-        startTCP();
-        startRMI();
-    }
-
-
     /**
      * Creates and then adds a new user to the users pool with given username.
      * It checks whether the username is already present and throws an exception if true.
@@ -44,7 +37,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             }
             User newUser = new User(newUsername);
             users.add(newUser);
-            System.out.println("SERVER: NEW USERNAME ADDED - '" + newUsername +"'");
+            System.out.println("SERVER: NEW USERNAME ADDED ('" + newUsername + "')");
             return true;
         }
     }
@@ -95,6 +88,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
 
         Lobby newLobby = new Lobby(gameSize);
         waitingLobbies.add(newLobby);
+        System.out.println("SERVER: CREATED NEW LOBBY ID(" + newLobby.getID() + ") WITH GAME SIZE " + gameSize);
         joinLobby(username, newLobby.getID());
 
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
@@ -145,7 +139,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
                 else {
                     LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
                     OnLobbyUpdate(evt);
-                    System.out.println("SERVER: LOBBY " + lobbyID + " JOINED BY '" + username);
+                    System.out.println("SERVER: LOBBY ID(" + lobbyID + ") JOINED BY ('" + username + "')");
                     return lobby.add(joiningUser);
                 }
             }
@@ -155,7 +149,8 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
     private void OnLobbyUpdate(LobbiesUpdateEvent evt) {   // per ora solo RMI
         for (User user : users)
             try {
-                user.getMyClient().LobbiesUpdate(evt);
+                if (user.getMyClient() != null)
+                    user.getMyClient().LobbiesUpdate(evt);
             } catch (RemoteException e) {
                 System.out.println("remote method invocation failed");
             }
@@ -191,7 +186,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
 
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
         OnLobbyUpdate(evt);
-        System.out.println("SERVER: LOBBY " + lobbyID + " LEAVED BY " + username);
+        System.out.println("SERVER: LOBBY ID(" + lobbyID + ") LEAVED BY ('" + username + "')");
         return true;
     }
 
@@ -245,6 +240,12 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             throw new RuntimeException(e);
         }
         System.out.println("------------------- RMI SERVER ONLINE -------------------");
+    }
+
+    @Override
+    public void startServer() {
+        startTCP();
+        startRMI();
     }
 }
 

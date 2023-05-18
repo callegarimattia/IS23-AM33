@@ -6,20 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import server.model.User;
 
-import java.rmi.RemoteException;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class LobbiesHandlerTest {
 
     LobbiesHandler lobbyTester = new LobbiesHandlerImpl();
-    User mattia = new User("Mattia");
-
-    LobbiesHandlerTest() throws RemoteException {
-    }
 
     @BeforeEach
     void init() {
@@ -36,7 +28,7 @@ class LobbiesHandlerTest {
     @DisplayName("Create User")
     void createUser() {
         lobbyTester.createUser("Mattia");
-        assertTrue(lobbyTester.getUsers().contains(mattia));
+        assertTrue(lobbyTester.searchUser("Mattia"));
     }
 
     @Test
@@ -54,21 +46,21 @@ class LobbiesHandlerTest {
         lobbyTester.getUsers().clear();
         assertFalse(lobbyTester.searchUser("Mattia"));
     }
-/*
+
     @ParameterizedTest
     @ValueSource(ints = {2, 3, 4})
     @DisplayName("Lobby creation test")
-    void createLobby(int numOfPlayers) throws RemoteException {
+    void createLobby(int numOfPlayers) {
         lobbyTester.createUser("Mattia");
-        assertTrue(lobbyTester.createLobby("Mattia", numOfPlayers));
-        assertTrue(lobbyTester.getLobbies().stream().anyMatch(lobby -> lobby.getUsers().contains("Mattia") && lobby.getGameSize() == numOfPlayers));
-    }*/
+        int lobbyID = lobbyTester.createLobby("Mattia", numOfPlayers);
+        assertTrue(lobbyID >= 0);
+    }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 5, -3})
     @DisplayName("Lobby creation with invalid game size")
     void createLobby_InvalidGameSizes(int numOfPlayers) {
         lobbyTester.createUser("Mattia");
-        assert (lobbyTester.createLobby("Mattia", numOfPlayers) == -3);
+        assertEquals(lobbyTester.createLobby("Mattia", numOfPlayers), -3);
     }
 }

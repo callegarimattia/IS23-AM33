@@ -14,17 +14,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PersonalGoalTest {
 
-    private String data;
     PersonalGoal[] list = null;
-    Tile[][][] goalMatrixs = null;
+    Tile[][][] goalMatrices = null;
 
     @BeforeEach
     void init() throws IOException {
-        data = new String(Files.readAllBytes(Paths.get("src/main/resources/Jsons Data/various_shelfs.json")));
+        String data = new String(Files.readAllBytes(Paths.get("src/main/resources/JSONs/various_shelfs.json")));
         Gson g = new Gson();
-        goalMatrixs  = g.fromJson(data, Tile[][][].class);
+        goalMatrices = g.fromJson(data, Tile[][][].class);
 
-        String data2 = new String(Files.readAllBytes(Paths.get("src/main/resources/PersonalGoalsJson/data.json")));
+        String data2 = new String(Files.readAllBytes(Paths.get("src/main/resources/JSONs/data.json")));
         list = g.fromJson(data2, PersonalGoal[].class);
     }
 
@@ -33,7 +32,7 @@ class PersonalGoalTest {
     void CountRightsTester12() throws IOException {
         init();
         PersonalGoal myGoal = list[1];
-        assertEquals(12, myGoal.calcPoints(goalMatrixs[0]));
+        assertEquals(12, myGoal.calcPoints(goalMatrices[0]));
     }
 
     @Test
@@ -41,11 +40,6 @@ class PersonalGoalTest {
     void CountRightsTester0() throws IOException {
         init();
         PersonalGoal myGoal = list[1];
-        assertEquals(0, myGoal.calcPoints(goalMatrixs[1]));
+        assertEquals(0, myGoal.calcPoints(goalMatrices[1]));
     }
-
-    PersonalGoalTest() throws IOException {
-    }
-
-
 }
