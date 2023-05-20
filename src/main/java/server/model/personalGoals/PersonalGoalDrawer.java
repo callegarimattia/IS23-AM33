@@ -14,11 +14,11 @@ public class PersonalGoalDrawer {
 
     public PersonalGoalDrawer() throws IOException {
         this.pile = new LinkedList<>();
-        InputStream json = PersonalGoalDrawer.class.getResourceAsStream("/JSONs/data.json");
+        InputStream json = PersonalGoalDrawer.class.getResourceAsStream("/JSONs/PersonalGoals4Drawer.json");
         assert json != null;
         String data = CharStreams.toString(new InputStreamReader(json, StandardCharsets.UTF_8));
-        PersonalGoal[] gjg = new Gson().fromJson(data, PersonalGoal[].class);
-        Collections.addAll(pile, gjg);
+        PersonalGoal[] all = new Gson().fromJson(data, PersonalGoal[].class);
+        Collections.addAll(pile, all);
         Collections.shuffle(pile);
     }
 

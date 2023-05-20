@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import server.exceptions.NotPickableException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,7 +66,7 @@ public class Board {
         int y = coordinate.getY();
         if (mainBoard[x][y].equals(Tile.EMPTY) || mainBoard[x][y].equals(Tile.UNAVAILABLE))
             return false;
-        if(x==0 || x==8 || y==3 || y==4)
+        if(x==0 || x==8 || y==0 || y==8)
             return true;
         return mainBoard[x + 1][y].equals(Tile.EMPTY) || mainBoard[x + 1][y].equals(Tile.UNAVAILABLE) ||
                 mainBoard[x - 1][y].equals(Tile.EMPTY) || mainBoard[x - 1][y].equals(Tile.UNAVAILABLE) ||
@@ -75,11 +76,12 @@ public class Board {
 
 
     //  è importante che siano ordinate: coordinates[0] deve essere la prima ad essere pickata
-    public ArrayList<Tile> removeTiles(List<MainBoardCoordinates> coordinates) throws Exception {
+    public ArrayList<Tile> removeTiles(List<MainBoardCoordinates> coordinates) throws NotPickableException {
+        if(coordinates == null) return null;
         if (coordinates.isEmpty()) return null;
         for (MainBoardCoordinates XY : coordinates)
             if(!this.isPickable(XY))
-                throw new Exception();
+                throw new NotPickableException();
         ArrayList<Tile> pickedTiles = new ArrayList<>();
         for (MainBoardCoordinates XY : coordinates) {
             pickedTiles.add(mainBoard[XY.getX()][XY.getY()]);

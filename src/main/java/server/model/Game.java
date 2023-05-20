@@ -85,7 +85,10 @@ public class Game {
     public boolean pickAndInsert(String nickName, List<MainBoardCoordinates> coordinates, int column) throws GameEndedException {
         //  potremmo anche controllare che la socket/riferim client dal quale arriva il comando sia effettivamente quella del current player,
         //  altrimenti controllando solo la stringa potrebbe arrivare il comando da un altro client che si spaccia per il current player
-
+        if(coordinates.size()>3){
+            System.out.println("size error");   // forse sarebbe meglio exception da inoltrare al client, oppure controlliamo size nel client
+            return false;
+        }
         if (!nickName.equals(players.get(indexCurrentPlayer).getUserName()))
             return false;                // controlli che user è currPlayer
         if (!players.get(indexCurrentPlayer).getMyShelf().isColumnValid(coordinates.size(), column)) return false;
