@@ -7,6 +7,7 @@ import java.util.Set;
 
 public interface LobbiesHandler {
 
+    // interfaccia interna al server
     boolean createUser(String newUsername);
 
     boolean searchUser(String username);
@@ -24,4 +25,5 @@ public interface LobbiesHandler {
     Set<User> getUsers();
 
     void startServer();
+    void refresh();  // debug purpose only
 }

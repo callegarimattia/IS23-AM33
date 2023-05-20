@@ -1,22 +1,30 @@
 package client;
 
 
+import java.util.Scanner;
+
 public class AppClient {
     public static void main(String[] args) throws Exception {  // T for TCP, R for RMI
-        VirtualView client = null;
-        if (args.length < 2) System.out.println("Usage: T (or R) IPserver (T = TCP, R = RMI)");
-        if (args[0].equals("T")) {
-            client = new ClientTCP();   // tbd
 
+        Scanner in = new Scanner(System.in);
+        Client client = null;
+        System.out.println("Usage: T (or R) IPserver (T = TCP, R = RMI)");
+        String str = in.next();
+        if (str.equals("T") || str.equals("t")) {
+            client = new ClientTCP();
+            //  devo fare new connection nel costruttore perche devo farla prima di altre cose che faccio nel costruttore
         } else {
-            ClientRMI clientTest = new ClientRMI();
-            clientTest.newConnection("localhost", 1099);
+            client = new ClientRMI();
+            client.newConnection("localhost", 1099);  // dovranno essere presi da arg/json/CL
         }
 
-        //  ciclo while che chiede comandi all utente
+        System.out.println("insert username:");
+        str = in.next();
+        client.createUser(str);
 
-        // da qui è uguale sia per TCP che per RMIclient.
-        //
-        //...
+
+        while (true){
+
+        }
     }
 }

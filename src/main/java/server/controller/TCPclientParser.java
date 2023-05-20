@@ -1,20 +1,19 @@
 package server.controller;
-
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 class TCPclientParser implements Runnable {
-    private Socket mySocket = null;
-    private LobbiesHandler lobbiesHandler;
+    private final Socket mySocket;
+    private final LobbiesHandler lobbiesHandler;
     ObjectInputStream in = null;
     ObjectOutputStream out = null;
 
+    // gestisce tutto il traffico tra il server e uno specifico client
     public TCPclientParser(Socket mySocket, LobbiesHandler lobbiesHandler) {
         this.mySocket = mySocket;
         this.lobbiesHandler = lobbiesHandler;
@@ -30,13 +29,13 @@ class TCPclientParser implements Runnable {
     public void run() {
 
         JSONObject obj = new JSONObject();
-        boolean bool = true;
+        boolean isClientActive = true;
 
-        while (bool) {
+        while (isClientActive) {
 
-            String str = null;
+            String str = null;   //  codice duplicato ma starà in due eseguibili diversi
             try {
-                str = (String) in.readObject();
+                str = in.readObject().toString();
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println(e.getMessage());
             }
@@ -48,32 +47,41 @@ class TCPclientParser implements Runnable {
                 System.out.println(e.getMessage());
             }
 
-            int x = obj.getInt("type");
+            long x = (long) obj.get("type");
             JSONObject answer = new JSONObject();
-            switch (x) {
+            switch ((int)x) {
                 default:  // 0   da gestire il fatto che creo user e gli metto dentro il socket solo quando il nickname è valido (devo anche iterare sugli altri user per vedere se ce gia uno user con quel socket)
-                    if(lobbiesHandler.createUser(obj.getString("userName")))
+                    String stt = (String) obj.get("userName");
+                    if(lobbiesHandler.createUser(stt)){
+                        answer.put("type", 0);
                         answer.put("answer", 1);
-                    else answer.put("answer", 0);
+                    }
+                    else {
+                        answer.put("type", 0);
+                        answer.put("answer", 0);
+                    }
                     try {
                         out.writeObject(answer);
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
+                    break;
                 case 1:  // 1
                     //  lobbiesHandler.joinLobby(params.get(1),(int)params.get(1) );
+                    break;
                 case 2:  // 2
-                    ;
 
+                    break;
                 case 3:   // disconnessine client  ---> chiusura partita
                   //  bool = false;
                     //  mando messaggi finali
+                    isClientActive = false;
                     break;
             }
 
         }
 
-        System.out.println("Closing sockets");
+        System.out.println("Closing this client socket");
         try {
             in.close();
             out.close();

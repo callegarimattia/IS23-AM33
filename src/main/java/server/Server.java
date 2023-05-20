@@ -4,6 +4,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface Server extends Remote {
+
+    //  interfaccia usata dal client
     boolean createUser(String newUsername) throws RemoteException;
 
     boolean searchUser(String username) throws RemoteException;

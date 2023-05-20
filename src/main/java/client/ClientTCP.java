@@ -11,16 +11,17 @@ import java.rmi.RemoteException;
 
 public class ClientTCP implements VirtualView, Client {
     private ClientDataStructure data;
-    private final String ip = "127.0.0.1";   // saranno poi da prendere da arg / json
-    private final int port = 2345;  // saranno poi da prendere da arg / json
     private Socket socket;
     private ObjectOutputStream out = null;
+    private final String ip = "127.0.0.1";   // saranno poi da prendere da arg / json
+    private final int port = 2345;  // saranno poi da prendere da arg / json
 
     public ClientTCP() throws IOException {
-        newConnection(ip, port);
+        newConnection(ip,port);
         out = new ObjectOutputStream(socket.getOutputStream());
-        TCPserverParser parser = new TCPserverParser(socket);
-        parser.run();
+        Runnable parser = new TCPserverParser(socket);
+        Thread th = new Thread(parser);
+        th.start();
 
         // ci sarà poi ciclo while nel main che chiama i metodi utente
 

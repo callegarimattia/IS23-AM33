@@ -8,10 +8,12 @@ import server.model.User;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLOutput;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,7 +22,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
     private final Set<Lobby> inGameLobbies = new HashSet<>();
     private final Set<User> users = new HashSet<>();
 
-    private int TCPport = 2345;  // sarebbe meglio prenderla da arg/json
+    private final int TCPport = 2345;  // sarebbe meglio prenderla da arg/json
 
     /**
      * Creates and then adds a new user to the users pool with given username.
@@ -247,6 +249,49 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         startTCP();
         startRMI();
     }
+
+    @Override
+    public void refresh() {
+        System.out.println("REFRESHED: ");
+        System.out.println("USERS:  \n\n");
+        for(User us: users){
+            System.out.println("username:  " + us.getUserName());
+            System.out.println("is in lobby:  " + us.isInLobby());
+            System.out.println("is in game:  " + us.isInGame());
+            System.out.println();
+        }
+
+        System.out.println("\n\nIN GAME LOBBIES: \n\n" );
+        for(Lobby lobby : inGameLobbies){
+            System.out.println("ID:  " + lobby.getID());
+            System.out.println("size:  " + lobby.getGameSize());
+            System.out.println("isFull:  " + lobby.isFull());
+            System.out.println("users: \n\n");
+            for(User us : lobby.getUsers()){
+                System.out.println("username:  " + us.getUserName());
+                System.out.println("is in lobby:  " + us.isInLobby());
+                System.out.println("is in game:  " + us.isInGame());
+                System.out.println();
+            }
+        }
+
+        System.out.println("\n\nPRE GAME LOBBIES: \n\n" );
+        for(Lobby lobby : waitingLobbies){
+            System.out.println("ID:  " + lobby.getID());
+            System.out.println("To be reached size:  " + lobby.getGameSize());
+            System.out.println("isFull:  " + lobby.isFull());
+            System.out.println("users: \n\n");
+            for(User us : lobby.getUsers()){
+                System.out.println("username:  " + us.getUserName());
+                System.out.println("is in lobby:  " + us.isInLobby());
+                System.out.println("is in game:  " + us.isInGame());
+                System.out.println();
+            }
+        }
+
+    }
+
+
 }
 
 
