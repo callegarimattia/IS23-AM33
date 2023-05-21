@@ -50,15 +50,19 @@ class TCPclientParser implements Runnable {
             long x = (long) obj.get("type");
             JSONObject answer = new JSONObject();
             switch ((int)x) {
-                default:  // 0   da gestire il fatto che creo user e gli metto dentro il socket solo quando il nickname è valido (devo anche iterare sugli altri user per vedere se ce gia uno user con quel socket)
+                default:
+                    System.out.println("default, do nothing");
+                    break;
+                case 0:  // 0   da gestire il fatto che creo user e gli metto dentro il socket solo quando il nickname è valido (devo anche iterare sugli altri user per vedere se ce gia uno user con quel socket)
                     String stt = (String) obj.get("userName");
                     if(lobbiesHandler.createUser(stt)){
                         answer.put("type", 0);
-                        answer.put("answer", 1);
+                        answer.put("answer", "1");
+                        answer.put("userName", stt);
                     }
                     else {
                         answer.put("type", 0);
-                        answer.put("answer", 0);
+                        answer.put("answer", "0");
                     }
                     try {
                         out.writeObject(answer);

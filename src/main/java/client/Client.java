@@ -19,5 +19,6 @@ public interface Client {
     void createLobby(int gameSize);
 
     void sendChatMessage(String userName, String message, int visibility);
+    String getUserName();
 
 }

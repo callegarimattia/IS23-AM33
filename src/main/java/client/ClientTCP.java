@@ -1,9 +1,8 @@
 package client;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 import server.listenerStuff.GameUpdateEvent;
 import server.listenerStuff.LobbiesUpdateEvent;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
@@ -12,14 +11,15 @@ import java.rmi.RemoteException;
 public class ClientTCP implements VirtualView, Client {
     private ClientDataStructure data;
     private Socket socket;
-    private ObjectOutputStream out = null;
+    private final ObjectOutputStream out;
     private final String ip = "127.0.0.1";   // saranno poi da prendere da arg / json
     private final int port = 2345;  // saranno poi da prendere da arg / json
+    private String userName = null;
 
     public ClientTCP() throws IOException {
         newConnection(ip,port);
         out = new ObjectOutputStream(socket.getOutputStream());
-        Runnable parser = new TCPserverParser(socket);
+        Runnable parser = new TCPserverParser(socket, this);
         Thread th = new Thread(parser);
         th.start();
 
@@ -64,6 +64,11 @@ public class ClientTCP implements VirtualView, Client {
             System.out.println(e.getMessage());
         }
         System.out.println("Data Sent ...");
+
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Override
@@ -84,5 +89,10 @@ public class ClientTCP implements VirtualView, Client {
     @Override
     public void sendChatMessage(String userName, String message, int visibility) {
 
+    }
+
+    @Override
+    public String getUserName() {
+        return userName;
     }
 }

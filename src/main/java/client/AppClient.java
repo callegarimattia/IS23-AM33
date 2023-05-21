@@ -7,7 +7,7 @@ public class AppClient {
     public static void main(String[] args) throws Exception {  // T for TCP, R for RMI
 
         Scanner in = new Scanner(System.in);
-        Client client = null;
+        Client client;
         System.out.println("Usage: T (or R) IPserver (T = TCP, R = RMI)");
         String str = in.next();
         if (str.equals("T") || str.equals("t")) {
@@ -18,13 +18,32 @@ public class AppClient {
             client.newConnection("localhost", 1099);  // dovranno essere presi da arg/json/CL
         }
 
-        System.out.println("insert username:");
-        str = in.next();
-        client.createUser(str);
 
 
+
+
+        System.out.println("List of commands: \n0: create user\n1: ask list of lobbies\n2: ...");
         while (true){
+            String x = in.next();
+            switch (x){
+                default:
+                    System.out.println("invalid command, try again");
+                    break;
+                case "0":
+                    if(client.getUserName() == null){
+                        System.out.println("insert userName: ");
+                        String st = in.next();
+                        client.createUser(st);
+                    }
+                    else {
+                        System.out.println("invalid command, username already setted");
+                    }
 
+                    break;
+                case "1":
+
+                    break;
+            }
         }
     }
 }

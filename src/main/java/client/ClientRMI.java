@@ -85,6 +85,11 @@ public class ClientRMI implements Client {
     }
 
     @Override
+    public String getUserName() {
+        return username;
+    }
+
+    @Override
     public void createUser(String newUsername) {
 
     }
