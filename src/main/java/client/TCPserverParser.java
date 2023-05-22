@@ -52,6 +52,14 @@ public class TCPserverParser implements Runnable {
                 default:
                     System.out.println("default branch, invalid type message");
                     break;
+                case -1: // answer to client closing his app
+                    if(obj.get("answer").toString().equals("1")){
+                        System.out.println("connection closed");
+                        // dovrei killare l intera app poi
+                        return;
+                    }
+
+                    break;
                 case 0:   //  risposta a createUser username
                     if(obj.get("answer").toString().equals("1")){
                         String ss = (String) obj.get("userName");

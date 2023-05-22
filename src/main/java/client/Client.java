@@ -10,7 +10,7 @@ public interface Client {
 
     //void pickAndInsert()
 
-
+    void shutDown();
     void createUser(String newUsername);
     void joinLobby(int lobbyID);
 

@@ -8,12 +8,10 @@ import server.model.User;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.SQLOutput;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,13 +57,28 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
     }
 
     public void removeUser(String toBeRemovedUsername) {
-        synchronized (users) {
+        synchronized (this) {
             for (User user : users)
-                if (user.getUserName().equals(toBeRemovedUsername) && user.isInLobby())
+                if (user.getUserName().equals(toBeRemovedUsername))
                     users.remove(user);
-            // bisogna anche rimuoverlo dalla lobby nel caso sia in una lobby e chiudere connessione
+            for(Lobby lobby : waitingLobbies)
+                for (User user : lobby.getUsers())
+                    if (user.getUserName().equals(toBeRemovedUsername)){
+                        lobby.removeUser(user);
+                        LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
+                        OnLobbyUpdate(evt);
+                    }
+
+            for(Lobby lobby : inGameLobbies)
+                for (User user : lobby.getUsers())
+                    if (user.getUserName().equals(toBeRemovedUsername) && user.isInLobby()){
+                        System.out.println("al momento niente");
+                        //  update speciale di fine partita e chiusura di tutti i (4 possibilmente) thread parser
+                    }
         }
     }
+
+
 
     /**
      * Given an user and a gameSize it creates a lobby with given gameSize.
@@ -106,13 +119,15 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         return false;
     }
 
-    private void removeLobby(Lobby toBeRemovedLobby, User user) {  // solo il creatore può e solo quando non è startata
-        synchronized (waitingLobbies) {
-            if (user.equals(toBeRemovedLobby.getUsers().get(0))) {
-                for (User us : toBeRemovedLobby.getUsers())
-                    us.setInLobby(false);
-                waitingLobbies.removeIf(lobby -> lobby.equals(toBeRemovedLobby));
-            }
+    public void removeLobby(String userName) {
+        synchronized (inGameLobbies) {
+            for(Lobby lobby : inGameLobbies)
+                for(User user: lobby.getUsers())
+                    if(user.getUserName().equals(userName)){
+                        for(User us : lobby.getUsers())
+                            users.remove(us);
+                        inGameLobbies.remove(lobby);
+                    }
         }
     }
 
@@ -180,7 +195,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         int lobbyID = -1;
         for (Lobby lobby : waitingLobbies) {
             if (lobby.getUsers().contains(leavingUser)) {
-                lobby.remove(leavingUser);
+                lobby.removeUser(leavingUser);
                 lobbyID = lobby.getID();
             }
         }
@@ -251,7 +266,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
     }
 
     @Override
-    public void refresh() {
+    public void refresh() {   // debug purpose onlly
         System.out.println("REFRESHED: ");
         System.out.println("USERS:  \n\n");
         for(User us: users){
@@ -289,6 +304,13 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             }
         }
 
+    }
+
+    @Override
+    public void addTCPparserToUser(String newUserUsername, TCPclientParser parser) {
+        for (User user: users)
+            if(user.getUserName().equals(newUserUsername))
+                user.setMyParser(parser);
     }
 
 

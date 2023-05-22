@@ -25,5 +25,13 @@ public interface LobbiesHandler {
     Set<User> getUsers();
 
     void startServer();
+
     void refresh();  // debug purpose only
+
+    void addTCPparserToUser(String newUserUsername, TCPclientParser parser);
+
+    void removeUser(String toBeRemovedUsername);
+
+    void removeLobby(String userName);
+
 }

@@ -21,13 +21,16 @@ public class AppClient {
 
 
 
-
-        System.out.println("List of commands: \n0: create user\n1: ask list of lobbies\n2: ...");
-        while (true){
+        boolean inGame = false;
+        System.out.println("List of commands: \n-1: exit game\n0: create user\n1: ask list of lobbies\n2: ...");
+        while (!inGame){
             String x = in.next();
             switch (x){
                 default:
                     System.out.println("invalid command, try again");
+                    break;
+                case "-1":
+                    client.shutDown();
                     break;
                 case "0":
                     if(client.getUserName() == null){
@@ -45,5 +48,7 @@ public class AppClient {
                     break;
             }
         }
+
+        //  nuovo ciclo con comandi di gioco
     }
 }

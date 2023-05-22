@@ -7,11 +7,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-class TCPclientParser implements Runnable {
+public class TCPclientParser implements Runnable {
     private final Socket mySocket;
     private final LobbiesHandler lobbiesHandler;
+    private final GameHandler gameHandler = null;
     ObjectInputStream in = null;
     ObjectOutputStream out = null;
+    private boolean inUser;
+    private boolean inLobby;  // ricorda di rimettere a falso quando saremo in partita
 
     // gestisce tutto il traffico tra il server e uno specifico client
     public TCPclientParser(Socket mySocket, LobbiesHandler lobbiesHandler) {
@@ -23,6 +26,8 @@ class TCPclientParser implements Runnable {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+        inUser = false;
+        inLobby = false;
     }
 
     @Override
@@ -53,12 +58,43 @@ class TCPclientParser implements Runnable {
                 default:
                     System.out.println("default, do nothing");
                     break;
-                case 0:  // 0   da gestire il fatto che creo user e gli metto dentro il socket solo quando il nickname è valido (devo anche iterare sugli altri user per vedere se ce gia uno user con quel socket)
-                    String stt = (String) obj.get("userName");
-                    if(lobbiesHandler.createUser(stt)){
+                case -1:  // client closing his app
+                    if(inUser){
+                        if(gameHandler != null){  // ovvero sono in game
+                            gameHandler.abortGame();  // manda messaggio finale e chiude tutti i 4 (potenzialmente) thread parser
+                            lobbiesHandler.removeLobby((String) obj.get("toBeDeletedUser"));
+                            return; // termino questo thread
+                        }
+                        if(inLobby){
+                            lobbiesHandler.removeUser((String) obj.get("toBeDeletedUser"));
+
+                        }
+                    }
+                    answer.put("type", -1);
+                    answer.put("answer", "1");
+                    try {
+                        out.writeObject(answer);
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    try {  // chiudo socket
+                        in.close();
+                        out.close();
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    System.out.println("connection with user "+(String) obj.get("toBeDeletedUser") +" closed");
+                    return;
+                case 0:  // 0   (NEW USER)
+                    // da gestire il fatto che creo user e gli metto dentro il socket solo quando il nickname è valido (devo anche iterare sugli altri user per vedere se ce gia uno user con quel socket)
+                    // gestiamo lato client il fatto che puo inviare certi comandi solo in certe situazioni
+                    String newUserUsername = (String) obj.get("userName");
+                    if(lobbiesHandler.createUser(newUserUsername)){
                         answer.put("type", 0);
                         answer.put("answer", "1");
-                        answer.put("userName", stt);
+                        answer.put("userName", newUserUsername);
+                        lobbiesHandler.addTCPparserToUser(newUserUsername,this);
+                        inUser = true;
                     }
                     else {
                         answer.put("type", 0);

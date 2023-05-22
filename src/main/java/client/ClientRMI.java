@@ -39,6 +39,11 @@ public class ClientRMI implements Client {
         }
     }
 
+    @Override
+    public void shutDown() {
+
+    }
+
 
     @Override
     public void joinLobby(int lobbyID) {

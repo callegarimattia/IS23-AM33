@@ -53,6 +53,21 @@ public class ClientTCP implements VirtualView, Client {
     }
 
     @Override
+    public void shutDown() {  // -1
+        JSONObject obj = new JSONObject();
+        obj.put("type", -1);
+        if(userName != null)
+            obj.put("toBeDeletedUser", userName);
+        String message = obj.toString();
+        try {
+            out.writeObject(message);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println("Data Sent ...");
+    }
+
+    @Override
     public void createUser(String newUsername) {  // 0
         JSONObject obj = new JSONObject();
         obj.put("type", 0);
@@ -64,7 +79,6 @@ public class ClientTCP implements VirtualView, Client {
             System.out.println(e.getMessage());
         }
         System.out.println("Data Sent ...");
-
     }
 
     public void setUserName(String userName) {

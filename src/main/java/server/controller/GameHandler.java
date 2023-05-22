@@ -10,4 +10,5 @@ import java.util.List;
 public interface GameHandler {
 
     boolean pickAndInsert(User user, List<MainBoardCoordinates> coordinates, int column) throws InputException, LastRoundException;
+    void abortGame();
 }

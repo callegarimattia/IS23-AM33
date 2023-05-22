@@ -1,6 +1,8 @@
 package server.model;
 
+import client.TCPserverParser;
 import client.VirtualView;
+import server.controller.TCPclientParser;
 
 import java.io.Serializable;
 import java.net.Socket;
@@ -10,7 +12,7 @@ public class User implements Serializable {
     private final String userName;
     private boolean inGame = false;
     private boolean inLobby = false;
-    private Socket mySocket;
+    private TCPclientParser myParser;
 
     private VirtualView myClient = null;
 
@@ -64,11 +66,11 @@ public class User implements Serializable {
         return "user:" + userName;
     }
 
-    public Socket getMySocket() {
-        return mySocket;
+    public TCPclientParser getMyParser() {
+        return myParser;
     }
 
-    public void setMySocket(Socket mySocket) {
-        this.mySocket = mySocket;
+    public void setMyParser(TCPclientParser myParser) {
+        this.myParser = myParser;
     }
 }

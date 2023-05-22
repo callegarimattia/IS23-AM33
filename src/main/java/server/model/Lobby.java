@@ -46,7 +46,7 @@ public class Lobby {
         return false;
     }
 
-    public void remove(User toBeRemovedUser) {
+    public void removeUser(User toBeRemovedUser) {
         lobbyUsers.remove(toBeRemovedUser);
         toBeRemovedUser.setInLobby(false);
     }

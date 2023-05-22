@@ -27,6 +27,11 @@ public class GameHandlerImpl implements GameHandler {   // controller per Game
         return false;
     }
 
+    @Override
+    public void abortGame() {
+        // manda messaggi finali e chiude socket / connessioni RMI
+    }
+
     public void ChatMessage(String Sender, String Text, List<String> recipients){  // special value if recipients is broadcast
         //...
     }
