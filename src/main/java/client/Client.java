@@ -20,5 +20,6 @@ public interface Client {
 
     void sendChatMessage(String userName, String message, int visibility);
     String getUserName();
+    void lobbyListRequest();
 
 }

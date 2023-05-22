@@ -95,6 +95,11 @@ public class ClientRMI implements Client {
     }
 
     @Override
+    public void lobbyListRequest() {
+
+    }
+
+    @Override
     public void createUser(String newUsername) {
 
     }

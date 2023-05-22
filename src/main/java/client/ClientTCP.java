@@ -52,19 +52,22 @@ public class ClientTCP implements VirtualView, Client {
         }
     }
 
-    @Override
-    public void shutDown() {  // -1
-        JSONObject obj = new JSONObject();
-        obj.put("type", -1);
-        if(userName != null)
-            obj.put("toBeDeletedUser", userName);
-        String message = obj.toString();
+    private void sendMessage(String message){
         try {
             out.writeObject(message);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
         System.out.println("Data Sent ...");
+    }
+
+    @Override
+    public void shutDown() {  // -1
+        JSONObject obj = new JSONObject();
+        obj.put("type", -1);
+        if(userName != null)
+            obj.put("toBeDeletedUser", userName);
+        sendMessage(obj.toString());
     }
 
     @Override
@@ -72,21 +75,27 @@ public class ClientTCP implements VirtualView, Client {
         JSONObject obj = new JSONObject();
         obj.put("type", 0);
         obj.put("userName", newUsername);
-        String message = obj.toString();
-        try {
-            out.writeObject(message);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-        System.out.println("Data Sent ...");
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+        sendMessage(obj.toString());
     }
 
     @Override
-    public void joinLobby(int lobbyID) {  //  1
+    public void lobbyListRequest() {  // 1
+        JSONObject obj = new JSONObject();
+        obj.put("type", 1);
+        sendMessage(obj.toString());
+    }
+
+    @Override
+    public void createLobby(int gameSize) {  // 2
+        JSONObject obj = new JSONObject();
+        obj.put("type", 2);
+        obj.put("size", gameSize);
+        obj.put("firstUserUserName", userName);
+        sendMessage(obj.toString());
+    }
+
+    @Override
+    public void joinLobby(int lobbyID) {  //
 
     }
 
@@ -95,10 +104,7 @@ public class ClientTCP implements VirtualView, Client {
 
     }
 
-    @Override
-    public void createLobby(int gameSize) {
 
-    }
 
     @Override
     public void sendChatMessage(String userName, String message, int visibility) {
@@ -109,4 +115,10 @@ public class ClientTCP implements VirtualView, Client {
     public String getUserName() {
         return userName;
     }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+
 }

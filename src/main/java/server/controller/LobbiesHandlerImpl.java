@@ -228,7 +228,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
     }
 
     @Override
-    public Set<Lobby> getLobbies() {  // delete
+    public Set<Lobby> getWaitingLobbies() {  // delete
         return waitingLobbies;
     }
 
@@ -268,7 +268,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
     @Override
     public void refresh() {   // debug purpose onlly
         System.out.println("REFRESHED: ");
-        System.out.println("USERS:  \n\n");
+        System.out.println("ALL USERS:  \n");
         for(User us: users){
             System.out.println("username:  " + us.getUserName());
             System.out.println("is in lobby:  " + us.isInLobby());
@@ -276,7 +276,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             System.out.println();
         }
 
-        System.out.println("\n\nIN GAME LOBBIES: \n\n" );
+        System.out.println("\nIN GAME LOBBIES: \n\n" );
         for(Lobby lobby : inGameLobbies){
             System.out.println("ID:  " + lobby.getID());
             System.out.println("size:  " + lobby.getGameSize());
@@ -290,12 +290,13 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             }
         }
 
-        System.out.println("\n\nPRE GAME LOBBIES: \n\n" );
+        System.out.println("\nPRE GAME LOBBIES: \n" );
         for(Lobby lobby : waitingLobbies){
             System.out.println("ID:  " + lobby.getID());
+            System.out.println("Current size:  " + lobby.getUsers().size());
             System.out.println("To be reached size:  " + lobby.getGameSize());
             System.out.println("isFull:  " + lobby.isFull());
-            System.out.println("users: \n\n");
+            System.out.println("users: \n");
             for(User us : lobby.getUsers()){
                 System.out.println("username:  " + us.getUserName());
                 System.out.println("is in lobby:  " + us.isInLobby());

@@ -20,7 +20,7 @@ class LobbiesHandlerTest {
 
     @AfterEach
     void teardown() {
-        lobbyTester.getLobbies().clear();
+        lobbyTester.getWaitingLobbies().clear();
         lobbyTester.getUsers().clear();
     }
 

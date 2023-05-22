@@ -20,7 +20,7 @@ public interface LobbiesHandler {
 
     boolean leaveLobby(String leavingUser);
 
-    Set<Lobby> getLobbies();
+    Set<Lobby> getWaitingLobbies();
 
     Set<User> getUsers();
 

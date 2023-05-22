@@ -2,10 +2,16 @@ package server.controller;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import server.model.Lobby;
+import server.model.User;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class TCPclientParser implements Runnable {
     private final Socket mySocket;
@@ -14,7 +20,6 @@ public class TCPclientParser implements Runnable {
     ObjectInputStream in = null;
     ObjectOutputStream out = null;
     private boolean inUser;
-    private boolean inLobby;  // ricorda di rimettere a falso quando saremo in partita
 
     // gestisce tutto il traffico tra il server e uno specifico client
     public TCPclientParser(Socket mySocket, LobbiesHandler lobbiesHandler) {
@@ -27,7 +32,14 @@ public class TCPclientParser implements Runnable {
             System.out.println(e.getMessage());
         }
         inUser = false;
-        inLobby = false;
+    }
+
+    private void sendAnswer(JSONObject answer){
+        try {
+            out.writeObject(answer);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
@@ -51,7 +63,6 @@ public class TCPclientParser implements Runnable {
             } catch (ParseException e) {
                 System.out.println(e.getMessage());
             }
-
             long x = (long) obj.get("type");
             JSONObject answer = new JSONObject();
             switch ((int)x) {
@@ -59,38 +70,37 @@ public class TCPclientParser implements Runnable {
                     System.out.println("default, do nothing");
                     break;
                 case -1:  // client closing his app
+                    answer = new JSONObject();
                     if(inUser){
                         if(gameHandler != null){  // ovvero sono in game
                             gameHandler.abortGame();  // manda messaggio finale e chiude tutti i 4 (potenzialmente) thread parser
-                            lobbiesHandler.removeLobby((String) obj.get("toBeDeletedUser"));
+                            lobbiesHandler.removeLobby((String) obj.get("toBeDeletedUser"));  // ed elimina anche tuttu i (4) user
                             return; // termino questo thread
                         }
-                        if(inLobby){
+                        else{  // sia che sia in una waitingLobby sia che sia un user e basta
                             lobbiesHandler.removeUser((String) obj.get("toBeDeletedUser"));
-
                         }
                     }
                     answer.put("type", -1);
                     answer.put("answer", "1");
-                    try {
-                        out.writeObject(answer);
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-                    }
+                    sendAnswer(answer);
                     try {  // chiudo socket
                         in.close();
                         out.close();
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
-                    System.out.println("connection with user "+(String) obj.get("toBeDeletedUser") +" closed");
+                    System.out.println("connection with user "+ obj.get("toBeDeletedUser") +" closed and user deleted");
                     return;
                 case 0:  // 0   (NEW USER)
-                    // da gestire il fatto che creo user e gli metto dentro il socket solo quando il nickname è valido (devo anche iterare sugli altri user per vedere se ce gia uno user con quel socket)
-                    // gestiamo lato client il fatto che puo inviare certi comandi solo in certe situazioni
+                    answer = new JSONObject();
+                    answer.put("type", 0);
+                    // gestiamo lato client il fatto che puo inviare certi comandi solo in certe situazioni oppure vogliamo fare server super safe ?
+                    if(inUser){
+                        answer.put("answer", "-1");
+                    }
                     String newUserUsername = (String) obj.get("userName");
                     if(lobbiesHandler.createUser(newUserUsername)){
-                        answer.put("type", 0);
                         answer.put("answer", "1");
                         answer.put("userName", newUserUsername);
                         lobbiesHandler.addTCPparserToUser(newUserUsername,this);
@@ -100,22 +110,64 @@ public class TCPclientParser implements Runnable {
                         answer.put("type", 0);
                         answer.put("answer", "0");
                     }
-                    try {
-                        out.writeObject(answer);
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
+                    sendAnswer(answer);
+                    break;
+                case 1:  // 1  ListOfLobbiesRequest
+                    answer = new JSONObject();
+                    answer.put("type", 1);
+                    if(lobbiesHandler.getWaitingLobbies().size() > 0){
+                        answer.put("answer", "1");
+                        List<Integer> lobbiesIDs = new ArrayList<>();
+                        List<Integer> lobbiesCurrentSize = new ArrayList<>();
+                        List<Integer> lobbiesMaxSizes = new ArrayList<>();
+                        Set<Lobby> waitingLobbyList = lobbiesHandler.getWaitingLobbies();
+                        for(Lobby lobby : waitingLobbyList){
+                            lobbiesIDs.add(lobby.getID());
+                            lobbiesCurrentSize.add(lobby.getUsers().size());
+                            lobbiesMaxSizes.add(lobby.getGameSize());
+                        }
+                        answer.put("IDs", lobbiesIDs);
+                        answer.put("CurrentSizes", lobbiesCurrentSize);
+                        answer.put("MaxSizes", lobbiesMaxSizes);
                     }
+                    else {
+                        answer.put("answer","0");
+                    }
+                    sendAnswer(answer);
                     break;
-                case 1:  // 1
-                    //  lobbiesHandler.joinLobby(params.get(1),(int)params.get(1) );
-                    break;
-                case 2:  // 2
+                case 2:  // 2 new lobby creation request
+                    answer = new JSONObject();
+                    answer.put("type", 2);
+                    if ( !inUser) {
+                        answer.put("answer", "-1");  // bisgona prima creare lo user
+                        sendAnswer(answer);
+                        break;
+                    }
+                    if((long) obj.get("size") > 4 || (long) obj.get("size") < 2){
+                        answer.put("answer", "-2");  // invalid game size
+                        sendAnswer(answer);
+                        break;
+                    }
+                    User myUser = null;
+                    for(User user : lobbiesHandler.getUsers())
+                        if(user.getUserName().equals(obj.get("firstUserUserName")))
+                            myUser = user;
+                    if(gameHandler != null || myUser.isInLobby()){
+                        answer.put("answer", "0");  // cant create lobby when in a game or in a lobby
+                        sendAnswer(answer);
+                        break;
+                    }
+                    else {
+                        long size = (long) obj.get("size");
+                        int newID = lobbiesHandler.createLobby((String) obj.get("firstUserUserName"),(int)size);
+                        lobbiesHandler.joinLobby((String) obj.get("firstUserUserName"), newID);
+                        answer.put("answer","1");
+                        answer.put("ID", newID);
+                        sendAnswer(answer);
+                        break;
+                    }
+                case 3:   //
 
-                    break;
-                case 3:   // disconnessine client  ---> chiusura partita
-                  //  bool = false;
-                    //  mando messaggi finali
-                    isClientActive = false;
                     break;
             }
 

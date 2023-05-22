@@ -4,13 +4,17 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TCPserverParser implements Runnable {
     private final Socket socket;
     private final ClientTCP clientTCP;  // sarebbe forse meglio definire un interfaccia apposita
+    private Integer myLobbyID;
     public TCPserverParser(Socket socket, ClientTCP clientTCP) {
         this.socket = socket;
         this.clientTCP = clientTCP;
+        myLobbyID = null;
     }
 
 
@@ -46,8 +50,7 @@ public class TCPserverParser implements Runnable {
             } catch (ParseException e) {
                 System.out.println(e.getMessage());
             }
-
-            long x = (long)obj.get("type");
+            long x = (long) obj.get("type");
             switch ((int)x) {
                 default:
                     System.out.println("default branch, invalid type message");
@@ -65,20 +68,43 @@ public class TCPserverParser implements Runnable {
                         String ss = (String) obj.get("userName");
                         clientTCP.setUserName(ss);
                         System.out.println("userName "+ss+" successfully set");
-                        break;
                     }
                     if(obj.get("answer").toString().equals("0")){
                         System.out.println("userName already taken, press 0 and enter a new one: ");
-                        break;
+                    }
+                    if(obj.get("answer").toString().equals("-1")){
+                        System.out.println("can't create a new user, this client already has an associated User");
                     }
                     break;
-                case 1: // create user answer
+                case 1: // lobby list request answer
+                    if(obj.get("answer").toString().equals("1")){
+                        List<Integer> lobbiesIDs = (List<Integer>) obj.get("IDs");
+                        List<Integer> lobbiesCurrentSize = (List<Integer>) obj.get("CurrentSizes");
+                        List<Integer> lobbiesMaxSizes = (List<Integer>) obj.get("lobbiesMaxSizes");
+                        for(int i = 0; i < lobbiesIDs.size(); i++)
+                            System.out.println("ID: "+lobbiesIDs.get(i)+" current size: "+lobbiesCurrentSize.get(i)+" max size: "+lobbiesMaxSizes.get(i));
 
-
+                    }
+                    else if (obj.get("answer").toString().equals("0")){
+                        System.out.println("no lobbies yet");
+                    }
                     break;
-                case 2:
-
-
+                case 2:  // answer to new lobby creation request
+                    switch (obj.get("answer").toString()){
+                        case "0" :
+                            System.out.println("cant create lobby when in a game or in a lobby, press 2 again");
+                            break;
+                        case  "-1":
+                            System.out.println("cant create lobby without creating an user first, press 2 again");
+                            break;
+                        case "-2":
+                            System.out.println("invalid game size, press 2 again");
+                            break;
+                        case "1":
+                            myLobbyID = (int)(long) obj.get("ID");
+                            System.out.println("new lobby created (and joined), ID: "+myLobbyID);
+                            break;
+                    }
                     break;
                 case 99:
                     //  messaggio con punteggi e vincitori

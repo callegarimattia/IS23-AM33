@@ -22,7 +22,7 @@ public class AppClient {
 
 
         boolean inGame = false;
-        System.out.println("List of commands: \n-1: exit game\n0: create user\n1: ask list of lobbies\n2: ...");
+        System.out.println("List of commands: \n-1: exit game\n0: create user\n1: ask list of lobbies\n2: new lobby");
         while (!inGame){
             String x = in.next();
             switch (x){
@@ -34,7 +34,7 @@ public class AppClient {
                     break;
                 case "0":
                     if(client.getUserName() == null){
-                        System.out.println("insert userName: ");
+                        System.out.print("insert userName: ");
                         String st = in.next();
                         client.createUser(st);
                     }
@@ -44,6 +44,17 @@ public class AppClient {
 
                     break;
                 case "1":
+                    client.lobbyListRequest();
+                    break;
+                case "2":
+                    System.out.print("insert game size (max 4) : ");
+                    int size = in.nextInt();
+                    client.createLobby(size);
+                    break;
+                case "3":
+
+                    break;
+                case "4":
 
                     break;
             }
