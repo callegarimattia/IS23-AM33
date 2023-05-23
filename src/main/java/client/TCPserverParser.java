@@ -80,7 +80,7 @@ public class TCPserverParser implements Runnable {
                     if(obj.get("answer").toString().equals("1")){
                         List<Integer> lobbiesIDs = (List<Integer>) obj.get("IDs");
                         List<Integer> lobbiesCurrentSize = (List<Integer>) obj.get("CurrentSizes");
-                        List<Integer> lobbiesMaxSizes = (List<Integer>) obj.get("lobbiesMaxSizes");
+                        List<Integer> lobbiesMaxSizes = (List<Integer>) obj.get("MaxSizes");
                         for(int i = 0; i < lobbiesIDs.size(); i++)
                             System.out.println("ID: "+lobbiesIDs.get(i)+" current size: "+lobbiesCurrentSize.get(i)+" max size: "+lobbiesMaxSizes.get(i));
 
@@ -95,7 +95,7 @@ public class TCPserverParser implements Runnable {
                             System.out.println("cant create lobby when in a game or in a lobby, press 2 again");
                             break;
                         case  "-1":
-                            System.out.println("cant create lobby without creating an user first, press 2 again");
+                            System.out.println("cant create lobby without creating an user first");
                             break;
                         case "-2":
                             System.out.println("invalid game size, press 2 again");
@@ -106,7 +106,69 @@ public class TCPserverParser implements Runnable {
                             break;
                     }
                     break;
+                case 3:  //  join lobby request answer
+                    switch (obj.get("answer").toString()){
+                        case "0" :
+                            System.out.println("user is already in a lobby");
+                            break;
+                        case  "-1":
+                            System.out.println("lobby doesn't exist, press 3 again: ");
+                            break;
+                        case  "-2":
+                            System.out.println("cant join lobby without creating an user first");
+                            break;
+                        case "1":
+                            myLobbyID = (int)(long) obj.get("ID");
+                            System.out.println("lobby successfully joined");
+                            break;
+                    }
+
+                    break;
+                case 4:
+                    switch (obj.get("answer").toString()){
+                        case "0" :
+                            System.out.println("error, user is not in a lobby");
+                            break;
+                        case  "-1":
+                            System.out.println("error, user is in an active game, cant leave lobby (shut down app if you want)");
+                            break;
+                        case "1":
+                            System.out.println("lobby successfully left");
+                            break;
+                    }
+                    break;
+                case 777:
+                    System.out.println("partita cominciata, new commands:\n-1: close app / abort game\n5: ask game refresh\n6: pick and insert" );
+                    List<String> playersUsernames = (List<String>) obj.get("playersUsernames");
+                    Integer[][] mainBoard = (Integer[][]) obj.get("mainBoard");
+                    List<Integer[][]> playersShelfs = (List<Integer[][]>) obj.get("playerShelfs");
+                    System.out.println("mainBoard: ");
+                    for(int i = 0; i < 9; i++)
+                        for (int j = 0; j<9; j++)
+                            System.out.println(mainBoard[i][j]);
+                    for(int i = 0; i < playersUsernames.size(); i++){
+                        System.out.println(playersUsernames.get(i));
+                        for(int k = 0; i < 6; i++)
+                            for (int j = 0; j<5; j++)
+                                System.out.println(playersShelfs.get(i)[k][j]);
+                    }
+
+
+                    break;
+                case 6:
+
+                    break;
                 case 99:
+                    System.out.println("LOBBIES UPDATE RECIVED:");
+                    List<Integer> lobbiesIDs = (List<Integer>) obj.get("IDs");
+                    List<Integer> lobbiesCurrentSize = (List<Integer>) obj.get("CurrentSizes");
+                    List<Integer> lobbiesMaxSizes = (List<Integer>) obj.get("MaxSizes");
+                    for(int i = 0; i < lobbiesIDs.size(); i++)
+                        System.out.println("ID: "+lobbiesIDs.get(i)+" current size: "+lobbiesCurrentSize.get(i)+" max size: "+lobbiesMaxSizes.get(i));
+
+
+                    break;
+                case 8:
                     //  messaggio con punteggi e vincitori
                     //  bool = false;
                     //  mando messaggi finali

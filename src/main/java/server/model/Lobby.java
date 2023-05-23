@@ -1,6 +1,8 @@
 package server.model;
 
+import server.controller.GameHandler;
 import server.controller.GameHandlerImpl;
+import server.controller.TCPclientParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,31 +40,31 @@ public class Lobby {
         return ID;
     }
 
-    public boolean add(User newUser) {  // ritorna true se deve essere startata
+    public void add(User newUser) {  // ritorna true se deve essere startata
         lobbyUsers.add(newUser);
         newUser.setInLobby(true);
-        if(lobbyUsers.size()==gameSize)
-            return true;
-        return false;
     }
 
     public void removeUser(User toBeRemovedUser) {
-        lobbyUsers.remove(toBeRemovedUser);
         toBeRemovedUser.setInLobby(false);
+        lobbyUsers.remove(toBeRemovedUser);
     }
 
-    public void initGame() {
+    public GameHandler initGame() {
         List<Player> players = new ArrayList<>();
         for (User user : lobbyUsers) {
             user.setInGame(true);
             user.setInLobby(false);
-            players.add(new Player(user.getUserName(), user.getMyClient()));
+            if(user.getMyClient()!=null)
+                players.add(new Player(user.getUserName(), user.getMyClient()));
+            else
+                players.add(new Player(user.getUserName(), user.getMyParser().getOut()));
         }
         Game myGame = new Game(players);
         gameHandler = new GameHandlerImpl(myGame);
+        return gameHandler;
     }
 
-    // quando il game sarà finito devo cancellare gli users e la lobby da lobbyHandler
 
     public GameHandlerImpl getGameHandler() {
         return gameHandler;

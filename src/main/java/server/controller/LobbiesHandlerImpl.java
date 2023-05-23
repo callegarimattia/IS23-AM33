@@ -1,18 +1,20 @@
 package server.controller;
-
+import org.json.simple.JSONObject;
 import server.Server;
 import server.exceptions.LobbiesHandlerException;
 import server.listenerStuff.LobbiesUpdateEvent;
 import server.model.Lobby;
 import server.model.User;
-
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controller per Lobby
@@ -50,30 +52,33 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
      * @return user or null if not present
      */
     @Override
-    public boolean searchUser(String username) {  // da cancellare credo
+    public boolean isUserPresent(String username) {  // da cancellare credo
         for (User user : users)
             if (user.getUserName().equals(username)) return true;
         return false;
     }
 
-    public void removeUser(String toBeRemovedUsername) {
+    @Override
+    public User searchUser(String userName) {
+        for(User user: users)
+            if(user.getUserName().equals(userName))
+                return user;
+        return null;
+    }
+
+    public void removeUser(String toBeRemovedUsername) {  // rimuove uno user da lista users e waiting lobbies
         synchronized (this) {
+            User toBeRem = searchUser(toBeRemovedUsername);
             for (User user : users)
-                if (user.getUserName().equals(toBeRemovedUsername))
+                if (user.equals(toBeRem))
                     users.remove(user);
             for(Lobby lobby : waitingLobbies)
                 for (User user : lobby.getUsers())
-                    if (user.getUserName().equals(toBeRemovedUsername)){
+                    if (user.equals(toBeRem)){
                         lobby.removeUser(user);
                         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
                         OnLobbyUpdate(evt);
-                    }
-
-            for(Lobby lobby : inGameLobbies)
-                for (User user : lobby.getUsers())
-                    if (user.getUserName().equals(toBeRemovedUsername) && user.isInLobby()){
-                        System.out.println("al momento niente");
-                        //  update speciale di fine partita e chiusura di tutti i (4 possibilmente) thread parser
+                        break;
                     }
         }
     }
@@ -90,10 +95,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
      */
     @Override
     public synchronized int createLobby(String username, int gameSize) {
-        User firstUser = null;
-        for (User user : users) {
-            if (user.getUserName().equals(username)) firstUser = user;
-        }
+        User firstUser = searchUser(username);
         if (firstUser == null) return -1;
 
         if (firstUser.isInLobby() ||
@@ -106,20 +108,29 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         System.out.println("SERVER: CREATED NEW LOBBY ID(" + newLobby.getID() + ") WITH GAME SIZE " + gameSize);
         joinLobby(username, newLobby.getID());
 
-        LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
-        OnLobbyUpdate(evt);
         return newLobby.getID();
     }
 
     @Override
-    public boolean searchLobby(int lobbyId) {
+    public boolean isLobbyPresent(int lobbyId) {
         for (Lobby lobby : waitingLobbies) {
             if (lobby.getID() == lobbyId) return true;
         }
         return false;
     }
 
-    public void removeLobby(String userName) {
+    @Override
+    public Lobby searchLobby(int ID) {
+        for(Lobby lobby : waitingLobbies)
+            if(lobby.getID() == ID)
+                return lobby;
+        for(Lobby lobby : inGameLobbies)
+            if(lobby.getID() == ID)
+                return lobby;
+        return null;
+    }
+
+    public void abortLobby(String userName) {  // cancella la lobby e tutti i suoi user (metodo chiamato quando finisce la partita per qualche motivo)
         synchronized (inGameLobbies) {
             for(Lobby lobby : inGameLobbies)
                 for(User user: lobby.getUsers())
@@ -129,6 +140,8 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
                         inGameLobbies.remove(lobby);
                     }
         }
+        LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
+        OnLobbyUpdate(evt);
     }
 
     /**
@@ -154,23 +167,53 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             if (lobby.getID() == lobbyID) {
                 if (lobby.isFull()) return false;
                 else {
+                    lobby.add(joiningUser);
                     LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
                     OnLobbyUpdate(evt);
                     System.out.println("SERVER: LOBBY ID(" + lobbyID + ") JOINED BY ('" + username + "')");
-                    return lobby.add(joiningUser);
+                    if(lobby.isFull()) // controllo se deve partire il game
+                        startGame(lobby.getID());
+                    return true;
                 }
             }
         return false;
     }
 
-    private void OnLobbyUpdate(LobbiesUpdateEvent evt) {   // per ora solo RMI
+    private void OnLobbyUpdate(LobbiesUpdateEvent evt) {
+        // RMI:
         for (User user : users)
-            try {
-                if (user.getMyClient() != null)
-                    user.getMyClient().LobbiesUpdate(evt);
-            } catch (RemoteException e) {
-                System.out.println("remote method invocation failed");
-            }
+            if(!user.isInGame())
+                try {
+                    if (user.getMyClient() != null)
+                        user.getMyClient().LobbiesUpdate(evt);
+                } catch (RemoteException e) {
+                    System.out.println("remote method invocation failed");
+                }
+        // TCP:
+        for(User user : users)
+            if(!user.isInGame())
+                if(user.getMyParser()!= null){
+                    ObjectOutputStream myOut = user.getMyParser().getOut();
+                    JSONObject answer = new JSONObject();
+                    Set<Lobby> updatedWaitingLobbies = evt.getWaitingLobbies();
+                    List<Integer> lobbiesIDs = new ArrayList<>();
+                    List<Integer> lobbiesCurrentSize = new ArrayList<>();
+                    List<Integer> lobbiesMaxSizes = new ArrayList<>();
+                    for(Lobby lobby : updatedWaitingLobbies){
+                        lobbiesIDs.add(lobby.getID());
+                        lobbiesCurrentSize.add(lobby.getUsers().size());
+                        lobbiesMaxSizes.add(lobby.getGameSize());
+                    }
+                    answer.put("type", 99);
+                    answer.put("IDs", lobbiesIDs);
+                    answer.put("CurrentSizes", lobbiesCurrentSize);
+                    answer.put("MaxSizes", lobbiesMaxSizes);
+                    try {
+                        myOut.writeObject(answer);
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
     }
 
     /**
@@ -208,14 +251,21 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
     }
 
     private synchronized boolean startGame(int toBeStartedLobbyID) {
-        Lobby toBeStartedLobby = null;
-        for (Lobby lobby : waitingLobbies)
-            if (lobby.getID() == toBeStartedLobbyID) toBeStartedLobby = lobby;
+        Lobby toBeStartedLobby = searchLobby(toBeStartedLobbyID);
         if (toBeStartedLobby == null) return false;
         if (!toBeStartedLobby.isFull()) return false;
+
+
+        GameHandler gameHandler = toBeStartedLobby.initGame();   //creates game, game controller and passes RMI refs & TCP outs from users to players
+        for(User user : toBeStartedLobby.getUsers())
+            if(user.getMyParser() != null){
+                user.getMyParser().setGameHandler(gameHandler);
+                user.getMyParser().setLobbiesHandler(null);
+            }
+
+
         inGameLobbies.add(toBeStartedLobby);
         waitingLobbies.remove(toBeStartedLobby);
-        toBeStartedLobby.initGame();  //creates game and game controller
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
         OnLobbyUpdate(evt);
         System.out.println("SERVER: LOBBY " + toBeStartedLobbyID + " GAME STARTED");
@@ -232,8 +282,13 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         return waitingLobbies;
     }
 
+    @Override
+    public Set<Lobby> getInGameLobbies() {
+        return inGameLobbies;
+    }
+
     private void startTCP() {
-        ServerSocket serverSocket = null;
+        ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(TCPport);
         } catch (final IOException e) {
@@ -247,7 +302,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
     }
 
     private void startRMI(){
-        Registry registry = null;
+        Registry registry;
         try {
             registry = LocateRegistry.createRegistry(1099);
             Server stub = (Server) UnicastRemoteObject
@@ -276,18 +331,20 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             System.out.println();
         }
 
-        System.out.println("\nIN GAME LOBBIES: \n\n" );
+        System.out.println("IN GAME LOBBIES: \n" );
         for(Lobby lobby : inGameLobbies){
             System.out.println("ID:  " + lobby.getID());
             System.out.println("size:  " + lobby.getGameSize());
             System.out.println("isFull:  " + lobby.isFull());
-            System.out.println("users: \n\n");
+            System.out.println("users: \n");
             for(User us : lobby.getUsers()){
                 System.out.println("username:  " + us.getUserName());
                 System.out.println("is in lobby:  " + us.isInLobby());
                 System.out.println("is in game:  " + us.isInGame());
                 System.out.println();
             }
+
+
         }
 
         System.out.println("\nPRE GAME LOBBIES: \n" );
@@ -299,9 +356,6 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             System.out.println("users: \n");
             for(User us : lobby.getUsers()){
                 System.out.println("username:  " + us.getUserName());
-                System.out.println("is in lobby:  " + us.isInLobby());
-                System.out.println("is in game:  " + us.isInGame());
-                System.out.println();
             }
         }
 

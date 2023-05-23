@@ -5,7 +5,7 @@ import server.listenerStuff.LobbiesUpdateEvent;
 import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
-
+import java.util.Scanner;
 
 
 public class ClientTCP implements VirtualView, Client {
@@ -15,6 +15,8 @@ public class ClientTCP implements VirtualView, Client {
     private final String ip = "127.0.0.1";   // saranno poi da prendere da arg / json
     private final int port = 2345;  // saranno poi da prendere da arg / json
     private String userName = null;
+    private final int gameStatus;
+    private Scanner in;
 
     public ClientTCP() throws IOException {
         newConnection(ip,port);
@@ -22,7 +24,7 @@ public class ClientTCP implements VirtualView, Client {
         Runnable parser = new TCPserverParser(socket, this);
         Thread th = new Thread(parser);
         th.start();
-
+        gameStatus = 0;
         // ci sarà poi ciclo while nel main che chiama i metodi utente
 
     }
@@ -71,11 +73,19 @@ public class ClientTCP implements VirtualView, Client {
     }
 
     @Override
-    public void createUser(String newUsername) {  // 0
-        JSONObject obj = new JSONObject();
-        obj.put("type", 0);
-        obj.put("userName", newUsername);
-        sendMessage(obj.toString());
+    public void createUser() {  // 0
+        if(userName == null){
+            System.out.print("insert userName: ");
+            Scanner in = new Scanner(System.in);
+            String newUsername = in.next();
+            JSONObject obj = new JSONObject();
+            obj.put("type", 0);
+            obj.put("userName", newUsername);
+            sendMessage(obj.toString());
+        }
+        else {
+            System.out.println("invalid command, username already setted");
+        }
     }
 
     @Override
@@ -86,22 +96,32 @@ public class ClientTCP implements VirtualView, Client {
     }
 
     @Override
-    public void createLobby(int gameSize) {  // 2
+    public void createLobby(int size) {  // 2
+        System.out.print("insert game size (max 4) : ");
+        Scanner in = new Scanner(System.in);
+        int gameSize = in.nextInt();
         JSONObject obj = new JSONObject();
         obj.put("type", 2);
         obj.put("size", gameSize);
-        obj.put("firstUserUserName", userName);
         sendMessage(obj.toString());
     }
 
     @Override
-    public void joinLobby(int lobbyID) {  //
-
+    public void joinLobby(int lobbyID) {  // 3
+        System.out.print("insert to be joined lobby ID: ");
+        Scanner in = new Scanner(System.in);
+        int ID = in.nextInt();
+        JSONObject obj = new JSONObject();
+        obj.put("type", 3);
+        obj.put("tobeJoinedLobbyID", ID);
+        sendMessage(obj.toString());
     }
 
     @Override
-    public void leaveLobby() {
-
+    public void leaveLobby() {  // 4
+        JSONObject obj = new JSONObject();
+        obj.put("type", 4);
+        sendMessage(obj.toString());
     }
 
 

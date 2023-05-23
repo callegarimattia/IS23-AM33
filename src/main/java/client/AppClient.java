@@ -21,45 +21,37 @@ public class AppClient {
 
 
 
+        //  CLI
+
         boolean inGame = false;
-        System.out.println("List of commands: \n-1: exit game\n0: create user\n1: ask list of lobbies\n2: new lobby");
+        System.out.println("List of commands: \n-1: exit game\n0: create user\n1: ask list of lobbies\n2: new lobby\n3: join lobby\n4: leave lobby");
         while (!inGame){
             String x = in.next();
             switch (x){
                 default:
                     System.out.println("invalid command, try again");
                     break;
-                case "-1":
+                case "-1":  // close app
                     client.shutDown();
                     break;
-                case "0":
-                    if(client.getUserName() == null){
-                        System.out.print("insert userName: ");
-                        String st = in.next();
-                        client.createUser(st);
-                    }
-                    else {
-                        System.out.println("invalid command, username already setted");
-                    }
-
+                case "0":  // create user
+                    client.createUser();
                     break;
-                case "1":
+                case "1":  // lobbies list request
                     client.lobbyListRequest();
                     break;
-                case "2":
-                    System.out.print("insert game size (max 4) : ");
-                    int size = in.nextInt();
-                    client.createLobby(size);
+                case "2":  // create lobby
+                    client.createLobby(666); // parametro sieze viene in realta chiesto nel metodo ma non volevo rompere RMI
                     break;
-                case "3":
-
+                case "3":  // join lobby
+                    client.joinLobby(666); // stessa cosa
                     break;
-                case "4":
-
+                case "4":  // leave lobby
+                    client.leaveLobby();
                     break;
             }
         }
 
-        //  nuovo ciclo con comandi di gioco
+
     }
 }

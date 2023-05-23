@@ -11,4 +11,7 @@ public interface GameHandler {
 
     boolean pickAndInsert(User user, List<MainBoardCoordinates> coordinates, int column) throws InputException, LastRoundException;
     void abortGame();
+    void ServerRefresh();  // solo per debugging lato server, da togliere
+
+
 }

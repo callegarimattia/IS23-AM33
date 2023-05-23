@@ -100,7 +100,7 @@ public class ClientRMI implements Client {
     }
 
     @Override
-    public void createUser(String newUsername) {
+    public void createUser() {
 
     }
 }

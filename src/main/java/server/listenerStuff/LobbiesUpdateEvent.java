@@ -12,5 +12,9 @@ public class LobbiesUpdateEvent extends EventObject {
         super(source);
         this.waitingLobbies = waitingLobbies;
     }
+
+    public Set<Lobby> getWaitingLobbies() {
+        return waitingLobbies;
+    }
 }
 

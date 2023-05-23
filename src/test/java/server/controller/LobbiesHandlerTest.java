@@ -28,7 +28,7 @@ class LobbiesHandlerTest {
     @DisplayName("Create User")
     void createUser() {
         lobbyTester.createUser("Mattia");
-        assertTrue(lobbyTester.searchUser("Mattia"));
+        assertTrue(lobbyTester.isUserPresent("Mattia"));
     }
 
     @Test
@@ -42,9 +42,9 @@ class LobbiesHandlerTest {
     @DisplayName("Username Search tests")
     void searchUser() {
         lobbyTester.createUser("Mattia");
-        assertTrue(lobbyTester.searchUser("Mattia"));
+        assertTrue(lobbyTester.isUserPresent("Mattia"));
         lobbyTester.getUsers().clear();
-        assertFalse(lobbyTester.searchUser("Mattia"));
+        assertFalse(lobbyTester.isUserPresent("Mattia"));
     }
 
     @ParameterizedTest

@@ -36,6 +36,10 @@ public class GameHandlerImpl implements GameHandler {   // controller per Game
         //...
     }
 
+    public void ServerRefresh(){  // solo per debugging lato server, da togliere
+
+    }
+
     public GameHandlerImpl(Game myGame) {
         this.myGame = myGame;
     }

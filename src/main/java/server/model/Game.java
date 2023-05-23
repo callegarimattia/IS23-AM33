@@ -1,5 +1,7 @@
 package server.model;
 
+import org.json.simple.JSONObject;
+import server.controller.TCPclientParser;
 import server.exceptions.GameEndedException;
 import server.exceptions.LastRoundException;
 import server.listenerStuff.GameUpdateEvent;
@@ -7,6 +9,8 @@ import server.model.commonGoals.CommonGoal;
 import server.model.commonGoals.CommonGoal1;
 import server.model.personalGoals.PersonalGoalDrawer;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,8 +45,35 @@ public class Game {
         comG1 = new CommonGoal1();    // dovranno in realta poi essere scritte e generate randomicamente dal file Json:
         comG2 = new CommonGoal1();
         Collections.shuffle(players);  // ordine casuale per scegliere primo giocatore
+        // RMI:
 
-        // creo il listener e gli passo i "4" socket che mi arrivano da sopra (lobby/gamehandler)
+        // TCP:   (messaggio iniziale di inizio partita + modello)
+
+        JSONObject gameStartedMessage = new JSONObject();
+        gameStartedMessage.put("type", 777);
+
+
+        // qui si rompe
+        gameStartedMessage.put("mainBoard", mainBoard.toInt());
+        List<String> playersUserNames = new ArrayList<>();
+        List<int[][]> playersShelfs = new ArrayList<>();
+        for(Player player : players){
+            playersUserNames.add(player.getUserName());
+            playersShelfs.add(player.getMyShelf().toInt());
+        }
+        gameStartedMessage.put("playersUsernames", playersUserNames);
+        gameStartedMessage.put("playerShelfs", playersShelfs);
+        //
+
+        for(Player player : players)
+            if(player.getOut() != null){
+                ObjectOutputStream out = player.getOut();
+                try {
+                    out.writeObject(gameStartedMessage);
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
 
     }
 
@@ -120,21 +151,33 @@ public class Game {
     }
 
     private void OnGameUpdate(GameUpdateEvent evt){
-        for(Player player: players){
-            if(player.getMyClient()!=null){
+
+        JSONObject updateMessage = new JSONObject();
+        String updatedPlayer = evt.getUsername();
+        Tile[][] updatedMainBoard =  evt.getNewBoard();  // è una enum, la tratteremo come Integer[][] dall altra parte
+        Tile[][] updatedShelf = evt.getNewShelf();
+        updateMessage.put("UpdatedPlayer", updatedPlayer);
+        updateMessage.put("UpdatedShelf", updatedShelf);
+        updateMessage.put("UpdatedMainBoard", updatedMainBoard);
+
+        for(Player player: players) {  // RMI
+            if (player.getMyClient() != null) {
                 try {
                     player.getMyClient().GameUpdate(evt);
-                }
-                catch (RemoteException e){
+                } catch (RemoteException e) {
                     System.out.println("remote method invocation failed");
                 }
             }
 
-         //   if(socket!=null)
-                 //   gameupdt sulla socket
+            if (player.getOut() != null) {  // TCP
+                try {
+                    player.getOut().writeObject(updateMessage);
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
 
+            }
         }
-
 
     }
 

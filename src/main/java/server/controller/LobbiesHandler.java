@@ -10,9 +10,12 @@ public interface LobbiesHandler {
     // interfaccia interna al server
     boolean createUser(String newUsername);
 
-    boolean searchUser(String username);
+    boolean isUserPresent(String username);
 
-    boolean searchLobby(int lobbyId);
+    User searchUser(String userName);
+    boolean isLobbyPresent(int lobbyId);
+
+    Lobby searchLobby(int ID);
 
     int createLobby(String firstUser, int gameSize);
 
@@ -21,6 +24,8 @@ public interface LobbiesHandler {
     boolean leaveLobby(String leavingUser);
 
     Set<Lobby> getWaitingLobbies();
+
+    Set<Lobby> getInGameLobbies();
 
     Set<User> getUsers();
 
@@ -32,6 +37,6 @@ public interface LobbiesHandler {
 
     void removeUser(String toBeRemovedUsername);
 
-    void removeLobby(String userName);
+    void abortLobby(String userName);
 
 }

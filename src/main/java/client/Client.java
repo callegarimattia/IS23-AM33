@@ -11,7 +11,7 @@ public interface Client {
     //void pickAndInsert()
 
     void shutDown();
-    void createUser(String newUsername);
+    void createUser();
     void joinLobby(int lobbyID);
 
     void leaveLobby();

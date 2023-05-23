@@ -101,4 +101,31 @@ public class Board {
                 copy[x][y] = mainBoard[x][y];
         return copy;
     }
+
+    public int[][] toInt (){
+        int[][] copy = new int[9][9];
+        for (int x = 0; x < 9; x++)
+            for (int y = 0; y < 9; y++){
+                switch (mainBoard[x][y]){
+                    case EMPTY: copy[x][y] = 0;
+                        break;
+                    case UNAVAILABLE: copy[x][y] = 1;
+                        break;
+                    case BOOK: copy[x][y] = 2;
+                        break;
+                    case GAME: copy[x][y] = 3;
+                        break;
+                    case FRAME: copy[x][y] = 4;
+                        break;
+                    case PLANT: copy[x][y] = 5;
+                        break;
+                    case TROPHY: copy[x][y] = 6;
+                        break;
+                    case CAT: copy[x][y] = 7;
+                        break;
+                }
+
+            }
+        return copy;
+    }
 }
