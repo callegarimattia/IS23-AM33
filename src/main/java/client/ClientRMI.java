@@ -1,17 +1,17 @@
 package client;
 
 import server.Server;
+import server.listenerStuff.GameUpdateEvent;
+import server.listenerStuff.LobbiesUpdateEvent;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
-public class ClientRMI implements Client {
+public class ClientRMI implements Client, VirtualView {
     private ClientDataStructure data;
-    private int port = 1099;
     Registry registry;
     Server server;
     String username;
@@ -46,10 +46,17 @@ public class ClientRMI implements Client {
 
 
     @Override
-    public void joinLobby(int lobbyID) {
+    public void joinLobby() {
         try {
-            if (server.joinLobby(this.username, lobbyID)) this.lobbyID = lobbyID;
-            else System.out.println("The selected lobby can't be joined!");
+            System.out.println("Client: provide a lobbyID to be joined");
+            int lobbyID = scanner.nextInt();
+            while (server.joinLobby(this.username, lobbyID)) {
+                System.out.println("Server: the selected lobby can't be joined!");
+                System.out.println("Client: provide a different lobbyID or -1 to exit");
+                lobbyID = scanner.nextInt();
+                if (lobbyID == -1) return;
+            }
+            this.lobbyID = lobbyID;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
@@ -68,15 +75,23 @@ public class ClientRMI implements Client {
     }
 
     @Override
-    public void createLobby(int gameSize) {
+    public void createLobby() {
         int tmp;
         try {
-            if ((tmp = server.createLobby(this.username, gameSize)) > 0) this.lobbyID = tmp;
-            else if (tmp == -3) System.out.println("Server: Invalid game size!");
-            else if (tmp == -2) System.out.println("Server: You can't create a lobby right now!");
-            else if (tmp == -1) {
-                System.out.println("Server: FATAL ERROR - USER UNKNOWN");
-                System.exit(-1);
+            System.out.println("Client: insert a gameSize (2,3,4 are accepted):");
+            int gameSize = scanner.nextInt();
+            while ((tmp = server.createLobby(this.username, gameSize)) < 0) {
+                if (tmp == -2) {
+                    System.out.println("Server: can't create a lobby while in game.");
+                    return;
+                }
+                if (tmp == -1) {
+                    System.out.println("Server: Username unknown -> ERROR");
+                    System.exit(-1);
+                }
+                System.out.println("Server: game size invalid (only 2,3,4 are accepted)");
+                System.out.println("Client: please provide a new game size");
+                gameSize = scanner.nextInt();
             }
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -96,11 +111,20 @@ public class ClientRMI implements Client {
 
     @Override
     public void lobbyListRequest() {
-
     }
 
     @Override
     public void createUser() {
+
+    }
+
+    @Override
+    public void GameUpdate(GameUpdateEvent evt) throws RemoteException {
+
+    }
+
+    @Override
+    public void LobbiesUpdate(LobbiesUpdateEvent evt) throws RemoteException {
 
     }
 }

@@ -1,8 +1,11 @@
 package client;
+
 import org.json.simple.JSONObject;
 import server.listenerStuff.GameUpdateEvent;
 import server.listenerStuff.LobbiesUpdateEvent;
-import java.io.*;
+
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.Scanner;
@@ -96,7 +99,7 @@ public class ClientTCP implements VirtualView, Client {
     }
 
     @Override
-    public void createLobby(int size) {  // 2
+    public void createLobby() {  // 2
         System.out.print("insert game size (max 4) : ");
         Scanner in = new Scanner(System.in);
         int gameSize = in.nextInt();
@@ -107,7 +110,7 @@ public class ClientTCP implements VirtualView, Client {
     }
 
     @Override
-    public void joinLobby(int lobbyID) {  // 3
+    public void joinLobby() {  // 3
         System.out.print("insert to be joined lobby ID: ");
         Scanner in = new Scanner(System.in);
         int ID = in.nextInt();

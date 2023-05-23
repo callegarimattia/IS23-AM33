@@ -29,7 +29,7 @@ public class AppClient {
             String x = in.next();
             switch (x){
                 default:
-                    System.out.println("invalid command, try again");
+                    System.out.println("Client: invalid command, try again");
                     break;
                 case "-1":  // close app
                     client.shutDown();
@@ -41,10 +41,10 @@ public class AppClient {
                     client.lobbyListRequest();
                     break;
                 case "2":  // create lobby
-                    client.createLobby(666); // parametro sieze viene in realta chiesto nel metodo ma non volevo rompere RMI
+                    client.createLobby();
                     break;
                 case "3":  // join lobby
-                    client.joinLobby(666); // stessa cosa
+                    client.joinLobby();
                     break;
                 case "4":  // leave lobby
                     client.leaveLobby();
