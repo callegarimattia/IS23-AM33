@@ -63,6 +63,10 @@ public class Game {
         }
         gameStartedMessage.put("playersUsernames", playersUserNames);
         gameStartedMessage.put("playerShelfs", playersShelfs);
+        int[][] copia = mainBoard.toInt();
+        for(int i = 0; i<9; i++)   // DA CANCELLARE
+            for(int j=0; j<9; j++)
+                System.out.println(copia);
         //
 
         for(Player player : players)

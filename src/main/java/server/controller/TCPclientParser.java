@@ -83,6 +83,11 @@ public class TCPclientParser implements Runnable {
                 default:
                     System.out.println("default, do nothing");
                     break;
+
+
+                // fare metodi al posto del corpo per ogni case e farci poi sopra il test
+                // fare prova disconnessione forzata client, se la porta è occupata
+                
                 case -1:  // client closing his app
                     if(inUser){  // se sono gia stato associato ad uno user, altrimenti non devo modificare niente nel model
                         User me = lobbiesHandler.searchUser((String) obj.get("toBeDeletedUser"));
