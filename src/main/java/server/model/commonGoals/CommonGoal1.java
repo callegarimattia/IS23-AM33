@@ -8,19 +8,64 @@ public class CommonGoal1 extends CommonGoal {
     int count=0;
     @Override
     public boolean isSolved(Tile[][] matrix) {
-        for (int i=0;i<ROW_NUMBER-1;i++){
-            for(int j=0; j<COL_NUMBER;j++){
+        for (int i=0;i<ROW_NUMBER-1; i++){
+            for(int j=0; j<COL_NUMBER-1;j++){
                 if(matrix[i][j]==matrix[i][j+1]){
-                    if(matrix[i][j]!=matrix[i][j-1]&&matrix[i][j]!=matrix[i-1][j]&&matrix[i][j]!=matrix[i-1][j+1]&&matrix[i][j]!=matrix[i][j+2]&&matrix[i][j]!=matrix[i][j+2]&&matrix[i][j]!=matrix[i+1][j+1]&&matrix[i][j]!=matrix[i+1][j]){
-                        count++;
+                    if(i==0 && j==0){
+                        if(matrix[i][j]!=matrix[i][j+2]&&matrix[i][j]!=matrix[i+1][j+1]&&matrix[i][j]!=matrix[i+1][j]){//Controllo per Posizione 0,0 nella matrice
+                            count++;
+                        }
+                    } else if (i == 0 && j != COL_NUMBER - 2){
+                        if(matrix[i][j]!=matrix[i][j+2]&&matrix[i][j]!=matrix[i+1][j+1]&&matrix[i][j]!=matrix[i+1][j]&&matrix[i][j]!=matrix[i][j-1]){//controllo per tutti quelli che si trovano sulla prima riga
+                            count++;
+                        }
+                    } else if (i!=0&&j==COL_NUMBER-2){
+                        if(matrix[i][j]!=matrix[i][j-1]&&matrix[i][j]!=matrix[i+1][j]&&matrix[i][j]!=matrix[i+1][j+1]&&matrix[i][j]!=matrix[i-1][j]&&matrix[i][j]!=matrix[i-1][j+1]){
+                            count++;
+                        }
+                    } else if (i==0 && j==COL_NUMBER-2){
+                        if(matrix[i][j]!=matrix[i][j-1]&&matrix[i][j]!=matrix[i+1][j]&&matrix[i][j]!=matrix[i+1][j+1]){
+                            count++;
+                        }
+                    } else if (j==0) {
+                        if(matrix[i][j]!=matrix[i][j+2]&&matrix[i][j]!=matrix[i+1][j+1]&&matrix[i][j]!=matrix[i+1][j]&&matrix[i][j]!=matrix[i-1][j]&&matrix[i][j]!=matrix[i-1][j+1]){
+                            count++;
+                        }
+                    } else {
+                        if(matrix[i][j]!=matrix[i][j-1]&&matrix[i][j]!=matrix[i+1][j]&&matrix[i][j]!=matrix[i+1][j+1]&&matrix[i][j]!=matrix[i-1][j]&&matrix[i][j]!=matrix[i-1][j+1]&&matrix[i][j]!=matrix[i][j+2]){
+                            count++;
+                        }
                     }
                 } else if (matrix[i][j]==matrix[i+1][j]) {
-                    if(matrix[i][j]!=matrix[i][j-1]&&matrix[i][j]!=matrix[i-1][j]&&matrix[i][j]!=matrix[i][j+1]&&matrix[i][j]!=matrix[i+1][j+1]&&matrix[i][j]!=matrix[i+2][j]&&matrix[i][j]!=matrix[i-1][j+1]&&matrix[i][j]!=matrix[i][j-1]){
-                        count++;
+                    if(i==0 && j==0){
+                        if(matrix[i][j]!=matrix[i][j+1]&&matrix[i][j]!=matrix[i+1][j+1]&&matrix[i][j]!=matrix[i+2][j]){//Controllo per Posizione 0,0 nella matrice
+                            count++;
+                        }
+                    } else if (i == 0) {
+                        if(matrix[i][j]!=matrix[i][j+1]&&matrix[i][j]!=matrix[i+1][j+1]&&matrix[i][j]!=matrix[i+2][j]&&matrix[i][j]!=matrix[i+1][j-1]&&matrix[i][j]!=matrix[i][j-1]){
+                            count++;
+                        }
+                    } else if (j==0 && i!=ROW_NUMBER-2) {
+                        if(matrix[i][j]!=matrix[i][j+1]&&matrix[i][j]!=matrix[i+1][j+1]&&matrix[i][j]!=matrix[i+2][j]&&matrix[i-1][j]!=matrix[i][j]){
+                            count++;
+                        }
+                    } else if (i==ROW_NUMBER-2&& j!=0) {
+                        if(matrix[i][j]!=matrix[i][j+1]&&matrix[i][j]!=matrix[i+1][j+1]&&matrix[i][j]!=matrix[i-1][j]&&matrix[i][j]!=matrix[i+1][j-1]&&matrix[i][j]!=matrix[i][j-1]){
+                            count++;
+                        }
+                    } else if (i==ROW_NUMBER-2 && j==0) {
+                        if(matrix[i][j]!=matrix[i][j+1]&&matrix[i][j]!=matrix[i+1][j+1]&&matrix[i][j]!=matrix[i-1][j]){
+                            count++;
+                        }
+                    }else{
+                        if(matrix[i][j]!=matrix[i][j+1]&&matrix[i][j]!=matrix[i+1][j+1]&&matrix[i][j]!=matrix[i-1][j]&&matrix[i][j]!=matrix[i+1][j-1]&&matrix[i][j]!=matrix[i][j-1]&&matrix[i][j]!=matrix[i+2][j]){
+                            count++;
+                        }
                     }
                 }
             }
         }
-    return count==6;
+        return count==6;
     }
 }
+
