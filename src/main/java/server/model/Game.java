@@ -48,36 +48,7 @@ public class Game {
         // RMI:
 
         // TCP:   (messaggio iniziale di inizio partita + modello)
-
-        JSONObject gameStartedMessage = new JSONObject();
-        gameStartedMessage.put("type", 777);
-
-
-        // qui si rompe
-        gameStartedMessage.put("mainBoard", mainBoard.toInt());
-        List<String> playersUserNames = new ArrayList<>();
-        List<int[][]> playersShelfs = new ArrayList<>();
-        for(Player player : players){
-            playersUserNames.add(player.getUserName());
-            playersShelfs.add(player.getMyShelf().toInt());
-        }
-        gameStartedMessage.put("playersUsernames", playersUserNames);
-        gameStartedMessage.put("playerShelfs", playersShelfs);
-        int[][] copia = mainBoard.toInt();
-        for(int i = 0; i<9; i++)   // DA CANCELLARE
-            for(int j=0; j<9; j++)
-                System.out.println(copia);
-        //
-
-        for(Player player : players)
-            if(player.getOut() != null){
-                ObjectOutputStream out = player.getOut();
-                try {
-                    out.writeObject(gameStartedMessage);
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
+        this.gameStartedMessage();
 
     }
 
@@ -183,6 +154,36 @@ public class Game {
             }
         }
 
+    }
+
+    private void gameStartedMessage(){
+        JSONObject gameStartedMessage = new JSONObject();
+        gameStartedMessage.put("type", 777);
+
+        List<List<Integer>> x = mainBoard.toInt();
+        gameStartedMessage.put("mainBoard", x);
+
+        List<String> playersUserNames = new ArrayList<>();
+        List<List<List<Integer>>> playersShelfs = new ArrayList<>();
+        for(int i = 0; i < players.size(); i++){
+            playersUserNames.add(players.get(i).getUserName());
+            playersShelfs.add(players.get(i).getMyShelf().toInt());
+        }
+        gameStartedMessage.put("playersUsernames", playersUserNames);
+        gameStartedMessage.put("playerShelfs", playersShelfs);  //  in realta non neccessario, tutte empty all inizio
+
+
+
+        for(Player player : players)
+            if(player.getOut() != null){
+                ObjectOutputStream out = player.getOut();
+                String message = gameStartedMessage.toString();
+                try {
+                    out.writeObject(message);
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
     }
 
     public List<Player> getPlayers() {

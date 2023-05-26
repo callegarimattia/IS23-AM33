@@ -3,6 +3,7 @@ package server.model;
 import server.exceptions.LastRoundException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Shelf {
 
@@ -98,30 +99,41 @@ public class Shelf {
         return copy;
     }
 
-    public int[][] toInt (){
-        int[][] copy = new int[6][5];
-        for (int x = 0; x < 6; x++)
+    public List<List<Integer>> toInt (){
+        List<List<Integer>> copy = new ArrayList<>();
+        for (int x = 0; x < 6; x++){
+            List<Integer> lis = new ArrayList<>();
             for (int y = 0; y < 5; y++){
                 switch (shelf[x][y]){
-                    case EMPTY: copy[x][y] = 0;
+                    case EMPTY:
+                        lis.add(0);
                         break;
-                    case UNAVAILABLE: copy[x][y] = 1;
+                    case UNAVAILABLE:
+                        lis.add(1);
                         break;
-                    case BOOK: copy[x][y] = 2;
+                    case BOOK:
+                        lis.add(2);
                         break;
-                    case GAME: copy[x][y] = 3;
+                    case GAME:
+                        lis.add(3);
                         break;
-                    case FRAME: copy[x][y] = 4;
+                    case FRAME:
+                        lis.add(4);
                         break;
-                    case PLANT: copy[x][y] = 5;
+                    case PLANT:
+                        lis.add(5);
                         break;
-                    case TROPHY: copy[x][y] = 6;
+                    case TROPHY:
+                        lis.add(6);
                         break;
-                    case CAT: copy[x][y] = 7;
+                    case CAT:
+                        lis.add(7);
                         break;
                 }
-
             }
+            copy.add(lis);
+        }
+
         return copy;
     }
 }

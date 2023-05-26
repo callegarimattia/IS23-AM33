@@ -17,11 +17,11 @@ public class ClientTCP implements VirtualView, Client {
     private final ObjectOutputStream out;
     private final String ip = "127.0.0.1";   // saranno poi da prendere da arg / json
     private final int port = 2345;  // saranno poi da prendere da arg / json
-    private String userName = null;
     private final int gameStatus;
     private Scanner in;
 
     public ClientTCP() throws IOException {
+        data = new ClientDataStructure();
         newConnection(ip,port);
         out = new ObjectOutputStream(socket.getOutputStream());
         Runnable parser = new TCPserverParser(socket, this);
@@ -70,14 +70,14 @@ public class ClientTCP implements VirtualView, Client {
     public void shutDown() {  // -1
         JSONObject obj = new JSONObject();
         obj.put("type", -1);
-        if(userName != null)
-            obj.put("toBeDeletedUser", userName);
+        if(data.getMyUsername()!= null)
+            obj.put("toBeDeletedUser", data.getMyUsername());
         sendMessage(obj.toString());
     }
 
     @Override
     public void createUser() {  // 0
-        if(userName == null){
+        if(data.getMyUsername() == null){
             System.out.print("insert userName: ");
             Scanner in = new Scanner(System.in);
             String newUsername = in.next();
@@ -111,9 +111,15 @@ public class ClientTCP implements VirtualView, Client {
 
     @Override
     public void joinLobby() {  // 3
-        System.out.print("insert to be joined lobby ID: ");
         Scanner in = new Scanner(System.in);
-        int ID = in.nextInt();
+        System.out.print("insert to be joined lobby ID: ");
+        String str = in.next();
+        while (!str.matches("-?\\d+(\\.\\d+)?")){
+            System.out.print("insert a valid integer please: ");
+            str = in.next();
+        }
+        int ID = Integer.parseInt(str);
+        System.out.println("sto per mandare l ID: " + ID);
         JSONObject obj = new JSONObject();
         obj.put("type", 3);
         obj.put("tobeJoinedLobbyID", ID);
@@ -136,11 +142,11 @@ public class ClientTCP implements VirtualView, Client {
 
     @Override
     public String getUserName() {
-        return userName;
+        return data.getMyUsername();
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        data.setMyUsername(userName);
     }
 
 

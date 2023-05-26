@@ -66,7 +66,7 @@ public class Board {
         int y = coordinate.getY();
         if (mainBoard[x][y].equals(Tile.EMPTY) || mainBoard[x][y].equals(Tile.UNAVAILABLE))
             return false;
-        if(x==0 || x==8 || y==0 || y==8)
+        if (x == 0 || x == 8 || y == 0 || y == 8)
             return true;
         return mainBoard[x + 1][y].equals(Tile.EMPTY) || mainBoard[x + 1][y].equals(Tile.UNAVAILABLE) ||
                 mainBoard[x - 1][y].equals(Tile.EMPTY) || mainBoard[x - 1][y].equals(Tile.UNAVAILABLE) ||
@@ -77,10 +77,10 @@ public class Board {
 
     //  è importante che siano ordinate: coordinates[0] deve essere la prima ad essere pickata
     public ArrayList<Tile> removeTiles(List<MainBoardCoordinates> coordinates) throws NotPickableException {
-        if(coordinates == null) return null;
+        if (coordinates == null) return null;
         if (coordinates.isEmpty()) return null;
         for (MainBoardCoordinates XY : coordinates)
-            if(!this.isPickable(XY))
+            if (!this.isPickable(XY))
                 throw new NotPickableException();
         ArrayList<Tile> pickedTiles = new ArrayList<>();
         for (MainBoardCoordinates XY : coordinates) {
@@ -94,7 +94,7 @@ public class Board {
         return mainBoard;
     }
 
-    public Tile[][] copyMatrix (){
+    public Tile[][] copyMatrix() {
         Tile[][] copy = new Tile[9][9];
         for (int x = 0; x < 9; x++)
             for (int y = 0; y < 9; y++)
@@ -102,30 +102,41 @@ public class Board {
         return copy;
     }
 
-    public int[][] toInt (){
-        int[][] copy = new int[9][9];
-        for (int x = 0; x < 9; x++)
-            for (int y = 0; y < 9; y++){
-                switch (mainBoard[x][y]){
-                    case EMPTY: copy[x][y] = 0;
+    public List<List<Integer>> toInt() {
+        List<List<Integer>> copy = new ArrayList<>();
+        for (int x = 0; x < 9; x++) {
+            List<Integer> lis = new ArrayList<>();
+            for (int y = 0; y < 9; y++) {
+                switch (mainBoard[x][y]) {
+                    case EMPTY:
+                        lis.add(0);
                         break;
-                    case UNAVAILABLE: copy[x][y] = 1;
+                    case UNAVAILABLE:
+                        lis.add(1);
                         break;
-                    case BOOK: copy[x][y] = 2;
+                    case BOOK:
+                        lis.add(2);
                         break;
-                    case GAME: copy[x][y] = 3;
+                    case GAME:
+                        lis.add(3);
                         break;
-                    case FRAME: copy[x][y] = 4;
+                    case FRAME:
+                        lis.add(4);
                         break;
-                    case PLANT: copy[x][y] = 5;
+                    case PLANT:
+                        lis.add(5);
                         break;
-                    case TROPHY: copy[x][y] = 6;
+                    case TROPHY:
+                        lis.add(6);
                         break;
-                    case CAT: copy[x][y] = 7;
+                    case CAT:
+                        lis.add(7);
                         break;
                 }
-
             }
+            copy.add(lis);
+        }
         return copy;
     }
+
 }

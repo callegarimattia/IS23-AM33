@@ -39,7 +39,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             }
             User newUser = new User(newUsername);
             users.add(newUser);
-            System.out.println("SERVER: NEW USERNAME ADDED ('" + newUsername + "')");
+            System.out.println("NEW USERNAME ADDED ('" + newUsername + "')");
             return true;
         }
     }
@@ -105,7 +105,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
 
         Lobby newLobby = new Lobby(gameSize);
         waitingLobbies.add(newLobby);
-        System.out.println("SERVER: CREATED NEW LOBBY ID(" + newLobby.getID() + ") WITH GAME SIZE " + gameSize);
+        System.out.println("CREATED NEW LOBBY ID(" + newLobby.getID() + ") WITH GAME SIZE " + gameSize);
         joinLobby(username, newLobby.getID());
 
         return newLobby.getID();
@@ -170,7 +170,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
                     lobby.add(joiningUser);
                     LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
                     OnLobbyUpdate(evt);
-                    System.out.println("SERVER: LOBBY ID(" + lobbyID + ") JOINED BY ('" + username + "')");
+                    System.out.println("LOBBY ID(" + lobbyID + ") JOINED BY ('" + username + "')");
                     if(lobby.isFull()) // controllo se deve partire il game
                         startGame(lobby.getID());
                     return true;
@@ -246,7 +246,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
 
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
         OnLobbyUpdate(evt);
-        System.out.println("SERVER: LOBBY ID(" + lobbyID + ") LEAVED BY ('" + username + "')");
+        System.out.println("LOBBY ID(" + lobbyID + ") LEAVED BY ('" + username + "')");
         return true;
     }
 
@@ -268,7 +268,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         waitingLobbies.remove(toBeStartedLobby);
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
         OnLobbyUpdate(evt);
-        System.out.println("SERVER: LOBBY " + toBeStartedLobbyID + " GAME STARTED");
+        System.out.println("LOBBY " + toBeStartedLobbyID + " GAME STARTED");
         return true;
     }
 

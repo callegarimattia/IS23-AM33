@@ -10,6 +10,12 @@ public class AppClient {
         Client client;
         System.out.println("Usage: T (or R) IPserver (T = TCP, R = RMI)");
         String str = in.next();
+
+        while (!(str.equals("T") || str.equals("t") || str.equals("R") || str.equals("r"))){
+            System.out.print("invalid input, try again: ");
+            str = in.next();
+        }
+
         if (str.equals("T") || str.equals("t")) {
             client = new ClientTCP();
             //  devo fare new connection nel costruttore perche devo farla prima di altre cose che faccio nel costruttore
