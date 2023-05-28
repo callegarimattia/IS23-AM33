@@ -127,6 +127,8 @@ public class TCPclientParser implements Runnable {
     }
 
     private void clientClosingApp(JSONObject obj, JSONObject answer){  // -1
+
+        String toBeDel = (String) obj.get("toBeDeletedUser");
         if(inUser){  // se sono gia stato associato ad uno user, altrimenti non devo modificare niente nel model
             User me = lobbiesHandler.searchUser((String) obj.get("toBeDeletedUser"));
             if(me.isInGame()){  // ovvero se sono in game
@@ -141,13 +143,16 @@ public class TCPclientParser implements Runnable {
         answer.put("type", -1);
         answer.put("answer", "1");
         sendAnswer(answer);
-        try {  // chiudo socket
+        try {
             in.close();
             out.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("connection with user "+ obj.get("toBeDeletedUser") +" closed and user deleted");
+
+        System.out.println("connection with user "+ toBeDel +" closed and user deleted");
+
+
     }
 
     private void newUser(JSONObject obj, JSONObject answer){  // 0

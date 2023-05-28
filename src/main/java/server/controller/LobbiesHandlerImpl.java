@@ -76,6 +76,8 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
                 for (User user : lobby.getUsers())
                     if (user.equals(toBeRem)){
                         lobby.removeUser(user);
+                        if(lobby.getUsers().size() == 0)
+                            waitingLobbies.remove(lobby);
                         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
                         OnLobbyUpdate(evt);
                         break;
@@ -336,29 +338,26 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             System.out.println("ID:  " + lobby.getID());
             System.out.println("size:  " + lobby.getGameSize());
             System.out.println("isFull:  " + lobby.isFull());
-            System.out.println("users: \n");
-            for(User us : lobby.getUsers()){
-                System.out.println("username:  " + us.getUserName());
-                System.out.println("is in lobby:  " + us.isInLobby());
-                System.out.println("is in game:  " + us.isInGame());
-                System.out.println();
-            }
+            System.out.print("users: ");
+            for(User us : lobby.getUsers())
+                System.out.print(us.getUserName() + " ");
+
+
 
 
         }
 
-        System.out.println("\nPRE GAME LOBBIES: \n" );
+        System.out.print("\nPRE GAME LOBBIES: " );
         for(Lobby lobby : waitingLobbies){
-            System.out.println("ID:  " + lobby.getID());
+            System.out.println("\n\nID:  " + lobby.getID());
             System.out.println("Current size:  " + lobby.getUsers().size());
             System.out.println("To be reached size:  " + lobby.getGameSize());
             System.out.println("isFull:  " + lobby.isFull());
-            System.out.println("users: \n");
-            for(User us : lobby.getUsers()){
-                System.out.println("username:  " + us.getUserName());
-            }
+            System.out.print("users: ");
+            for(User us : lobby.getUsers())
+                System.out.print(us.getUserName() + " ");
         }
-
+        System.out.println("\n");
     }
 
     @Override

@@ -3,6 +3,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import server.model.Tile;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.List;
@@ -75,7 +77,7 @@ public class TCPserverParser implements Runnable {
                     ansLeaveLobbyRequest(obj);
                     break;
                 case 777:
-                    gameStartedMessage(obj);
+                    startGame(obj);
                     break;
                 case 6:
 
@@ -111,8 +113,7 @@ public class TCPserverParser implements Runnable {
     private void ansClientClosingApp(JSONObject obj){  //-1
         if(obj.get("answer").toString().equals("1")){
             System.out.println("connection closed");
-            // dovrei killare l intera app poi
-            return;
+            System.exit(0);
         }
     }
 
@@ -194,39 +195,67 @@ public class TCPserverParser implements Runnable {
         }
     }
 
-    private void gameStartedMessage(JSONObject obj){
+    private void startGame(JSONObject obj){  // 777
         System.out.println("partita cominciata" );
 
-        List<List<Integer>> mainBoard = (List<List<Integer>>) obj.get("mainBoard");
-        List<List<List<Integer>>> playerShelfs = (List<List<List<Integer>>>) obj.get("playerShelfs");
+        JSONArray array = (JSONArray) obj.get("playersUsernames");  //  already shuffled (first player at [0])
+        for(int i=0; i < array.size(); i++)
+            clientTCP.getData().addPlayer(array.get(i).toString());
 
-        JSONArray array = (JSONArray) obj.get("playersUsernames");
-        String[] playersUsernames = new String[array.size()];
-        for(int i=0; i<playersUsernames.length; i++)
-            playersUsernames[i]=array.get(i).toString();
-
-        for (int i = 0; i < playersUsernames.length; i++){
-            System.out.println(playersUsernames[i]);
-            List<List<Integer>> lis1 = playerShelfs.get(i);
-            for(int j = 0; j < 6; j++){
-                List<Integer> lis2 = lis1.get(j);
-                for(int k = 0; k <5; k++)
-                    System.out.print(lis2.get(k));
-                System.out.println();
-            }
-        }
+        System.out.print("Players: ");
+        for (int i = 0; i < array.size() ; i++)
+            System.out.print(clientTCP.getData().getPlayers().get(i).getUserName() + " ");
 
 
 
 
-        // stampa mainboard
-        System.out.println("main board: ");
+        List<List<Long>> intMainBoard = (List<List<Long>>) obj.get("mainBoard");
+        Tile[][] mainBoard = new Tile[9][9];
+
         for(int i = 0; i < 9; i++){
-            List<Integer> lis = mainBoard.get(i);
+            List<Long> lis = intMainBoard.get(i);
+            for (int j = 0; j<9; j++){
+                int x = lis.get(j).intValue();
+                switch (x){
+                    case 0:
+                        mainBoard[i][j] = Tile.EMPTY;
+                        break;
+                    case 1:
+                        mainBoard[i][j] = Tile.UNAVAILABLE;
+                        break;
+                    case 2:
+                        mainBoard[i][j] = Tile.BOOK;
+                        break;
+                    case 3:
+                        mainBoard[i][j] = Tile.GAME;
+                        break;
+                    case 4:
+                        mainBoard[i][j] = Tile.FRAME;
+                        break;
+                    case 5:
+                        mainBoard[i][j] = Tile.PLANT;
+                        break;
+                    case 6:
+                        mainBoard[i][j] = Tile.TROPHY;
+                        break;
+                    case 7:
+                        mainBoard[i][j] = Tile.CAT;
+                        break;
+                }
+            }
+
+        }
+        clientTCP.getData().setMainboard(mainBoard);
+
+        System.out.println("\nMain board: ");
+        for(int i = 0; i < 9; i++){
             for (int j = 0; j<9; j++)
-                System.out.print(lis.get(j));
+                System.out.printf("%11s ", clientTCP.getData().getMainboard()[i][j]);
             System.out.println();
         }
+
+
+
 
         System.out.println("\nnew commands:\n-1: close app / abort game\n5: ask game refresh\n6: pick and insert" );
     }

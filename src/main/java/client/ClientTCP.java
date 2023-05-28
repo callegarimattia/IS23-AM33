@@ -149,5 +149,7 @@ public class ClientTCP implements VirtualView, Client {
         data.setMyUsername(userName);
     }
 
-
+    public ClientDataStructure getData() {
+        return data;
+    }
 }

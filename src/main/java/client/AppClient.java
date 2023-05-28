@@ -35,7 +35,7 @@ public class AppClient {
             String x = in.next();
             switch (x){
                 default:
-                    System.out.println("Client: invalid command, try again");
+                    System.out.println("invalid command, try again");
                     break;
                 case "-1":  // close app
                     client.shutDown();

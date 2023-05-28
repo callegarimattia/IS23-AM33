@@ -164,13 +164,10 @@ public class Game {
         gameStartedMessage.put("mainBoard", x);
 
         List<String> playersUserNames = new ArrayList<>();
-        List<List<List<Integer>>> playersShelfs = new ArrayList<>();
-        for(int i = 0; i < players.size(); i++){
+        for(int i = 0; i < players.size(); i++)
             playersUserNames.add(players.get(i).getUserName());
-            playersShelfs.add(players.get(i).getMyShelf().toInt());
-        }
-        gameStartedMessage.put("playersUsernames", playersUserNames);
-        gameStartedMessage.put("playerShelfs", playersShelfs);  //  in realta non neccessario, tutte empty all inizio
+
+        gameStartedMessage.put("playersUsernames", playersUserNames);  //  already shuffled (first player at [0])
 
 
 
