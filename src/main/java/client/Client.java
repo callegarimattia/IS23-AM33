@@ -6,7 +6,7 @@ public interface Client {
 
     void newConnection(String serverIP, int port);
 
-    //void pickAndInsert()
+    void pickAndInsert();
 
     void shutDown();
     void createUser();

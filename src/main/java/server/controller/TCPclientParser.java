@@ -2,9 +2,11 @@ package server.controller;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import server.exceptions.InputException;
+import server.exceptions.LastRoundException;
 import server.model.Lobby;
+import server.model.MainBoardCoordinates;
 import server.model.User;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -72,11 +74,19 @@ public class TCPclientParser implements Runnable {
             }
 
             JSONParser parser = new JSONParser();
+
+            if(str == null){ /////////////  not sure
+                disconnectedUser();
+                return;
+            }
+
+
             try {
                 obj = (JSONObject) parser.parse(str);
             } catch (ParseException e) {
                 System.out.println(e.getMessage());
             }
+
             long x = (long) obj.get("type");
             JSONObject answer = new JSONObject();
             switch ((int)x) {
@@ -106,7 +116,7 @@ public class TCPclientParser implements Runnable {
                     leaveLobbyRequest(obj, answer);
                     break;
                 case 5:
-
+                    pickAndInsert(obj, answer);
                     break;
                 case 6:   //
 
@@ -126,14 +136,36 @@ public class TCPclientParser implements Runnable {
 
     }
 
-    private void clientClosingApp(JSONObject obj, JSONObject answer){  // -1
+    private void disconnectedUser(){
+        if(inUser){
+            User me = lobbiesHandler.searchUser(userName);
+            if(me == null) return;
+            if(me.isInGame()){
+                gameHandler.abortGame(me.getUserName());  // manda messaggio finale e chiude tutti i 4 (potenzialmente) thread parser
+                lobbiesHandler.abortLobby(userName);  // ed elimina anche tuttu i (4) user
+                return;
+            }
+            else{  // sia che sia in una waitingLobby sia che sia un user e basta
+                lobbiesHandler.removeUser(me.getUserName());
+            }
+        }
+        try {
+            in.close();
+            out.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
 
+        System.out.println("connection with user "+ userName +" closed and user deleted");
+    }
+
+    private void clientClosingApp(JSONObject obj, JSONObject answer){  // -1
         String toBeDel = (String) obj.get("toBeDeletedUser");
         if(inUser){  // se sono gia stato associato ad uno user, altrimenti non devo modificare niente nel model
             User me = lobbiesHandler.searchUser((String) obj.get("toBeDeletedUser"));
             if(me.isInGame()){  // ovvero se sono in game
-                gameHandler.abortGame();  // manda messaggio finale e chiude tutti i 4 (potenzialmente) thread parser
-                lobbiesHandler.abortLobby((String) obj.get("toBeDeletedUser"));  // ed elimina anche tuttu i (4) user
+                gameHandler.abortGame(me.getUserName());  // manda messaggio finale e chiude tutti i 4 (potenzialmente) client
+                lobbiesHandler.abortLobby((String) obj.get("toBeDeletedUser"));  // ed elimina anche tutti i (4) user
                 return; // termino questo thread
             }
             else{  // sia che sia in una waitingLobby sia che sia un user e basta
@@ -254,25 +286,74 @@ public class TCPclientParser implements Runnable {
     }
 
 
-    private  void leaveLobbyRequest(JSONObject obj, JSONObject answer){
+    private  void leaveLobbyRequest(JSONObject obj, JSONObject answer){   // 4
         User me = lobbiesHandler.searchUser(userName);
-        if(!me.isInLobby()){
-            answer.put("type", 4);
+        answer.put("type", 4);
+        if(!me.isInLobby())
             answer.put("answer","0");  // user is not in a lobby
-        }
-        if(me.isInGame()){
-            answer.put("type", 4);
+        if(me.isInGame())
             answer.put("answer","-1");  // user is in an active game, cant leave lobby (shut down app if you want)
-        }
         if(me.isInLobby()){
             lobbiesHandler.leaveLobby(userName);
-            answer.put("type", 4);
             answer.put("answer","1");
         }
         sendAnswer(answer);
     }
 
-
+    private void pickAndInsert(JSONObject obj, JSONObject answer){  // 5
+        answer.put("type", 5);
+        if(gameHandler == null)
+            answer.put("answer","0");  // not in game
+        else {
+            if(userName != gameHandler.getCurrPlayer()){
+                answer.put("answer","-1");  // not current player
+                sendAnswer(answer);
+                return;
+            }
+            int myColumn = (int) (long) obj.get("myColumn");
+            List<Long> columns = (List<Long>) obj.get("columns");  // columns
+            List<Long> rows = (List<Long>) obj.get("rows");  // raws
+            List<MainBoardCoordinates> coordinates = new ArrayList<>();
+            for(int i = 0; i < columns.size(); i++){
+                MainBoardCoordinates coord;
+                try {
+                    coord = new MainBoardCoordinates(rows.get(i).intValue(),columns.get(i).intValue());
+                } catch (Exception e) {
+                    answer.put("answer","-7");
+                    sendAnswer(answer);
+                    return;
+                }
+                coordinates.add(coord);
+            }
+            int x = -7456;
+            try {
+                x = gameHandler.pickAndInsert(userName,coordinates, myColumn);
+            } catch (InputException | LastRoundException e) {
+                System.out.println(e.getMessage());
+            }
+            switch (x){
+                case 1:
+                    answer.put("answer","1");
+                    break;
+                case -2:
+                    answer.put("answer","-2");
+                    break;
+                case -3:
+                    answer.put("answer","-3");
+                    break;
+                case -4:
+                    answer.put("answer","-4");
+                    break;
+                case -5:
+                    answer.put("answer","-5");
+                    break;
+                case -6:
+                    answer.put("answer","-6");
+                    break;
+            }
+        }
+        sendAnswer(answer);
+    }
 
 
 }

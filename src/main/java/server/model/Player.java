@@ -23,10 +23,6 @@ public class Player {
         this.out = out;
     }
 
-    public Player(String userName) {
-        this.userName = userName;
-    }
-
     public void setScore(int score) {
         this.score = score;
     }
@@ -57,7 +53,14 @@ public class Player {
         return myClient;
     }
 
-    public void setMyClient(VirtualView myClient) {
-        this.myClient = myClient;
+
+    public PersonalGoal getPersonalGoal() {
+        return personalGoal;
     }
+
+    public void refresh(){ // debug purpose only
+        System.out.println("\n" + userName + "\nscore: " + score);
+        myShelf.refresh();
+    }
+
 }

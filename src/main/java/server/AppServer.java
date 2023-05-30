@@ -14,7 +14,7 @@ public class AppServer {
         // debug purpose only:
 
         while (true){
-            System.out.println("press r for model refresh:");
+            System.out.println("\npress r for model refresh:");
             Scanner in = new Scanner(System.in);
             String str = in.next();
             if(str.equals("r")){

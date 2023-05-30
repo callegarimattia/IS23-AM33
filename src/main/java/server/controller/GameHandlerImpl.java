@@ -1,12 +1,10 @@
 package server.controller;
-
-import server.exceptions.InputException;
-import server.exceptions.LastRoundException;
+import org.json.simple.JSONObject;
 import server.model.Game;
 import server.model.MainBoardCoordinates;
 import server.model.Player;
-import server.model.User;
-
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.List;
 
 
@@ -15,30 +13,52 @@ public class GameHandlerImpl implements GameHandler {   // controller per Game
     private Game myGame;
 
     @Override
-    public boolean pickAndInsert(User turnUser, List<MainBoardCoordinates> coordinates, int column) throws InputException, LastRoundException {
-        String turnPlayer = turnUser.getUserName();
+    public int pickAndInsert(String userName, List<MainBoardCoordinates> coordinates, int column) {
         for (Player ply : myGame.getPlayers()) {
-            if (turnPlayer.equals(ply.getUserName())) {
-                //  forse sarebbe meglio non esporre game e avere il metodo picktiles su Lobby che lo chiama
-                //  a sua volta sua Game, non so
+            if (userName.equals(ply.getUserName())) {
                 return myGame.pickAndInsert(ply.getUserName(), coordinates, column);
             }
         }
-        return false;
+        return 99;  // never reached
     }
 
     @Override
-    public void abortGame() {
+    public void abortGame(String disconnectedPlayer) {
         // manda messaggi finali e chiude socket / connessioni RMI
+
+        for (Player player : myGame.getPlayers()){
+            if(player.getOut() != null){
+                JSONObject answer = new JSONObject();
+                answer.put("type", -1);
+                answer.put("answer", "2");
+                answer.put("disconnectedPlayer", disconnectedPlayer);
+                ObjectOutputStream out = player.getOut();
+                String message = answer.toString();
+                try {
+                    out.writeObject(message);
+                    out.close();
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            // else RMI
+        }
+    }
+
+    @Override
+    public void refresh() {   // debug purpose only
+        myGame.refresh();
+    }
+
+    @Override
+    public String getCurrPlayer() {
+        return myGame.getCurrentPlayer();
     }
 
     public void ChatMessage(String Sender, String Text, List<String> recipients){  // special value if recipients is broadcast
         //...
     }
 
-    public void ServerRefresh(){  // solo per debugging lato server, da togliere
-
-    }
 
     public GameHandlerImpl(Game myGame) {
         this.myGame = myGame;

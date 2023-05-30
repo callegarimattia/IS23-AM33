@@ -1,31 +1,38 @@
 package server.listenerStuff;
 
-import server.model.Tile;
+import common.Tile;
+import server.model.MainBoardCoordinates;
 
 import java.util.EventObject;
+import java.util.List;
 
 public class GameUpdateEvent extends EventObject {
-    private final Tile[][] newShelf;
-    private final Tile[][] newBoard;
-    private final String username;
+    private final List<MainBoardCoordinates> coordinates; // tiles that have been picked
+    private final String updater;   //  they guy that did the command
+    private final int column;  // where have been placed
+    private final String newCurrPlayer;
 
-
-    public GameUpdateEvent(Object source, Tile[][] shelf, Tile[][] board, String username) {
+    public GameUpdateEvent(Object source, List<MainBoardCoordinates> coordinates, String updater, int column, String newCurrPlayer) {
         super(source);
-        this.newShelf = shelf;
-        this.newBoard = board;
-        this.username = username;
+        this.coordinates = coordinates;
+        this.updater = updater;
+        this.column = column;
+        this.newCurrPlayer = newCurrPlayer;
     }
 
-    public Tile[][] getNewShelf() {
-        return newShelf;
+    public List<MainBoardCoordinates> getCoordinates() {
+        return coordinates;
     }
 
-    public Tile[][] getNewBoard() {
-        return newBoard;
+    public String getUpdater() {
+        return updater;
     }
 
-    public String getUsername() {
-        return username;
+    public int getColumn() {
+        return column;
+    }
+
+    public String getNewCurrPlayer() {
+        return newCurrPlayer;
     }
 }

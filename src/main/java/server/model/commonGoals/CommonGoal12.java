@@ -1,6 +1,6 @@
 package server.model.commonGoals;
 
-import server.model.Tile;
+import common.Tile;
 
 public class CommonGoal12 extends CommonGoal{
     private final int COL_NUMBER = 5;

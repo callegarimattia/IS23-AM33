@@ -70,8 +70,11 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         synchronized (this) {
             User toBeRem = searchUser(toBeRemovedUsername);
             for (User user : users)
-                if (user.equals(toBeRem))
+                if (user.equals(toBeRem)){
                     users.remove(user);
+                    break;
+                }
+
             for(Lobby lobby : waitingLobbies)
                 for (User user : lobby.getUsers())
                     if (user.equals(toBeRem)){
@@ -140,6 +143,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
                         for(User us : lobby.getUsers())
                             users.remove(us);
                         inGameLobbies.remove(lobby);
+                        System.out.println("LOBBY " + lobby.getID() + " ABORTED");
                     }
         }
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
@@ -207,8 +211,8 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
                         lobbiesMaxSizes.add(lobby.getGameSize());
                     }
                     answer.put("type", 99);
-                    answer.put("IDs", lobbiesIDs);
-                    answer.put("CurrentSizes", lobbiesCurrentSize);
+                    answer.put("IDss", lobbiesIDs);
+                    answer.put("CurrentSizess", lobbiesCurrentSize);
                     answer.put("MaxSizes", lobbiesMaxSizes);
                     try {
                         myOut.writeObject(answer);
@@ -242,6 +246,8 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             if (lobby.getUsers().contains(leavingUser)) {
                 lobby.removeUser(leavingUser);
                 lobbyID = lobby.getID();
+                if(lobby.getUsers().size() == 0)
+                    waitingLobbies.remove(lobby);
             }
         }
         if (lobbyID == -1) return false;
@@ -262,7 +268,6 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         for(User user : toBeStartedLobby.getUsers())
             if(user.getMyParser() != null){
                 user.getMyParser().setGameHandler(gameHandler);
-                user.getMyParser().setLobbiesHandler(null);
             }
 
 
@@ -341,10 +346,10 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             System.out.print("users: ");
             for(User us : lobby.getUsers())
                 System.out.print(us.getUserName() + " ");
-
-
-
-
+            System.out.println();
+            if(lobby.getGameHandler() != null){
+                lobby.getGameHandler().refresh();
+            }
         }
 
         System.out.print("\nPRE GAME LOBBIES: " );

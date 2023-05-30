@@ -1,9 +1,10 @@
 package client;
+import client.clientModel.ClientPlayer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import server.model.Tile;
+import common.Tile;
 
 import java.io.*;
 import java.net.Socket;
@@ -79,20 +80,22 @@ public class TCPserverParser implements Runnable {
                 case 777:
                     startGame(obj);
                     break;
+                case 778:
+                    personalStartGame(obj);
+                    break;
+                case 5:
+                    ansPickAndInsert(obj);
+                    break;
                 case 6:
 
                     break;
                 case 99:
-                    System.out.println("LOBBIES UPDATE RECIVED:");
-                    List<Integer> lobbiesIDs = (List<Integer>) obj.get("IDs");
-                    List<Integer> lobbiesCurrentSize = (List<Integer>) obj.get("CurrentSizes");
-                    List<Integer> lobbiesMaxSizes = (List<Integer>) obj.get("MaxSizes");
-                    for(int i = 0; i < lobbiesIDs.size(); i++)
-                        System.out.println("ID: "+lobbiesIDs.get(i)+" current size: "+lobbiesCurrentSize.get(i)+" max size: "+lobbiesMaxSizes.get(i));
-
-
+                    onLobbyUpdate(obj);
                     break;
-                case 8:
+                case 100:
+                    onGameUpdate(obj);
+                    break;
+                case 888:
                     //  messaggio con punteggi e vincitori
                     //  bool = false;
                     //  mando messaggi finali
@@ -113,6 +116,10 @@ public class TCPserverParser implements Runnable {
     private void ansClientClosingApp(JSONObject obj){  //-1
         if(obj.get("answer").toString().equals("1")){
             System.out.println("connection closed");
+            System.exit(0);
+        }
+        if(obj.get("answer").toString().equals("2")){
+            System.out.println("player " + obj.get("disconnectedPlayer") + " disconnected --->  game ended :(");
             System.exit(0);
         }
     }
@@ -196,70 +203,92 @@ public class TCPserverParser implements Runnable {
     }
 
     private void startGame(JSONObject obj){  // 777
-        System.out.println("partita cominciata" );
+        System.out.println("GAME STARTED" );
 
         JSONArray array = (JSONArray) obj.get("playersUsernames");  //  already shuffled (first player at [0])
         for(int i=0; i < array.size(); i++)
             clientTCP.getData().addPlayer(array.get(i).toString());
 
-        System.out.print("Players: ");
-        for (int i = 0; i < array.size() ; i++)
-            System.out.print(clientTCP.getData().getPlayers().get(i).getUserName() + " ");
-
-
-
-
         List<List<Long>> intMainBoard = (List<List<Long>>) obj.get("mainBoard");
-        Tile[][] mainBoard = new Tile[9][9];
+        clientTCP.getData().setMainBoard(intMainBoard);
 
-        for(int i = 0; i < 9; i++){
-            List<Long> lis = intMainBoard.get(i);
-            for (int j = 0; j<9; j++){
-                int x = lis.get(j).intValue();
-                switch (x){
-                    case 0:
-                        mainBoard[i][j] = Tile.EMPTY;
-                        break;
-                    case 1:
-                        mainBoard[i][j] = Tile.UNAVAILABLE;
-                        break;
-                    case 2:
-                        mainBoard[i][j] = Tile.BOOK;
-                        break;
-                    case 3:
-                        mainBoard[i][j] = Tile.GAME;
-                        break;
-                    case 4:
-                        mainBoard[i][j] = Tile.FRAME;
-                        break;
-                    case 5:
-                        mainBoard[i][j] = Tile.PLANT;
-                        break;
-                    case 6:
-                        mainBoard[i][j] = Tile.TROPHY;
-                        break;
-                    case 7:
-                        mainBoard[i][j] = Tile.CAT;
-                        break;
-                }
-            }
-
-        }
-        clientTCP.getData().setMainboard(mainBoard);
-
-        System.out.println("\nMain board: ");
-        for(int i = 0; i < 9; i++){
-            for (int j = 0; j<9; j++)
-                System.out.printf("%11s ", clientTCP.getData().getMainboard()[i][j]);
-            System.out.println();
-        }
-
-
-
-
-        System.out.println("\nnew commands:\n-1: close app / abort game\n5: ask game refresh\n6: pick and insert" );
     }
 
+    private void personalStartGame(JSONObject obj){  // 778
+        List<Long> coordinatesList = (List<Long>) obj.get("coordinates");
+        List<Long> intValues = (List<Long>) obj.get("values");
+        Tile[] values = {Tile.EMPTY,Tile.EMPTY,Tile.EMPTY,Tile.EMPTY,Tile.EMPTY,Tile.EMPTY};
+        for(int i = 0; i<6; i++){
+            values[i] = values[i].toTile(intValues.get(i).intValue());
+        }
+        int[] coordinates = coordinatesList.stream().mapToInt(i-> Math.toIntExact(i)).toArray();
+        clientTCP.getData().setMyGoal(coordinates, values);
+        clientTCP.getData().refresh();
+        System.out.println("\ncurrent player turn: " + clientTCP.getData().getPlayers().get(0).getUserName());  // ogni volta ce lo dirà il server, non ce lo salviamo
+        System.out.println("\nnew commands:\n-1: close app / abort game\n 5: pick and insert" );
+    }
 
+    private void ansPickAndInsert(JSONObject obj){  // 5
+        switch (obj.get("answer").toString()){
+            case "0" :
+                System.out.println("not in game");
+                break;
+            case  "-1":
+                System.out.println("you are not the current player :(");
+                break;
+            case "1":
+                System.out.println("pick success");
+                break;
+            case "-2" :
+                System.out.println("coordinates size error, try again");
+                break;
+            case  "-3":
+                System.out.println("you are not the current player :(((");
+                break;
+            case "-4":
+                System.out.println("can't place in that column, try again");
+                break;
+            case "-5":
+                System.out.println("invalid pick, try again");
+                break;
+            case "-6":
+                System.out.println("cant insert there, try again");
+                break;
+            case "-7":
+                System.out.println("coordinates out of bound index, try again");
+                break;
+        }
+    }
+
+    private void onLobbyUpdate(JSONObject obj){  //  99
+        System.out.println("LOBBIES UPDATE RECIVED:");
+        List<Integer> lobbiesIDs = (List<Integer>) obj.get("IDss");
+        List<Integer> lobbiesCurrentSize = (List<Integer>) obj.get("CurrentSizess");
+        List<Integer> lobbiesMaxSizes = (List<Integer>) obj.get("MaxSizes");
+        for(int i = 0; i < lobbiesIDs.size(); i++)
+            System.out.println("ID: "+lobbiesIDs.get(i)+" current size: "+lobbiesCurrentSize.get(i)+" max size: "+lobbiesMaxSizes.get(i));
+    }
+
+    private void onGameUpdate(JSONObject obj){  //  100
+        System.out.println("GAME UPDATE RECIVED:");
+        List<Long> longCols = (List<Long>) obj.get("cols");
+        List<Long> longRows = (List<Long>) obj.get("rows");
+        int[] cols = longCols.stream().mapToInt(i-> Math.toIntExact(i)).toArray();
+        int[] rows = longRows.stream().mapToInt(i-> Math.toIntExact(i)).toArray();
+        String updater = (String) obj.get("updater");
+        String newCurrPlayer = (String) obj.get("newCurrPlayer");
+        int column =  (int) (long) obj.get("column");
+
+        for(int i = 0; i < cols.length; i ++){
+            Tile myTile = clientTCP.getData().getAndSetEmpty(rows[i], cols[i]);
+            for(ClientPlayer player : clientTCP.getData().getPlayers())
+                if(player.getUserName().equals(updater))
+                    player.addTile(myTile, column);
+        }
+
+        clientTCP.getData().refresh();
+        System.out.println("new current player is " + newCurrPlayer);
+
+    }
 
 }

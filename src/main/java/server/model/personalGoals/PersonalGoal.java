@@ -1,10 +1,14 @@
 package server.model.personalGoals;
 
 
-import server.model.Tile;
+import common.Tile;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class PersonalGoal {
-    private int[] coordinates;  //  devono essere passati dal json
+    private Integer[] coordinates;  //  devono essere passati dal json
     private Tile[] values;     //  devono essere passati dal json
     /**
      * @param playerMatrix is the Matrix on which the method will iterate
@@ -34,4 +38,15 @@ public class PersonalGoal {
         }
     }
 
+    public List<Integer> getCoordinatesList() {
+        List<Integer> lis =  Arrays.asList(coordinates);
+        return lis;
+    }
+
+    public List<Integer> getValuesToIntList() {
+        List<Integer> intValues = new ArrayList<>();
+        for(int i = 0; i < 6; i++)
+            intValues.add(values[i].toInt());
+        return intValues;
+    }
 }

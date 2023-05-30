@@ -40,21 +40,25 @@ public class AppClient {
                 case "-1":  // close app
                     client.shutDown();
                     break;
-                case "0":  // create user
+                case "0":
                     client.createUser();
                     break;
-                case "1":  // lobbies list request
+                case "1":
                     client.lobbyListRequest();
                     break;
-                case "2":  // create lobby
+                case "2":
                     client.createLobby();
                     break;
-                case "3":  // join lobby
+                case "3":
                     client.joinLobby();
                     break;
-                case "4":  // leave lobby
+                case "4":
                     client.leaveLobby();
                     break;
+                case "5":
+                    client.pickAndInsert();
+                    break;
+
             }
         }
 

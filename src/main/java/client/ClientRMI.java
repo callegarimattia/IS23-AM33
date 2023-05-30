@@ -1,5 +1,6 @@
 package client;
 
+import client.clientModel.ClientDataStructure;
 import server.Server;
 import server.listenerStuff.GameUpdateEvent;
 import server.listenerStuff.LobbiesUpdateEvent;
@@ -37,6 +38,11 @@ public class ClientRMI implements Client, VirtualView {
             System.out.println(e.getMessage());
             System.exit(1);
         }
+    }
+
+    @Override
+    public void pickAndInsert() {
+
     }
 
     @Override

@@ -1,7 +1,7 @@
 package server.model.commonGoals;
 
 import org.junit.jupiter.api.Test;
-import server.model.Tile;
+import common.Tile;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,5 +1,7 @@
 package server.model;
 
+import common.Tile;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TilesBag {

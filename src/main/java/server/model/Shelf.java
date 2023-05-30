@@ -1,5 +1,6 @@
 package server.model;
 
+import common.Tile;
 import server.exceptions.LastRoundException;
 
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class Shelf {
 
     public boolean isColumnValid(int numTilesToBeInserted, int column) {
         int count = 0;
+        if(column < 0 || column > 4)
+            return false;
         for (int ROW = 0; ROW < ROW_NUMBER; ROW++) {
             if (shelf[ROW][column] != Tile.EMPTY)
                 break;
@@ -28,8 +31,11 @@ public class Shelf {
     }
 
     public boolean insertTiles(int column, ArrayList<Tile> pickedTiles) throws LastRoundException {
-        int ROW =  ROW_NUMBER-1;
-        if (isColumnValid(pickedTiles.size(), column)) return false;
+        int ROW =  ROW_NUMBER-1;  // 6-1
+        if (!isColumnValid(pickedTiles.size(), column)) {
+            System.out.println("la colonna non va bene");
+            return false;
+        }
         while (!shelf[ROW][column].equals(Tile.EMPTY))
             ROW--;
         for (int x=0; x< pickedTiles.size(); x++){
@@ -103,37 +109,21 @@ public class Shelf {
         List<List<Integer>> copy = new ArrayList<>();
         for (int x = 0; x < 6; x++){
             List<Integer> lis = new ArrayList<>();
-            for (int y = 0; y < 5; y++){
-                switch (shelf[x][y]){
-                    case EMPTY:
-                        lis.add(0);
-                        break;
-                    case UNAVAILABLE:
-                        lis.add(1);
-                        break;
-                    case BOOK:
-                        lis.add(2);
-                        break;
-                    case GAME:
-                        lis.add(3);
-                        break;
-                    case FRAME:
-                        lis.add(4);
-                        break;
-                    case PLANT:
-                        lis.add(5);
-                        break;
-                    case TROPHY:
-                        lis.add(6);
-                        break;
-                    case CAT:
-                        lis.add(7);
-                        break;
-                }
-            }
+            for (int y = 0; y < 5; y++)
+                lis.add(shelf[x][y].toInt());
             copy.add(lis);
         }
 
         return copy;
     }
+
+    public void refresh(){  // debug purpose only
+        System.out.println("shelf: ");
+        for(int i = 0; i < 6; i++){
+            for (int j = 0; j<5; j++)
+                System.out.printf("%11s", shelf[i][j]);
+            System.out.println();
+        }
+    }
+
 }

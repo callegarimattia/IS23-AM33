@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import common.Tile;
 import server.exceptions.NotPickableException;
 
 import java.io.IOException;
@@ -62,16 +63,16 @@ public class Board {
     }
 
     private boolean isPickable(MainBoardCoordinates coordinate) {
-        int x = coordinate.getX();
-        int y = coordinate.getY();
-        if (mainBoard[x][y].equals(Tile.EMPTY) || mainBoard[x][y].equals(Tile.UNAVAILABLE))
+        int line = coordinate.getRow();
+        int col = coordinate.getCol();
+        if (mainBoard[line][col].equals(Tile.EMPTY) || mainBoard[line][col].equals(Tile.UNAVAILABLE))
             return false;
-        if (x == 0 || x == 8 || y == 0 || y == 8)
+        if (line == 0 || line == 8 || col == 0 || col == 8 )
             return true;
-        return mainBoard[x + 1][y].equals(Tile.EMPTY) || mainBoard[x + 1][y].equals(Tile.UNAVAILABLE) ||
-                mainBoard[x - 1][y].equals(Tile.EMPTY) || mainBoard[x - 1][y].equals(Tile.UNAVAILABLE) ||
-                mainBoard[x][y + 1].equals(Tile.EMPTY) || mainBoard[x][y + 1].equals(Tile.UNAVAILABLE) ||
-                mainBoard[x][y - 1].equals(Tile.EMPTY) || mainBoard[x][y - 1].equals(Tile.UNAVAILABLE);
+        return mainBoard[line + 1][col].equals(Tile.EMPTY) || mainBoard[line + 1][col].equals(Tile.UNAVAILABLE) ||
+                mainBoard[line - 1][col].equals(Tile.EMPTY) || mainBoard[line - 1][col].equals(Tile.UNAVAILABLE) ||
+                mainBoard[line][col + 1].equals(Tile.EMPTY) || mainBoard[line][col + 1].equals(Tile.UNAVAILABLE) ||
+                mainBoard[line][col - 1].equals(Tile.EMPTY) || mainBoard[line][col - 1].equals(Tile.UNAVAILABLE);
     }
 
 
@@ -79,13 +80,16 @@ public class Board {
     public ArrayList<Tile> removeTiles(List<MainBoardCoordinates> coordinates) throws NotPickableException {
         if (coordinates == null) return null;
         if (coordinates.isEmpty()) return null;
-        for (MainBoardCoordinates XY : coordinates)
-            if (!this.isPickable(XY))
+        for (MainBoardCoordinates coord : coordinates)
+            if (!this.isPickable(coord)){
+                System.out.println("[" + coord.getRow()+"]["+coord.getCol()+"] is not pickable");
                 throw new NotPickableException();
+            }
+
         ArrayList<Tile> pickedTiles = new ArrayList<>();
         for (MainBoardCoordinates XY : coordinates) {
-            pickedTiles.add(mainBoard[XY.getX()][XY.getY()]);
-            mainBoard[XY.getX()][XY.getY()] = Tile.EMPTY;
+            pickedTiles.add(mainBoard[XY.getRow()][XY.getCol()]);
+            mainBoard[XY.getRow()][XY.getCol()] = Tile.EMPTY;
         }
         return pickedTiles;
     }
@@ -106,37 +110,19 @@ public class Board {
         List<List<Integer>> copy = new ArrayList<>();
         for (int x = 0; x < 9; x++) {
             List<Integer> lis = new ArrayList<>();
-            for (int y = 0; y < 9; y++) {
-                switch (mainBoard[x][y]) {
-                    case EMPTY:
-                        lis.add(0);
-                        break;
-                    case UNAVAILABLE:
-                        lis.add(1);
-                        break;
-                    case BOOK:
-                        lis.add(2);
-                        break;
-                    case GAME:
-                        lis.add(3);
-                        break;
-                    case FRAME:
-                        lis.add(4);
-                        break;
-                    case PLANT:
-                        lis.add(5);
-                        break;
-                    case TROPHY:
-                        lis.add(6);
-                        break;
-                    case CAT:
-                        lis.add(7);
-                        break;
-                }
-            }
+            for (int y = 0; y < 9; y++)
+                lis.add(mainBoard[x][y].toInt());
             copy.add(lis);
         }
         return copy;
+    }
+
+    public void refresh(){  // server debug purpose only
+        for(int i = 0; i < 9; i++){
+            for (int j = 0; j<9; j++)
+                System.out.printf("%11s ", mainBoard[i][j]);
+            System.out.println();
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 package server.model.commonGoals;
 
-import server.model.Tile;
+import common.Tile;
 
 public class CommonGoal3 extends CommonGoal{
     //Ritorna true se le caselle ai quattro angoli sono uguali, false altrimenti

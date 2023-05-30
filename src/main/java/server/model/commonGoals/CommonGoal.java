@@ -1,6 +1,6 @@
 package server.model.commonGoals;
 
-import server.model.Tile;
+import common.Tile;
 
 public abstract class CommonGoal {
 
