@@ -1,14 +1,9 @@
 package client;
-
 import client.clientModel.ClientDataStructure;
 import org.json.simple.JSONObject;
-import server.listenerStuff.GameUpdateEvent;
-import server.listenerStuff.LobbiesUpdateEvent;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -36,17 +31,8 @@ public class ClientTCP implements VirtualView, Client {
     }
 
 
-    //  Metodi chiamati dal Server:
 
-    @Override
-    public void GameUpdate(GameUpdateEvent evt) throws RemoteException {
 
-    }
-
-    @Override
-    public void LobbiesUpdate(LobbiesUpdateEvent evt) throws RemoteException {
-
-    }
 
     //  Metodi chiamati dall' Utente:
 
