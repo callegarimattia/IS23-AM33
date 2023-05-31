@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class ClientTCP implements VirtualView, Client {
+public class ClientTCP implements Client {
     private ClientDataStructure data;
     private Socket socket;
     private final ObjectOutputStream out;
@@ -29,9 +29,6 @@ public class ClientTCP implements VirtualView, Client {
         // ci sarà poi ciclo while nel main che chiama i metodi utente
 
     }
-
-
-
 
 
     //  Metodi chiamati dall' Utente:
@@ -66,148 +63,51 @@ public class ClientTCP implements VirtualView, Client {
     }
 
     @Override
-    public void createUser() {  // 0
-        if(data.getMyUsername() == null){
-            System.out.print("insert userName: ");
-            Scanner in = new Scanner(System.in);
-            String newUsername = in.next();
-            JSONObject obj = new JSONObject();
-            obj.put("type", 0);
-            obj.put("userName", newUsername);
-            sendMessage(obj.toString());
-        }
-        else {
-            System.out.println("invalid command, username already setted");
-        }
+    public void createUser(String userName) {  // 0
+        JSONObject obj = new JSONObject();
+        obj.put("type", 0);
+        obj.put("userName", userName);
+        sendMessage(obj.toString());
     }
 
     @Override
     public void lobbyListRequest() {  // 1
-        if(data.getPlayers() == null || data.getPlayers().size() < 2){
-            JSONObject obj = new JSONObject();
-            obj.put("type", 1);
-            sendMessage(obj.toString());
-        }
-        else {
-            System.out.println("invalid command, game already started");
-        }
+        JSONObject obj = new JSONObject();
+        obj.put("type", 1);
+        sendMessage(obj.toString());
     }
 
     @Override
-    public void createLobby() {  // 2
-        if(data.getPlayers() == null || data.getPlayers().size() < 2){
-            Scanner in = new Scanner(System.in);
-            System.out.print("insert game size (max 4) : ");
-            String str = in.next();
-            while (!str.matches("-?\\d+(\\.\\d+)?")){
-                System.out.print("insert a valid integer please: ");
-                str = in.next();
-            }
-            int gameSize = Integer.parseInt(str);
-            JSONObject obj = new JSONObject();
-            obj.put("type", 2);
-            obj.put("size", gameSize);
-            sendMessage(obj.toString());
-        }
-        else {
-            System.out.println("invalid command, game already started");
-        }
+    public void createLobby(int gameSize) {  // 2
+        JSONObject obj = new JSONObject();
+        obj.put("type", 2);
+        obj.put("size", gameSize);
+        sendMessage(obj.toString());
     }
 
     @Override
-    public void joinLobby() {  // 3
-        if(data.getPlayers() == null || data.getPlayers().size() < 2){
-            Scanner in = new Scanner(System.in);
-            System.out.print("insert to be joined lobby ID: ");
-            String str = in.next();
-            while (!str.matches("-?\\d+(\\.\\d+)?")){
-                System.out.print("insert a valid integer please: ");
-                str = in.next();
-            }
-            int ID = Integer.parseInt(str);
-            JSONObject obj = new JSONObject();
-            obj.put("type", 3);
-            obj.put("tobeJoinedLobbyID", ID);
-            sendMessage(obj.toString());
-        }
-        else {
-            System.out.println("invalid command, game already started");
-        }
+    public void joinLobby(int ID) {  // 3JSONObject obj = new JSONObject();
+        JSONObject obj = new JSONObject();
+        obj.put("type", 3);
+        obj.put("tobeJoinedLobbyID", ID);
+        sendMessage(obj.toString());
     }
 
     @Override
     public void leaveLobby() {  // 4
-        if(data.getPlayers() == null || data.getPlayers().size() < 2){
-            JSONObject obj = new JSONObject();
-            obj.put("type", 4);
-            sendMessage(obj.toString());
-        }
-        else {
-            System.out.println("invalid command, game already started");
-        }
+        JSONObject obj = new JSONObject();
+        obj.put("type", 4);
+        sendMessage(obj.toString());
     }
 
     @Override
-    public void pickAndInsert() {  // 5
-        if(data.getPlayers() == null || data.getPlayers().size() < 2)
-            System.out.println("invalid command, game didn't start yet");
-        else {
-            Scanner in = new Scanner(System.in);
-            System.out.print("(-1 to cancel method call) \ninsert num of tiles you want to pick from the mainBoard : ");
-            String str = in.next();
-            while (!str.matches("-?\\d+(\\.\\d+)?")){
-                System.out.print("insert a valid integer please: ");
-                str = in.next();
-            }
-            int numOfTiles = Integer.parseInt(str);
-            if(numOfTiles == -1){
-                System.out.println("method cancelled");
-                return;
-            }
-
-            List<Integer> columns = new ArrayList<>();
-            List<Integer> rows = new ArrayList<>();
-            for(int i = 0; i < numOfTiles; i++){
-                System.out.print("insert column of the " + (i+1) + "° tile  (starts from 1) : ");
-                str = in.next();
-                while (!str.matches("-?\\d+(\\.\\d+)?")){
-                    System.out.print("insert a valid integer please: ");
-                    str = in.next();
-                }
-                columns.add(Integer.parseInt(str) - 1);
-                if(columns.get(i) + 1 == -1){
-                    System.out.println("method cancelled");
-                    return;
-                }
-
-                System.out.print("insert row of the " + (i+1) + "° tile  (starts from 1) : ");
-                str = in.next();
-                while (!str.matches("-?\\d+(\\.\\d+)?")){
-                    System.out.print("insert a valid integer please: ");
-                    str = in.next();
-                }
-                rows.add(Integer.parseInt(str) - 1);
-                if(rows.get(i) + 1 == -1){
-                    System.out.println("method cancelled");
-                    return;
-                }
-            }
-
-            System.out.print("insert the column of your Shelf where you want to place the tile/s (starts from 1): ");
-            str = in.next();
-            while (!str.matches("-?\\d+(\\.\\d+)?")){
-                System.out.print("insert a valid integer please: ");
-                str = in.next();
-            }
-            int myColumn = Integer.parseInt(str) -1 ;
-
-            JSONObject obj = new JSONObject();
-            obj.put("type", 5);
-            obj.put("columns", columns);
-            obj.put("rows", rows);
-            obj.put("myColumn", myColumn);
-            sendMessage(obj.toString());
-        }
+    public void pickAndInsert(List<Integer> rows, List<Integer> columns, int myColumn) {  // 5
+        JSONObject obj = new JSONObject();
+        obj.put("type", 5);
+        obj.put("columns", columns);
+        obj.put("rows", rows);
+        obj.put("myColumn", myColumn);
+        sendMessage(obj.toString());
     }
 
 

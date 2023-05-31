@@ -24,43 +24,27 @@ public class AppClient {
             client.newConnection("localhost", 1099);  // dovranno essere presi da arg/json/CL
         }
 
+        //  CLI or GUI
 
+        System.out.println("CLI or GUI ? (C/G): ");
+        str = in.next();
 
-
-        //  CLI
-
-        boolean inGame = false;
-        System.out.println("List of commands: \n-1: exit game\n0: create user\n1: ask list of lobbies\n2: new lobby\n3: join lobby\n4: leave lobby");
-        while (!inGame){
-            String x = in.next();
-            switch (x){
-                default:
-                    System.out.println("invalid command, try again");
-                    break;
-                case "-1":  // close app
-                    client.shutDown();
-                    break;
-                case "0":
-                    client.createUser();
-                    break;
-                case "1":
-                    client.lobbyListRequest();
-                    break;
-                case "2":
-                    client.createLobby();
-                    break;
-                case "3":
-                    client.joinLobby();
-                    break;
-                case "4":
-                    client.leaveLobby();
-                    break;
-                case "5":
-                    client.pickAndInsert();
-                    break;
-
-            }
+        while (!(str.equals("C") || str.equals("c") || str.equals("G") || str.equals("g"))){
+            System.out.print("invalid input, try again: ");
+            str = in.next();
         }
+
+        if (str.equals("C") || str.equals("c")) {  // CLI
+            Runnable r = new CLI(client);
+            Thread th = new Thread(r);
+            th.start();
+        } else {  // GUI
+
+        }
+
+
+
+
 
 
     }
