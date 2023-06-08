@@ -8,6 +8,7 @@ import server.exceptions.NotPickableException;
 import server.listenerStuff.GameUpdateEvent;
 import server.model.commonGoals.CommonGoal;
 import server.model.commonGoals.CommonGoal1;
+import server.model.commonGoals.CommonGoalDrawer;
 import server.model.personalGoals.PersonalGoalDrawer;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -24,12 +25,16 @@ public class Game {
     private final List<Player> players;
 
     // dovranno in realta poi essere scritte e generate randomicamente dal file Json:
-    private final CommonGoal comG1;
-    private final CommonGoal comG2;
+    private CommonGoal comG1;
+    private CommonGoal comG2;
     private final List<String> solvOrder1;  // tiene traccia dell' ordine di completamento del primo common goal
     private final List<String> solvOrder2;
     private int lastPlayer = -1;
+    private CommonGoalDrawer commonGoalDrawer;
+    private int commonGoal1;
+    private int CommonGoal2;
 
+    private int[] commonGoalList;
     public Game(List<Player> players) {
         try {
             personalGoalDrawer = new PersonalGoalDrawer();
@@ -41,8 +46,11 @@ public class Game {
         players.forEach(player -> player.setPersonalGoal(personalGoalDrawer.draw()));
         //pick two common goal
         mainBoard = new Board(players.size());
-        comG1 = new CommonGoal1();    // dovranno in realta poi essere scritte e generate randomicamente :
+        comG1 = new CommonGoal1();
+        commonGoal1 = commonGoalDrawer.drawer();
+        comG1 = commonGoalDrawer.commonGoalInitializer(commonGoal1, -1);// dovranno in realta poi essere scritte e generate randomicamente :
         comG2 = new CommonGoal1();
+        comG2 = commonGoalDrawer.commonGoalInitializer(commonGoalDrawer.drawer(), commonGoal1);
         Collections.shuffle(players);  // ordine casuale per scegliere primo giocatore
         // RMI:
 
