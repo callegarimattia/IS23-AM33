@@ -32,7 +32,6 @@ public class Game {
     private int lastPlayer = -1;
     private CommonGoalDrawer commonGoalDrawer;
     private int commonGoal1;
-    private int CommonGoal2;
 
     private int[] commonGoalList;
     public Game(List<Player> players) {

@@ -31,6 +31,7 @@ public class CommonGoal6Test {
             {Tile.TROPHY, Tile.TROPHY,Tile.PLANT,Tile.BOOK,Tile.BOOK},
             {Tile.FRAME, Tile.FRAME,Tile.BOOK,Tile.CAT,Tile.TROPHY},
             };
+    //to be converted into json files
 
     @Test
     void emptyMatrixTest(){
