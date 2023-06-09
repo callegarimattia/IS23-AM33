@@ -1,9 +1,8 @@
 package server.model.commonGoals;
-
 import org.junit.jupiter.api.Test;
 import common.Tile;
-
 import static org.junit.jupiter.api.Assertions.*;
+
 
 class CommonGoal1Test {
     CommonGoal1 commonGoal1 = new CommonGoal1();
@@ -44,7 +43,7 @@ class CommonGoal1Test {
             {Tile.GAME, Tile.FRAME,Tile.EMPTY,Tile.PLANT,Tile.EMPTY},
             {Tile.GAME, Tile.FRAME,Tile.EMPTY,Tile.EMPTY,Tile.EMPTY},
     };
-
+//to be converted into json files
    @Test
     void IncorrectMatrixTest(){
         boolean wrong = false;

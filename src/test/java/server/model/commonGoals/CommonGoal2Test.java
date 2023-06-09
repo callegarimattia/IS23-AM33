@@ -53,6 +53,7 @@ class CommonGoal2Test {
             {Tile.TROPHY, Tile.CAT,Tile.PLANT,Tile.BOOK,Tile.BOOK},
             {Tile.PLANT, Tile.EMPTY,Tile.BOOK,Tile.CAT,Tile.TROPHY},
     };
+    //to be converted into json files
 @Test
     void EmptyMatrixIsSolvedTest(){
         boolean wrong = false;
