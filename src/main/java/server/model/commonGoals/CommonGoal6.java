@@ -9,8 +9,11 @@ public class CommonGoal6 extends CommonGoal{
     public boolean isSolved(Tile[][] matrix) {
         int count = 0;
         int different;
+        boolean empty = false;
         for(int i = 0; i<COL_NUMBER; i++){
+            empty = false;
             different = 0;
+            if(matrix[i][0] == Tile.EMPTY) empty = true;
             for(int j = 0; j<ROW_NUMBER-1; j++){
                 for(int k=j+1; k<ROW_NUMBER; k++){
                     if(matrix[j][i]==Tile.EMPTY || matrix[j][i] == matrix[k][i]){
@@ -20,7 +23,7 @@ public class CommonGoal6 extends CommonGoal{
                     }
                 }
             }
-           if(different == 0){
+           if(different == 0 && !empty){
                count++;
            }
         }
