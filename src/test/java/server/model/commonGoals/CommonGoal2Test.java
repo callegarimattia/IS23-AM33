@@ -56,39 +56,27 @@ class CommonGoal2Test {
     //to be converted into json files
 @Test
     void EmptyMatrixIsSolvedTest(){
-        boolean wrong = false;
-        boolean actual = commonGoal2.isSolved(emptyMatrix);
-        assertEquals(wrong, actual);
+        assertFalse(commonGoal2.isSolved(emptyMatrix));
     }
 @Test
     void FirstDiagonalCorrectTest(){
-        boolean correct = true;
-        boolean actual = commonGoal2.isSolved(correctMatrixFirstDiagonal);
-        assertEquals(correct, actual);
+        assertTrue(commonGoal2.isSolved(correctMatrixFirstDiagonal));
     }
     @Test
     void SecondDiagonalCorrectTest(){
-        boolean correct = true;
-        boolean actual = commonGoal2.isSolved(correctMatrixSecondDiagonal);
-        assertEquals(correct, actual);
+        assertTrue(commonGoal2.isSolved(correctMatrixSecondDiagonal));
     }
     @Test
     void ThirdDiagonalCorrectTest(){
-        boolean correct = true;
-        boolean actual = commonGoal2.isSolved(correctMatrixThirdDiagonal);
-        assertEquals(correct, actual);
+        assertTrue(commonGoal2.isSolved(correctMatrixThirdDiagonal));
     }
     @Test
     void FourthDiagonalCorrectTest(){
-        boolean correct = true;
-        boolean actual = commonGoal2.isSolved(correctMatrixFourthDiagonal);
-        assertEquals(correct, actual);
+        assertTrue(commonGoal2.isSolved(correctMatrixFourthDiagonal));
     }
     @Test
     void IncorrectMatrixTest(){
-        boolean wrong = false;
-        boolean actual = commonGoal2.isSolved(incorrectMatrix);
-        assertEquals(wrong, actual);
+        assertFalse(commonGoal2.isSolved(incorrectMatrix));
     }
 
 }

@@ -32,21 +32,15 @@ public class CommonGoal10Test {
 
     @Test
     void emptyMatrixTest(){
-        boolean wrong = false;
-        boolean actual = commonGoal10.isSolved(emptyMatrix);
-        assertEquals(wrong,actual);
+        assertFalse(commonGoal10.isSolved(emptyMatrix));
     }
 
     @Test
     void correctMatrixTest(){
-        boolean correct = true;
-        boolean actual = commonGoal10.isSolved(correctMatrix);
-        assertEquals(correct,actual);
+        assertTrue(commonGoal10.isSolved(correctMatrix));
     }
     @Test
     void wrongMatrixTest(){
-        boolean wrong = false;
-        boolean actual = commonGoal10.isSolved(wrongMatrix);
-        assertEquals(wrong,actual);
+        assertFalse(commonGoal10.isSolved(wrongMatrix));
     }
 }

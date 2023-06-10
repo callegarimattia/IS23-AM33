@@ -32,21 +32,15 @@ class CommonGoal3Test {
     //to be converted into json files
 @Test
     void EmptyMatrixIsSolvedTest(){
-        boolean wrong = false;
-        boolean actual = commonGoal3.isSolved(emptyMatrix);
-        assertEquals(wrong, actual);
+        assertFalse(commonGoal3.isSolved(emptyMatrix));
     }
     @Test
     void CorrectMatrixIsSolvedTest(){
-        boolean correct = true;
-        boolean actual = commonGoal3.isSolved(correctMatrix);
-        assertEquals(correct, actual);
+       assertTrue(commonGoal3.isSolved(correctMatrix));
     }
     @Test
     void WrongMatrixIsSolvedTest(){
-        boolean wrong = false;
-        boolean actual = commonGoal3.isSolved(incorrectMatrix);
-        assertEquals(wrong, actual);
+        assertFalse(commonGoal3.isSolved(incorrectMatrix));
     }
 
 }

@@ -34,7 +34,6 @@ public class CommonGoal5 extends CommonGoal{
                 clustArr[clusterShelf[ROW][COL]]++;
             }
         }
-        int points = 0;
         for (int k = 1; k < clustArr.length-1; k++) if (clustArr[k] == 4) {
             count++;
         }

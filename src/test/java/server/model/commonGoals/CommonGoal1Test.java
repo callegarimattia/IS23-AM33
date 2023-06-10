@@ -46,33 +46,23 @@ class CommonGoal1Test {
 //to be converted into json files
    @Test
     void IncorrectMatrixTest(){
-        boolean wrong = false;
-        boolean actual = commonGoal1.isSolved(wrongMatrix);
-        assertEquals(wrong, actual);
+        assertFalse(commonGoal1.isSolved(wrongMatrix));
     }
     @Test
     void CorrectMatrixTest(){
-        boolean correct = true;
-        boolean actual = commonGoal1.isSolved(correctMatrix);
-        assertEquals(correct, actual);
+        assertTrue(commonGoal1.isSolved(correctMatrix));
     }
 @Test
     void EmptyMatrixTest(){
-        boolean wrong = false;
-        boolean actual = commonGoal1.isSolved(emptyMatrix);
-        assertEquals(wrong, actual);
+        assertFalse(commonGoal1.isSolved(emptyMatrix));
     }
     @Test
     void TooManyCatsTest(){
-        boolean wrong = false;
-        boolean actual = commonGoal1.isSolved(tooManyCatMatrix);
-        assertEquals(wrong, actual);
+        assertFalse(commonGoal1.isSolved(tooManyCatMatrix));
     }
     @Test
     void TooManyCoupleTest(){
-        boolean wrong = false;
-        boolean actual = commonGoal1.isSolved(tooManyCouplesMatrix);
-        assertEquals(wrong, actual);
+        assertFalse(commonGoal1.isSolved(tooManyCouplesMatrix));
     }
 
 }

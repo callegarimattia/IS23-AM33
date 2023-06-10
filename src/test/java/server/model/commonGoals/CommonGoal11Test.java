@@ -4,8 +4,8 @@ import common.Tile;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class CommonGoal6Test {
-    CommonGoal6 commonGoal6 = new CommonGoal6();
+public class CommonGoal11Test {
+    CommonGoal11 commonGoal11 = new CommonGoal11();
     Tile[][] emptyMatrix = new Tile[][] {{Tile.EMPTY, Tile.EMPTY,Tile.EMPTY,Tile.EMPTY,Tile.EMPTY},
             {Tile.EMPTY, Tile.EMPTY,Tile.EMPTY,Tile.EMPTY,Tile.EMPTY},
             {Tile.EMPTY, Tile.EMPTY,Tile.EMPTY,Tile.EMPTY,Tile.EMPTY},
@@ -16,34 +16,31 @@ public class CommonGoal6Test {
 
     Tile[][] correctMatrix = new Tile[][]
             {{Tile.PLANT, Tile.GAME,Tile.BOOK,Tile.GAME,Tile.BOOK},
-                    {Tile.FRAME, Tile.FRAME,Tile.PLANT,Tile.FRAME,Tile.TROPHY},
-                    {Tile.CAT, Tile.CAT,Tile.TROPHY,Tile.TROPHY,Tile.TROPHY},
-                    {Tile.BOOK, Tile.CAT,Tile.TROPHY,Tile.PLANT,Tile.BOOK},
+                    {Tile.PLANT, Tile.FRAME,Tile.PLANT,Tile.FRAME,Tile.TROPHY},
+                    {Tile.FRAME, Tile.CAT,Tile.TROPHY,Tile.TROPHY,Tile.TROPHY},
+                    {Tile.FRAME, Tile.CAT,Tile.TROPHY,Tile.PLANT,Tile.BOOK},
                     {Tile.TROPHY, Tile.TROPHY,Tile.PLANT,Tile.BOOK,Tile.BOOK},
-                    {Tile.GAME, Tile.FRAME,Tile.BOOK,Tile.CAT,Tile.TROPHY},
+                    {Tile.TROPHY, Tile.FRAME,Tile.BOOK,Tile.CAT,Tile.GAME},
             };
-
     Tile[][] wrongMatrix = new Tile[][]
             {{Tile.PLANT, Tile.GAME,Tile.BOOK,Tile.GAME,Tile.BOOK},
-            {Tile.FRAME, Tile.FRAME,Tile.PLANT,Tile.FRAME,Tile.TROPHY},
-            {Tile.CAT, Tile.CAT,Tile.TROPHY,Tile.TROPHY,Tile.TROPHY},
-            {Tile.BOOK, Tile.CAT,Tile.TROPHY,Tile.PLANT,Tile.BOOK},
-            {Tile.TROPHY, Tile.TROPHY,Tile.PLANT,Tile.BOOK,Tile.BOOK},
-            {Tile.FRAME, Tile.FRAME,Tile.BOOK,Tile.CAT,Tile.TROPHY},
+                    {Tile.PLANT, Tile.FRAME,Tile.PLANT,Tile.FRAME,Tile.TROPHY},
+                    {Tile.CAT, Tile.CAT,Tile.TROPHY,Tile.TROPHY,Tile.TROPHY},
+                    {Tile.FRAME, Tile.CAT,Tile.TROPHY,Tile.PLANT,Tile.BOOK},
+                    {Tile.TROPHY, Tile.TROPHY,Tile.PLANT,Tile.BOOK,Tile.BOOK},
+                    {Tile.CAT, Tile.FRAME,Tile.BOOK,Tile.CAT,Tile.CAT},
             };
-    //to be converted into json files
 
     @Test
     void emptyMatrixTest(){
-        assertFalse(commonGoal6.isSolved(emptyMatrix));
+        assertFalse(commonGoal11.isSolved(emptyMatrix));
     }
-
     @Test
     void correctMatrixTest(){
-        assertTrue(commonGoal6.isSolved(correctMatrix));
+        assertTrue(commonGoal11.isSolved(correctMatrix));
     }
     @Test
     void wrongMatrixTest(){
-        assertFalse(commonGoal6.isSolved(wrongMatrix));
+        assertFalse(commonGoal11.isSolved(wrongMatrix));
     }
 }
