@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            fx:controller="com.example.gui.LobbyListController"
+            prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <VBox fx:id="VboxMain"
+              alignment="TOP_CENTER"
+              prefHeight="423.0"
+              prefWidth="341.0"
+              AnchorPane.bottomAnchor="40.0"
+              AnchorPane.leftAnchor="100.0"
+              AnchorPane.rightAnchor="100.0"
+              AnchorPane.topAnchor="20.0">
+            <children>
+                <Label fx:id="TitleLbl"
+                       alignment="TOP_LEFT"
+                       text="Lobby List">
+                    <Font name="System Bold" size="18.0"/>
+                </Label>
+                <ListView fx:id="listBoxMain"
+                          prefHeight="200.0"
+                          prefWidth="200.0"/>
+                <HBox id="HBox" fx:id="HBox4Btns"
+                      alignment="CENTER"
+                      spacing="5.0">
+                    <children>
+                        <Button fx:id="BtnRefresh"
+                                mnemonicParsing="false"
+                                onAction="#refreshList"
+                                text="Refresh"/>
+                        <Button fx:id="BtnCreateLobby"
+                                mnemonicParsing="false"
+                                onAction="#createLobby"
+                                text="New Lobby"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
