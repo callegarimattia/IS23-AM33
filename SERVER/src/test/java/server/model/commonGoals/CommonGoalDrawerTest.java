@@ -1,4 +1,4 @@
-package server.model.commonGoals;
+package java.server.model.commonGoals;
 import org.junit.jupiter.api.Test;
 import common.Tile;
 import static org.junit.jupiter.api.Assertions.*;
