@@ -10,12 +10,12 @@ Java implementation of the table game [My Shelfie](https://craniointernational.c
 | Functionality | State |
 |---|--|
 |Regole semplificate |:white_check_mark:|
-|Regole complete |:construction:|
-|TUI|:construction:|
+|Regole complete |:white_check_mark:|
+|TUI|:white_check_mark:|
 |GUI|:construction:|
-|RMI|:construction:|
-|Socket|:construction:|
-|Partite Multiple|:construction:|
+|RMI|:white_check_mark:|
+|Socket|:white_check_mark:|
+|Partite Multiple|:white_check_mark:|
 |Persistenza|:x:|
 |Resilienza disconnessioni|:x:|
 |Chat|:x:|
