@@ -1,9 +1,10 @@
 package server.model.commonGoals;
 
-import org.junit.jupiter.api.Test;
 import common.Tile;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CommonGoal3Test {
     CommonGoal3 commonGoal3 = new CommonGoal3();
@@ -29,23 +30,19 @@ class CommonGoal3Test {
             {Tile.TROPHY, Tile.CAT,Tile.PLANT,Tile.BOOK,Tile.BOOK},
             {Tile.PLANT, Tile.EMPTY,Tile.BOOK,Tile.CAT,Tile.TROPHY},
     };
+
+    //to be converted into json files
 @Test
-    void EmptyMatrixIsSolvedTest(){
-        boolean wrong = false;
-        boolean actual = commonGoal3.isSolved(emptyMatrix);
-        assertEquals(wrong, actual);
-    }
+void EmptyMatrixIsSolvedTest(){
+    assertFalse(commonGoal3.isSolved(emptyMatrix));
+}
     @Test
     void CorrectMatrixIsSolvedTest(){
-        boolean correct = true;
-        boolean actual = commonGoal3.isSolved(correctMatrix);
-        assertEquals(correct, actual);
+        assertTrue(commonGoal3.isSolved(correctMatrix));
     }
     @Test
     void WrongMatrixIsSolvedTest(){
-        boolean wrong = false;
-        boolean actual = commonGoal3.isSolved(incorrectMatrix);
-        assertEquals(wrong, actual);
+        assertFalse(commonGoal3.isSolved(incorrectMatrix));
     }
 
 }

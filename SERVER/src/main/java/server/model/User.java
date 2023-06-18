@@ -1,10 +1,9 @@
 package server.model;
 
-import common.VirtualView;
+import client.VirtualView;
 import server.controller.TCPclientParser;
 
 import java.io.Serializable;
-import java.net.Socket;
 import java.util.Objects;
 
 public class User implements Serializable {

@@ -1,30 +1,27 @@
-package com.example.gui.client;
+package client;
 
-import com.example.gui.client.listenerStuff.GameUpdateEvent;
-import com.example.gui.client.listenerStuff.LobbiesUpdateEvent;
-import com.example.gui.common.VirtualView;
+import client.clientModel.ClientDataStructure;
 import org.json.simple.JSONObject;
-
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.rmi.RemoteException;
+import java.util.List;
 import java.util.Scanner;
 
 
-public class ClientTCP implements VirtualView, Client {
-    private final ClientDataStructure data;
-    private Socket socket;
+public class ClientTCP implements Client {
     private final ObjectOutputStream out;
     private final String ip = "127.0.0.1";   // saranno poi da prendere da arg / json
     private final int port = 2345;  // saranno poi da prendere da arg / json
     private final int gameStatus;
+    private ClientDataStructure data;
+    private Socket socket;
     private Scanner in;
 
     public ClientTCP() throws IOException {
         data = new ClientDataStructure();
-        newConnection(ip,port);
+        newConnection(ip, port);
         out = new ObjectOutputStream(socket.getOutputStream());
         Runnable parser = new TCPserverParser(socket, this);
         Thread th = new Thread(parser);
@@ -34,18 +31,6 @@ public class ClientTCP implements VirtualView, Client {
 
     }
 
-
-    //  Metodi chiamati dal Server:
-
-    @Override
-    public void GameUpdate(GameUpdateEvent evt) throws RemoteException {
-
-    }
-
-    @Override
-    public void LobbiesUpdate(LobbiesUpdateEvent evt) throws RemoteException {
-
-    }
 
     //  Metodi chiamati dall' Utente:
 
@@ -59,38 +44,30 @@ public class ClientTCP implements VirtualView, Client {
         }
     }
 
-    private void sendMessage(String message){
+
+    private void sendMessage(String message) {
         try {
             out.writeObject(message);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("Data Sent ...");
     }
 
     @Override
     public void shutDown() {  // -1
         JSONObject obj = new JSONObject();
         obj.put("type", -1);
-        if(data.getMyUsername()!= null)
+        if (data.getMyUsername() != null)
             obj.put("toBeDeletedUser", data.getMyUsername());
         sendMessage(obj.toString());
     }
 
     @Override
-    public void createUser() {  // 0
-        if(data.getMyUsername() == null){
-            System.out.print("insert userName: ");
-            Scanner in = new Scanner(System.in);
-            String newUsername = in.next();
-            JSONObject obj = new JSONObject();
-            obj.put("type", 0);
-            obj.put("userName", newUsername);
-            sendMessage(obj.toString());
-        }
-        else {
-            System.out.println("invalid command, username already setted");
-        }
+    public void createUser(String userName) {  // 0
+        JSONObject obj = new JSONObject();
+        obj.put("type", 0);
+        obj.put("userName", userName);
+        sendMessage(obj.toString());
     }
 
     @Override
@@ -101,10 +78,7 @@ public class ClientTCP implements VirtualView, Client {
     }
 
     @Override
-    public void createLobby() {  // 2
-        System.out.print("insert game size (max 4) : ");
-        Scanner in = new Scanner(System.in);
-        int gameSize = in.nextInt();
+    public void createLobby(int gameSize) {  // 2
         JSONObject obj = new JSONObject();
         obj.put("type", 2);
         obj.put("size", gameSize);
@@ -112,16 +86,7 @@ public class ClientTCP implements VirtualView, Client {
     }
 
     @Override
-    public void joinLobby() {  // 3
-        Scanner in = new Scanner(System.in);
-        System.out.print("insert to be joined lobby ID: ");
-        String str = in.next();
-        while (!str.matches("-?\\d+(\\.\\d+)?")){
-            System.out.print("insert a valid integer please: ");
-            str = in.next();
-        }
-        int ID = Integer.parseInt(str);
-        System.out.println("sto per mandare l ID: " + ID);
+    public void joinLobby(int ID) {  // 3JSONObject obj = new JSONObject();
         JSONObject obj = new JSONObject();
         obj.put("type", 3);
         obj.put("tobeJoinedLobbyID", ID);
@@ -135,6 +100,15 @@ public class ClientTCP implements VirtualView, Client {
         sendMessage(obj.toString());
     }
 
+    @Override
+    public void pickAndInsert(List<Integer> rows, List<Integer> columns, int myColumn) {  // 5
+        JSONObject obj = new JSONObject();
+        obj.put("type", 5);
+        obj.put("columns", columns);
+        obj.put("rows", rows);
+        obj.put("myColumn", myColumn);
+        sendMessage(obj.toString());
+    }
 
 
     @Override
@@ -148,7 +122,7 @@ public class ClientTCP implements VirtualView, Client {
     }
 
     public void setUserName(String userName) {
-        data.setMyUsername(userName);
+        data.ClientDataStructure(userName);
     }
 
     public ClientDataStructure getData() {

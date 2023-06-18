@@ -1,7 +1,9 @@
-package java.server.model.commonGoals;
-import org.junit.jupiter.api.Test;
+package server.model.commonGoals;
+
 import common.Tile;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CommonGoal5Test {
     CommonGoal5 commonGoal5 = new CommonGoal5();

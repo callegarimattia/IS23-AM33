@@ -1,10 +1,12 @@
 package server.controller;
+
 import org.json.simple.JSONObject;
-import common.Server;
+import server.Server;
 import server.exceptions.LobbiesHandlerException;
 import server.listenerStuff.LobbiesUpdateEvent;
 import server.model.Lobby;
 import server.model.User;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;

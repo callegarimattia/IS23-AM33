@@ -1,7 +1,8 @@
-package java.server.model.commonGoals;
+package server.model.commonGoals;
+
 import org.junit.jupiter.api.Test;
-import common.Tile;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CommonGoalDrawerTest {
     private final CommonGoalDrawer commonGoalDrawer = new CommonGoalDrawer();

@@ -1,10 +1,7 @@
-package common;
-
-import server.model.Lobby;
+package server;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Set;
 
 public interface Server extends Remote {
 

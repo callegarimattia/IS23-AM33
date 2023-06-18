@@ -1,9 +1,10 @@
 package server.model.commonGoals;
 
-import org.junit.jupiter.api.Test;
 import common.Tile;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CommonGoal2Test {
     CommonGoal2 commonGoal2 = new CommonGoal2();
@@ -53,41 +54,31 @@ class CommonGoal2Test {
             {Tile.TROPHY, Tile.CAT,Tile.PLANT,Tile.BOOK,Tile.BOOK},
             {Tile.PLANT, Tile.EMPTY,Tile.BOOK,Tile.CAT,Tile.TROPHY},
     };
+
+    //to be converted into json files
 @Test
-    void EmptyMatrixIsSolvedTest(){
-        boolean wrong = false;
-        boolean actual = commonGoal2.isSolved(emptyMatrix);
-        assertEquals(wrong, actual);
-    }
+void EmptyMatrixIsSolvedTest(){
+    assertFalse(commonGoal2.isSolved(emptyMatrix));
+}
 @Test
     void FirstDiagonalCorrectTest(){
-        boolean correct = true;
-        boolean actual = commonGoal2.isSolved(correctMatrixFirstDiagonal);
-        assertEquals(correct, actual);
+    assertTrue(commonGoal2.isSolved(correctMatrixFirstDiagonal));
     }
     @Test
     void SecondDiagonalCorrectTest(){
-        boolean correct = true;
-        boolean actual = commonGoal2.isSolved(correctMatrixSecondDiagonal);
-        assertEquals(correct, actual);
+        assertTrue(commonGoal2.isSolved(correctMatrixSecondDiagonal));
     }
     @Test
     void ThirdDiagonalCorrectTest(){
-        boolean correct = true;
-        boolean actual = commonGoal2.isSolved(correctMatrixThirdDiagonal);
-        assertEquals(correct, actual);
+        assertTrue(commonGoal2.isSolved(correctMatrixThirdDiagonal));
     }
     @Test
     void FourthDiagonalCorrectTest(){
-        boolean correct = true;
-        boolean actual = commonGoal2.isSolved(correctMatrixFourthDiagonal);
-        assertEquals(correct, actual);
+        assertTrue(commonGoal2.isSolved(correctMatrixFourthDiagonal));
     }
     @Test
     void IncorrectMatrixTest(){
-        boolean wrong = false;
-        boolean actual = commonGoal2.isSolved(incorrectMatrix);
-        assertEquals(wrong, actual);
+        assertFalse(commonGoal2.isSolved(incorrectMatrix));
     }
 
 }

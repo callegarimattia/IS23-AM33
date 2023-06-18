@@ -1,7 +1,10 @@
-package java.server.model.commonGoals;
-import org.junit.jupiter.api.Test;
+package server.model.commonGoals;
+
 import common.Tile;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CommonGoal10Test {
     CommonGoal10 commonGoal10 = new CommonGoal10();
     Tile[][] emptyMatrix = new Tile[][] {{Tile.EMPTY, Tile.EMPTY,Tile.EMPTY,Tile.EMPTY,Tile.EMPTY},

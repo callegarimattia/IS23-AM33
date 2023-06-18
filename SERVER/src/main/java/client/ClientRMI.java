@@ -1,24 +1,29 @@
-package com.example.gui.client;
+package client;
 
-
-import com.example.gui.client.listenerStuff.GameUpdateEvent;
-import com.example.gui.client.listenerStuff.LobbiesUpdateEvent;
-import com.example.gui.common.Server;
-import com.example.gui.common.VirtualView;
+import client.clientModel.ClientDataStructure;
+import server.Server;
+import server.listenerStuff.GameUpdateEvent;
+import server.listenerStuff.LobbiesUpdateEvent;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import java.util.Scanner;
 
 public class ClientRMI implements Client, VirtualView {
-    private ClientDataStructure data;
     Registry registry;
     Server server;
     String username;
     int lobbyID;
     Scanner scanner = new Scanner(System.in);
+    private ClientDataStructure data;
+
+    @Override
+    public ClientDataStructure getData() {
+        return data;
+    }
 
     @Override
     public void newConnection(String serverIP, int port) {
@@ -42,13 +47,19 @@ public class ClientRMI implements Client, VirtualView {
     }
 
     @Override
+    public void pickAndInsert(List<Integer> rows, List<Integer> columns, int myColumn) {
+
+    }
+
+
+    @Override
     public void shutDown() {
 
     }
 
 
     @Override
-    public void joinLobby() {
+    public void joinLobby(int ID) {  // DA RIFARE
         try {
             System.out.println("Client: provide a lobbyID to be joined");
             int lobbyID = scanner.nextInt();
@@ -77,8 +88,8 @@ public class ClientRMI implements Client, VirtualView {
     }
 
     @Override
-    public void createLobby() {
-        int tmp;
+    public void createLobby(int gameSize) {
+     /*   int tmp;
         try {
             System.out.println("Client: insert a gameSize (2,3,4 are accepted):");
             int gameSize = scanner.nextInt();
@@ -98,7 +109,7 @@ public class ClientRMI implements Client, VirtualView {
         } catch (RemoteException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
-        }
+        } */
     }
 
     @Override
@@ -116,11 +127,9 @@ public class ClientRMI implements Client, VirtualView {
     }
 
     @Override
-    public void createUser() {
+    public void createUser(String username) {
 
     }
-
-    //  Metodi chiamati dal Server:
 
     @Override
     public void GameUpdate(GameUpdateEvent evt) throws RemoteException {
