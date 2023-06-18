@@ -140,7 +140,6 @@ public class Game {
     }
 
     private void OnGameUpdate(GameUpdateEvent evt){
-
         JSONObject gameUpdateMessage = new JSONObject();
         String updater = evt.getUpdater();
         int column = evt.getColumn();
@@ -157,7 +156,6 @@ public class Game {
         gameUpdateMessage.put("rows", rows);
         gameUpdateMessage.put("cols", cols);
         gameUpdateMessage.put("newCurrPlayer", newCurrPlayer);
-
         for(Player player: players) {  // RMI
             if (player.getMyClient() != null) {
                 try {
@@ -222,6 +220,31 @@ public class Game {
 
         }
 
+    }
+
+    public int chatMessage(String text, String recipient, String addresser){
+        JSONObject textmessage = new JSONObject();
+        textmessage.put("type", 101);
+        textmessage.put("text", text);
+        textmessage.put("addresser", addresser);
+
+        int done = 0;
+        for(Player player: players) {
+            if(player.getUserName().equals(recipient) || recipient.equals("all")){
+                if (player.getMyClient() != null) {  // RMI
+                    //  TBD
+                }
+                if (player.getOut() != null) {
+                    try {
+                        player.getOut().writeObject(textmessage);
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                done = 1;
+            }
+        }
+        return done;
     }
 
     public void refresh(){  // debug purpose only

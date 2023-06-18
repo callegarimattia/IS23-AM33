@@ -127,6 +127,11 @@ public class ClientRMI implements Client, VirtualView {
     }
 
     @Override
+    public void sendChatMessage(String text, String recipient) {
+
+    }
+
+    @Override
     public void createUser(String username) {
 
     }
