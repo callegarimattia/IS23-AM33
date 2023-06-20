@@ -118,8 +118,8 @@ public class TCPclientParser implements Runnable {
                 case 5:
                     pickAndInsert(obj, answer);
                     break;
-                case 6:   //
-
+                case 6:
+                    chatMessage(obj, answer);
                     break;
             }
 
@@ -195,6 +195,11 @@ public class TCPclientParser implements Runnable {
             return;
         }
         String newUserUsername = (String) obj.get("userName");
+        if(newUserUsername.equals("all")){
+            answer.put("answer", "-2");   //  stringa speciale
+            sendAnswer(answer);
+            return;
+        }
         if(lobbiesHandler.createUser(newUserUsername)){
             userName = (String) obj.get("userName");
             answer.put("answer", "1");
@@ -202,10 +207,7 @@ public class TCPclientParser implements Runnable {
             lobbiesHandler.addTCPparserToUser(newUserUsername,this);
             inUser = true;
         }
-        else {
-            answer.put("type", 0);
-            answer.put("answer", "0");
-        }
+        else answer.put("answer", "0");
         sendAnswer(answer);
     }
 
@@ -352,6 +354,16 @@ public class TCPclientParser implements Runnable {
                     break;
             }
         }
+        sendAnswer(answer);
+    }
+
+    private void chatMessage(JSONObject obj, JSONObject answer){  // 6
+        answer.put("type", 6);
+        String recipient = (String) obj.get("recipient");
+        String text = (String) obj.get("text");
+        if(gameHandler.chatMessage(text,recipient,userName) == 1)
+            answer.put("answer", "0");
+        else answer.put("answer", "-1");
         sendAnswer(answer);
     }
 

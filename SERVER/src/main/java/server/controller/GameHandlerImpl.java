@@ -55,9 +55,11 @@ public class GameHandlerImpl implements GameHandler {   // controller per Game
         return myGame.getCurrentPlayer();
     }
 
-    public void ChatMessage(String Sender, String Text, List<String> recipients){  // special value if recipients is broadcast
-        //...
+    public int chatMessage(String text, String recipient, String addresser){
+        return myGame.chatMessage(text,recipient,addresser);
     }
+
+
 
 
     public GameHandlerImpl(Game myGame) {
