@@ -126,6 +126,11 @@ public class ClientRMI implements Client, VirtualView {
     }
 
     @Override
+    public void sendChatMessage(String text, String recipient) {
+
+    }
+
+    @Override
     public void createUser(String username) {
 
     }
@@ -134,10 +139,11 @@ public class ClientRMI implements Client, VirtualView {
     public void GameUpdate(GameUpdateEvent evt) throws RemoteException {
 
     }
+
     /*
     @Override
     public void LobbiesUpdate(LobbiesUpdateEvent evt) throws RemoteException {
 
     }
-    */
+     */
 }

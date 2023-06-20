@@ -30,4 +30,6 @@ public interface Client {
 
     void lobbyListRequest();
 
+    void sendChatMessage(String text, String recipient);
+
 }

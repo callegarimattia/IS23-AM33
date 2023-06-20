@@ -110,6 +110,14 @@ public class ClientTCP implements Client {
         sendMessage(obj.toString());
     }
 
+    public void sendChatMessage(String text, String recipient) {
+        JSONObject obj = new JSONObject();
+        obj.put("type", 6);
+        obj.put("text", text);
+        obj.put("recipient", recipient);
+        sendMessage(obj.toString());
+    }
+
 
     @Override
     public void sendChatMessage(String userName, String message, int visibility) {

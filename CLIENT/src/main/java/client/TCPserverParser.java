@@ -79,23 +79,27 @@ public class TCPserverParser implements Runnable {
                 case 4:
                     ansLeaveLobbyRequest(obj);
                     break;
+                case 5:
+                    ansPickAndInsert(obj);
+                    break;
+                case 6:
+                    ansChatMessage(obj);
+                    break;
+
                 case 777:
                     startGame(obj);
                     break;
                 case 778:
                     personalStartGame(obj);
                     break;
-                case 5:
-                    ansPickAndInsert(obj);
-                    break;
-                case 6:
-
-                    break;
                 case 99:
                     onLobbyUpdate(obj);
                     break;
                 case 100:
                     onGameUpdate(obj);
+                    break;
+                case 101:
+                    recivedChatMessage(obj);
                     break;
                 case 888:
                     //  messaggio con punteggi e vincitori
@@ -132,11 +136,16 @@ public class TCPserverParser implements Runnable {
             clientTCP.setUserName(ss);
             System.out.println("userName " + ss + " successfully set");
         }
-        if (obj.get("answer").toString().equals("0")) {
-            System.out.println("userName already taken, press 0 and enter a new one: ");
-        }
-        if (obj.get("answer").toString().equals("-1")) {
-            System.out.println("can't create a new user, this client already has an associated User");
+        switch (obj.get("answer").toString()) {
+            case "0":
+                System.out.println("userName already taken, press 0 and enter a new one: ");
+                break;
+            case "-1":
+                System.out.println("can't create a new user, this client already has an associated User");
+                break;
+            case "-2":
+                System.out.println("invalid special username, press 0 and enter a new one: ");
+                break;
         }
     }
 
@@ -226,7 +235,7 @@ public class TCPserverParser implements Runnable {
         clientTCP.getData().setMyGoal(coordinates, values);
         clientTCP.getData().refresh();
         System.out.println("\ncurrent player turn: " + clientTCP.getData().getPlayers().get(0).getUserName());  // ogni volta ce lo dirà il server, non ce lo salviamo
-        System.out.println("\nnew commands:\n-1: close app / abort game\n 5: pick and insert");
+        System.out.println("\nnew commands:\n-1: close app / abort game\n 5: pick and insert\n 6: send chat message");
     }
 
     private void ansPickAndInsert(JSONObject obj) {  // 5
@@ -261,6 +270,17 @@ public class TCPserverParser implements Runnable {
         }
     }
 
+    private void ansChatMessage(JSONObject obj) {  // 6
+        switch (obj.get("answer").toString()) {
+            case "0":
+                System.out.println("no such recipient found, try again");
+                break;
+            case "1":
+                System.out.println("chat message correctly sent");
+                break;
+        }
+    }
+
     private void onLobbyUpdate(JSONObject obj) {  //  99
         System.out.println("LOBBIES UPDATE RECIVED:");
         List<Integer> lobbiesIDs = (List<Integer>) obj.get("IDss");
@@ -290,6 +310,16 @@ public class TCPserverParser implements Runnable {
         clientTCP.getData().refresh();
         System.out.println("new current player is " + newCurrPlayer);
 
+    }
+
+    private void recivedChatMessage(JSONObject obj) {  // 101
+        String addresser = (String) obj.get("addresser");
+        String text = (String) obj.get("text");
+        String recipient = (String) obj.get("recipient");
+        if (recipient.equals("all"))
+            System.out.print("[" + addresser + "--> all]: ");
+        else System.out.print("[" + addresser + "--> " + clientTCP.getUserName() + "]: ");
+        System.out.println(text);
     }
 
 }

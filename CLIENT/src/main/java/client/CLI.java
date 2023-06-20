@@ -44,7 +44,9 @@ public class CLI implements Runnable {
                 case "5":
                     pickAndInsert();
                     break;
-
+                case "6":
+                    chatMessage();
+                    break;
             }
         }
     }
@@ -53,7 +55,7 @@ public class CLI implements Runnable {
         client.shutDown();
     }
 
-    public void createUser() {  // 0
+    private void createUser() {  // 0
         if (client.getData().getMyUsername() == null) {
             System.out.print("insert userName: ");
             Scanner in = new Scanner(System.in);
@@ -64,7 +66,7 @@ public class CLI implements Runnable {
         }
     }
 
-    public void lobbyListRequest() {  // 1
+    private void lobbyListRequest() {  // 1
         if (client.getData().getPlayers() == null || client.getData().getPlayers().size() < 2) {
             client.lobbyListRequest();
         } else {
@@ -72,7 +74,7 @@ public class CLI implements Runnable {
         }
     }
 
-    public void createLobby() {  // 2
+    private void createLobby() {  // 2
         if (client.getData().getPlayers() == null || client.getData().getPlayers().size() < 2) {
             Scanner in = new Scanner(System.in);
             System.out.print("insert game size (max 4) : ");
@@ -88,7 +90,7 @@ public class CLI implements Runnable {
         }
     }
 
-    public void joinLobby() {  // 3
+    private void joinLobby() {  // 3
         if (client.getData().getPlayers() == null || client.getData().getPlayers().size() < 2) {
             Scanner in = new Scanner(System.in);
             System.out.print("insert to be joined lobby ID: ");
@@ -104,7 +106,7 @@ public class CLI implements Runnable {
         }
     }
 
-    public void leaveLobby() {  // 4
+    private void leaveLobby() {  // 4
         if (client.getData().getPlayers() == null || client.getData().getPlayers().size() < 2)
             client.leaveLobby();
         else {
@@ -112,7 +114,7 @@ public class CLI implements Runnable {
         }
     }
 
-    public void pickAndInsert() {  // 5
+    private void pickAndInsert() {  // 5
         if (client.getData().getPlayers() == null || client.getData().getPlayers().size() < 2)
             System.out.println("invalid command, game didn't start yet");
         else {
@@ -166,6 +168,19 @@ public class CLI implements Runnable {
             int myColumn = Integer.parseInt(str) - 1;
             client.pickAndInsert(columns, rows, myColumn);
 
+        }
+    }
+
+    private void chatMessage() {  // 6
+        if (client.getData().getPlayers() == null || client.getData().getPlayers().size() < 2)
+            System.out.println("invalid command, game didn't start yet");
+        else {
+            System.out.print("enter recipient username (\"all\" for broadcast) :");
+            Scanner in = new Scanner(System.in);
+            String recipient = in.next();
+            System.out.print("insert text :");
+            String text = in.next();
+            client.sendChatMessage(text, recipient);
         }
     }
 
