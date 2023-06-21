@@ -3,6 +3,7 @@ package server.model.commonGoals;
 import common.Tile;
 
 public class CommonGoal2 extends CommonGoal{
+    String description = "TBD 2";
     public boolean isSolved(Tile[][] matrix) {
         if(matrix[0][0]==Tile.EMPTY && matrix [0][1] == Tile.EMPTY && matrix[4][0] == Tile.EMPTY && matrix[4][1] == Tile.EMPTY){
             return false;
@@ -22,4 +23,7 @@ public class CommonGoal2 extends CommonGoal{
         return false;
     }
 
+    public String getDescription() {
+        return description;
+    }
 }

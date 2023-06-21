@@ -17,11 +17,11 @@ class CommonGoal2Test {
     };
 
     Tile[][] correctMatrixFirstDiagonal = new Tile[][]{{Tile.PLANT, Tile.GAME,Tile.FRAME,Tile.GAME,Tile.PLANT},
-            {Tile.BOOK, Tile.PLANT,Tile.PLANT,Tile.FRAME,Tile.TROPHY},
-            {Tile.CAT, Tile.CAT,Tile.PLANT,Tile.BOOK,Tile.TROPHY},
-            {Tile.CAT, Tile.CAT,Tile.PLANT,Tile.PLANT,Tile.BOOK},
-            {Tile.TROPHY, Tile.CAT,Tile.PLANT,Tile.BOOK,Tile.PLANT},
-            {Tile.PLANT, Tile.EMPTY,Tile.BOOK,Tile.CAT,Tile.PLANT},
+                                                        {Tile.BOOK, Tile.PLANT,Tile.PLANT,Tile.FRAME,Tile.TROPHY},
+                                                        {Tile.CAT, Tile.CAT,Tile.PLANT,Tile.BOOK,Tile.TROPHY},
+                                                        {Tile.CAT, Tile.CAT,Tile.PLANT,Tile.PLANT,Tile.BOOK},
+                                                        {Tile.TROPHY, Tile.CAT,Tile.PLANT,Tile.BOOK,Tile.PLANT},
+                                                        {Tile.PLANT, Tile.EMPTY,Tile.BOOK,Tile.CAT,Tile.PLANT},
     };
 
     Tile[][] correctMatrixSecondDiagonal = new Tile[][]{{Tile.PLANT, Tile.GAME,Tile.FRAME,Tile.GAME,Tile.BOOK},

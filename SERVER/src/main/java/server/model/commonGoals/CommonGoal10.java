@@ -17,4 +17,9 @@ public class CommonGoal10 extends CommonGoal{
         }
         return false;
     }
+    String description = "TBD 10";
+
+    public String getDescription() {
+        return description;
+    }
 }

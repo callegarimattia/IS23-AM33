@@ -1,48 +1,32 @@
 package server.model.commonGoals;
 
+import server.model.personalGoals.PersonalGoal;
+
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class CommonGoalDrawer {
-    Random random = new Random();
+    private final LinkedList<CommonGoal> pile;
     public CommonGoalDrawer() {
-
+        pile = new LinkedList<>();
+        pile.add(new CommonGoal1());
+        pile.add(new CommonGoal2());
+        pile.add(new CommonGoal3());
+        pile.add(new CommonGoal4());
+        pile.add(new CommonGoal5());
+        pile.add(new CommonGoal6());
+        pile.add(new CommonGoal7());
+        pile.add(new CommonGoal8());
+        pile.add(new CommonGoal9());
+        pile.add(new CommonGoal10());
+        pile.add(new CommonGoal11());
+        pile.add(new CommonGoal12());
+        Collections.shuffle(pile);
     }
 
-    public int drawer(){
-        int x = random.nextInt(12)+1;
-        return x;
+    public CommonGoal draw(){
+        return pile.pop();
     }
 
-    public CommonGoal commonGoalInitializer(int x, int same){
-        while(x == same){
-            x = drawer();
-        }
-        switch(x){
-            case 1:
-                return new CommonGoal1();
-            case 2:
-                return new CommonGoal2();
-            case 3:
-                return new CommonGoal3();
-            case 4:
-                return new CommonGoal4();
-            case 5:
-                return new CommonGoal5();
-            case 6:
-                return new CommonGoal6();
-            case 7:
-                return new CommonGoal7();
-            case 8:
-                return new CommonGoal8();
-            case 9:
-                return new CommonGoal9();
-            case 10:
-                return new CommonGoal10();
-            case 11:
-                return new CommonGoal11();
-            case 12:
-                return new CommonGoal12();
-        }
-        return null;
-    }
 }

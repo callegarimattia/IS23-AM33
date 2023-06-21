@@ -50,5 +50,10 @@ public class CommonGoal12 extends CommonGoal{
         return check == 1;
     }
 
+    String description = "TBD 12";
+
+    public String getDescription() {
+        return description;
+    }
 
 }

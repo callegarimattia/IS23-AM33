@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 
 public class ClientTCP implements Client {
     private final ObjectOutputStream out;
@@ -40,7 +42,8 @@ public class ClientTCP implements Client {
             socket = new Socket(serverIP, port);
             System.out.println("Connection established");
         } catch (final IOException e) {
-            System.out.println(e.getMessage());
+            System.out.print("server isn't online yet, closing application...");
+            exit(-1);
         }
     }
 

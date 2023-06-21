@@ -31,10 +31,7 @@ public class Game {
     private final List<String> solvOrder1;  // tiene traccia dell' ordine di completamento del primo common goal
     private final List<String> solvOrder2;
     private int lastPlayer = -1;
-    private CommonGoalDrawer commonGoalDrawer;
-    private int commonGoal1;
 
-    private int[] commonGoalList;
 
     public Game(List<Player> players) {
         try {
@@ -46,18 +43,13 @@ public class Game {
         players.forEach(player -> player.setPersonalGoal(personalGoalDrawer.draw()));
         //pick two common goal
         mainBoard = new Board(players.size());
-        comG1 = new CommonGoal1();
-        commonGoal1 = commonGoalDrawer.drawer();
-        comG1 = commonGoalDrawer.commonGoalInitializer(commonGoal1, -1);// dovranno in realta poi essere scritte e generate randomicamente :
-        comG2 = new CommonGoal1();
-        comG2 = commonGoalDrawer.commonGoalInitializer(commonGoalDrawer.drawer(), commonGoal1);
+        CommonGoalDrawer drawer = new CommonGoalDrawer();
+        comG1 = drawer.draw();
+        comG2 = drawer.draw();
         Collections.shuffle(players);  // ordine casuale per scegliere primo giocatore
-        // RMI:
-
-        // TCP:   (messaggio iniziale di inizio partita + modello)
-        this.clientStartGame();
         solvOrder1 = new ArrayList<>();
         solvOrder2 = new ArrayList<>();
+        this.clientStartGame();
     }
 
 
@@ -182,6 +174,8 @@ public class Game {
         startGameMessage.put("type", 777);
         List<List<Integer>> x = mainBoard.toInt();
         startGameMessage.put("mainBoard", x);
+        startGameMessage.put("commonGoal1", comG1.getDescription());  // forse meglio un intero per la GUI ?
+        startGameMessage.put("commonGoal2", comG2.getDescription());
         List<String> playersUserNames = new ArrayList<>();
         for(int i = 0; i < players.size(); i++)
             playersUserNames.add(players.get(i).getUserName());
@@ -227,6 +221,7 @@ public class Game {
         textmessage.put("type", 101);
         textmessage.put("text", text);
         textmessage.put("addresser", addresser);
+        textmessage.put("recipient", recipient);
 
         int done = 0;
         for(Player player: players) {
@@ -235,6 +230,7 @@ public class Game {
                     //  TBD
                 }
                 if (player.getOut() != null) {
+                    System.out.println("sto mandando text: "+text+" a "+player.getUserName());
                     try {
                         player.getOut().writeObject(textmessage);
                     } catch (IOException e) {

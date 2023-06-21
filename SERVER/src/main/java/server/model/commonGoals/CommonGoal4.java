@@ -49,4 +49,10 @@ public class CommonGoal4 extends CommonGoal{
         }
         return rowCount == 4;
     }
+
+    String description = "TBD 4";
+
+    public String getDescription() {
+        return description;
+    }
 }

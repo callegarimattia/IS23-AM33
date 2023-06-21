@@ -29,4 +29,10 @@ public class CommonGoal6 extends CommonGoal{
         }
         return count == 2;
     }
+
+    String description = "TBD 6";
+
+    public String getDescription() {
+        return description;
+    }
 }

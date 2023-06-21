@@ -73,4 +73,10 @@ public class CommonGoal7 extends CommonGoal{
         System.out.println("I VALORI SONO: B = " + b + " C = " + c + " G = " + g + " F = " + f + " T = " + t + " P = " + p);
         return b==2||c==2||g==2||f==2||t==2||p==2;
     }
+
+    String description = "TBD 7";
+
+    public String getDescription() {
+        return description;
+    }
 }

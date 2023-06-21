@@ -362,7 +362,7 @@ public class TCPclientParser implements Runnable {
         String recipient = (String) obj.get("recipient");
         String text = (String) obj.get("text");
         if(gameHandler.chatMessage(text,recipient,userName) == 1)
-            answer.put("answer", "0");
+            answer.put("answer", "1");
         else answer.put("answer", "-1");
         sendAnswer(answer);
     }

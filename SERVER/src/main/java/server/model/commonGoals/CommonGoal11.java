@@ -31,4 +31,10 @@ public class CommonGoal11 extends CommonGoal{
         }
         return b==8 || p==8 || g==8 || t==8 || f==8 || c==8;
     }
+
+    String description = "TBD 11";
+
+    public String getDescription() {
+        return description;
+    }
 }

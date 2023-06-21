@@ -6,6 +6,7 @@ public class CommonGoal1 extends CommonGoal {
     private final int ROW_NUMBER = 6;
     private final int COL_NUMBER = 5;
     int count=0;
+    String description = "Two separate groups of 4 tiles of the same type forming a 2x2 square. The tiles in the two groups must be of the same type";
     @Override
     public boolean isSolved(Tile[][] matrix) {
         for (int i=0;i<ROW_NUMBER-1; i++){
@@ -66,6 +67,10 @@ public class CommonGoal1 extends CommonGoal {
             }
         }
         return count==6;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
 
