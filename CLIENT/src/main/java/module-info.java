@@ -9,4 +9,5 @@ module gui {
 
     opens gui to javafx.fxml;
     exports gui;
+    exports client;
 }

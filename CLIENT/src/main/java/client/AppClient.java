@@ -1,5 +1,7 @@
 package client;
 
+import gui.GuiApplication;
+import javafx.application.Application;
 
 import java.util.Scanner;
 
@@ -39,9 +41,8 @@ public class AppClient {
             Thread th = new Thread(r);
             th.start();
         } else {  // GUI
+            Application.launch(GuiApplication.class, args);
 
         }
-
-
     }
 }
