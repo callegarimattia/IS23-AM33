@@ -1,12 +1,9 @@
 package client;
-
 import client.clientModel.ClientPlayer;
 import common.Tile;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -30,7 +27,7 @@ public class TCPserverParser implements Runnable {
     public void run() {
 
 
-        JSONObject obj = new JSONObject();
+        JSONObject obj;
         boolean bool = true;  // sara messo a false con messaggio speciale di fine partita o simili
         ObjectInputStream in;
         try {
@@ -52,8 +49,9 @@ public class TCPserverParser implements Runnable {
             JSONParser parser = new JSONParser();
             try {
                 obj = (JSONObject) parser.parse(str);
-            } catch (ParseException e) {
-                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("server went offline, closing app");
+                break;
             }
 
             long x = (long) obj.get("type");
@@ -136,7 +134,7 @@ public class TCPserverParser implements Runnable {
             clientTCP.setUserName(ss);
             System.out.println("userName " + ss + " successfully set");
         }
-        switch (obj.get("answer").toString()) {
+        switch (obj.get("answer").toString()){
             case "0":
                 System.out.println("userName already taken, press 0 and enter a new one: ");
                 break;
@@ -221,6 +219,8 @@ public class TCPserverParser implements Runnable {
 
         List<List<Long>> intMainBoard = (List<List<Long>>) obj.get("mainBoard");
         clientTCP.getData().setMainBoard(intMainBoard);
+        clientTCP.getData().setCommonGoal1((String) obj.get("commonGoal1"));
+        clientTCP.getData().setCommonGoal2((String) obj.get("commonGoal2"));
 
     }
 
@@ -270,9 +270,9 @@ public class TCPserverParser implements Runnable {
         }
     }
 
-    private void ansChatMessage(JSONObject obj) {  // 6
+    private void ansChatMessage(JSONObject obj){  // 6
         switch (obj.get("answer").toString()) {
-            case "0":
+            case "-1":
                 System.out.println("no such recipient found, try again");
                 break;
             case "1":
@@ -312,13 +312,13 @@ public class TCPserverParser implements Runnable {
 
     }
 
-    private void recivedChatMessage(JSONObject obj) {  // 101
+    private void recivedChatMessage(JSONObject obj){  // 101
         String addresser = (String) obj.get("addresser");
         String text = (String) obj.get("text");
         String recipient = (String) obj.get("recipient");
-        if (recipient.equals("all"))
-            System.out.print("[" + addresser + "--> all]: ");
-        else System.out.print("[" + addresser + "--> " + clientTCP.getUserName() + "]: ");
+     /*   if(recipient.equals("all"))
+            System.out.print("["+addresser + "--> all]: "); */
+        System.out.print("chat message ["+addresser + "--> "+ clientTCP.getUserName() + "]: ");
         System.out.println(text);
     }
 

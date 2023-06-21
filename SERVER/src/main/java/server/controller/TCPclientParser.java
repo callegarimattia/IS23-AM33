@@ -5,7 +5,7 @@ import org.json.simple.parser.ParseException;
 import server.exceptions.InputException;
 import server.exceptions.LastRoundException;
 import server.model.Lobby;
-import server.model.MainBoardCoordinates;
+import common.MainBoardCoordinates;
 import server.model.User;
 import java.io.IOException;
 import java.io.ObjectInputStream;

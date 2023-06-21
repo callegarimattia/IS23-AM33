@@ -1,4 +1,4 @@
-package server.model;
+package common;
 
 public class MainBoardCoordinates {
     private int row;

@@ -1,10 +1,6 @@
 package server.model.commonGoals;
-
-import server.model.personalGoals.PersonalGoal;
-
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Random;
 
 public class CommonGoalDrawer {
     private final LinkedList<CommonGoal> pile;

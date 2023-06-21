@@ -12,9 +12,6 @@ public class Lobby {
     private static final AtomicInteger nextID = new AtomicInteger();
     private final List<User> lobbyUsers = new ArrayList<>();
     private final int ID;
-
-    // private Game game;   non serve averlo tra gli attributi, ci accedo solo tramite gameHandler
-
     private GameHandlerImpl gameHandler;
 
     private final int gameSize;

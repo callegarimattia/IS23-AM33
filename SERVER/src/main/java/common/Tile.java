@@ -17,8 +17,8 @@ public enum Tile {
     TROPHY,
     PLANT;
 
-    public int toInt(){
-        switch (this){
+    public int toInt() {
+        switch (this) {
             case EMPTY:
                 return 0;
             case UNAVAILABLE:
@@ -39,8 +39,8 @@ public enum Tile {
         return -666;
     }
 
-    public Tile toTile( int x ){
-        switch (x){
+    public Tile toTile(int x) {
+        switch (x) {
             case 0:
                 return EMPTY;
             case 1:

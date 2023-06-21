@@ -1,5 +1,6 @@
 package server.model;
 
+import common.MainBoardCoordinates;
 import common.Tile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

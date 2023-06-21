@@ -1,6 +1,6 @@
 package server.model;
 
-import client.VirtualView;
+import common.VirtualView;
 import server.model.personalGoals.PersonalGoal;
 
 import java.io.ObjectOutputStream;

@@ -2,8 +2,7 @@ package server.controller;
 
 import server.exceptions.InputException;
 import server.exceptions.LastRoundException;
-import server.model.MainBoardCoordinates;
-import server.model.User;
+import common.MainBoardCoordinates;
 
 import java.util.List;
 

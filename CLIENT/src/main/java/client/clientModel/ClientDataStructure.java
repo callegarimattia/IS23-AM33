@@ -9,6 +9,8 @@ public class ClientDataStructure {
     private Tile[][] mainBoard;
     private List<ClientPlayer> players;
 
+    private String commonGoal1;
+    private String commonGoal2;
     private ClientPersonalGoal myGoal;
 
     private String myUsername;
@@ -101,9 +103,23 @@ public class ClientDataStructure {
 
     public void refresh() {
         printMainBoard();
+        System.out.println("common goal 1: "+commonGoal1);
+        System.out.println("common goal 2: " +commonGoal2);
         myGoal.print();
         for (ClientPlayer player : players)
             player.refresh();
+    }
+
+    public String getCommonGoal1() {
+        return commonGoal1;
+    }
+
+    public void setCommonGoal1(String commonGoal1) {
+        this.commonGoal1 = commonGoal1;
+    }
+
+    public void setCommonGoal2(String commonGoal2) {
+        this.commonGoal2 = commonGoal2;
     }
 
     //....

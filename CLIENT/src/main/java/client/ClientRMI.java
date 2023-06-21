@@ -2,7 +2,7 @@ package client;
 
 import client.clientModel.ClientDataStructure;
 import common.Server;
-import common.listenerStuff.GameUpdateEvent;
+import common.VirtualView;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -136,14 +136,12 @@ public class ClientRMI implements Client, VirtualView {
     }
 
     @Override
-    public void GameUpdate(GameUpdateEvent evt) throws RemoteException {
+    public void GameUpdate(List<String> players /* ...TBD...*/) throws RemoteException {
 
     }
 
-    /*
     @Override
-    public void LobbiesUpdate(LobbiesUpdateEvent evt) throws RemoteException {
+    public void LobbiesUpdate(List<String> players /* ...TBD...*/) throws RemoteException {
 
     }
-     */
 }

@@ -1,7 +1,6 @@
 package server.listenerStuff;
 
-import common.Tile;
-import server.model.MainBoardCoordinates;
+import common.MainBoardCoordinates;
 
 import java.util.EventObject;
 import java.util.List;

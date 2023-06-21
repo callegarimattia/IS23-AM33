@@ -1,6 +1,7 @@
 package client;
 
 import client.clientModel.ClientDataStructure;
+import org.json.simple.JSONObject;
 
 import java.util.List;
 

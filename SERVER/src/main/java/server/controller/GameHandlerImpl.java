@@ -1,7 +1,7 @@
 package server.controller;
 import org.json.simple.JSONObject;
 import server.model.Game;
-import server.model.MainBoardCoordinates;
+import common.MainBoardCoordinates;
 import server.model.Player;
 import java.io.IOException;
 import java.io.ObjectOutputStream;

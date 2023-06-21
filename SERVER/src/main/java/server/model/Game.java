@@ -1,5 +1,6 @@
 package server.model;
 
+import common.MainBoardCoordinates;
 import common.Tile;
 import org.json.simple.JSONObject;
 import server.exceptions.GameEndedException;
@@ -7,7 +8,6 @@ import server.exceptions.LastRoundException;
 import server.exceptions.NotPickableException;
 import server.listenerStuff.GameUpdateEvent;
 import server.model.commonGoals.CommonGoal;
-import server.model.commonGoals.CommonGoal1;
 import server.model.commonGoals.CommonGoalDrawer;
 import server.model.personalGoals.PersonalGoalDrawer;
 
@@ -151,7 +151,9 @@ public class Game {
         for(Player player: players) {  // RMI
             if (player.getMyClient() != null) {
                 try {
-                    player.getMyClient().GameUpdate(evt);
+                    List<String> daCancellare = null;
+                    player.getMyClient().GameUpdate(daCancellare);
+               //     player.getMyClient().GameUpdate(evt);  prima era cosi, da rifare perche non gli passo la classe
                 } catch (RemoteException e) {
                     System.out.println("remote method invocation failed");
                 }

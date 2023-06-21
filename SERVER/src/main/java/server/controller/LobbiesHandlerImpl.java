@@ -1,7 +1,7 @@
 package server.controller;
 
 import org.json.simple.JSONObject;
-import server.Server;
+import common.Server;
 import server.exceptions.LobbiesHandlerException;
 import server.listenerStuff.LobbiesUpdateEvent;
 import server.model.Lobby;
@@ -192,8 +192,11 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         for (User user : users)
             if(!user.isInGame())
                 try {
-                    if (user.getMyClient() != null)
-                        user.getMyClient().LobbiesUpdate(evt);
+                    if (user.getMyClient() != null){
+                        // user.getMyClient().LobbiesUpdate(evt); prima era cosi, da rifare perche non gli passo la classe
+                        List<String> daCancellare = null;
+                        user.getMyClient().GameUpdate(daCancellare);
+                    }
                 } catch (RemoteException e) {
                     System.out.println("remote method invocation failed");
                 }
