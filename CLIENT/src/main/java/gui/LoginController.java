@@ -3,18 +3,15 @@ package gui;
 import client.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class LoginController {
 
     Client client;
+    GuiApplication gui;
     @FXML
     private TextField username;
     @FXML
@@ -24,14 +21,13 @@ public class LoginController {
         this.client = client;
     }
 
+    public void setGui(GuiApplication gui) {
+        this.gui = gui;
+    }
+
     @FXML
     protected void handleSubmitButtonAction(ActionEvent event) throws IOException {
-        //client.createUser(username.getText());
-        //If username is valid, go to lobbiesScreen
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Lobbies.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        appStage.setScene(scene);
-        appStage.show();
+        client.createUser(username.getText());
+        gui.ansToLogin(1);
     }
 }
