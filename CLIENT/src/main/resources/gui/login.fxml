@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
@@ -12,15 +10,30 @@
     <padding>
         <Insets top="25" right="25" bottom="10" left="25"/>
     </padding>
+    <fx:define>
+        <ToggleGroup fx:id="group"/>
+    </fx:define>
     <Text text="Welcome"
           GridPane.columnIndex="0" GridPane.rowIndex="0"
           GridPane.columnSpan="2"/>
 
-    <Label text="User Name:"
+    <Label text="Server IP:"
            GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <TextField fx:id="serverIP"
+               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+    <Label text="Username:"
+           GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
     <TextField fx:id="username"
-               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    <HBox spacing="10" alignment="BOTTOM_LEFT"
+          GridPane.columnIndex="0" GridPane.rowIndex="4">
+        <RadioButton fx:id="rmi" text="RMI" toggleGroup="$group">
+        </RadioButton>
+        <RadioButton fx:id="tcp" text="TCP" toggleGroup="$group" selected="true">
+        </RadioButton>
+    </HBox>
     <HBox spacing="10" alignment="bottom_right"
           GridPane.columnIndex="1" GridPane.rowIndex="4">
         <Button text="Sign In"
@@ -32,5 +45,4 @@
     <stylesheets>
         <URL value="@login.css"/>
     </stylesheets>
-
 </GridPane>

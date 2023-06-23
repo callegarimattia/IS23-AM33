@@ -5,5 +5,4 @@
             xmlns="http://javafx.com/javafx"
             fx:controller="gui.GameController"
             prefHeight="400.0" prefWidth="600.0">
-
 </AnchorPane>

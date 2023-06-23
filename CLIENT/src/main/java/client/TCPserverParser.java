@@ -1,9 +1,11 @@
 package client;
+
 import client.clientModel.ClientPlayer;
 import common.Tile;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -127,7 +129,6 @@ public class TCPserverParser implements Runnable {
             System.exit(0);
         }
     }
-
     private void ansCreateUser(JSONObject obj) {   // 0
         if (obj.get("answer").toString().equals("1")) {
             String ss = (String) obj.get("userName");

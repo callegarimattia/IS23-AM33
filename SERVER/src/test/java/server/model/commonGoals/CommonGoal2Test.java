@@ -24,25 +24,26 @@ class CommonGoal2Test {
                                                         {Tile.PLANT, Tile.EMPTY,Tile.BOOK,Tile.CAT,Tile.PLANT},
     };
 
-    Tile[][] correctMatrixSecondDiagonal = new Tile[][]{{Tile.PLANT, Tile.GAME,Tile.FRAME,Tile.GAME,Tile.BOOK},
-            {Tile.BOOK, Tile.FRAME,Tile.PLANT,Tile.FRAME,Tile.TROPHY},
-            {Tile.CAT, Tile.BOOK,Tile.TROPHY,Tile.BOOK,Tile.TROPHY},
-            {Tile.CAT, Tile.CAT,Tile.BOOK,Tile.PLANT,Tile.BOOK},
-            {Tile.TROPHY, Tile.CAT,Tile.PLANT,Tile.BOOK,Tile.BOOK},
-            {Tile.PLANT, Tile.PLANT,Tile.BOOK,Tile.CAT,Tile.BOOK},
+    Tile[][] correctMatrixSecondDiagonal = new Tile[][]{{Tile.PLANT, Tile.GAME, Tile.FRAME, Tile.GAME, Tile.BOOK},
+            {Tile.BOOK, Tile.FRAME, Tile.PLANT, Tile.FRAME, Tile.TROPHY},
+            {Tile.CAT, Tile.BOOK, Tile.TROPHY, Tile.BOOK, Tile.TROPHY},
+            {Tile.CAT, Tile.CAT, Tile.BOOK, Tile.PLANT, Tile.BOOK},
+            {Tile.TROPHY, Tile.CAT, Tile.PLANT, Tile.BOOK, Tile.BOOK},
+            {Tile.PLANT, Tile.PLANT, Tile.BOOK, Tile.CAT, Tile.BOOK},
     };
 
-    Tile[][] correctMatrixThirdDiagonal = new Tile[][]{{Tile.PLANT, Tile.GAME,Tile.FRAME,Tile.GAME,Tile.BOOK},
-            {Tile.BOOK, Tile.FRAME,Tile.PLANT,Tile.BOOK,Tile.TROPHY},
-            {Tile.CAT, Tile.CAT,Tile.BOOK,Tile.BOOK,Tile.TROPHY},
-            {Tile.CAT, Tile.BOOK,Tile.PLANT,Tile.PLANT,Tile.BOOK},
-            {Tile.BOOK, Tile.CAT,Tile.PLANT,Tile.BOOK,Tile.BOOK},
-            {Tile.PLANT, Tile.EMPTY,Tile.BOOK,Tile.CAT,Tile.TROPHY},
+    Tile[][] correctMatrixThirdDiagonal = new Tile[][]{
+            {Tile.PLANT, Tile.GAME, Tile.FRAME, Tile.GAME, Tile.BOOK},
+            {Tile.BOOK, Tile.FRAME, Tile.PLANT, Tile.BOOK, Tile.TROPHY},
+            {Tile.CAT, Tile.CAT, Tile.BOOK, Tile.BOOK, Tile.TROPHY},
+            {Tile.CAT, Tile.BOOK, Tile.PLANT, Tile.PLANT, Tile.BOOK},
+            {Tile.BOOK, Tile.CAT, Tile.PLANT, Tile.BOOK, Tile.BOOK},
+            {Tile.PLANT, Tile.EMPTY, Tile.BOOK, Tile.CAT, Tile.TROPHY},
     };
 
-    Tile[][] correctMatrixFourthDiagonal = new Tile[][]{{Tile.PLANT, Tile.GAME,Tile.FRAME,Tile.GAME,Tile.BOOK},
-            {Tile.BOOK, Tile.FRAME,Tile.PLANT,Tile.FRAME,Tile.TROPHY},
-            {Tile.CAT, Tile.CAT,Tile.TROPHY,Tile.TROPHY,Tile.TROPHY},
+    Tile[][] correctMatrixFourthDiagonal = new Tile[][]{{Tile.PLANT, Tile.GAME, Tile.FRAME, Tile.GAME, Tile.BOOK},
+            {Tile.BOOK, Tile.FRAME, Tile.PLANT, Tile.FRAME, Tile.TROPHY},
+            {Tile.CAT, Tile.CAT, Tile.TROPHY, Tile.TROPHY, Tile.TROPHY},
             {Tile.CAT, Tile.CAT,Tile.TROPHY,Tile.PLANT,Tile.BOOK},
             {Tile.TROPHY, Tile.TROPHY,Tile.PLANT,Tile.BOOK,Tile.BOOK},
             {Tile.TROPHY, Tile.EMPTY,Tile.BOOK,Tile.CAT,Tile.TROPHY},

@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            xmlns="http://javafx.com/javafx"
-            fx:controller="gui.LobbiesController"
-            prefHeight="400.0" prefWidth="600.0">
-</AnchorPane>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import java.net.URL?>
+<GridPane xmlns:fx="http://javafx.com/fxml"
+          xmlns="http://javafx.com/javafx"
+          fx:controller="gui.LobbiesController"
+          prefHeight="400.0" prefWidth="800.0"
+          alignment="center" hgap="10" vgap="10">
+    <HBox spacing="20" alignment="bottom_right"
+          GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <Button text="Refresh" fx:id="refreshButton"
+                onAction="#handleRefreshAction"/>
+        <Button text="Create Lobby"
+                onAction="#handleCreateLobbyAction"/>
+    </HBox>
+    <stylesheets>
+        <URL value="@lobbies.css"/>
+    </stylesheets>
+</GridPane>
