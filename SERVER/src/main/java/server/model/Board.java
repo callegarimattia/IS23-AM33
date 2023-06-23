@@ -1,5 +1,4 @@
 package server.model;
-
 import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -8,7 +7,6 @@ import com.google.gson.JsonParser;
 import common.MainBoardCoordinates;
 import common.Tile;
 import server.exceptions.NotPickableException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;

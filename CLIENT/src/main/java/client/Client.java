@@ -33,4 +33,6 @@ public interface Client {
 
     void sendChatMessage(String text, String recipient);
 
+    void setDisplayer(Thread th);
+
 }

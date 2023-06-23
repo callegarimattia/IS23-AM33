@@ -12,8 +12,7 @@ public interface LobbiesHandler {
 
     boolean isUserPresent(String username);
 
-    User searchUser(String userName);
-    boolean isLobbyPresent(int lobbyId);
+    User searchUser(String userName);;
 
     Lobby searchLobby(int ID);
 
@@ -24,8 +23,6 @@ public interface LobbiesHandler {
     boolean leaveLobby(String leavingUser);
 
     Set<Lobby> getWaitingLobbies();
-
-    Set<Lobby> getInGameLobbies();
 
     Set<User> getUsers();
 

@@ -3,6 +3,7 @@ package server.model;
 import common.MainBoardCoordinates;
 import common.Tile;
 import org.json.simple.JSONObject;
+import server.controller.GameEnder;
 import server.exceptions.GameEndedException;
 import server.exceptions.LastRoundException;
 import server.exceptions.NotPickableException;
@@ -26,14 +27,16 @@ public class Game {
     private final List<Player> players;
 
     // dovranno in realta poi essere scritte e generate randomicamente dal file Json:
-    private CommonGoal comG1;
-    private CommonGoal comG2;
+    private final CommonGoal comG1;
+    private final CommonGoal comG2;
     private final List<String> solvOrder1;  // tiene traccia dell' ordine di completamento del primo common goal
     private final List<String> solvOrder2;
-    private int lastPlayer = -1;
+    private String gameEndTrigger = null;
+    private boolean lastRound = false;
+    private final GameEnder ender;
 
 
-    public Game(List<Player> players) {
+    public Game(List<Player> players, GameEnder ender) {
         try {
             personalGoalDrawer = new PersonalGoalDrawer();
         } catch (Exception e) {
@@ -50,21 +53,59 @@ public class Game {
         solvOrder1 = new ArrayList<>();
         solvOrder2 = new ArrayList<>();
         this.clientStartGame();
+        this.ender = ender;
     }
 
 
     private boolean pickNextPlayer() {
-        if (indexCurrentPlayer != lastPlayer) {
+        if (!lastRound || indexCurrentPlayer != 0) {
             indexCurrentPlayer = (indexCurrentPlayer + 1) % players.size();
             return true;
         }
-        gameEnd();
+        endGame();
         return false;
     }
 
-    public void gameEnd() {
-        // mostra i punteggi
-        // mostra il vincitore
+    public void endGame() {
+        int winner = -1;
+        List<String> playersCopy = new ArrayList<>();
+        List<Integer> scores = new ArrayList<>();
+        for(int i = 0; i < players.size(); i++){
+            playersCopy.add(players.get(i).getUserName());
+            scores.add(players.get(i).getScore());
+            if(winner == -1 || players.get(winner).getScore() < players.get(i).getScore()){
+                winner = i;
+            }
+        }
+
+        JSONObject endGameMessage = new JSONObject();
+        endGameMessage.put("type", 999);
+        endGameMessage.put("winner", winner);
+        endGameMessage.put("players", playersCopy);
+        endGameMessage.put("scores", scores);
+
+        for(Player player: players) {  // RMI
+            if (player.getMyClient() != null) {
+                try {
+                    List<String> daCancellare2 = null;
+                     player.getMyClient().GameUpdate(daCancellare2);
+
+                    //     player.getMyClient().GameUpdate(evt);  prima era cosi, da rifare perche non gli passo la classe
+                } catch (RemoteException e) {
+                    System.out.println("remote method invocation failed");
+                }
+            }
+
+            if (player.getOut() != null) {  // TCP
+                try {
+                    player.getOut().writeObject(endGameMessage);
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+
+        ender.abortLobby(players.get(0).getUserName());
     }
 
     private int updateCurrPlayerScore() {
@@ -82,6 +123,8 @@ public class Game {
         }
         else score += ( solvOrder2.indexOf(players.get(indexCurrentPlayer).getUserName()) +1)*2;
 
+        if(gameEndTrigger!= null && gameEndTrigger.equals(players.get(indexCurrentPlayer).getUserName()))
+            score += 1;
         return score;
     }
 
@@ -114,7 +157,11 @@ public class Game {
             if (!players.get(indexCurrentPlayer).getMyShelf().insertTiles(column, pickedTiles))
                 return -6;  //  non inseribili in player
         } catch (LastRoundException e) {  // inizia l utimo giro se primo a completare shelf, da gestire le conseguenze
-            if (lastPlayer == -1) lastPlayer = (indexCurrentPlayer - 1) % players.size();
+            if(!lastRound){
+                lastRound = true;
+                gameEndTrigger = players.get(indexCurrentPlayer).getUserName();
+            }
+
         }
 
         System.out.println(" and inserted in his column n°" + column);
@@ -246,7 +293,7 @@ public class Game {
     }
 
     public void refresh(){  // debug purpose only
-        System.out.println("\nGAME STATUS: \nMAINBOARD: ");
+        System.out.println("\nGAME STATUS REFRESH \nMAINBOARD: ");
         mainBoard.refresh();
         for (int i = 0; i < players.size(); i++)
             players.get(i).refresh();

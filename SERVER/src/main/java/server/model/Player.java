@@ -63,4 +63,7 @@ public class Player {
         myShelf.refresh();
     }
 
+    public int getScore() {
+        return score;
+    }
 }

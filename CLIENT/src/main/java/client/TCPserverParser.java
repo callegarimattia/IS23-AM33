@@ -11,22 +11,21 @@ import java.util.List;
 
 
 public class TCPserverParser implements Runnable {
+    private Displayer displayer;
     private final Socket socket;
-    private final ClientTCP clientTCP;  // sarebbe forse meglio definire un interfaccia apposita
+    private final ClientTCP clientTCP;  // devo poi usare l interfaccia ma per ora ho i metodi solo su TCP
     private Integer myLobbyID;
 
-    public TCPserverParser(Socket socket, ClientTCP clientTCP) {
+    public TCPserverParser(Socket socket, ClientTCP clientTCP, Displayer displayer) {
         this.socket = socket;
         this.clientTCP = clientTCP;
+        this.displayer = displayer;
         myLobbyID = null;
     }
 
 
-    // ascolta tutti i messaggi del server (anche le risposte ai metodi)
     @Override
     public void run() {
-
-
         JSONObject obj;
         boolean bool = true;  // sara messo a false con messaggio speciale di fine partita o simili
         ObjectInputStream in;
@@ -51,6 +50,7 @@ public class TCPserverParser implements Runnable {
                 obj = (JSONObject) parser.parse(str);
             } catch (Exception e) {
                 System.out.println("server went offline, closing app");
+                displayer.shutDown();
                 break;
             }
 
@@ -99,7 +99,7 @@ public class TCPserverParser implements Runnable {
                 case 101:
                     recivedChatMessage(obj);
                     break;
-                case 888:
+                case 999:
                     //  messaggio con punteggi e vincitori
                     //  bool = false;
                     //  mando messaggi finali
@@ -316,9 +316,7 @@ public class TCPserverParser implements Runnable {
         String addresser = (String) obj.get("addresser");
         String text = (String) obj.get("text");
         String recipient = (String) obj.get("recipient");
-     /*   if(recipient.equals("all"))
-            System.out.print("["+addresser + "--> all]: "); */
-        System.out.print("chat message ["+addresser + "--> "+ clientTCP.getUserName() + "]: ");
+        System.out.print("chat message ["+addresser + "--> "+ recipient + "]: ");
         System.out.println(text);
     }
 

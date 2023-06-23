@@ -16,6 +16,7 @@ public class ClientRMI implements Client, VirtualView {
     Server server;
     String username;
     int lobbyID;
+    private int gameStatus = 1;  // da cambiare per ora è fisso
     Scanner scanner = new Scanner(System.in);
     private ClientDataStructure data;
 
@@ -128,6 +129,15 @@ public class ClientRMI implements Client, VirtualView {
     @Override
     public void sendChatMessage(String text, String recipient) {
 
+    }
+
+    @Override
+    public void setDisplayer(Thread th) {
+        // tbd
+    }
+
+    public int getGameStatus() {
+        return gameStatus;
     }
 
     @Override

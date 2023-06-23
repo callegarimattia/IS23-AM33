@@ -1,9 +1,7 @@
 package server.model;
-
+import server.controller.GameEnder;
 import server.controller.GameHandler;
 import server.controller.GameHandlerImpl;
-import server.controller.TCPclientParser;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -47,7 +45,7 @@ public class Lobby {
         lobbyUsers.remove(toBeRemovedUser);
     }
 
-    public GameHandler initGame() {
+    public GameHandler initGame(GameEnder ender) {
         List<Player> players = new ArrayList<>();
         for (User user : lobbyUsers) {
             user.setInGame(true);
@@ -57,7 +55,7 @@ public class Lobby {
             else
                 players.add(new Player(user.getUserName(), user.getMyParser().getOut()));
         }
-        Game myGame = new Game(players);
+        Game myGame = new Game(players, ender);
         gameHandler = new GameHandlerImpl(myGame);
         return gameHandler;
     }

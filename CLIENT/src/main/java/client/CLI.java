@@ -1,30 +1,53 @@
 package client;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CLI implements Runnable {
+public class CLI implements Runnable, Displayer {
 
     Client client;
-
-    public CLI(Client client) {
-        this.client = client;
+    private boolean inGame;
+    public CLI() {
+        createClient();
+        inGame = true;
     }
 
-    @Override
+    private void createClient(){
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("Usage: T (or R) IPserver (T = TCP, R = RMI)");
+        String str = in.next();
+
+        while (!(str.equals("T") || str.equals("t") || str.equals("R") || str.equals("r"))) {
+            System.out.print("invalid input, try again: ");
+            str = in.next();
+        }
+
+        if (str.equals("T") || str.equals("t")) {
+            try {
+                client = new ClientTCP(this);
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            client = new ClientRMI();
+            client.newConnection("localhost", 1099);  // dovranno essere presi da arg/json/CL
+        }
+    }
+
     public void run() {
         Scanner in = new Scanner(System.in);
-        boolean inGame = false;
         System.out.println("List of commands: \n-1: exit game\n0: create user\n1: ask list of lobbies\n2: new lobby\n3: join lobby\n4: leave lobby");
-        while (!inGame) {
+        while (inGame) { // verra fermato dal parser che ha il riferimento
             String x = in.next();
             switch (x) {
                 default:
                     System.out.println("invalid command, try again");
                     break;
                 case "-1":
-                    shutDown();
+                    shutDownClient();
                     break;
                 case "0":
                     createUser();
@@ -51,7 +74,7 @@ public class CLI implements Runnable {
         }
     }
 
-    private void shutDown() {  // -1
+    public void shutDownClient() {  // -1
         client.shutDown();
     }
 
@@ -133,6 +156,7 @@ public class CLI implements Runnable {
 
             List<Integer> columns = new ArrayList<>();
             List<Integer> rows = new ArrayList<>();
+
             for (int i = 0; i < numOfTiles; i++) {
                 System.out.print("insert column of the " + (i + 1) + "° tile  (starts from 1) : ");
                 str = in.next();
@@ -166,8 +190,7 @@ public class CLI implements Runnable {
                 str = in.next();
             }
             int myColumn = Integer.parseInt(str) - 1;
-            client.pickAndInsert(columns, rows, myColumn);
-
+            client.pickAndInsert(rows, columns, myColumn);
         }
     }
 
@@ -185,4 +208,8 @@ public class CLI implements Runnable {
     }
 
 
+    @Override
+    public void shutDown() {
+        inGame = false;
+    }
 }

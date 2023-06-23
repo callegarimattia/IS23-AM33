@@ -1,14 +1,10 @@
 package client;
-
 import client.clientModel.ClientDataStructure;
 import org.json.simple.JSONObject;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
-import java.util.Scanner;
-
 import static java.lang.System.exit;
 
 
@@ -16,21 +12,16 @@ public class ClientTCP implements Client {
     private final ObjectOutputStream out;
     private final String ip = "127.0.0.1";   // saranno poi da prendere da arg / json
     private final int port = 2345;  // saranno poi da prendere da arg / json
-    private final int gameStatus;
     private ClientDataStructure data;
     private Socket socket;
-    private Scanner in;
 
-    public ClientTCP() throws IOException {
+    public ClientTCP(Displayer displayer) throws IOException {
         data = new ClientDataStructure();
         newConnection(ip, port);
         out = new ObjectOutputStream(socket.getOutputStream());
-        Runnable parser = new TCPserverParser(socket, this);
+        Runnable parser = new TCPserverParser(socket, this, displayer);
         Thread th = new Thread(parser);
         th.start();
-        gameStatus = 0;
-        // ci sarà poi ciclo while nel main che chiama i metodi utente
-
     }
 
 
@@ -121,6 +112,11 @@ public class ClientTCP implements Client {
         sendMessage(obj.toString());
     }
 
+    @Override
+    public void setDisplayer(Thread th) {
+
+    }
+
 
     @Override
     public void sendChatMessage(String userName, String message, int visibility) {
@@ -139,4 +135,7 @@ public class ClientTCP implements Client {
     public ClientDataStructure getData() {
         return data;
     }
+
+
+
 }

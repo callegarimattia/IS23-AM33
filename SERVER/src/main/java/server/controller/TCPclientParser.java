@@ -313,8 +313,8 @@ public class TCPclientParser implements Runnable {
                 return;
             }
             int myColumn = (int) (long) obj.get("myColumn");
-            List<Long> columns = (List<Long>) obj.get("columns");  // columns
-            List<Long> rows = (List<Long>) obj.get("rows");  // raws
+            List<Long> columns = (List<Long>) obj.get("columns");
+            List<Long> rows = (List<Long>) obj.get("rows");
             List<MainBoardCoordinates> coordinates = new ArrayList<>();
             for(int i = 0; i < columns.size(); i++){
                 MainBoardCoordinates coord;
@@ -327,6 +327,7 @@ public class TCPclientParser implements Runnable {
                 }
                 coordinates.add(coord);
             }
+
             int x = -7456;
             try {
                 x = gameHandler.pickAndInsert(userName,coordinates, myColumn);

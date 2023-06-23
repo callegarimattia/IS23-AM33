@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controller per Lobby
+public class LobbiesHandlerImpl implements LobbiesHandler, Server, GameEnder {  // Controller per Lobby
     private final Set<Lobby> waitingLobbies = new HashSet<>();
     private final Set<Lobby> inGameLobbies = new HashSet<>();
     private final Set<User> users = new HashSet<>();
@@ -118,13 +118,6 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         return newLobby.getID();
     }
 
-    @Override
-    public boolean isLobbyPresent(int lobbyId) {
-        for (Lobby lobby : waitingLobbies) {
-            if (lobby.getID() == lobbyId) return true;
-        }
-        return false;
-    }
 
     @Override
     public Lobby searchLobby(int ID) {
@@ -269,7 +262,7 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
         if (!toBeStartedLobby.isFull()) return false;
 
 
-        GameHandler gameHandler = toBeStartedLobby.initGame();   //creates game, game controller and passes RMI refs & TCP outs from users to players
+        GameHandler gameHandler = toBeStartedLobby.initGame(this);   //creates game, game controller and passes RMI refs & TCP outs from users to players
         for(User user : toBeStartedLobby.getUsers())
             if(user.getMyParser() != null){
                 user.getMyParser().setGameHandler(gameHandler);
@@ -292,11 +285,6 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
     @Override
     public Set<Lobby> getWaitingLobbies() {  // delete
         return waitingLobbies;
-    }
-
-    @Override
-    public Set<Lobby> getInGameLobbies() {
-        return inGameLobbies;
     }
 
     private void startTCP() {
@@ -376,7 +364,6 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server {  // Controll
             if(user.getUserName().equals(newUserUsername))
                 user.setMyParser(parser);
     }
-
 
 }
 
