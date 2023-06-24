@@ -3,11 +3,11 @@ package server.model;
 import common.Tile;
 import server.exceptions.LastRoundException;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Shelf {
-
     private final int ROW_NUMBER = 6;
     private final int COL_NUMBER = 5;
     private final Tile[][] shelf = new Tile[ROW_NUMBER][COL_NUMBER];
@@ -58,12 +58,17 @@ public class Shelf {
         return shelf;
     }
 
-    public int ClusterScore(){
+    //  crea una matrice copia di interi in cui attribuisco un intero diverso ad ogni cluster mentre scansiono
+    //  la matrice originale di Tiles, in questo modo nella nuova matrice le tiles dello stesso tipo tra loro vicine
+    //  avranno come valore lo stesso numero. Scansiono poi la nuova matrice per contare il numero di occorrenze di
+    //  ogni intero, in modo da valutare quanto è grande il cluster ed attribuire il punteggio corrispondente
+
+    public int clusterScore(Tile[][] myShelf){   // l ho messo come argomento anche se è una variabile interna per facilita nel testing
         int[][] clusterShelf = new int[ROW_NUMBER][COL_NUMBER];
         for (int ROW = 0; ROW < ROW_NUMBER; ROW++)
             for (int COL = 0; COL < COL_NUMBER; COL++) {
                 clusterShelf[ROW][COL] = -1;
-                if (shelf[ROW][COL] == Tile.EMPTY)
+                if (myShelf[ROW][COL] == Tile.EMPTY)
                     clusterShelf[ROW][COL] = 0;
             }
 
@@ -72,10 +77,15 @@ public class Shelf {
             for (int COL = 0; COL < COL_NUMBER; COL++) {
                 if (clusterShelf[ROW][COL] == -1)
                     clusterShelf[ROW][COL] = x;
-                if (!shelf[ROW][COL].equals(Tile.EMPTY) && COL!=COL_NUMBER-1 && shelf[ROW][COL + 1].equals(shelf[ROW][COL]) )
-                    clusterShelf[ROW][COL + 1] = clusterShelf[ROW][COL];
-                if (!shelf[ROW][COL].equals(Tile.EMPTY) && ROW!=ROW_NUMBER-1 && shelf[ROW + 1][COL].equals(shelf[ROW][COL])) {
-                    clusterShelf[ROW + 1][COL] = clusterShelf[ROW][COL];
+                if (!myShelf[ROW][COL].equals(Tile.EMPTY) && COL!=COL_NUMBER-1 && myShelf[ROW][COL + 1].equals(myShelf[ROW][COL])){
+                    if(clusterShelf[ROW][COL + 1] < 0)
+                        clusterShelf[ROW][COL + 1] = clusterShelf[ROW][COL];
+                    else clusterShelf[ROW][COL] = clusterShelf[ROW][COL + 1];
+                }
+                if (!myShelf[ROW][COL].equals(Tile.EMPTY) && ROW!=ROW_NUMBER-1 && myShelf[ROW + 1][COL].equals(myShelf[ROW][COL])) {
+                    if(clusterShelf[ROW + 1][COL] < 0)
+                        clusterShelf[ROW + 1][COL] = clusterShelf[ROW][COL];
+                    else clusterShelf[ROW][COL] = clusterShelf[ROW + 1][COL];
                 }
                 x++;
             }
@@ -105,17 +115,6 @@ public class Shelf {
         return copy;
     }
 
-    public List<List<Integer>> toInt (){
-        List<List<Integer>> copy = new ArrayList<>();
-        for (int x = 0; x < 6; x++){
-            List<Integer> lis = new ArrayList<>();
-            for (int y = 0; y < 5; y++)
-                lis.add(shelf[x][y].toInt());
-            copy.add(lis);
-        }
-
-        return copy;
-    }
 
     public void refresh(){  // debug purpose only
         System.out.println("shelf: ");

@@ -51,7 +51,7 @@ public class TCPserverParser implements Runnable {
             try {
                 obj = (JSONObject) parser.parse(str);
             } catch (Exception e) {
-                System.out.println("server went offline, closing app");
+                System.out.println("server went offline, press any key to close app");
                 displayer.shutDown();
                 break;
             }
@@ -109,8 +109,6 @@ public class TCPserverParser implements Runnable {
                     break;
             }
         }
-
-        System.out.println("input socket closing");
         try {
             socket.close();
         } catch (IOException e) {

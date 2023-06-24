@@ -10,8 +10,8 @@ public class Player {
     private final String userName;
     private PersonalGoal personalGoal;
     private int score;
-    private VirtualView myClient;
-    private ObjectOutputStream out;
+    private VirtualView myClient = null;
+    private ObjectOutputStream out = null;
 
     public Player(String userName, VirtualView client) {
         this.userName = userName;
@@ -45,7 +45,7 @@ public class Player {
 
     public int getPersonalGoalScoreAndCluster() {
         score = personalGoal.calcPoints(myShelf.getShelf());
-        score += myShelf.ClusterScore();
+        score += myShelf.clusterScore(myShelf.getShelf());
         return score;
     }
 

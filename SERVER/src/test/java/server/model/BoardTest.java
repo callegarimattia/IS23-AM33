@@ -46,8 +46,6 @@ class BoardTest {
     @Test
     @DisplayName("Remove Tiles Test")
     void removeTilesTester() throws Exception {
-
-
         Board board = new Board(4);
         MainBoardCoordinates coordinates00 = new MainBoardCoordinates(0,0);
         MainBoardCoordinates coordinates08 = new MainBoardCoordinates(0,8);
@@ -55,17 +53,11 @@ class BoardTest {
         MainBoardCoordinates coordinates88 = new MainBoardCoordinates(8,8);
         MainBoardCoordinates coordinates21 = new MainBoardCoordinates(2,1);
         MainBoardCoordinates coordinates55 = new MainBoardCoordinates(5,5);
-
         MainBoardCoordinates coordinates22 = new MainBoardCoordinates(2,2);
-
         MainBoardCoordinates coordinates03 = new MainBoardCoordinates(0,3);
         MainBoardCoordinates coordinates04 = new MainBoardCoordinates(0,4);
-
         MainBoardCoordinates coordinates52 = new MainBoardCoordinates(5,2);
         MainBoardCoordinates coordinates51 = new MainBoardCoordinates(5,1);
-
-
-
 
         //  null parameter
 
@@ -77,7 +69,6 @@ class BoardTest {
         catch (NotPickableException e){
             System.out.println("My method throw when I expected it to don't");
         }
-
 
         // examples of tiles that should never be pickable:
 
@@ -250,20 +241,6 @@ class BoardTest {
         catch (NotPickableException e){
             fail( "My method throw when I didn't expected it to" );
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 

@@ -44,7 +44,6 @@ public class Game {
         }
         this.players = players;
         players.forEach(player -> player.setPersonalGoal(personalGoalDrawer.draw()));
-        //pick two common goal
         mainBoard = new Board(players.size());
         CommonGoalDrawer drawer = new CommonGoalDrawer();
         comG1 = drawer.draw();

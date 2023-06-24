@@ -3,31 +3,27 @@ package client.clientModel;
 import common.Tile;
 
 public class ClientPersonalGoal {
-    int[] coordinates;
-    Tile[] values;
 
+    Tile[][] matrix;
 
     public ClientPersonalGoal(int[] coordinates, Tile[] values) {
-        this.coordinates = coordinates;
-        this.values = values;
+        matrix = new Tile[6][5];
+        for (int i = 0; i < 6; i++)
+            for(int j = 0; j < 5; j++)
+                matrix[i][j] = Tile.EMPTY;
+        for (int i = 0; i < values.length; i++)
+            matrix[coordinates[i]][coordinates[i+1]] = values[i];
     }
 
-    public int[] getCoordinates() {
-        return coordinates;
-    }
-
-
-    public Tile[] getValues() {
-        return values;
-    }
 
     public void print() {
-        System.out.println("my personal goal: ");
-        int k = 0;
+        System.out.println("my personal goal:\n");
         for (int i = 0; i < 6; i++) {
-            System.out.print("[" + coordinates[k] + "][" + coordinates[k + 1] + "]: ");
-            System.out.println(values[i]);
-            k = k + 2;
+            for (int j = 0; j < 5; j++)
+                System.out.printf("%11s ",matrix[i][j]);
+            System.out.println();
         }
     }
+
+
 }
