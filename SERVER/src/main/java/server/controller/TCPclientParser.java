@@ -104,7 +104,7 @@ public class TCPclientParser implements Runnable {
                     newUser(obj, answer);
                     break;
                 case 1:
-                    listOfLobbiesRequest(obj, answer);
+                    listOfLobbiesRequest(answer);
                     break;
                 case 2:
                     newLobbyCreationRequest(obj,answer);
@@ -190,7 +190,7 @@ public class TCPclientParser implements Runnable {
     private void newUser(JSONObject obj, JSONObject answer){  // 0
         answer.put("type", 0);
         if(inUser){
-            answer.put("answer", "-1");  // socket gia associata ad uno user
+            answer.put("answer", "-1");  // socket already associated with a user
             sendAnswer(answer);
             return;
         }
@@ -211,8 +211,11 @@ public class TCPclientParser implements Runnable {
         sendAnswer(answer);
     }
 
-    public void listOfLobbiesRequest(JSONObject obj, JSONObject answer){  // 1
+    public void listOfLobbiesRequest(JSONObject answer){  // 1
         answer.put("type", 1);
+        if(gameHandler != null){
+            answer.put("answer","-1");  // cant ask lobbies list if game already started
+        }
         if(lobbiesHandler.getWaitingLobbies().size() > 0){
             answer.put("answer", "1");
             List<Integer> lobbiesIDs = new ArrayList<>();
@@ -229,7 +232,7 @@ public class TCPclientParser implements Runnable {
             answer.put("MaxSizes", lobbiesMaxSizes);
         }
         else {
-            answer.put("answer","0");
+            answer.put("answer","0");  // no lobbies yet
         }
         sendAnswer(answer);
     }
@@ -241,17 +244,25 @@ public class TCPclientParser implements Runnable {
             sendAnswer(answer);
             return;
         }
-        if((long) obj.get("size") > 4 || (long) obj.get("size") < 2){
-            answer.put("answer", "-2");  // invalid game size
-            sendAnswer(answer);
-            return;
-        }
         User myUser = lobbiesHandler.searchUser(userName);
         if(myUser.isInGame()|| myUser.isInLobby()){
             answer.put("answer", "0");  // cant create lobby when in a game or in a lobby
             sendAnswer(answer);
             return;
         }
+
+        if (obj.get("size") instanceof Long){
+            if((Long) obj.get("size") > 4 || (Long) obj.get("size") < 2){
+                answer.put("answer", "-2");  // invalid game size
+                sendAnswer(answer);
+                return;
+            }
+        } else {
+            answer.put("answer", "-3");  // invalid input
+            sendAnswer(answer);
+            return;
+        }
+
         long size = (long) obj.get("size");
         int newID = lobbiesHandler.createLobby(userName,(int)size);
         answer.put("answer","1");
@@ -260,7 +271,6 @@ public class TCPclientParser implements Runnable {
     }
 
     private void joinLobbyRequest(JSONObject obj, JSONObject answer){  // 3
-        System.out.println("è arrrivato");
         answer.put("type", 3);
         if (!inUser) {
             answer.put("answer", "-2");  // bisogna prima creare lo user
@@ -273,9 +283,15 @@ public class TCPclientParser implements Runnable {
             sendAnswer(answer);
             return;
         }
-        System.out.println("sono la");
-        Lobby myLobby = lobbiesHandler.searchLobby((int)(long) obj.get("tobeJoinedLobbyID"));
-        System.out.println("sono qui");
+
+        Lobby myLobby = null;
+        if (obj.get("tobeJoinedLobbyID") instanceof Long)
+            myLobby = lobbiesHandler.searchLobby((int)(long) obj.get("tobeJoinedLobbyID"));
+        else {
+            answer.put("answer","-4");  // invalid input
+            sendAnswer(answer);
+            return;
+        }
 
         if(myLobby == null){
             answer.put("answer","-1");  // lobby doesn't exist
@@ -323,9 +339,32 @@ public class TCPclientParser implements Runnable {
                 sendAnswer(answer);
                 return;
             }
-            int myColumn = (int) (long) obj.get("myColumn");
-            List<Long> columns = (List<Long>) obj.get("columns");
-            List<Long> rows = (List<Long>) obj.get("rows");
+
+            int myColumn = -1;
+            List<Long> columns = null;
+            List<Long> rows = null;
+            if (obj.get("myColumn") instanceof Long)
+                myColumn = (int) (long) obj.get("myColumn");
+            if (obj.get("columns") instanceof List){
+                try {
+                    columns = (List<Long>) obj.get("columns");
+                }catch (Exception e){
+                    answer.put("answer","-8");  // invalid input
+                    sendAnswer(answer);
+                    return;
+                }
+            }
+
+            if (obj.get("rows") instanceof List){
+                try {
+                    rows = (List<Long>) obj.get("rows");
+                }catch (Exception e){
+                    answer.put("answer","-8");  // invalid input
+                    sendAnswer(answer);
+                    return;
+                }
+            }
+
             List<MainBoardCoordinates> coordinates = new ArrayList<>();
             for(int i = 0; i < columns.size(); i++){
                 MainBoardCoordinates coord;
@@ -345,32 +384,18 @@ public class TCPclientParser implements Runnable {
             } catch (InputException | LastRoundException e) {
                 System.out.println(e.getMessage());
             }
-            switch (x){
-                case 1:
-                    answer.put("answer","1");
-                    break;
-                case -2:
-                    answer.put("answer","-2");
-                    break;
-                case -3:
-                    answer.put("answer","-3");
-                    break;
-                case -4:
-                    answer.put("answer","-4");
-                    break;
-                case -5:
-                    answer.put("answer","-5");
-                    break;
-                case -6:
-                    answer.put("answer","-6");
-                    break;
-            }
+            answer.put("answer",Integer.toString(x));
         }
         sendAnswer(answer);
     }
 
     private void chatMessage(JSONObject obj, JSONObject answer){  // 6
         answer.put("type", 6);
+        if(gameHandler == null){
+            answer.put("answer", "0");  // non in ancora in game
+            sendAnswer(answer);
+            return;
+        }
         String recipient = (String) obj.get("recipient");
         String text = (String) obj.get("text");
         if(gameHandler.chatMessage(text,recipient,userName) == 1)
