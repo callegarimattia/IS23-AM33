@@ -40,8 +40,13 @@ public class CLI implements Runnable, Displayer {
     public void run() {
         Scanner in = new Scanner(System.in);
         System.out.println("List of commands: \n-1: exit game\n0: create user\n1: ask list of lobbies\n2: new lobby\n3: join lobby\n4: leave lobby");
-        while (inGame) { // verra fermato dal parser che ha il riferimento
+        while (true) { // verra fermato dal parser che ha il riferimento
             String x = in.next();
+            if(!inGame){
+                System.out.println("shutting down...");
+                return;
+            }
+
             switch (x) {
                 default:
                     System.out.println("invalid command, try again");
