@@ -96,7 +96,7 @@ public class ClientDataStructure {
         for (int i = 0; i < 9; i++) {
             System.out.print((i + 1) + "    ");
             for (int j = 0; j < 9; j++)
-                System.out.printf("%11s ", mainBoard[i][j]);
+                System.out.printf("%20s ", mainBoard[i][j].toString());
             System.out.println();
         }
     }

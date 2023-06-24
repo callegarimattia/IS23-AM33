@@ -120,7 +120,7 @@ public class Shelf {
         System.out.println("shelf: ");
         for(int i = 0; i < 6; i++){
             for (int j = 0; j<5; j++)
-                System.out.printf("%11s", shelf[i][j]);
+                System.out.printf("%20s", shelf[i][j]);
             System.out.println();
         }
     }
