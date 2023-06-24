@@ -200,6 +200,7 @@ public class CLI implements Runnable, Displayer {
     }
 
     private void chatMessage() {  // 6
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         if (client.getData().getPlayers() == null || client.getData().getPlayers().size() < 2)
             System.out.println("invalid command, game didn't start yet");
         else {
@@ -207,7 +208,7 @@ public class CLI implements Runnable, Displayer {
             Scanner in = new Scanner(System.in);
             String recipient = in.next();
             System.out.print("insert text :");
-            String text = in.next();
+            String text = scanner.next();
             client.sendChatMessage(text, recipient);
         }
     }

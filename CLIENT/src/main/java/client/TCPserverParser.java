@@ -187,6 +187,9 @@ public class TCPserverParser implements Runnable {
             case "-2":
                 System.out.println("cant join lobby without creating an user first");
                 break;
+            case "-3":
+                System.out.println("lobby is full / already started");
+                break;
             case "1":
                 myLobbyID = (int) (long) obj.get("ID");
                 System.out.println("lobby successfully joined");

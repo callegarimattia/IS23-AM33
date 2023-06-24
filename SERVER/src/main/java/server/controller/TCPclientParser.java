@@ -260,31 +260,42 @@ public class TCPclientParser implements Runnable {
     }
 
     private void joinLobbyRequest(JSONObject obj, JSONObject answer){  // 3
+        System.out.println("è arrrivato");
         answer.put("type", 3);
-        if ( !inUser) {
+        if (!inUser) {
             answer.put("answer", "-2");  // bisogna prima creare lo user
             sendAnswer(answer);
             return;
         }
         User toBeAddedUser = lobbiesHandler.searchUser(userName);
-        Lobby myLobby = lobbiesHandler.searchLobby((int)(long) obj.get("tobeJoinedLobbyID"));
-        if(myLobby == null){
-            answer.put("answer","-1");  // lobby doesn't exist
-            sendAnswer(answer);
-            return;
-        }
-
         if(toBeAddedUser.isInLobby()){
             answer.put("answer","0");  // user è gia in una lobby
             sendAnswer(answer);
             return;
         }
-        lobbiesHandler.joinLobby(userName,myLobby.getID());
-        if(!myLobby.isFull()){
-            answer.put("answer",1);
+        System.out.println("sono la");
+        Lobby myLobby = lobbiesHandler.searchLobby((int)(long) obj.get("tobeJoinedLobbyID"));
+        System.out.println("sono qui");
+
+        if(myLobby == null){
+            answer.put("answer","-1");  // lobby doesn't exist
+            sendAnswer(answer);
+            return;
+        }
+        System.out.println("size: " + myLobby.getUsers().size());
+
+        if(myLobby.isFull()){
+            answer.put("answer","-3");
             answer.put("ID",myLobby.getID());
             sendAnswer(answer);
+            return;
         }
+
+        lobbiesHandler.joinLobby(userName,myLobby.getID());
+        answer.put("answer",1);
+        answer.put("ID",myLobby.getID());
+        sendAnswer(answer);
+
     }
 
 
