@@ -40,7 +40,7 @@ public class CommonGoal5 extends CommonGoal{
         return count == 4;
     }
 
-    String description = "TBD 5";
+    String description = "4 separate groups each formed by 4 adjacent tiles of the same type. The tiles in one group can be different from those in another group.";
 
     public String getDescription() {
         return description;

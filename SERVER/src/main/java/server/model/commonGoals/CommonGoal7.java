@@ -74,7 +74,7 @@ public class CommonGoal7 extends CommonGoal{
         return b==2||c==2||g==2||f==2||t==2||p==2;
     }
 
-    String description = "TBD 7";
+    String description = "2 separate groups of 4 tiles of the same type forming a 2x2 square. The tiles in the 2 groups must be of the same type.";
 
     public String getDescription() {
         return description;

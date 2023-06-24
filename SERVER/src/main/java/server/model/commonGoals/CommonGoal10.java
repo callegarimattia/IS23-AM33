@@ -17,7 +17,7 @@ public class CommonGoal10 extends CommonGoal{
         }
         return false;
     }
-    String description = "TBD 10";
+    String description = "5 tiles of the same type forming an X.";
 
     public String getDescription() {
         return description;

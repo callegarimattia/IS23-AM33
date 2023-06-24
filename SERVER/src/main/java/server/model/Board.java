@@ -84,7 +84,10 @@ public class Board {
                 System.out.println("[" + coord.getRow()+"]["+coord.getCol()+"] is not pickable");
                 throw new NotPickableException();
             }
-
+        for (MainBoardCoordinates coord : coordinates)
+            for (MainBoardCoordinates coord2 : coordinates)
+                if(coord.getRow() != coord2.getRow() && coord.getCol() != coord2.getCol())
+                    throw new NotPickableException();
         ArrayList<Tile> pickedTiles = new ArrayList<>();
         for (MainBoardCoordinates XY : coordinates) {
             pickedTiles.add(mainBoard[XY.getRow()][XY.getCol()]);

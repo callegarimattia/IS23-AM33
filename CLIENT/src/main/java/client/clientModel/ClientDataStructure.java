@@ -103,7 +103,7 @@ public class ClientDataStructure {
 
     public void refresh() {
         printMainBoard();
-        System.out.println("common goal 1: "+commonGoal1);
+        System.out.println("\ncommon goal 1: "+commonGoal1);
         System.out.println("common goal 2: " +commonGoal2);
         myGoal.print();
         for (ClientPlayer player : players)

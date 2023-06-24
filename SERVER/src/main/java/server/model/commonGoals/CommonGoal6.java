@@ -30,7 +30,7 @@ public class CommonGoal6 extends CommonGoal{
         return count == 2;
     }
 
-    String description = "TBD 6";
+    String description = "2 columns each formed by 6 different types of tiles.";
 
     public String getDescription() {
         return description;
