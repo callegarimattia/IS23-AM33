@@ -1,29 +1,33 @@
 package client.clientModel;
 
+import client.Lobby;
 import common.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientDataStructure {
-    private Tile[][] mainBoard;
-    private List<ClientPlayer> players;
-
+    private final Tile[][] mainBoard;
+    private final List<ClientPlayer> players;
     private String commonGoal1;
     private String commonGoal2;
     private ClientPersonalGoal myGoal;
-
     private String myUsername;
+    private final List<Lobby> lobbies;
 
     public String getMyUsername() {
         return myUsername;
     }
 
-    public void ClientDataStructure(String myUsername) {
-        this.myUsername = myUsername;
+    public ClientDataStructure() {
         players = new ArrayList<>();
         mainBoard = new Tile[9][9];
         myGoal = null;
+        lobbies = new ArrayList<>();
+    }
+
+    public void setMyUsername(String myUsername) {
+        this.myUsername = myUsername;
     }
 
     public void addPlayer(String username) {
@@ -104,7 +108,7 @@ public class ClientDataStructure {
     public void refresh() {
         printMainBoard();
         System.out.println("\ncommon goal 1: "+commonGoal1);
-        System.out.println("common goal 2: " +commonGoal2);
+        System.out.println("common goal 2: " + commonGoal2);
         myGoal.print();
         for (ClientPlayer player : players)
             player.refresh();
@@ -112,6 +116,10 @@ public class ClientDataStructure {
 
     public String getCommonGoal1() {
         return commonGoal1;
+    }
+
+    public String getCommonGoal2() {
+        return commonGoal2;
     }
 
     public void setCommonGoal1(String commonGoal1) {
@@ -122,5 +130,12 @@ public class ClientDataStructure {
         this.commonGoal2 = commonGoal2;
     }
 
-    //....
+    public List<Lobby> getLobbies() {
+        return new ArrayList<Lobby>(lobbies);
+    }
+
+    public void refreshLobbyList(List<Integer> lobbiesId, List<Integer> numCurrPlayers, List<Integer> numMaxPlayers) {
+        for (int id : lobbiesId)
+            lobbies.add(new Lobby(numMaxPlayers.get(id), id, numCurrPlayers.get(id)));
+    }
 }

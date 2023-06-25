@@ -4,7 +4,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<?import java.net.URL?>
 <GridPane xmlns:fx="http://javafx.com/fxml"
           fx:controller="gui.LoginController" alignment="center" hgap="10" vgap="10">
     <padding>
@@ -27,22 +26,22 @@
 
     <TextField fx:id="username"
                GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-    <HBox spacing="10" alignment="BOTTOM_LEFT"
+    <HBox spacing="10" alignment="BOTTOM_CENTER"
           GridPane.columnIndex="0" GridPane.rowIndex="4">
-        <RadioButton fx:id="rmi" text="RMI" toggleGroup="$group">
+        <RadioButton fx:id="rmi" text="RMI" toggleGroup="$group" selected="true">
         </RadioButton>
-        <RadioButton fx:id="tcp" text="TCP" toggleGroup="$group" selected="true">
+        <RadioButton fx:id="tcp" text="TCP" toggleGroup="$group">
         </RadioButton>
     </HBox>
     <HBox spacing="10" alignment="bottom_right"
           GridPane.columnIndex="1" GridPane.rowIndex="4">
         <Button text="Sign In"
-                onAction="#handleSubmitButtonAction"/>
+                fx:id="signIn"
+                onAction="#handleSubmitButtonAction"
+                disable="true"
+        />
     </HBox>
 
     <Text fx:id="actionTarget"
           GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-    <stylesheets>
-        <URL value="@login.css"/>
-    </stylesheets>
 </GridPane>

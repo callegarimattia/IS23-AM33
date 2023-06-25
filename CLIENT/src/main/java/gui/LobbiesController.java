@@ -1,7 +1,11 @@
 package gui;
 
 import client.Client;
+import client.Lobby;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,24 +13,50 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Spinner;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class LobbiesController {
-    Client client;
+import java.io.IOException;
 
-    GuiApplication gui;
+public class LobbiesController {
+    private final ObservableList<Lobby> data = FXCollections.observableArrayList();
+    private Client client;
 
     @FXML
     private Button refreshButton;
-
+    private GuiApplication gui;
+    @FXML
+    private ListView<Lobby> listView = new ListView<>();
 
     public void init(GuiApplication gui) {
         this.gui = gui;
-        client.lobbyListRequest();
+        refreshLobbies();
+        listView.setItems(data);
+        listView.addEventFilter(MouseEvent.MOUSE_PRESSED, e ->
+        {
+            if (e.isSecondaryButtonDown()) {
+                e.consume();
+            }
+        });
+        listView.addEventFilter(ContextMenuEvent.CONTEXT_MENU_REQUESTED, Event::consume);
+
+        listView.setOnMouseClicked(click -> {
+            if (click.getClickCount() == 2) {
+                Lobby currentItemSelected = listView.getSelectionModel()
+                        .getSelectedItem();
+                if (currentItemSelected != null)
+                    client.joinLobby(currentItemSelected.getLobbyId());
+            } else {
+                listView.getSelectionModel().clearSelection();
+            }
+        });
+        data.add(new Lobby(3, 1, 1));
     }
 
     public void setClient(Client client) {
@@ -35,7 +65,13 @@ public class LobbiesController {
 
     @FXML
     private void handleRefreshAction(ActionEvent event) {
+        refreshLobbies();
+    }
+
+    private void refreshLobbies() {
         client.lobbyListRequest();
+        data.clear();
+        data.addAll(client.getData().getLobbies());
     }
 
     @FXML
@@ -49,11 +85,24 @@ public class LobbiesController {
         Spinner<Integer> gameSizeSpinner = new Spinner<Integer>(2, 4, 2);
         dialogVbox.getChildren().add(gameSizeSpinner);
         Button confirmButton = new Button("Confirm");
+
         EventHandler<ActionEvent> confirmEvent = e -> {
             client.createLobby(gameSizeSpinner.getValue());
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Game.fxml"));
             ((Node) (e.getSource())).getScene().getWindow().hide();
-            gui.switchScene("Game.fxml");
+            Scene scene = null;
+            try {
+                scene = new Scene(fxmlLoader.load());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            Stage thisStage = (Stage) refreshButton.getScene().getWindow();
+            thisStage.setScene(scene);
+            thisStage.setTitle("Game");
+            thisStage.setResizable(false);
+            thisStage.setMaximized(true);
+            thisStage.show();
+
         };
         confirmButton.setOnAction(confirmEvent);
         dialogVbox.getChildren().add(confirmButton);

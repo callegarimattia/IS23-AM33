@@ -1,10 +1,13 @@
 package client;
+
 import client.clientModel.ClientDataStructure;
 import org.json.simple.JSONObject;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
+
 import static java.lang.System.exit;
 
 
@@ -129,13 +132,10 @@ public class ClientTCP implements Client {
     }
 
     public void setUserName(String userName) {
-        data.ClientDataStructure(userName);
+        data.setMyUsername(userName);
     }
 
     public ClientDataStructure getData() {
         return data;
     }
-
-
-
 }

@@ -7,31 +7,28 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class LoginController {
-    Client client;
-    GuiApplication gui;
+    private Client client;
+    private GuiApplication gui;
     @FXML
     private TextField username;
     @FXML
     private TextField serverIP;
     @FXML
-    private Text actionTarget;
-    @FXML
     private RadioButton rmi;
     @FXML
-    private RadioButton tcp;
+    private Button signIn;
 
     public void init(GuiApplication gui) {
         this.gui = gui;
+        username.textProperty().addListener((ov, oldValue, newValue) -> {
+            signIn.setDisable(newValue.isEmpty());
+        });
     }
 
     @FXML

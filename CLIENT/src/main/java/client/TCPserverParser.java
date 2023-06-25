@@ -1,5 +1,6 @@
 package client;
 
+import client.clientModel.ClientDataStructure;
 import client.clientModel.ClientPlayer;
 import common.Tile;
 import org.json.simple.JSONArray;
@@ -14,6 +15,8 @@ import java.util.List;
 
 public class TCPserverParser implements Runnable {
     private Displayer displayer;
+
+    private ClientDataStructure data;
     private final Socket socket;
     private final ClientTCP clientTCP;  // devo poi usare l interfaccia ma per ora ho i metodi solo su TCP
     private Integer myLobbyID;
@@ -152,6 +155,7 @@ public class TCPserverParser implements Runnable {
                 List<Integer> lobbiesIDs = (List<Integer>) obj.get("IDs");
                 List<Integer> lobbiesCurrentSize = (List<Integer>) obj.get("CurrentSizes");
                 List<Integer> lobbiesMaxSizes = (List<Integer>) obj.get("MaxSizes");
+                clientTCP.getData().refreshLobbyList(lobbiesIDs, lobbiesCurrentSize, lobbiesMaxSizes);
                 for (int i = 0; i < lobbiesIDs.size(); i++)
                     System.out.println("ID: " + lobbiesIDs.get(i) + " current size: " + lobbiesCurrentSize.get(i) + " max size: " + lobbiesMaxSizes.get(i));
                 break;
@@ -307,6 +311,7 @@ public class TCPserverParser implements Runnable {
         List<Integer> lobbiesIDs = (List<Integer>) obj.get("IDss");
         List<Integer> lobbiesCurrentSize = (List<Integer>) obj.get("CurrentSizess");
         List<Integer> lobbiesMaxSizes = (List<Integer>) obj.get("MaxSizes");
+        clientTCP.getData().refreshLobbyList(lobbiesIDs, lobbiesCurrentSize, lobbiesMaxSizes);
         for (int i = 0; i < lobbiesIDs.size(); i++)
             System.out.println("ID: " + lobbiesIDs.get(i) + " current size: " + lobbiesCurrentSize.get(i) + " max size: " + lobbiesMaxSizes.get(i));
     }

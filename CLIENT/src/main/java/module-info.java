@@ -11,4 +11,6 @@ module gui {
     exports gui;
     exports client;
     exports common;
+    exports client.clientModel;
+    opens client to javafx.fxml;
 }
