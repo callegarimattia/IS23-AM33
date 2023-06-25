@@ -11,8 +11,12 @@ public class ClientPersonalGoal {
         for (int i = 0; i < 6; i++)
             for(int j = 0; j < 5; j++)
                 matrix[i][j] = Tile.EMPTY;
-        for (int i = 0; i < values.length; i++)
-            matrix[coordinates[i]][coordinates[i+1]] = values[i];
+        int k = 0;
+        for (int i = 0; i < values.length; i++){
+            matrix[coordinates[k]][coordinates[k+1]] = values[i];
+            k = k+2;
+        }
+
     }
 
 
