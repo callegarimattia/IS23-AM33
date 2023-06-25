@@ -147,14 +147,20 @@ public class TCPserverParser implements Runnable {
     }
 
     private void ansLobbyListRequest(JSONObject obj) {  // 1
-        if (obj.get("answer").toString().equals("1")) {
-            List<Integer> lobbiesIDs = (List<Integer>) obj.get("IDs");
-            List<Integer> lobbiesCurrentSize = (List<Integer>) obj.get("CurrentSizes");
-            List<Integer> lobbiesMaxSizes = (List<Integer>) obj.get("MaxSizes");
-            for (int i = 0; i < lobbiesIDs.size(); i++)
-                System.out.println("ID: " + lobbiesIDs.get(i) + " current size: " + lobbiesCurrentSize.get(i) + " max size: " + lobbiesMaxSizes.get(i));
-        } else if (obj.get("answer").toString().equals("0")) {
-            System.out.println("no lobbies yet");
+        switch (obj.get("answer").toString()){
+            case "1":
+                List<Integer> lobbiesIDs = (List<Integer>) obj.get("IDs");
+                List<Integer> lobbiesCurrentSize = (List<Integer>) obj.get("CurrentSizes");
+                List<Integer> lobbiesMaxSizes = (List<Integer>) obj.get("MaxSizes");
+                for (int i = 0; i < lobbiesIDs.size(); i++)
+                    System.out.println("ID: " + lobbiesIDs.get(i) + " current size: " + lobbiesCurrentSize.get(i) + " max size: " + lobbiesMaxSizes.get(i));
+                break;
+            case "0":
+                System.out.println("no lobbies yet");
+                break;
+            case "-1":
+                System.out.println("cant ask lobbies list if game already started");
+                break;
         }
     }
 
@@ -169,6 +175,9 @@ public class TCPserverParser implements Runnable {
             case "-2":
                 System.out.println("invalid game size, press 2 again");
                 break;
+            case "-3":
+                System.out.println("invalid input, press 2 again");
+                break;
             case "1":
                 myLobbyID = (int) (long) obj.get("ID");
                 System.out.println("new lobby created (and joined), ID: " + myLobbyID);
@@ -180,13 +189,19 @@ public class TCPserverParser implements Runnable {
     private void ansJoinLobbyRequest(JSONObject obj) {  // 3
         switch (obj.get("answer").toString()) {
             case "0":
-                System.out.println("user is already in a lobby");
+                System.out.println("invalid command, user is already in a lobby");
                 break;
             case "-1":
                 System.out.println("lobby doesn't exist, press 3 again: ");
                 break;
             case "-2":
                 System.out.println("cant join lobby without creating an user first");
+                break;
+            case "-3":
+                System.out.println("lobby is full / already started, try again");
+                break;
+            case "-4":
+                System.out.println("invalid input, press 3 again");
                 break;
             case "1":
                 myLobbyID = (int) (long) obj.get("ID");
@@ -207,34 +222,6 @@ public class TCPserverParser implements Runnable {
                 System.out.println("lobby successfully left");
                 break;
         }
-    }
-
-    private void startGame(JSONObject obj) {  // 777
-        System.out.println("GAME STARTED");
-
-        JSONArray array = (JSONArray) obj.get("playersUsernames");  //  already shuffled (first player at [0])
-        for (int i = 0; i < array.size(); i++)
-            clientTCP.getData().addPlayer(array.get(i).toString());
-
-        List<List<Long>> intMainBoard = (List<List<Long>>) obj.get("mainBoard");
-        clientTCP.getData().setMainBoard(intMainBoard);
-        clientTCP.getData().setCommonGoal1((String) obj.get("commonGoal1"));
-        clientTCP.getData().setCommonGoal2((String) obj.get("commonGoal2"));
-
-    }
-
-    private void personalStartGame(JSONObject obj) {  // 778
-        List<Long> coordinatesList = (List<Long>) obj.get("coordinates");
-        List<Long> intValues = (List<Long>) obj.get("values");
-        Tile[] values = {Tile.EMPTY, Tile.EMPTY, Tile.EMPTY, Tile.EMPTY, Tile.EMPTY, Tile.EMPTY};
-        for (int i = 0; i < 6; i++) {
-            values[i] = values[i].toTile(intValues.get(i).intValue());
-        }
-        int[] coordinates = coordinatesList.stream().mapToInt(i -> Math.toIntExact(i)).toArray();
-        clientTCP.getData().setMyGoal(coordinates, values);
-        clientTCP.getData().refresh();
-        System.out.println("\ncurrent player turn: " + clientTCP.getData().getPlayers().get(0).getUserName());  // ogni volta ce lo dirà il server, non ce lo salviamo
-        System.out.println("\nnew commands:\n-1: close app / abort game\n 5: pick and insert\n 6: send chat message");
     }
 
     private void ansPickAndInsert(JSONObject obj) {  // 5
@@ -274,11 +261,46 @@ public class TCPserverParser implements Runnable {
             case "-1":
                 System.out.println("no such recipient found, try again");
                 break;
+            case "0":
+                System.out.println("cant chat while not in game");
+                break;
             case "1":
                 System.out.println("chat message correctly sent");
                 break;
         }
     }
+
+    private void startGame(JSONObject obj) {  // 777
+        System.out.println("GAME STARTED");
+
+        JSONArray array = (JSONArray) obj.get("playersUsernames");  //  already shuffled (first player at [0])
+        for (int i = 0; i < array.size(); i++)
+            clientTCP.getData().addPlayer(array.get(i).toString());
+
+        List<List<Long>> intMainBoard = (List<List<Long>>) obj.get("mainBoard");
+        clientTCP.getData().setMainBoard(intMainBoard);
+        clientTCP.getData().setCommonGoal1((String) obj.get("commonGoal1"));
+        clientTCP.getData().setCommonGoal2((String) obj.get("commonGoal2"));
+
+    }
+
+    private void personalStartGame(JSONObject obj) {  // 778
+        List<Long> coordinatesList = (List<Long>) obj.get("coordinates");
+        List<Long> intValues = (List<Long>) obj.get("values");
+        Tile[] values = {Tile.EMPTY, Tile.EMPTY, Tile.EMPTY, Tile.EMPTY, Tile.EMPTY, Tile.EMPTY};
+        for (int i = 0; i < 6; i++) {
+            values[i] = values[i].toTile(intValues.get(i).intValue());
+        }
+        int[] coordinates = coordinatesList.stream().mapToInt(i -> Math.toIntExact(i)).toArray();
+        clientTCP.getData().setMyGoal(coordinates, values);
+        clientTCP.getData().refresh();
+        System.out.println("\ncurrent player turn: " + clientTCP.getData().getPlayers().get(0).getUserName());  // ogni volta ce lo dirà il server, non ce lo salviamo
+        System.out.println("\nnew commands:\n-1: close app / abort game\n 5: pick and insert\n 6: send chat message");
+    }
+
+
+
+
 
     private void onLobbyUpdate(JSONObject obj) {  //  99
         System.out.println("LOBBIES UPDATE RECIVED:");

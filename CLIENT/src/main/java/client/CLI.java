@@ -84,42 +84,29 @@ public class CLI implements Runnable, Displayer {
     }
 
     private void createUser() {  // 0
-        if (client.getData().getMyUsername() == null) {
             System.out.print("insert userName: ");
             Scanner in = new Scanner(System.in);
             String newUsername = in.next();
             client.createUser(newUsername);
-        } else {
-            System.out.println("invalid command, username already setted");
-        }
     }
 
     private void lobbyListRequest() {  // 1
-        if (client.getData().getPlayers() == null || client.getData().getPlayers().size() < 2) {
-            client.lobbyListRequest();
-        } else {
-            System.out.println("invalid command, game already started");
-        }
+        client.lobbyListRequest();
     }
 
     private void createLobby() {  // 2
-        if (client.getData().getPlayers() == null || client.getData().getPlayers().size() < 2) {
-            Scanner in = new Scanner(System.in);
-            System.out.print("insert game size (max 4) : ");
-            String str = in.next();
-            while (!str.matches("-?\\d+(\\.\\d+)?")) {
-                System.out.print("insert a valid integer please: ");
-                str = in.next();
-            }
-            int gameSize = Integer.parseInt(str);
-            client.createLobby(gameSize);
-        } else {
-            System.out.println("invalid command, game already started");
+        Scanner in = new Scanner(System.in);
+        System.out.print("insert game size (max 4) : ");
+        String str = in.next();
+        while (!str.matches("-?\\d+(\\.\\d+)?")) {
+            System.out.print("insert a valid integer please: ");
+            str = in.next();
         }
+        int gameSize = Integer.parseInt(str);
+        client.createLobby(gameSize);
     }
 
     private void joinLobby() {  // 3
-        if (client.getData().getPlayers() == null || client.getData().getPlayers().size() < 2) {
             Scanner in = new Scanner(System.in);
             System.out.print("insert to be joined lobby ID: ");
             String str = in.next();
@@ -129,77 +116,67 @@ public class CLI implements Runnable, Displayer {
             }
             int ID = Integer.parseInt(str);
             client.joinLobby(ID);
-        } else {
-            System.out.println("invalid command, game already started");
-        }
     }
 
     private void leaveLobby() {  // 4
-        if (client.getData().getPlayers() == null || client.getData().getPlayers().size() < 2)
-            client.leaveLobby();
-        else {
-            System.out.println("invalid command, game already started");
-        }
+        client.leaveLobby();
     }
 
     private void pickAndInsert() {  // 5
-        if (client.getData().getPlayers() == null || client.getData().getPlayers().size() < 2)
-            System.out.println("invalid command, game didn't start yet");
-        else {
-            Scanner in = new Scanner(System.in);
-            System.out.print("(-1 to cancel method call) \ninsert num of tiles you want to pick from the mainBoard : ");
-            String str = in.next();
-            while (!str.matches("-?\\d+(\\.\\d+)?")) {
-                System.out.print("insert a valid integer please: ");
-                str = in.next();
-            }
-            int numOfTiles = Integer.parseInt(str);
-            if (numOfTiles == -1) {
-                System.out.println("method cancelled");
-                return;
-            }
+        Scanner in = new Scanner(System.in);
+        System.out.print("(-1 to cancel method call) \ninsert num of tiles you want to pick from the mainBoard : ");
+        String str = in.next();
+        while (!str.matches("-?\\d+(\\.\\d+)?")) {
+            System.out.print("insert a valid integer please: ");
+            str = in.next();
+        }
+        int numOfTiles = Integer.parseInt(str);
+        if (numOfTiles == -1) {
+            System.out.println("method cancelled");
+            return;
+        }
 
-            List<Integer> columns = new ArrayList<>();
-            List<Integer> rows = new ArrayList<>();
+        List<Integer> columns = new ArrayList<>();
+        List<Integer> rows = new ArrayList<>();
 
-            for (int i = 0; i < numOfTiles; i++) {
-                System.out.print("insert column of the " + (i + 1) + "° tile  (starts from 1) : ");
-                str = in.next();
-                while (!str.matches("-?\\d+(\\.\\d+)?")) {
-                    System.out.print("insert a valid integer please: ");
-                    str = in.next();
-                }
-                columns.add(Integer.parseInt(str) - 1);
-                if (columns.get(i) + 1 == -1) {
-                    System.out.println("method cancelled");
-                    return;
-                }
-
-                System.out.print("insert row of the " + (i + 1) + "° tile  (starts from 1) : ");
-                str = in.next();
-                while (!str.matches("-?\\d+(\\.\\d+)?")) {
-                    System.out.print("insert a valid integer please: ");
-                    str = in.next();
-                }
-                rows.add(Integer.parseInt(str) - 1);
-                if (rows.get(i) + 1 == -1) {
-                    System.out.println("method cancelled");
-                    return;
-                }
-            }
-
-            System.out.print("insert the column of your Shelf where you want to place the tile/s (starts from 1): ");
+        for (int i = 0; i < numOfTiles; i++) {
+            System.out.print("insert column of the " + (i + 1) + "° tile  (starts from 1) : ");
             str = in.next();
             while (!str.matches("-?\\d+(\\.\\d+)?")) {
                 System.out.print("insert a valid integer please: ");
                 str = in.next();
             }
-            int myColumn = Integer.parseInt(str) - 1;
-            client.pickAndInsert(rows, columns, myColumn);
+            columns.add(Integer.parseInt(str) - 1);
+            if (columns.get(i) + 1 == -1) {
+                System.out.println("method cancelled");
+                return;
+            }
+
+            System.out.print("insert row of the " + (i + 1) + "° tile  (starts from 1) : ");
+            str = in.next();
+            while (!str.matches("-?\\d+(\\.\\d+)?")) {
+                System.out.print("insert a valid integer please: ");
+                str = in.next();
+            }
+            rows.add(Integer.parseInt(str) - 1);
+            if (rows.get(i) + 1 == -1) {
+                System.out.println("method cancelled");
+                return;
+            }
         }
+
+        System.out.print("insert the column of your Shelf where you want to place the tile/s (starts from 1): ");
+        str = in.next();
+        while (!str.matches("-?\\d+(\\.\\d+)?")) {
+            System.out.print("insert a valid integer please: ");
+            str = in.next();
+        }
+        int myColumn = Integer.parseInt(str) - 1;
+        client.pickAndInsert(rows, columns, myColumn);
     }
 
     private void chatMessage() {  // 6
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         if (client.getData().getPlayers() == null || client.getData().getPlayers().size() < 2)
             System.out.println("invalid command, game didn't start yet");
         else {
@@ -207,7 +184,7 @@ public class CLI implements Runnable, Displayer {
             Scanner in = new Scanner(System.in);
             String recipient = in.next();
             System.out.print("insert text :");
-            String text = in.next();
+            String text = scanner.next();
             client.sendChatMessage(text, recipient);
         }
     }

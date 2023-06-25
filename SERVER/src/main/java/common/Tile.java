@@ -61,4 +61,27 @@ public enum Tile {
         return UNAVAILABLE;
     }
 
+    public String toString(){
+        switch (this){
+            case EMPTY:
+                return ("\u001B[37m" + "EMPTY" + "\u001B[0m");
+            case UNAVAILABLE:
+                return ("\u001B[37m" + "UNAVAILABLE" + "\u001B[0m");
+            case CAT:
+                return ("\u001B[32m" + "CAT" + "\u001B[0m");
+            case TROPHY:
+                return ("\u001B[36m" + "TROPHY" + "\u001B[0m");
+            case PLANT:
+                return ("\u001B[35m" + "PLANT" + "\u001B[0m");
+            case FRAME:
+                return ("\u001B[34m" + "FRAME" + "\u001B[0m");
+            case GAME:
+                return ("\u001B[33m" + "GAME" + "\u001B[0m");
+            case BOOK:
+                return ("\u001B[31m" + "BOOK" + "\u001B[0m");
+        }
+
+        return "null";
+    }
+
 }

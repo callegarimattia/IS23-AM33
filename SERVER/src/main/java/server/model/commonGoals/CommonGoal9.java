@@ -38,7 +38,7 @@ public class CommonGoal9 extends CommonGoal{
         return false;
     }
 
-    String description = "TBD 9";
+    String description = "3 columns each consisting of 6 tiles of one, two or three different types at most. Different columns can have different combinations of tile types.";
 
     public String getDescription() {
         return description;

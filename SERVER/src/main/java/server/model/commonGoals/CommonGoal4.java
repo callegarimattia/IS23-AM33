@@ -50,7 +50,7 @@ public class CommonGoal4 extends CommonGoal{
         return rowCount == 4;
     }
 
-    String description = "TBD 4";
+    String description = "4 rows each consisting of 5 tiles of one, two or three different types, i.e., 4 rows in which each row has at most 3 different types of tiles. Different rows can have different combinations of tile types.";
 
     public String getDescription() {
         return description;

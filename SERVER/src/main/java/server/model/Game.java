@@ -294,8 +294,14 @@ public class Game {
     public void refresh(){  // debug purpose only
         System.out.println("\nGAME STATUS REFRESH \nMAINBOARD: ");
         mainBoard.refresh();
-        for (int i = 0; i < players.size(); i++)
-            players.get(i).refresh();
+
+        System.out.print("\nsolve order common goal 1: ");
+        for (String s : solvOrder1) System.out.print(s);
+        System.out.print("\nsolve order common goal 2: ");
+        for (String s : solvOrder2) System.out.print(s);
+        System.out.println();
+
+        for (Player player : players) player.refresh();
     }
 
     public List<Player> getPlayers() {

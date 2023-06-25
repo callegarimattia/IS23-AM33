@@ -50,7 +50,7 @@ public class CommonGoal12 extends CommonGoal{
         return check == 1;
     }
 
-    String description = "TBD 12";
+    String description = "5 columns of increasing or decreasing height: starting from the first column on the left or right, each subsequent column must consist of one more tile. The tiles can be of any type.";
 
     public String getDescription() {
         return description;

@@ -104,7 +104,7 @@ public class ClientTCP implements Client {
         sendMessage(obj.toString());
     }
 
-    public void sendChatMessage(String text, String recipient){
+    public void sendChatMessage(String text, String recipient){ // 6
         JSONObject obj = new JSONObject();
         obj.put("type", 6);
         obj.put("text", text);

@@ -20,7 +20,7 @@ public class ClientPersonalGoal {
         System.out.println("my personal goal:\n");
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++)
-                System.out.printf("%11s ",matrix[i][j]);
+                System.out.printf("%20s ",matrix[i][j]);
             System.out.println();
         }
     }
