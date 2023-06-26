@@ -10,6 +10,7 @@ import org.json.simple.parser.JSONParser;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -155,7 +156,10 @@ public class TCPserverParser implements Runnable {
                 List<Integer> lobbiesIDs = (List<Integer>) obj.get("IDs");
                 List<Integer> lobbiesCurrentSize = (List<Integer>) obj.get("CurrentSizes");
                 List<Integer> lobbiesMaxSizes = (List<Integer>) obj.get("MaxSizes");
-                clientTCP.getData().refreshLobbyList(lobbiesIDs, lobbiesCurrentSize, lobbiesMaxSizes);
+                List<Lobby> refreshedLobbies = new ArrayList<>();
+                for(int i = 0; i <lobbiesIDs.size(); i++)
+                    refreshedLobbies.add(new Lobby((int)(long)lobbiesMaxSizes.get(i),(int)(long)lobbiesIDs.get(i),(int)(long)lobbiesCurrentSize.get(i) ));
+                clientTCP.getData().setLobbies(refreshedLobbies);
                 for (int i = 0; i < lobbiesIDs.size(); i++)
                     System.out.println("ID: " + lobbiesIDs.get(i) + " current size: " + lobbiesCurrentSize.get(i) + " max size: " + lobbiesMaxSizes.get(i));
                 break;
@@ -308,12 +312,15 @@ public class TCPserverParser implements Runnable {
 
     private void onLobbyUpdate(JSONObject obj) {  //  99
         System.out.println("LOBBIES UPDATE RECIVED:");
-        List<Integer> lobbiesIDs = (List<Integer>) obj.get("IDss");
-        List<Integer> lobbiesCurrentSize = (List<Integer>) obj.get("CurrentSizess");
-        List<Integer> lobbiesMaxSizes = (List<Integer>) obj.get("MaxSizes");
-        clientTCP.getData().refreshLobbyList(lobbiesIDs, lobbiesCurrentSize, lobbiesMaxSizes);
+        List<Long> lobbiesIDs = (List<Long>) obj.get("IDss");
+        List<Long> lobbiesCurrentSize = (List<Long>) obj.get("CurrentSizess");
+        List<Long> lobbiesMaxSizes = (List<Long>) obj.get("MaxSizes");
         for (int i = 0; i < lobbiesIDs.size(); i++)
             System.out.println("ID: " + lobbiesIDs.get(i) + " current size: " + lobbiesCurrentSize.get(i) + " max size: " + lobbiesMaxSizes.get(i));
+        List<Lobby> refreshedLobbies = new ArrayList<>();
+        for(int i = 0; i <lobbiesIDs.size(); i++)
+            refreshedLobbies.add(new Lobby((int)(long)lobbiesMaxSizes.get(i),(int)(long)lobbiesIDs.get(i),(int)(long)lobbiesCurrentSize.get(i) ));
+        clientTCP.getData().setLobbies(refreshedLobbies);
     }
 
     private void onGameUpdate(JSONObject obj) {  //  100
