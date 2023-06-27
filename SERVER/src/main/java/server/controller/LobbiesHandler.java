@@ -1,14 +1,16 @@
 package server.controller;
 
+import common.VirtualViewRMI;
 import server.model.Lobby;
 import server.model.User;
 
+import java.io.IOException;
 import java.util.Set;
 
 public interface LobbiesHandler {
 
     // interfaccia interna al server
-    boolean createUser(String newUsername);
+    int createUser(String newUsername, VirtualViewRMI virtualView);
 
     boolean isUserPresent(String username);
 
@@ -36,4 +38,5 @@ public interface LobbiesHandler {
 
     void abortLobby(String userName);
 
+    void disconnectedUser(String userName);
 }

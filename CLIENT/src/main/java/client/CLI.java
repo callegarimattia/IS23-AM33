@@ -1,11 +1,12 @@
 package client;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CLI implements Runnable, Displayer {
+public class CLI implements Runnable {
 
     Client client;
     private boolean inGame;
@@ -32,7 +33,11 @@ public class CLI implements Runnable, Displayer {
                 System.out.println(e.getMessage());
             }
         } else {
-            client = new ClientRMI();
+            try {
+                client = new ClientRMI();
+            } catch (RemoteException e) {
+                System.out.println(e.getMessage());
+            }
             client.newConnection("localhost", 1099);  // dovranno essere presi da arg/json/CL
         }
     }
@@ -190,7 +195,6 @@ public class CLI implements Runnable, Displayer {
     }
 
 
-    @Override
     public void shutDown() {
         inGame = false;
     }

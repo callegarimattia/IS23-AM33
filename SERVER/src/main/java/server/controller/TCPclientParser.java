@@ -54,10 +54,6 @@ public class TCPclientParser implements Runnable {
         this.gameHandler = gameHandler;
     }
 
-    public void setLobbiesHandler(LobbiesHandler lobbiesHandler) {
-        this.lobbiesHandler = lobbiesHandler;
-    }
-
     @Override
     public void run() {
 
@@ -76,7 +72,7 @@ public class TCPclientParser implements Runnable {
             JSONParser parser = new JSONParser();
 
             if(str == null){ /////////////  not sure
-                disconnectedUser();
+                lobbiesHandler.disconnectedUser(userName);
                 return;
             }
 
@@ -136,28 +132,7 @@ public class TCPclientParser implements Runnable {
 
     }
 
-    private void disconnectedUser(){
-        if(inUser){
-            User me = lobbiesHandler.searchUser(userName);
-            if(me == null) return;
-            if(me.isInGame()){
-                gameHandler.abortGame(me.getUserName());  // manda messaggio finale e chiude tutti i 4 (potenzialmente) thread parser
-                lobbiesHandler.abortLobby(userName);  // ed elimina anche tuttu i (4) user
-                return;
-            }
-            else{  // sia che sia in una waitingLobby sia che sia un user e basta
-                lobbiesHandler.removeUser(me.getUserName());
-            }
-        }
-        try {
-            in.close();
-            out.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
 
-        System.out.println("connection with user "+ userName +" closed and user deleted");
-    }
 
     private void clientClosingApp(JSONObject obj, JSONObject answer){  // -1
         String toBeDel = (String) obj.get("toBeDeletedUser");
@@ -195,21 +170,15 @@ public class TCPclientParser implements Runnable {
             return;
         }
         String newUserUsername = (String) obj.get("userName");
-        if(newUserUsername.equals("all")){
-            answer.put("answer", "-2");   //  stringa speciale
-            sendAnswer(answer);
-            return;
-        }
-        if(lobbiesHandler.createUser(newUserUsername)){
-            userName = (String) obj.get("userName");
-            answer.put("answer", "1");
-            answer.put("userName", newUserUsername);
-            lobbiesHandler.addTCPparserToUser(newUserUsername,this);
+        if(lobbiesHandler.createUser(newUserUsername, null) == 1){
             inUser = true;
+            userName = newUserUsername;
+            answer.put("answer", "1");
         }
         else answer.put("answer", "0");
         sendAnswer(answer);
     }
+
 
     public void listOfLobbiesRequest(JSONObject answer){  // 1
         answer.put("type", 1);

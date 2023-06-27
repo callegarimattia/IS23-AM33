@@ -21,7 +21,7 @@ public class ClientPersonalGoal {
 
 
     public void print() {
-        System.out.println("my personal goal:\n");
+        System.out.println("\nmy personal goal:\n");
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++)
                 System.out.printf("%20s ",matrix[i][j]);

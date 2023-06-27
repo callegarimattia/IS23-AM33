@@ -1,24 +1,31 @@
 package client;
-
 import client.clientModel.ClientDataStructure;
-import common.Server;
-import common.VirtualView;
+import common.ServerRMI;
+import common.VirtualViewRMI;
 
+import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.RMIClientSocketFactory;
+import java.rmi.server.RMIServerSocketFactory;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.Scanner;
+import java.rmi.Naming;
 
-public class ClientRMI implements Client, VirtualView {
-    Registry registry;
-    Server server;
+public class ClientRMI extends UnicastRemoteObject implements Client, VirtualViewRMI {
+    ServerRMI server;
     String username;
     int lobbyID;
     private int gameStatus = 1;  // da cambiare per ora è fisso
     Scanner scanner = new Scanner(System.in);
     private ClientDataStructure data;
+
+    public ClientRMI() throws RemoteException {
+    }
 
     @Override
     public ClientDataStructure getData() {
@@ -28,21 +35,36 @@ public class ClientRMI implements Client, VirtualView {
     @Override
     public void newConnection(String serverIP, int port) {
         try {
-            Registry registry = LocateRegistry.getRegistry(serverIP, port);
-            server = (Server) registry
-                    .lookup("Server");
-            System.out.println("Connection established!");
-            System.out.println("Insert a new username:");
-            String newUsername = scanner.nextLine();
-            while (!server.createUser(newUsername)) {
-                System.out.println("Username not available, please provide another one: ");
-                newUsername = scanner.nextLine();
-            }
-            this.username = newUsername;
-        } catch (RemoteException | NotBoundException e) {
-            e.printStackTrace();
+            server = (ServerRMI) Naming.lookup("rmi://" + serverIP + "/ServerRMI");
+        } catch (NotBoundException | MalformedURLException| RemoteException e) {
             System.out.println(e.getMessage());
-            System.exit(1);
+        }
+    }
+
+    @Override
+    public void createUser(String username) {  // 0
+        try {
+            switch (server.createUser(username,this)){
+                default:
+                    System.out.println("non doveva succedere");
+                    break;
+                case -4:
+                    System.out.println("can't create a new user, this client already has an associated User");
+                    break;
+                case -2:
+                    System.out.println("invalid special username, press 0 and enter a new one: ");
+                    break;
+                case 0:
+                    System.out.println("userName already taken, press 0 and enter a new one: ");
+                    break;
+                case 1:
+                    this.username = username;
+                    System.out.println("userName " + this.username + " successfully set");
+                    break;
+            }
+        } catch (RemoteException e) {
+            System.out.println("l errore è qui");
+            System.out.println(e.getMessage());
         }
     }
 
@@ -64,7 +86,7 @@ public class ClientRMI implements Client, VirtualView {
             System.out.println("Client: provide a lobbyID to be joined");
             int lobbyID = scanner.nextInt();
             while (server.joinLobby(this.username, lobbyID)) {
-                System.out.println("Server: the selected lobby can't be joined!");
+                System.out.println("ServerRMI: the selected lobby can't be joined!");
                 System.out.println("Client: provide a different lobbyID or -1 to exit");
                 lobbyID = scanner.nextInt();
                 if (lobbyID == -1) return;
@@ -80,7 +102,7 @@ public class ClientRMI implements Client, VirtualView {
     public void leaveLobby() {
         try {
             if (server.leaveLobby(this.username)) this.lobbyID = -1;
-            else System.out.println("Server: You are not in a lobby!");
+            else System.out.println("ServerRMI: You are not in a lobby!");
         } catch (RemoteException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
@@ -95,14 +117,14 @@ public class ClientRMI implements Client, VirtualView {
             int gameSize = scanner.nextInt();
             while ((tmp = server.createLobby(this.username, gameSize)) < 0) {
                 if (tmp == -2) {
-                    System.out.println("Server: can't create a lobby while in game.");
+                    System.out.println("ServerRMI: can't create a lobby while in game.");
                     return;
                 }
                 if (tmp == -1) {
-                    System.out.println("Server: Username unknown -> ERROR");
+                    System.out.println("ServerRMI: Username unknown -> ERROR");
                     System.exit(-1);
                 }
-                System.out.println("Server: game size invalid (only 2,3,4 are accepted)");
+                System.out.println("ServerRMI: game size invalid (only 2,3,4 are accepted)");
                 System.out.println("Client: please provide a new game size");
                 gameSize = scanner.nextInt();
             }
@@ -140,10 +162,7 @@ public class ClientRMI implements Client, VirtualView {
         return gameStatus;
     }
 
-    @Override
-    public void createUser(String username) {
 
-    }
 
     @Override
     public void GameUpdate(List<String> players /* ...TBD...*/) throws RemoteException {

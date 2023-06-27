@@ -3,10 +3,10 @@ package common;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface Server extends Remote {
+public interface ServerRMI extends Remote {
 
     //  interfaccia usata dal client
-    boolean createUser(String newUsername) throws RemoteException;
+    int createUser(String newUsername, VirtualViewRMI virtualView) throws RemoteException;
 
     boolean joinLobby(String user, int lobbyID) throws RemoteException;
 

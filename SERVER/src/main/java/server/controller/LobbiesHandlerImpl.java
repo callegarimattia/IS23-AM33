@@ -1,7 +1,8 @@
 package server.controller;
 
+import common.ServerRMI;
+import common.VirtualViewRMI;
 import org.json.simple.JSONObject;
-import common.Server;
 import server.exceptions.LobbiesHandlerException;
 import server.listenerStuff.LobbiesUpdateEvent;
 import server.model.Lobby;
@@ -10,6 +11,7 @@ import server.model.User;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
+import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -19,12 +21,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class LobbiesHandlerImpl implements LobbiesHandler, Server, GameEnder {  // Controller per Lobby
+public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHandler, ServerRMI, GameEnder {  // Controller per Lobby
     private final Set<Lobby> waitingLobbies = new HashSet<>();
     private final Set<Lobby> inGameLobbies = new HashSet<>();
     private final Set<User> users = new HashSet<>();
 
     private final int TCPport = 2345;  // sarebbe meglio prenderla da arg/json
+
+    public LobbiesHandlerImpl() throws RemoteException {
+        Runnable r = new RMIchecker();
+        Thread t = new Thread(r);
+        t.start();
+    }
 
     /**
      * Creates and then adds a new user to the users pool with given username.
@@ -34,17 +42,33 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server, GameEnder {  
      * @throws LobbiesHandlerException
      */
     @Override
-    public boolean createUser(String newUsername) {
+    public int createUser(String newUsername, VirtualViewRMI virtualView) {
         synchronized (users) {
-            for (User user : users) {
-                if (user.getUserName().equals(newUsername)) return false;
-            }
+
+            for (User user : users)
+                if (user.getUserName().equals(newUsername)) {
+                    return 0;   // username taken
+                }
+
+            for (User user : users)
+                if (virtualView!= null && user.getMyClient()!=null && user.getMyClient().equals(virtualView) )
+                        return -4;  // already asscociated
+
+            for (User user : users)
+                if (virtualView!= null && user.getMyClient().equals(virtualView) && user.getUserName()!=null)
+
+
+                    if(newUsername.equals("all")) return -2;
+
+
             User newUser = new User(newUsername);
+            newUser.setMyClient(virtualView);
             users.add(newUser);
             System.out.println("NEW USERNAME ADDED ('" + newUsername + "')");
-            return true;
+            return 1;
         }
     }
+
 
     /**
      * Search the given username in the pool of users.
@@ -144,6 +168,8 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server, GameEnder {  
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
         OnLobbyUpdate(evt);
     }
+
+
 
     /**
      * Let a valid user, which is not in a lobby or game, join a not full lobby which hasn't started its game yet.
@@ -302,15 +328,20 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server, GameEnder {  
     }
 
     private void startRMI(){
-        Registry registry;
+
+        Registry registry = null;
         try {
             registry = LocateRegistry.createRegistry(1099);
-            Server stub = (Server) UnicastRemoteObject
-                    .exportObject((Server) this, 0);
-            registry.rebind("Server", stub);
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
+
+        try {
+            registry.bind("ServerRMI", this);
+        } catch (RemoteException | AlreadyBoundException e) {
+            System.out.println(e.getMessage());
+        }
+
         System.out.println("------------------- RMI SERVER ONLINE -------------------");
     }
 
@@ -363,6 +394,29 @@ public class LobbiesHandlerImpl implements LobbiesHandler, Server, GameEnder {  
         for (User user: users)
             if(user.getUserName().equals(newUserUsername))
                 user.setMyParser(parser);
+    }
+
+    private void disconnectedUser(Str){
+        if(inUser){
+            User me = lobbiesHandler.searchUser(userName);
+            if(me == null) return;
+            if(me.isInGame()){
+                gameHandler.abortGame(me.getUserName());  // manda messaggio finale e chiude tutti i 4 (potenzialmente) thread parser
+                lobbiesHandler.abortLobby(userName);  // ed elimina anche tuttu i (4) user
+                return;
+            }
+            else{  // sia che sia in una waitingLobby sia che sia un user e basta
+                lobbiesHandler.removeUser(me.getUserName());
+            }
+        }
+        try {
+            in.close();
+            out.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("connection with user "+ userName +" closed and user deleted");
     }
 
 }

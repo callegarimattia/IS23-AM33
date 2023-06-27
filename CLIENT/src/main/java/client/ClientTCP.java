@@ -18,11 +18,11 @@ public class ClientTCP implements Client {
     private ClientDataStructure data;
     private Socket socket;
 
-    public ClientTCP(Displayer displayer) throws IOException {
+    public ClientTCP(CLI cli) throws IOException {
         data = new ClientDataStructure();
         newConnection(ip, port);
         out = new ObjectOutputStream(socket.getOutputStream());
-        Runnable parser = new TCPserverParser(socket, this, displayer);
+        Runnable parser = new TCPserverParser(socket, this, cli);
         Thread th = new Thread(parser);
         th.start();
     }
@@ -138,5 +138,4 @@ public class ClientTCP implements Client {
     public ClientDataStructure getData() {
         return data;
     }
-
 }

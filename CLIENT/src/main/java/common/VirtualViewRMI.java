@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 
-public interface VirtualView extends Remote {
+public interface VirtualViewRMI extends Remote {
 
     //  ha solo i metodi che chiama il server
 

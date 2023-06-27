@@ -1,6 +1,6 @@
 package server.model;
 
-import common.VirtualView;
+import common.VirtualViewRMI;
 import server.controller.TCPclientParser;
 
 import java.io.Serializable;
@@ -11,8 +11,7 @@ public class User implements Serializable {
     private boolean inGame = false;
     private boolean inLobby = false;
     private TCPclientParser myParser;
-
-    private VirtualView myClient = null;
+    private VirtualViewRMI myClient = null;
 
     public User(String userName) {
         this.userName = userName;
@@ -51,11 +50,11 @@ public class User implements Serializable {
         return Objects.hash(userName);
     }
 
-    public void setMyClient(VirtualView myClient) {
+    public void setMyClient(VirtualViewRMI myClient) {
         this.myClient = myClient;
     }
 
-    public VirtualView getMyClient() {
+    public VirtualViewRMI getMyClient() {
         return myClient;
     }
 

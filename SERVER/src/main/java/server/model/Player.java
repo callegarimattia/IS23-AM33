@@ -1,6 +1,6 @@
 package server.model;
 
-import common.VirtualView;
+import common.VirtualViewRMI;
 import server.model.personalGoals.PersonalGoal;
 
 import java.io.ObjectOutputStream;
@@ -10,10 +10,10 @@ public class Player {
     private final String userName;
     private PersonalGoal personalGoal;
     private int score;
-    private VirtualView myClient = null;
+    private VirtualViewRMI myClient = null;
     private ObjectOutputStream out = null;
 
-    public Player(String userName, VirtualView client) {
+    public Player(String userName, VirtualViewRMI client) {
         this.userName = userName;
         myClient = client;
     }
@@ -49,7 +49,7 @@ public class Player {
         return score;
     }
 
-    public VirtualView getMyClient() {
+    public VirtualViewRMI getMyClient() {
         return myClient;
     }
 

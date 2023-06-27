@@ -7,11 +7,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.rmi.RemoteException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LobbiesHandlerTest {
 
-    LobbiesHandler lobbyTester = new LobbiesHandlerImpl();
+    LobbiesHandler lobbyTester;
+
+    {
+        try {
+            lobbyTester = new LobbiesHandlerImpl();
+        } catch (RemoteException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     @BeforeEach
     void init() {
@@ -27,21 +37,21 @@ class LobbiesHandlerTest {
     @Test
     @DisplayName("Create User")
     void createUser() {
-        lobbyTester.createUser("Mattia");
+        lobbyTester.createUser("Mattia", null);
         assertTrue(lobbyTester.isUserPresent("Mattia"));
     }
 
     @Test
     @DisplayName("Create User - Same name exception")
     void createUser_SameName() {
-        lobbyTester.createUser("Mattia");
-        assertFalse(lobbyTester.createUser("Mattia"));
+        lobbyTester.createUser("Mattia",null);
+        assertEquals(0,lobbyTester.createUser("Mattia",null));
     }
 
     @Test
     @DisplayName("Username Search tests")
     void searchUser() {
-        lobbyTester.createUser("Mattia");
+        lobbyTester.createUser("Mattia", null);
         assertTrue(lobbyTester.isUserPresent("Mattia"));
         lobbyTester.getUsers().clear();
         assertFalse(lobbyTester.isUserPresent("Mattia"));
@@ -51,7 +61,7 @@ class LobbiesHandlerTest {
     @ValueSource(ints = {2, 3, 4})
     @DisplayName("Lobby creation test")
     void createLobby(int numOfPlayers) {
-        lobbyTester.createUser("Mattia");
+        lobbyTester.createUser("Mattia", null);
         int lobbyID = lobbyTester.createLobby("Mattia", numOfPlayers);
         assertTrue(lobbyID >= 0);
     }
@@ -60,7 +70,7 @@ class LobbiesHandlerTest {
     @ValueSource(ints = {1, 5, -3})
     @DisplayName("Lobby creation with invalid game size")
     void createLobby_InvalidGameSizes(int numOfPlayers) {
-        lobbyTester.createUser("Mattia");
+        lobbyTester.createUser("Mattia",null);
         assertEquals(lobbyTester.createLobby("Mattia", numOfPlayers), -3);
     }
 }

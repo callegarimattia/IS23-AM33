@@ -1,12 +1,11 @@
 package client;
-
 import client.clientModel.ClientDataStructure;
 import client.clientModel.ClientPlayer;
+import client.clientModel.Lobby;
 import common.Tile;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -15,17 +14,16 @@ import java.util.List;
 
 
 public class TCPserverParser implements Runnable {
-    private Displayer displayer;
-
+    private final CLI cli;
     private ClientDataStructure data;
     private final Socket socket;
     private final ClientTCP clientTCP;  // devo poi usare l interfaccia ma per ora ho i metodi solo su TCP
     private Integer myLobbyID;
 
-    public TCPserverParser(Socket socket, ClientTCP clientTCP, Displayer displayer) {
+    public TCPserverParser(Socket socket, ClientTCP clientTCP, CLI cli) {
         this.socket = socket;
         this.clientTCP = clientTCP;
-        this.displayer = displayer;
+        this.cli = cli;
         myLobbyID = null;
     }
 
@@ -56,7 +54,7 @@ public class TCPserverParser implements Runnable {
                 obj = (JSONObject) parser.parse(str);
             } catch (Exception e) {
                 System.out.println("server went offline, press any key to close app");
-                displayer.shutDown();
+                cli.shutDown();
                 break;
             }
 
@@ -305,6 +303,10 @@ public class TCPserverParser implements Runnable {
         System.out.println("\ncurrent player turn: " + clientTCP.getData().getPlayers().get(0).getUserName());  // ogni volta ce lo dirà il server, non ce lo salviamo
         System.out.println("\nnew commands:\n-1: close app / abort game\n 5: pick and insert\n 6: send chat message");
     }
+
+
+
+
 
     private void onLobbyUpdate(JSONObject obj) {  //  99
         System.out.println("LOBBIES UPDATE RECIVED:");
