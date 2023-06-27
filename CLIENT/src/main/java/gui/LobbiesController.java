@@ -2,15 +2,12 @@ package gui;
 
 import client.Client;
 import client.Lobby;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -25,7 +22,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class LobbiesController {
-    private final ObservableList<Lobby> data = FXCollections.observableArrayList();
     private Client client;
 
     @FXML
@@ -37,7 +33,7 @@ public class LobbiesController {
     public void init(GuiApplication gui) {
         this.gui = gui;
         refreshLobbies();
-        listView.setItems(data);
+        listView.setItems(client.getData().getLobbies());
         listView.addEventFilter(MouseEvent.MOUSE_PRESSED, e ->
         {
             if (e.isSecondaryButtonDown()) {
@@ -50,13 +46,14 @@ public class LobbiesController {
             if (click.getClickCount() == 2) {
                 Lobby currentItemSelected = listView.getSelectionModel()
                         .getSelectedItem();
-                if (currentItemSelected != null)
+                if (currentItemSelected != null) {
                     client.joinLobby(currentItemSelected.getLobbyId());
+                    openGameWindow();
+                }
             } else {
                 listView.getSelectionModel().clearSelection();
             }
         });
-        data.add(new Lobby(3, 1, 1));
     }
 
     public void setClient(Client client) {
@@ -70,8 +67,6 @@ public class LobbiesController {
 
     private void refreshLobbies() {
         client.lobbyListRequest();
-        data.clear();
-        data.addAll(client.getData().getLobbies());
     }
 
     @FXML
@@ -88,21 +83,7 @@ public class LobbiesController {
 
         EventHandler<ActionEvent> confirmEvent = e -> {
             client.createLobby(gameSizeSpinner.getValue());
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Game.fxml"));
-            ((Node) (e.getSource())).getScene().getWindow().hide();
-            Scene scene = null;
-            try {
-                scene = new Scene(fxmlLoader.load());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            Stage thisStage = (Stage) refreshButton.getScene().getWindow();
-            thisStage.setScene(scene);
-            thisStage.setTitle("Game");
-            thisStage.setResizable(false);
-            thisStage.setMaximized(true);
-            thisStage.show();
-
+            openGameWindow();
         };
         confirmButton.setOnAction(confirmEvent);
         dialogVbox.getChildren().add(confirmButton);
@@ -110,5 +91,24 @@ public class LobbiesController {
         dialog.setResizable(false);
         dialog.setScene(dialogScene);
         dialog.show();
+    }
+
+    private void openGameWindow() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Game.fxml"));
+        refreshButton.getScene().getWindow().hide();
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        GameController gameController = fxmlLoader.getController();
+        gameController.setClient(client);
+        Stage thisStage = (Stage) refreshButton.getScene().getWindow();
+        thisStage.setScene(scene);
+        thisStage.setTitle("Game");
+        thisStage.setResizable(false);
+        thisStage.setMaximized(true);
+        thisStage.show();
     }
 }

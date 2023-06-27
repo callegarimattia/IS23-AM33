@@ -1,8 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            xmlns="http://javafx.com/javafx"
-            fx:controller="gui.GameController"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.text.Font?>
+<AnchorPane
+        xmlns:fx="http://javafx.com/fxml/1"
+        id="pane"
+        fx:controller="gui.GameController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+        prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8">
+    <children>
+        <ImageView fitHeight="621.0" fitWidth="510.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../17_MyShelfie_BGA/boards/livingroom.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="438.0" fitWidth="398.0" layoutX="522.0" layoutY="308.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../17_MyShelfie_BGA/boards/bookshelf.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="229.0" fitWidth="174.0" layoutX="530.0" layoutY="94.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../17_MyShelfie_BGA/boards/bookshelf_orth.png"/>
+            </image>
+        </ImageView>
+        <Label fx:id="player1" alignment="CENTER" layoutX="530.0" layoutY="51.0" text="Player1">
+            <font>
+                <Font size="35.0"/>
+            </font>
+        </Label>
+        <Label fx:id="player2" alignment="CENTER" layoutX="760.0" layoutY="51.0" text="Player2">
+            <font>
+                <Font size="35.0"/>
+            </font>
+        </Label>
+        <ImageView fitHeight="229.0" fitWidth="174.0" layoutX="760.0" layoutY="94.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../17_MyShelfie_BGA/boards/bookshelf_orth.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="229.0" fitWidth="174.0" layoutX="990.0" layoutY="93.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../17_MyShelfie_BGA/boards/bookshelf_orth.png"/>
+            </image>
+        </ImageView>
+        <Label fx:id="player3" alignment="CENTER" layoutX="990.0" layoutY="50.0" text="Player3">
+            <font>
+                <Font size="35.0"/>
+            </font>
+        </Label>
+    </children>
 </AnchorPane>

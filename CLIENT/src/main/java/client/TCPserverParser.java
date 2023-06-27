@@ -153,12 +153,12 @@ public class TCPserverParser implements Runnable {
     private void ansLobbyListRequest(JSONObject obj) {  // 1
         switch (obj.get("answer").toString()){
             case "1":
-                List<Integer> lobbiesIDs = (List<Integer>) obj.get("IDs");
-                List<Integer> lobbiesCurrentSize = (List<Integer>) obj.get("CurrentSizes");
-                List<Integer> lobbiesMaxSizes = (List<Integer>) obj.get("MaxSizes");
+                List<Long> lobbiesIDs = (List<Long>) obj.get("IDs");
+                List<Long> lobbiesCurrentSize = (List<Long>) obj.get("CurrentSizes");
+                List<Long> lobbiesMaxSizes = (List<Long>) obj.get("MaxSizes");
                 List<Lobby> refreshedLobbies = new ArrayList<>();
-                for(int i = 0; i <lobbiesIDs.size(); i++)
-                    refreshedLobbies.add(new Lobby((int)(long)lobbiesMaxSizes.get(i),(int)(long)lobbiesIDs.get(i),(int)(long)lobbiesCurrentSize.get(i) ));
+                for (int i = 0; i < lobbiesIDs.size(); i++)
+                    refreshedLobbies.add(new Lobby((int) (long) lobbiesMaxSizes.get(i), (int) (long) lobbiesIDs.get(i), (int) (long) lobbiesCurrentSize.get(i)));
                 clientTCP.getData().setLobbies(refreshedLobbies);
                 for (int i = 0; i < lobbiesIDs.size(); i++)
                     System.out.println("ID: " + lobbiesIDs.get(i) + " current size: " + lobbiesCurrentSize.get(i) + " max size: " + lobbiesMaxSizes.get(i));
@@ -305,10 +305,6 @@ public class TCPserverParser implements Runnable {
         System.out.println("\ncurrent player turn: " + clientTCP.getData().getPlayers().get(0).getUserName());  // ogni volta ce lo dirà il server, non ce lo salviamo
         System.out.println("\nnew commands:\n-1: close app / abort game\n 5: pick and insert\n 6: send chat message");
     }
-
-
-
-
 
     private void onLobbyUpdate(JSONObject obj) {  //  99
         System.out.println("LOBBIES UPDATE RECIVED:");

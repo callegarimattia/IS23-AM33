@@ -45,7 +45,8 @@ public class LoginController {
         if (answer == 1) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Lobbies.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
-            LobbiesController lobbiesController = (LobbiesController) fxmlLoader.getController();
+            LobbiesController lobbiesController = fxmlLoader.getController();
+            client.getData().setGui(true);
             lobbiesController.setClient(client);
             lobbiesController.init(gui);
             Stage thisStage = (Stage) username.getScene().getWindow();

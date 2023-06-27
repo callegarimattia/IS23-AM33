@@ -2,6 +2,7 @@ package client.clientModel;
 
 import client.Lobby;
 import common.Tile;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,7 +16,9 @@ public class ClientDataStructure {
     private String commonGoal2;
     private ClientPersonalGoal myGoal;
     private String myUsername;
-    private ObservableList<Lobby> lobbies;
+    private ObservableList<Lobby> lobbies = FXCollections.observableArrayList();
+
+    private boolean gui = false;
 
     public String getMyUsername() {
         return myUsername;
@@ -136,6 +139,13 @@ public class ClientDataStructure {
     }
 
     public void setLobbies(List<Lobby> lobbies) {
-        this.lobbies = FXCollections.observableArrayList(lobbies);
+        if (gui) {
+            Platform.runLater(() -> this.lobbies.clear());
+            Platform.runLater(() -> this.lobbies.addAll(lobbies));
+        }
+    }
+
+    public void setGui(boolean gui) {
+        this.gui = gui;
     }
 }

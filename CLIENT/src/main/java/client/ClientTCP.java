@@ -138,4 +138,5 @@ public class ClientTCP implements Client {
     public ClientDataStructure getData() {
         return data;
     }
+
 }
