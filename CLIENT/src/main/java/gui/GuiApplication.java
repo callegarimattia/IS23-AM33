@@ -1,5 +1,7 @@
 package gui;
+
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -16,7 +18,11 @@ public class GuiApplication extends Application{
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 200);
         LoginController loginController = (LoginController) fxmlLoader.getController();
-        loginController.init(this);
+        loginController.init(this, stage);
+        stage.setOnCloseRequest(t -> {
+            Platform.exit();
+            System.exit(0);
+        });
         stage.setScene(scene);
         stage.setTitle("Login");
         stage.setResizable(false);
