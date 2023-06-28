@@ -14,7 +14,7 @@ public interface LobbiesHandler {
 
     // interfaccia interna al server
 
-    public List<String> createUser(String newUsername, VirtualViewRMI virtualView, TCPclientParser parser);
+    public List<String> createUser(String newUsername, VirtualViewRMI virtualView, Object parser);
 
     boolean isUserPresent(String username);
 
@@ -44,6 +44,6 @@ public interface LobbiesHandler {
 
     void disconnectedUser(String userName);
 
-    public List<Integer> lobbyListRequest(VirtualViewRMI virtualView);
+    public List<Integer> lobbyListRequest(VirtualViewRMI virtualView, Object parser);
 
 }

@@ -8,6 +8,7 @@ import server.listenerStuff.LobbiesUpdateEvent;
 import server.model.Lobby;
 import server.model.User;
 
+import javax.swing.text.html.ObjectView;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -42,7 +43,7 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
      * @throws LobbiesHandlerException
      */
     @Override
-    public List<String> createUser(String newUsername, VirtualViewRMI virtualView, TCPclientParser parser) {
+    public List<String> createUser(String newUsername, VirtualViewRMI virtualView, Object parser) {
         List<String> message = new ArrayList<>(2);
         message.add(0, "1");
         synchronized (users) {
@@ -66,7 +67,7 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
 
             User newUser = new User(newUsername);
             newUser.setMyClient(virtualView);
-            newUser.setMyParser(parser);
+            newUser.setMyParser((TCPclientParser) parser);
             users.add(newUser);
             System.out.println("NEW USERNAME ADDED ('" + newUsername + "')");
             message.add(1, newUsername);
@@ -139,9 +140,9 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
     }
 
     @Override
-    public List<Integer> lobbyListRequest(VirtualViewRMI virtualView) {
+    public List<Integer> lobbyListRequest(VirtualViewRMI virtualView, Object parser) {
         List<Integer> answer = new ArrayList<>(1);
-        answer.set(0, 1);   // k
+        answer.add(0, 1);   // k
         for(Lobby lobby : waitingLobbies){
             answer.add(lobby.getID());
             answer.add(lobby.getUsers().size());
@@ -250,43 +251,31 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
     }
 
     private void OnLobbyUpdate(LobbiesUpdateEvent evt) {
-        // RMI:
+        List<Integer> data = lobbyListRequest(null,null);
         for (User user : users)
-            if(!user.isInGame())
-                try {
-                    if (user.getMyClient() != null){
-                        // user.getMyClient().LobbiesUpdate(evt); prima era cosi, da rifare perche non gli passo la classe
-                        List<String> daCancellare = null;
-                        user.getMyClient().GameUpdate(daCancellare);
+            if(!user.isInGame()){
+
+                if (user.getMyClient() != null){   // RMI:
+                    try {
+                        user.getMyClient().LobbiesUpdate(data);
+                    } catch (RemoteException e) {
+                        System.out.println(e.getMessage());
                     }
-                } catch (RemoteException e) {
-                    System.out.println("remote method invocation failed");
                 }
-        // TCP:
-        for(User user : users)
-            if(!user.isInGame())
-                if(user.getMyParser()!= null){
+
+                if(user.getMyParser()!= null){    // TCP
                     ObjectOutputStream myOut = user.getMyParser().getOut();
                     JSONObject answer = new JSONObject();
-                    Set<Lobby> updatedWaitingLobbies = evt.getWaitingLobbies();
-                    List<Integer> lobbiesIDs = new ArrayList<>();
-                    List<Integer> lobbiesCurrentSize = new ArrayList<>();
-                    List<Integer> lobbiesMaxSizes = new ArrayList<>();
-                    for(Lobby lobby : updatedWaitingLobbies){
-                        lobbiesIDs.add(lobby.getID());
-                        lobbiesCurrentSize.add(lobby.getUsers().size());
-                        lobbiesMaxSizes.add(lobby.getGameSize());
-                    }
                     answer.put("type", 99);
-                    answer.put("IDss", lobbiesIDs);
-                    answer.put("CurrentSizess", lobbiesCurrentSize);
-                    answer.put("MaxSizes", lobbiesMaxSizes);
+                    answer.put("data", data);
                     try {
                         myOut.writeObject(answer);
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
                 }
+            }
+
     }
 
     /**

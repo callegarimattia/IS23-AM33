@@ -57,8 +57,9 @@ public class Board {
     private void RandomTiles(TilesBag myBag, Tile[][] mainBoard) {
         for (int x = 0; x < 9; x++)
             for (int y = 0; y < 9; y++)
-                if (mainBoard[x][y].equals(Tile.EMPTY))
+                if (mainBoard[x][y].equals(Tile.EMPTY) && myBag.getTotalTiles()>0)
                     mainBoard[x][y] = myBag.pickedTile();
+                else mainBoard[x][y] = Tile.EMPTY;
     }
 
     private boolean isPickable(MainBoardCoordinates coordinate) {

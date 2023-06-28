@@ -1,9 +1,5 @@
 package client;
 import client.clientModel.ClientDataStructure;
-import client.clientModel.ClientPlayer;
-import client.clientModel.Lobby;
-import common.Tile;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import java.io.IOException;
@@ -72,9 +68,8 @@ public class TCPserverParser implements Runnable {
                     data.ansCreateUser(ans);
                     break;
                 case 1:
-                    answer = obj.get("answer").toString();
-                    List<Integer> dataList = (List<Integer>) obj.get("data");
-                    data.ansLobbyListRequest(answer, dataList);
+                    List<Long> dataList = (List<Long>) obj.get("data");
+                    data.ansLobbyListRequest(dataList);
                     break;
                 case 2:
                     data.ansNewLobbyCreation(obj);
@@ -99,7 +94,8 @@ public class TCPserverParser implements Runnable {
                     data.personalStartGame(obj);
                     break;
                 case 99:
-                    data.onLobbyUpdate(obj);
+                    List<Long> lobbiesList = (List<Long>) obj.get("data");
+                    data.onLobbyUpdate(lobbiesList);
                     break;
                 case 100:
                     data.onGameUpdate(obj);

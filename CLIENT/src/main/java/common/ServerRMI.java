@@ -7,7 +7,7 @@ import java.util.List;
 public interface ServerRMI extends Remote {
 
     //  interfaccia usata dal client
-    List<String> createUser(String newUsername, VirtualViewRMI virtualView) throws RemoteException;
+    List<String> createUser(String newUsername, VirtualViewRMI virtualView, Object obj) throws RemoteException;
 
     boolean joinLobby(String user, int lobbyID) throws RemoteException;
 
@@ -15,7 +15,7 @@ public interface ServerRMI extends Remote {
 
     int createLobby(String firstUser, int gameSize) throws RemoteException;
 
-    List<Integer> lobbyListRequest(VirtualViewRMI virtualView)throws RemoteException;
+    List<Integer> lobbyListRequest(VirtualViewRMI virtualView, Object obj)throws RemoteException;
 
     List<String> shutDownClient(VirtualViewRMI virtualView)throws RemoteException;
 

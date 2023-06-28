@@ -192,17 +192,8 @@ public class TCPclientParser implements Runnable {
 
     public void listOfLobbiesRequest(JSONObject answer){  // 1
         answer.put("type", 1);
-        if(gameHandler != null){
-            answer.put("answer","-1");  // cant ask lobbies list if game already started
-        }
-        if(lobbiesHandler.getWaitingLobbies().size() > 0){
-            answer.put("answer", "1");
-            List<Integer> data = lobbiesHandler.lobbyListRequest(null);
-            answer.put("data", data);
-        }
-        else {
-            answer.put("answer","0");  // no lobbies yet
-        }
+        List<Integer> data = lobbiesHandler.lobbyListRequest(null, this);
+        answer.put("data", data);
         sendAnswer(answer);
     }
 

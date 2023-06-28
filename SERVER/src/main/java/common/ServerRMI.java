@@ -10,7 +10,7 @@ public interface ServerRMI extends Remote {
 
     //  interfaccia usata dal client
 
-    List<String> createUser(String newUsername, VirtualViewRMI virtualView, TCPclientParser parser) throws RemoteException;
+    List<String> createUser(String newUsername, VirtualViewRMI virtualView, Object obj) throws RemoteException;
 
     boolean joinLobby(String user, int lobbyID) throws RemoteException;
 
@@ -21,5 +21,5 @@ public interface ServerRMI extends Remote {
     List<String> shutDownClient(VirtualViewRMI virtualView)throws RemoteException;
     void checkAlive()throws RemoteException;
 
-    List<Integer> lobbyListRequest(VirtualViewRMI virtualView)throws RemoteException;
+    List<Integer> lobbyListRequest(VirtualViewRMI virtualView, Object obj)throws RemoteException;
 }

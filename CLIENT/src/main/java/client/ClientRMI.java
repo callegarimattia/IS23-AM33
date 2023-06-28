@@ -1,5 +1,6 @@
 package client;
 import client.clientModel.ClientDataStructure;
+import client.clientModel.Lobby;
 import common.ServerRMI;
 import common.VirtualViewRMI;
 
@@ -13,9 +14,11 @@ import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.rmi.Naming;
+import java.util.stream.Collectors;
 
 import static java.lang.System.exit;
 
@@ -67,7 +70,7 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void createUser(String username) {  // 0
         try {
-            List<String> ans = server.createUser(username,this);
+            List<String> ans = server.createUser(username,this, null);
             data.ansCreateUser(ans);
         } catch (RemoteException e) {
             System.out.println(e.getMessage());
@@ -75,14 +78,27 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     @Override
+    public void LobbiesUpdate(List<Integer> lobbies) throws RemoteException {
+        List<Long> longs = lobbies.stream()
+                .mapToLong(Integer::longValue)
+                .boxed().toList();
+        data.onLobbyUpdate(longs);
+
+    }
+
+
+    @Override
     public void lobbyListRequest() {  // 1
-        List<Integer> answer = new ArrayList<>();
+        List<Integer> answer;
         try {
-            answer = server.lobbyListRequest(this);
+            answer =  server.lobbyListRequest(this, null);
+            List<Long> longs = answer.stream()
+                    .mapToLong(Integer::longValue)
+                    .boxed().collect(Collectors.toList());
+            data.ansLobbyListRequest(longs);
         } catch (RemoteException e) {
             System.out.println(e.getMessage());
         }
-       // switch (answer) fAFW4EF
     }
 
 
@@ -176,10 +192,7 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
 
     }
 
-    @Override
-    public void LobbiesUpdate(List<String> players /* ...TBD...*/) throws RemoteException {
 
-    }
 
     @Override
     public boolean checkAlive() throws RemoteException {

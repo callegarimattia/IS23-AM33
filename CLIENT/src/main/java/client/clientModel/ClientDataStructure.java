@@ -187,20 +187,15 @@ public class ClientDataStructure {
         }
     }
 
-    public void ansLobbyListRequest(String answer, List<Integer> data) {  // 1
-        switch (answer){
+    public void ansLobbyListRequest(List<Long> data) {  // 1
+        switch (data.get(0).toString()){
             case "1":
-                List<Integer> lobbiesIDs = new ArrayList<>();
-                List<Integer> lobbiesCurrentSize = new ArrayList<>();
-                List<Integer> lobbiesMaxSizes = new ArrayList<>();
-
                 List<Lobby> refreshedLobbies = new ArrayList<>();
-
-                for (int i = 1; i < data.size(); i=i+3)
-                    refreshedLobbies.add(new Lobby((int) (long) lobbiesMaxSizes.get(i), (int) (long) lobbiesIDs.get(i), (int) (long) lobbiesCurrentSize.get(i)));
+                for (int i = 1; i < data.size(); i=i+3){
+                    refreshedLobbies.add(new Lobby((int) (long) data.get(i), (int) (long) data.get(i+1), (int) (long) data.get(i+2)));
+                    System.out.println("ID: " + data.get(i) + " current size: " + data.get(i+1) + " max size: " + data.get(i+2));
+                }
                 setLobbies(refreshedLobbies);
-                for (int i = 0; i < lobbiesIDs.size(); i++)
-                    System.out.println("ID: " + lobbiesIDs.get(i) + " current size: " + lobbiesCurrentSize.get(i) + " max size: " + lobbiesMaxSizes.get(i));
                 break;
             case "0":
                 System.out.println("no lobbies yet");
@@ -344,17 +339,17 @@ public class ClientDataStructure {
         System.out.println("\nnew commands:\n-1: close app / abort game\n 5: pick and insert\n 6: send chat message");
     }
 
-    public void onLobbyUpdate(JSONObject obj) {  //  99
+    public void onLobbyUpdate(List<Long> data) {  //  99
         System.out.println("LOBBIES UPDATE RECIVED:");
-        List<Long> lobbiesIDs = (List<Long>) obj.get("IDss");
-        List<Long> lobbiesCurrentSize = (List<Long>) obj.get("CurrentSizess");
-        List<Long> lobbiesMaxSizes = (List<Long>) obj.get("MaxSizes");
-        for (int i = 0; i < lobbiesIDs.size(); i++)
-            System.out.println("ID: " + lobbiesIDs.get(i) + " current size: " + lobbiesCurrentSize.get(i) + " max size: " + lobbiesMaxSizes.get(i));
         List<Lobby> refreshedLobbies = new ArrayList<>();
-        for(int i = 0; i <lobbiesIDs.size(); i++)
-            refreshedLobbies.add(new Lobby((int)(long)lobbiesMaxSizes.get(i),(int)(long)lobbiesIDs.get(i),(int)(long)lobbiesCurrentSize.get(i) ));
+
+        for (int i = 1; i < data.size(); i=i+3){
+            refreshedLobbies.add(new Lobby((int) (long) data.get(i), (int) (long) data.get(i+1), (int) (long) data.get(i+2)));
+            System.out.println("ID: " + data.get(i) + " current size: " + data.get(i+1) + " max size: " + data.get(i+2));
+        }
+
         setLobbies(refreshedLobbies);
+
     }
 
     public void onGameUpdate(JSONObject obj) {  //  100
