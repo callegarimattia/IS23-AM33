@@ -13,7 +13,8 @@ import java.util.Set;
 public interface LobbiesHandler {
 
     // interfaccia interna al server
-    List<String> createUser(String newUsername, VirtualViewRMI virtualView);
+
+    public List<String> createUser(String newUsername, VirtualViewRMI virtualView, TCPclientParser parser);
 
     boolean isUserPresent(String username);
 

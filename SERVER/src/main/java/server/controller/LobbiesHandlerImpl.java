@@ -42,7 +42,7 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
      * @throws LobbiesHandlerException
      */
     @Override
-    public List<String> createUser(String newUsername, VirtualViewRMI virtualView) {
+    public List<String> createUser(String newUsername, VirtualViewRMI virtualView, TCPclientParser parser) {
         List<String> message = new ArrayList<>(2);
         message.add(0, "1");
         synchronized (users) {
@@ -66,6 +66,7 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
 
             User newUser = new User(newUsername);
             newUser.setMyClient(virtualView);
+            newUser.setMyParser(parser);
             users.add(newUser);
             System.out.println("NEW USERNAME ADDED ('" + newUsername + "')");
             message.add(1, newUsername);

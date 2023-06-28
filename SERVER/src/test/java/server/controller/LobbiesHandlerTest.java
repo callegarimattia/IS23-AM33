@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,21 +38,21 @@ class LobbiesHandlerTest {
     @Test
     @DisplayName("Create User")
     void createUser() {
-        lobbyTester.createUser("Mattia", null);
+        lobbyTester.createUser("Mattia", null,null);
         assertTrue(lobbyTester.isUserPresent("Mattia"));
     }
 
     @Test
     @DisplayName("Create User - Same name exception")
     void createUser_SameName() {
-        lobbyTester.createUser("Mattia",null);
-        assertEquals(0,lobbyTester.createUser("Mattia",null));
+        lobbyTester.createUser("Mattia",null,null);
+        assertEquals("0",lobbyTester.createUser("Mattia",null,null).get(0));
     }
 
     @Test
     @DisplayName("Username Search tests")
     void searchUser() {
-        lobbyTester.createUser("Mattia", null);
+        lobbyTester.createUser("Mattia", null,null);
         assertTrue(lobbyTester.isUserPresent("Mattia"));
         lobbyTester.getUsers().clear();
         assertFalse(lobbyTester.isUserPresent("Mattia"));
@@ -61,7 +62,7 @@ class LobbiesHandlerTest {
     @ValueSource(ints = {2, 3, 4})
     @DisplayName("Lobby creation test")
     void createLobby(int numOfPlayers) {
-        lobbyTester.createUser("Mattia", null);
+        lobbyTester.createUser("Mattia", null,null);
         int lobbyID = lobbyTester.createLobby("Mattia", numOfPlayers);
         assertTrue(lobbyID >= 0);
     }
@@ -70,7 +71,7 @@ class LobbiesHandlerTest {
     @ValueSource(ints = {1, 5, -3})
     @DisplayName("Lobby creation with invalid game size")
     void createLobby_InvalidGameSizes(int numOfPlayers) {
-        lobbyTester.createUser("Mattia",null);
+        lobbyTester.createUser("Mattia",null,null);
         assertEquals(lobbyTester.createLobby("Mattia", numOfPlayers), -3);
     }
 }

@@ -1,5 +1,7 @@
 package common;
 
+import server.controller.TCPclientParser;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -8,7 +10,7 @@ public interface ServerRMI extends Remote {
 
     //  interfaccia usata dal client
 
-    List<String> createUser(String newUsername, VirtualViewRMI virtualView) throws RemoteException;
+    List<String> createUser(String newUsername, VirtualViewRMI virtualView, TCPclientParser parser) throws RemoteException;
 
     boolean joinLobby(String user, int lobbyID) throws RemoteException;
 

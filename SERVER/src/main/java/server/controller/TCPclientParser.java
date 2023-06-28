@@ -171,15 +171,16 @@ public class TCPclientParser implements Runnable {
     }
 
     private void newUser(JSONObject obj, JSONObject answer){  // 0
-        List<String> ans = new ArrayList<>();
         answer.put("type", 0);
+        List<String> ans = new ArrayList<>();
         if(inUser){
             ans.add(0,"-1"); // socket already associated with a user
+            answer.put("data", ans);
             sendAnswer(answer);
             return;
         }
         String newUserUsername = (String) obj.get("userName");
-        ans = lobbiesHandler.createUser(newUserUsername, null);
+        ans = lobbiesHandler.createUser(newUserUsername, null, this);
         if(ans.get(0).equals("1")){
             inUser = true;
             userName = newUserUsername;
