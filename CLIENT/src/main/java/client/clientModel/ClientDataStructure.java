@@ -4,6 +4,8 @@ import common.Tile;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.json.simple.JSONArray;
@@ -18,24 +20,16 @@ public class ClientDataStructure {
     private String commonGoal1;
     private String commonGoal2;
     private ClientPersonalGoal myGoal;
-    private String myUsername;
+    private final StringProperty myUsername = new SimpleStringProperty();
     private Integer myLobbyID;
     private final ObservableList<Lobby> lobbies = FXCollections.observableArrayList();
     private final BooleanProperty gameStatus = new SimpleBooleanProperty(false);
     private boolean gui = false;
 
-    public String getMyUsername() {
-        return myUsername;
-    }
-
     public ClientDataStructure() {
         players = new ArrayList<>();
         mainBoard = new Tile[9][9];
         myGoal = null;
-    }
-
-    public void setMyUsername(String myUsername) {
-        this.myUsername = myUsername;
     }
 
     public void addPlayer(String username) {
@@ -145,6 +139,9 @@ public class ClientDataStructure {
         if (gui) {
             Platform.runLater(this.lobbies::clear);
             Platform.runLater(() -> this.lobbies.addAll(lobbies));
+        } else {
+            this.lobbies.clear();
+            this.lobbies.addAll(lobbies);
         }
     }
 
@@ -170,13 +167,13 @@ public class ClientDataStructure {
     }
 
     public void ansCreateUser(List<String> ans) {   // 0
-        switch (ans.get(0)){
+        switch (ans.get(0)) {
             case "0":
                 System.out.println("username already taken, press 0 and enter a new one: ");
                 break;
             case "1":
-                myUsername = ans.get(1);
-                System.out.println("userName " + myUsername + " successfully set");
+                setMyUsername(ans.get(1));
+                System.out.println("userName " + myUsername.get() + " successfully set");
                 break;
             case "-1":
                 System.out.println("can't create a new user, this client already has an associated User");
@@ -327,7 +324,7 @@ public class ClientDataStructure {
         setMainBoard(intMainBoard);
         setCommonGoal1((String) obj.get("commonGoal1"));
         setCommonGoal2((String) obj.get("commonGoal2"));
-        if (gui) Platform.runLater(() -> gameStatus.setValue(true));
+        if (gui) Platform.runLater(() -> gameStatus.set(true));
     }
 
     public void personalStartGame(JSONObject obj) {  // 778
@@ -391,5 +388,18 @@ public class ClientDataStructure {
 
     public BooleanProperty gameStatusProperty() {
         return gameStatus;
+    }
+
+    public String getMyUsername() {
+        return this.myUsername.get();
+    }
+
+    public void setMyUsername(String username) {
+        if (gui) Platform.runLater(() -> this.myUsername.set(username));
+        else myUsername.set(username);
+    }
+
+    public StringProperty usernameProperty() {
+        return this.myUsername;
     }
 }
