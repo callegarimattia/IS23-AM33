@@ -1,6 +1,9 @@
 package client.clientModel;
+
 import common.Tile;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.json.simple.JSONArray;
@@ -17,8 +20,8 @@ public class ClientDataStructure {
     private ClientPersonalGoal myGoal;
     private String myUsername;
     private Integer myLobbyID;
-    private ObservableList<Lobby> lobbies = FXCollections.observableArrayList();
-
+    private final ObservableList<Lobby> lobbies = FXCollections.observableArrayList();
+    private final BooleanProperty gameStatus = new SimpleBooleanProperty(false);
     private boolean gui = false;
 
     public String getMyUsername() {
@@ -87,7 +90,6 @@ public class ClientDataStructure {
                         break;
                 }
             }
-
         }
     }
 
@@ -141,7 +143,7 @@ public class ClientDataStructure {
 
     public void setLobbies(List<Lobby> lobbies) {
         if (gui) {
-            Platform.runLater(() -> this.lobbies.clear());
+            Platform.runLater(this.lobbies::clear);
             Platform.runLater(() -> this.lobbies.addAll(lobbies));
         }
     }
@@ -182,7 +184,6 @@ public class ClientDataStructure {
             case "-2":
                 System.out.println("invalid special username, press 0 and enter a new one: ");
                 break;
-
         }
     }
 
@@ -318,7 +319,6 @@ public class ClientDataStructure {
 
     public void startGame(JSONObject obj) {  // 777
         System.out.println("GAME STARTED");
-
         JSONArray array = (JSONArray) obj.get("playersUsernames");  //  already shuffled (first player at [0])
         for (int i = 0; i < array.size(); i++)
             addPlayer(array.get(i).toString());
@@ -327,7 +327,7 @@ public class ClientDataStructure {
         setMainBoard(intMainBoard);
         setCommonGoal1((String) obj.get("commonGoal1"));
         setCommonGoal2((String) obj.get("commonGoal2"));
-
+        if (gui) Platform.runLater(() -> gameStatus.setValue(true));
     }
 
     public void personalStartGame(JSONObject obj) {  // 778
@@ -343,10 +343,6 @@ public class ClientDataStructure {
         System.out.println("\ncurrent player turn: " + players.get(0).getUserName());  // ogni volta ce lo dirà il server, non ce lo salviamo
         System.out.println("\nnew commands:\n-1: close app / abort game\n 5: pick and insert\n 6: send chat message");
     }
-
-
-
-
 
     public void onLobbyUpdate(JSONObject obj) {  //  99
         System.out.println("LOBBIES UPDATE RECIVED:");
@@ -377,17 +373,23 @@ public class ClientDataStructure {
                 if (player.getUserName().equals(updater))
                     player.addTile(myTile, column);
         }
-
         refresh();
         System.out.println("new current player is " + newCurrPlayer);
-
     }
 
-    public void recivedChatMessage(JSONObject obj){  // 101
+    public void recivedChatMessage(JSONObject obj) {  // 101
         String addresser = (String) obj.get("addresser");
         String text = (String) obj.get("text");
         String recipient = (String) obj.get("recipient");
-        System.out.print("chat message ["+addresser + "--> "+ recipient + "]: ");
+        System.out.print("chat message [" + addresser + "--> " + recipient + "]: ");
         System.out.println(text);
+    }
+
+    public boolean isGameStatus() {
+        return gameStatus.get();
+    }
+
+    public BooleanProperty gameStatusProperty() {
+        return gameStatus;
     }
 }

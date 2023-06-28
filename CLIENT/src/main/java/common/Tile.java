@@ -1,5 +1,7 @@
 package common;
 
+import javafx.scene.image.Image;
+
 public enum Tile {
 
     /**
@@ -82,6 +84,25 @@ public enum Tile {
         }
 
         return "null";
+    }
+
+    public Image toImage() {
+        switch (this) {
+            default:
+                return null;
+            case CAT:
+                return new Image("@../17_MyShelfie_BGA/item_tiles/Gatti1.1.png");
+            case TROPHY:
+                return new Image("@../17_MyShelfie_BGA/item_tiles/Tofei1.1.png");
+            case PLANT:
+                return new Image("@../17_MyShelfie_BGA/item_tiles/Piante1.1.png");
+            case FRAME:
+                return new Image("@../17_MyShelfie_BGA/item_tiles/Cornici1.1.png");
+            case GAME:
+                return new Image("@../17_MyShelfie_BGA/item_tiles/Giochi1.1.png");
+            case BOOK:
+                return new Image("@../17_MyShelfie_BGA/item_tiles/Libri1.1.png");
+        }
     }
 
 }

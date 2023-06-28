@@ -47,7 +47,11 @@ public class LobbiesController {
                         .getSelectedItem();
                 if (currentItemSelected != null) {
                     client.joinLobby(currentItemSelected.getLobbyId());
-                    openGameWindow();
+                    try {
+                        openGameWindow();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             } else {
                 listView.getSelectionModel().clearSelection();
@@ -82,7 +86,11 @@ public class LobbiesController {
 
         EventHandler<ActionEvent> confirmEvent = e -> {
             client.createLobby(gameSizeSpinner.getValue());
-            openGameWindow();
+            try {
+                openGameWindow();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         };
         confirmButton.setOnAction(confirmEvent);
         dialogVbox.getChildren().add(confirmButton);
@@ -92,18 +100,13 @@ public class LobbiesController {
         dialog.show();
     }
 
-    private void openGameWindow() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Game.fxml"));
+    private void openGameWindow() throws IOException {
         refreshButton.getScene().getWindow().hide();
-        Scene scene = null;
-        try {
-            scene = new Scene(fxmlLoader.load());
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        GameController gameController = fxmlLoader.getController();
-        gameController.setClient(client);
+        FXMLLoader fxmlLoader = new FXMLLoader(LobbiesController.class.getResource("Game.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
         Stage thisStage = (Stage) refreshButton.getScene().getWindow();
+        GameController gameController = (GameController) fxmlLoader.getController();
+        gameController.init(client);
         thisStage.setScene(scene);
         thisStage.setTitle("Game");
         thisStage.setResizable(false);

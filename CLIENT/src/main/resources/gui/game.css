@@ -1,0 +1,5 @@
+#pane {
+    -fx-background-image: url("../17_MyShelfie_BGA/misc/sfondo_parquet.jpg");
+    -fx-background-repeat: repeat;
+    -fx-background-size: 70%;
+}

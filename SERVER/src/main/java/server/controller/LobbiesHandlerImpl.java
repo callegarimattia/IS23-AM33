@@ -159,7 +159,7 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
 
     /**
      * Given a user and a gameSize it creates a lobby with given gameSize.
-     * If user isn't in the user pool, the game size is invalid or user is already in a lobby or game,
+     * If user isn't in the user pool, the game size is invalid or user is alrteady in a lobby or game,
      * it throws an exception
      *
      * @param username

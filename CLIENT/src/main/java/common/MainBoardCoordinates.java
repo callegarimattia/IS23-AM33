@@ -4,6 +4,9 @@ public class MainBoardCoordinates {
     private int row;
     private int col;
 
+    static int MAX_COL = 9;
+    static int MAX_ROW = 9;
+
     public MainBoardCoordinates(int row, int col) throws Exception {
         set(row, col);
     }
@@ -20,5 +23,13 @@ public class MainBoardCoordinates {
 
     public int getRow() {
         return row;
+    }
+
+    public static int getMaxCol() {
+        return MAX_COL;
+    }
+
+    public static int getMaxRow() {
+        return MAX_ROW;
     }
 }

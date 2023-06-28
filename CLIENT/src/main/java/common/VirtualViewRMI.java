@@ -12,5 +12,4 @@ public interface VirtualViewRMI extends Remote {
 
     public void LobbiesUpdate(List<String> players /* ...TBD...*/) throws RemoteException;
     public boolean checkAlive() throws RemoteException;
-
 }

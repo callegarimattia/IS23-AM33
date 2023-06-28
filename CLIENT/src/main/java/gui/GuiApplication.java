@@ -13,7 +13,7 @@ public class GuiApplication extends Application{
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(GuiApplication.class.getResource("login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 200);
         LoginController loginController = (LoginController) fxmlLoader.getController();
         loginController.init(this);
