@@ -32,7 +32,7 @@ public interface Client {
     void lobbyListRequest();
 
     void sendChatMessage(String text, String recipient);
+    public void setUserName(String userName);
 
-    void setDisplayer(Thread th);
 
 }

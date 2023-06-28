@@ -12,19 +12,24 @@ import java.rmi.registry.Registry;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.rmi.Naming;
 
+import static java.lang.System.exit;
+
 public class ClientRMI extends UnicastRemoteObject implements Client, VirtualViewRMI {
     ServerRMI server;
-    String username;
+    String username = null;
     int lobbyID;
-    private int gameStatus = 1;  // da cambiare per ora è fisso
+    CLI cli;
     Scanner scanner = new Scanner(System.in);
-    private ClientDataStructure data;
+    private ClientDataStructure data = new ClientDataStructure();
 
-    public ClientRMI() throws RemoteException {
+    public ClientRMI(CLI cli) throws RemoteException {
+        this.cli = cli;
+        newConnection("localhost", 1099);
     }
 
     @Override
@@ -37,6 +42,24 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
         try {
             server = (ServerRMI) Naming.lookup("rmi://" + serverIP + "/ServerRMI");
         } catch (NotBoundException | MalformedURLException| RemoteException e) {
+            System.out.print("server isn't online yet, closing application...");
+            exit(-1);
+        }
+        Runnable r = new RMIchecker(server, cli);
+        Thread th = new Thread(r);
+        th.start();
+    }
+
+    @Override
+    public void shutDown() { // -1
+        try {
+            List<String> mess = server.shutDownClient(this);
+            String ans = mess.get(0);
+            String user = null;
+            if(ans.equals("2"))
+                user = mess.get(1);
+            data.ansClientClosingApp(ans, user);
+        } catch (RemoteException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -44,29 +67,24 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void createUser(String username) {  // 0
         try {
-            switch (server.createUser(username,this)){
-                default:
-                    System.out.println("non doveva succedere");
-                    break;
-                case -4:
-                    System.out.println("can't create a new user, this client already has an associated User");
-                    break;
-                case -2:
-                    System.out.println("invalid special username, press 0 and enter a new one: ");
-                    break;
-                case 0:
-                    System.out.println("userName already taken, press 0 and enter a new one: ");
-                    break;
-                case 1:
-                    this.username = username;
-                    System.out.println("userName " + this.username + " successfully set");
-                    break;
-            }
+            List<String> ans = server.createUser(username,this);
+            data.ansCreateUser(ans);
         } catch (RemoteException e) {
-            System.out.println("l errore è qui");
             System.out.println(e.getMessage());
         }
     }
+
+    @Override
+    public void lobbyListRequest() {  // 1
+        List<Integer> answer = new ArrayList<>();
+        try {
+            answer = server.lobbyListRequest(this);
+        } catch (RemoteException e) {
+            System.out.println(e.getMessage());
+        }
+       // switch (answer) fAFW4EF
+    }
+
 
     @Override
     public void pickAndInsert(List<Integer> rows, List<Integer> columns, int myColumn) {
@@ -74,10 +92,7 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     }
 
 
-    @Override
-    public void shutDown() {
 
-    }
 
 
     @Override
@@ -144,9 +159,6 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
         return username;
     }
 
-    @Override
-    public void lobbyListRequest() {
-    }
 
     @Override
     public void sendChatMessage(String text, String recipient) {
@@ -154,14 +166,9 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     @Override
-    public void setDisplayer(Thread th) {
-        // tbd
-    }
+    public void setUserName(String userName) {
 
-    public int getGameStatus() {
-        return gameStatus;
     }
-
 
 
     @Override
@@ -173,4 +180,10 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     public void LobbiesUpdate(List<String> players /* ...TBD...*/) throws RemoteException {
 
     }
+
+    @Override
+    public boolean checkAlive() throws RemoteException {
+        return true;
+    }
+
 }

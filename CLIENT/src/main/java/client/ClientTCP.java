@@ -115,11 +115,6 @@ public class ClientTCP implements Client {
         sendMessage(obj.toString());
     }
 
-    @Override
-    public void setDisplayer(Thread th) {
-
-    }
-
 
     @Override
     public void sendChatMessage(String userName, String message, int visibility) {

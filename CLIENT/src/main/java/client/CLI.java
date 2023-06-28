@@ -1,5 +1,4 @@
 package client;
-
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -10,6 +9,8 @@ public class CLI implements Runnable {
 
     Client client;
     private boolean inGame;
+
+
     public CLI() {
         createClient();
         inGame = true;
@@ -34,11 +35,10 @@ public class CLI implements Runnable {
             }
         } else {
             try {
-                client = new ClientRMI();
+                client = new ClientRMI(this);
             } catch (RemoteException e) {
                 System.out.println(e.getMessage());
             }
-            client.newConnection("localhost", 1099);  // dovranno essere presi da arg/json/CL
         }
     }
 
@@ -51,7 +51,6 @@ public class CLI implements Runnable {
                 System.out.println("shutting down...");
                 return;
             }
-
             switch (x) {
                 default:
                     System.out.println("invalid command, try again");
@@ -89,10 +88,10 @@ public class CLI implements Runnable {
     }
 
     private void createUser() {  // 0
-            System.out.print("insert userName: ");
-            Scanner in = new Scanner(System.in);
-            String newUsername = in.next();
-            client.createUser(newUsername);
+        System.out.print("insert userName: ");
+        Scanner in = new Scanner(System.in);
+        String newUsername = in.next();
+        client.createUser(newUsername);
     }
 
     private void lobbyListRequest() {  // 1
@@ -198,4 +197,7 @@ public class CLI implements Runnable {
     public void shutDown() {
         inGame = false;
     }
+
+
+
 }

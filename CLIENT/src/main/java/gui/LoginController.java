@@ -34,9 +34,9 @@ public class LoginController {
     @FXML
     protected void handleSubmitButtonAction(ActionEvent event) throws IOException, InterruptedException {
         if (rmi.isSelected())
-            client = new ClientRMI();
+            client = new ClientRMI(null);
         else
-            client = new ClientTCP(gui);
+            client = new ClientTCP(null);
         client.createUser(username.getText());
         ansToLogin(1);
     }

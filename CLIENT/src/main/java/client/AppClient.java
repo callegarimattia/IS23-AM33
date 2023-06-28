@@ -4,6 +4,8 @@ import javafx.application.Application;
 
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class AppClient {
     public static void main(String[] args) throws Exception{  // T for TCP, R for RMI
 
@@ -22,11 +24,11 @@ public class AppClient {
             Runnable r = new CLI();
             Thread th = new Thread(r);
             th.start();
+            th.join();
+            exit(777);
         } else {  // GUI
             Application.launch(GuiApplication.class, args);
         }
-
-
 
     }
 }

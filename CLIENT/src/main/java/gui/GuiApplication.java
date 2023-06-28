@@ -1,6 +1,4 @@
 package gui;
-
-import client.Displayer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,7 +6,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class GuiApplication extends Application implements Displayer {
+public class GuiApplication extends Application{
 
     private Stage stage;
 
@@ -26,8 +24,4 @@ public class GuiApplication extends Application implements Displayer {
         stage.centerOnScreen();
     }
 
-    @Override
-    public void shutDown() {
-        //  chiude il ciclo while che è in attesa di aggiornamenti
-    }
 }

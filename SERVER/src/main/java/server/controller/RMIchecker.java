@@ -6,21 +6,33 @@ import java.rmi.RemoteException;
 
 public class RMIchecker implements Runnable{
     LobbiesHandler lobbiesHandler;
+
+    public RMIchecker(LobbiesHandler lobbiesHandler) {
+        this.lobbiesHandler = lobbiesHandler;
+    }
+
     @Override
     public void run() {   //  must be shut down maybe
         while (true){
-            for(User user : lobbiesHandler.getUsers()){
-                try {
-                    user.getMyClient().checkAlive();
-                } catch (RemoteException e) {
-                    System.out.println("RMI connection from user " + user.getUserName() + " lost");
-                    lobbiesHandler.removeUser(user.getUserName());
-                }
-            }
+            doJob();
             try {
-                wait(2000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private void doJob(){
+        if(lobbiesHandler.getUsers()!=null){
+            for(User user : lobbiesHandler.getUsers()){
+                if(user.getMyClient()!=null)
+                    try {
+                        user.getMyClient().checkAlive();
+                    } catch (RemoteException e) {
+                        lobbiesHandler.disconnectedUser(user.getUserName());
+                        return;
+                    }
             }
         }
     }

@@ -71,8 +71,15 @@ public class TCPclientParser implements Runnable {
 
             JSONParser parser = new JSONParser();
 
-            if(str == null){ /////////////  not sure
-                lobbiesHandler.disconnectedUser(userName);
+            if(str == null){
+                if(inUser)
+                    lobbiesHandler.disconnectedUser(userName);
+                try {
+                    in.close();
+                    out.close();
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
                 return;
             }
 
@@ -147,6 +154,7 @@ public class TCPclientParser implements Runnable {
                 lobbiesHandler.removeUser(me.getUserName());
             }
         }
+
         answer.put("type", -1);
         answer.put("answer", "1");
         sendAnswer(answer);
@@ -163,19 +171,20 @@ public class TCPclientParser implements Runnable {
     }
 
     private void newUser(JSONObject obj, JSONObject answer){  // 0
+        List<String> ans = new ArrayList<>();
         answer.put("type", 0);
         if(inUser){
-            answer.put("answer", "-1");  // socket already associated with a user
+            ans.add(0,"-1"); // socket already associated with a user
             sendAnswer(answer);
             return;
         }
         String newUserUsername = (String) obj.get("userName");
-        if(lobbiesHandler.createUser(newUserUsername, null) == 1){
+        ans = lobbiesHandler.createUser(newUserUsername, null);
+        if(ans.get(0).equals("1")){
             inUser = true;
             userName = newUserUsername;
-            answer.put("answer", "1");
         }
-        else answer.put("answer", "0");
+        answer.put("data", ans);
         sendAnswer(answer);
     }
 
@@ -187,18 +196,8 @@ public class TCPclientParser implements Runnable {
         }
         if(lobbiesHandler.getWaitingLobbies().size() > 0){
             answer.put("answer", "1");
-            List<Integer> lobbiesIDs = new ArrayList<>();
-            List<Integer> lobbiesCurrentSize = new ArrayList<>();
-            List<Integer> lobbiesMaxSizes = new ArrayList<>();
-            Set<Lobby> waitingLobbyList = lobbiesHandler.getWaitingLobbies();
-            for(Lobby lobby : waitingLobbyList){
-                lobbiesIDs.add(lobby.getID());
-                lobbiesCurrentSize.add(lobby.getUsers().size());
-                lobbiesMaxSizes.add(lobby.getGameSize());
-            }
-            answer.put("IDs", lobbiesIDs);
-            answer.put("CurrentSizes", lobbiesCurrentSize);
-            answer.put("MaxSizes", lobbiesMaxSizes);
+            List<Integer> data = lobbiesHandler.lobbyListRequest(null);
+            answer.put("data", data);
         }
         else {
             answer.put("answer","0");  // no lobbies yet
