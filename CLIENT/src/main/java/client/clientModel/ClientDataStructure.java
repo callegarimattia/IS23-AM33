@@ -232,13 +232,19 @@ public class ClientDataStructure {
         }
     }
 
-    public void ansLeaveLobbyRequest(JSONObject obj) {  // 4
-        switch (obj.get("answer").toString()) {
+    public void ansLeaveLobbyRequest(String ans) {  // 4
+        switch (ans) {
+            default:
+                System.out.println("something went wrong");
+                break;
             case "0":
                 System.out.println("error, user is not in a lobby");
                 break;
             case "-1":
                 System.out.println("error, user is in an active game, cant leave lobby (shut down app if you want)");
+                break;
+            case "-2":
+                System.out.println("u are not in a user yet");
                 break;
             case "1":
                 System.out.println("lobby successfully left");

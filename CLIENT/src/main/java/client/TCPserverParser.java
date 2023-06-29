@@ -82,7 +82,7 @@ public class TCPserverParser implements Runnable {
                     data.ansJoinLobbyRequest(y, myLobbyID);
                     break;
                 case 4:
-                    data.ansLeaveLobbyRequest(obj);
+                    data.ansLeaveLobbyRequest(obj.get("answer").toString());
                     break;
                 case 5:
                     data.ansPickAndInsert(obj);

@@ -136,6 +136,16 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
         }
     }
 
+    @Override
+    public void leaveLobby() {  // 4
+        try {
+            String ans = server.leaveLobby(this, null);
+            data.ansLeaveLobbyRequest(ans);
+        } catch (RemoteException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     @Override
     public void pickAndInsert(List<Integer> rows, List<Integer> columns, int myColumn) {
@@ -148,16 +158,7 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
 
 
 
-    @Override
-    public void leaveLobby() {
-        try {
-            if (server.leaveLobby(this.username)) this.lobbyID = -1;
-            else System.out.println("ServerRMI: You are not in a lobby!");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-    }
+
 
 
 
@@ -193,6 +194,18 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public boolean checkAlive() throws RemoteException {
         return true;
+    }
+
+    @Override
+    public void StartGame(JSONObject obj) throws RemoteException {
+        System.out.println("arrivato 1");
+        data.startGame(obj);
+    }
+
+    @Override
+    public void PersonalStartGame(JSONObject obj) throws RemoteException {
+        System.out.println("arrivato 2");
+        data.personalStartGame(obj);
     }
 
 }

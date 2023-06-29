@@ -25,9 +25,9 @@ public interface LobbiesHandler {
 
     List<Integer> createLobby(int gameSize, VirtualViewRMI virtualView, Object obj);
 
-    int joinLobby(int ID, VirtualViewRMI virtualView, Object obj) throws RemoteException;
+    int joinLobby(int ID, VirtualViewRMI virtualView, Object obj);
 
-    boolean leaveLobby(String leavingUser);
+    String leaveLobby(VirtualViewRMI virtualView, Object obj);
 
     Set<Lobby> getWaitingLobbies();
 

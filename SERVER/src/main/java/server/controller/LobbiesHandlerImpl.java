@@ -312,36 +312,35 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
      * Lets a user leave a lobby.
      * If user is invalid, or isn't in a lobby, or is in a game, then it throws an exception.
      *
-     * @param username
+
      * @throws LobbiesHandlerException
      */
     @Override
-    public synchronized boolean leaveLobby(String username) {
-        User leavingUser = null;
-        for (User user : users) {
-            if (user.getUserName().equals(username)) leavingUser = user;
-        }
-        if (leavingUser == null) return false;
+    public synchronized String leaveLobby(VirtualViewRMI virtualView, Object obj) {
+        User user = null;
+        user = associatedUser(virtualView,obj);
 
-        if (!users.contains(leavingUser)
-                || !leavingUser.isInLobby()
-                || leavingUser.isInGame()) return false;
+        if (user == null) return "-2";     // u are not in a user yet
+
+        if(!user.isInLobby()) return "0";   // u are not in a lobby
+
+        if(user.isInGame()) return "-1";    // user is in an active game, cant leave lobby (shut down app if you want)
 
         int lobbyID = -1;
         for (Lobby lobby : waitingLobbies) {
-            if (lobby.getUsers().contains(leavingUser)) {
-                lobby.removeUser(leavingUser);
+            if (lobby.getUsers().contains(user)) {
+                lobby.removeUser(user);
                 lobbyID = lobby.getID();
                 if(lobby.getUsers().size() == 0)
                     waitingLobbies.remove(lobby);
             }
         }
-        if (lobbyID == -1) return false;
+        if (lobbyID == -1) return "999";
 
         LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
         OnLobbyUpdate(evt);
-        System.out.println("LOBBY ID(" + lobbyID + ") LEAVED BY ('" + username + "')");
-        return true;
+        System.out.println("LOBBY ID(" + lobbyID + ") LEAVED BY ('" + user.getUserName() + "')");
+        return "1";
     }
 
     private synchronized boolean startGame(int toBeStartedLobbyID) {

@@ -13,7 +13,7 @@ public interface ServerRMI extends Remote {
 
     int joinLobby(int ID, VirtualViewRMI virtualView, Object obj) throws RemoteException;
 
-    boolean leaveLobby(String user) throws RemoteException;
+    String leaveLobby(VirtualViewRMI virtualView, Object obj) throws RemoteException;
 
     List<Integer> createLobby(int gameSize, VirtualViewRMI virtualView, Object obj) throws RemoteException;
 

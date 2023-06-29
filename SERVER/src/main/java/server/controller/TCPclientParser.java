@@ -218,11 +218,7 @@ public class TCPclientParser implements Runnable {
         int ID;
         if (obj.get("tobeJoinedLobbyID") instanceof Long) {
             ID = (int) (long) obj.get("tobeJoinedLobbyID");
-            try {
-                answer.put("answer",lobbiesHandler.joinLobby(ID,null,this));
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
+            answer.put("answer",lobbiesHandler.joinLobby(ID,null,this));
         }
         else {
             answer.put("answer", 4);  // invalid input
@@ -236,16 +232,10 @@ public class TCPclientParser implements Runnable {
 
 
     private  void leaveLobbyRequest(JSONObject obj, JSONObject answer){   // 4
+        String ans = lobbiesHandler.leaveLobby(null, this);
         User me = lobbiesHandler.searchUser(userName);
         answer.put("type", 4);
-        if(!me.isInLobby())
-            answer.put("answer","0");  // user is not in a lobby
-        if(me.isInGame())
-            answer.put("answer","-1");  // user is in an active game, cant leave lobby (shut down app if you want)
-        if(me.isInLobby()){
-            lobbiesHandler.leaveLobby(userName);
-            answer.put("answer","1");
-        }
+        answer.put("answer",ans);
         sendAnswer(answer);
     }
 

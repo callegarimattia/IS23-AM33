@@ -14,4 +14,6 @@ public interface VirtualViewRMI extends Remote {
 
     public void LobbiesUpdate(JSONObject obj) throws RemoteException;
     public boolean checkAlive() throws RemoteException;
+    public void StartGame(JSONObject data) throws RemoteException;
+    public void PersonalStartGame(JSONObject data) throws RemoteException;
 }

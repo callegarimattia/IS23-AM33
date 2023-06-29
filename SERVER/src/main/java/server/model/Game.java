@@ -238,18 +238,24 @@ public class Game {
                     System.out.println(e.getMessage());
                 }
             }
-            //    else usare RMI
+            else {
+                try {
+                    player.getMyClient().StartGame(startGameMessage);
+                } catch (RemoteException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
         }
 
 
         for (Player player: players){  // messaggio personale diverso per ogni player
+            JSONObject personalMessage = new JSONObject();
+            personalMessage.put("type", 778);
+            List<Integer> coordinates = player.getPersonalGoal().getCoordinatesList();
+            List<Integer> values = player.getPersonalGoal().getValuesToIntList();
+            personalMessage.put("coordinates", coordinates);
+            personalMessage.put("values", values);
             if(player.getOut() != null){
-                JSONObject personalMessage = new JSONObject();
-                personalMessage.put("type", 778);
-                List<Integer> coordinates = player.getPersonalGoal().getCoordinatesList();
-                List<Integer> values = player.getPersonalGoal().getValuesToIntList();
-                personalMessage.put("coordinates", coordinates);
-                personalMessage.put("values", values);
                 ObjectOutputStream out = player.getOut();
                 try {
                     out.writeObject(personalMessage.toString());
@@ -257,8 +263,13 @@ public class Game {
                     System.out.println(e.getMessage());
                 }
             }
-
-            // else usare RMI
+            else {
+                try {
+                    player.getMyClient().StartGame(personalMessage);
+                } catch (RemoteException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
 
         }
 
