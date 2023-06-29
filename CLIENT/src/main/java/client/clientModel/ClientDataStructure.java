@@ -2,10 +2,6 @@ package client.clientModel;
 
 import common.Tile;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.json.simple.JSONArray;
@@ -20,16 +16,17 @@ public class ClientDataStructure {
     private String commonGoal1;
     private String commonGoal2;
     private ClientPersonalGoal myGoal;
-    private final StringProperty myUsername = new SimpleStringProperty();
+    private final ObservableList<Lobby> lobbies;
     private Integer myLobbyID;
-    private final ObservableList<Lobby> lobbies = FXCollections.observableArrayList();
-    private final BooleanProperty gameStatus = new SimpleBooleanProperty(false);
+    private String myUsername;
     private boolean gui = false;
 
     public ClientDataStructure() {
         players = new ArrayList<>();
+        myUsername = "";
         mainBoard = new Tile[9][9];
         myGoal = null;
+        lobbies = FXCollections.observableArrayList();
     }
 
     public void addPlayer(String username) {
@@ -173,7 +170,7 @@ public class ClientDataStructure {
                 break;
             case "1":
                 setMyUsername(ans.get(1));
-                System.out.println("userName " + myUsername.get() + " successfully set");
+                System.out.println("userName " + getMyUsername() + " successfully set");
                 break;
             case "-1":
                 System.out.println("can't create a new user, this client already has an associated User");
@@ -308,7 +305,6 @@ public class ClientDataStructure {
         setMainBoard(intMainBoard);
         setCommonGoal1((String) obj.get("commonGoal1"));
         setCommonGoal2((String) obj.get("commonGoal2"));
-        if (gui) Platform.runLater(() -> gameStatus.set(true));
     }
 
     public void personalStartGame(JSONObject obj) {  // 778
@@ -370,24 +366,12 @@ public class ClientDataStructure {
         System.out.println(text);
     }
 
-    public boolean isGameStatus() {
-        return gameStatus.get();
-    }
-
-    public BooleanProperty gameStatusProperty() {
-        return gameStatus;
-    }
-
     public String getMyUsername() {
-        return this.myUsername.get();
+        return myUsername;
     }
 
-    public void setMyUsername(String username) {
-        if (gui) Platform.runLater(() -> this.myUsername.set(username));
-        else myUsername.set(username);
+    public void setMyUsername(String myUsername) {
+        this.myUsername = myUsername;
     }
 
-    public StringProperty usernameProperty() {
-        return this.myUsername;
-    }
 }

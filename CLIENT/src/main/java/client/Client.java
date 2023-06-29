@@ -1,7 +1,6 @@
 package client;
 
 import client.clientModel.ClientDataStructure;
-import org.json.simple.JSONObject;
 
 import java.util.List;
 
@@ -25,14 +24,11 @@ public interface Client {
 
     void sendChatMessage(String userName, String message, int visibility);
 
-    String getUserName();
 
     void createUser(String userName);
 
     void lobbyListRequest();
 
     void sendChatMessage(String text, String recipient);
-    public void setUserName(String userName);
-
 
 }

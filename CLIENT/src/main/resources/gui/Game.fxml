@@ -4,52 +4,24 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            xmlns="http://javafx.com/javafx"
-            id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="720.0" prefWidth="1280.0"
-            fx:controller="gui.GameController"
-            stylesheets="@game.css">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@game.css"
+            xmlns="http://javafx.com/javafx/8" fx:controller="gui.GameController">
+
+    <!-- MAINBOARD -->
     <ImageView fitHeight="621.0" fitWidth="510.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@../17_MyShelfie_BGA/boards/livingroom.png"/>
     </ImageView>
-    <ImageView fitHeight="438.0" fitWidth="398.0" layoutX="522.0" layoutY="308.0" pickOnBounds="true"
-               preserveRatio="true">
-        <Image url="@../17_MyShelfie_BGA/boards/bookshelf.png"/>
-    </ImageView>
-    <ImageView fitHeight="229.0" fitWidth="174.0" layoutX="530.0" layoutY="94.0" pickOnBounds="true"
-               preserveRatio="true">
-        <Image url="@../17_MyShelfie_BGA/boards/bookshelf_orth.png"/>
-    </ImageView>
-    <Label fx:id="player1" alignment="CENTER" layoutX="530.0" layoutY="51.0" text="Player1">
-        <font>
-            <Font size="35.0"/>
-        </font>
-    </Label>
-    <Label fx:id="player2" alignment="CENTER" layoutX="760.0" layoutY="51.0" text="Player2">
-        <font>
-            <Font size="35.0"/>
-        </font>
-    </Label>
-    <ImageView fitHeight="229.0" fitWidth="174.0" layoutX="760.0" layoutY="94.0" pickOnBounds="true"
-               preserveRatio="true">
-        <Image url="@../17_MyShelfie_BGA/boards/bookshelf_orth.png"/>
-    </ImageView>
-    <ImageView fitHeight="229.0" fitWidth="174.0" layoutX="990.0" layoutY="93.0" pickOnBounds="true"
-               preserveRatio="true">
-        <Image url="@../17_MyShelfie_BGA/boards/bookshelf_orth.png"/>
-    </ImageView>
-    <Label fx:id="player3" alignment="CENTER" layoutX="990.0" layoutY="50.0" text="Player3">
-        <font>
-            <Font size="35.0"/>
-        </font>
-    </Label>
-    <Button fx:id="pick" layoutX="1054.0" layoutY="624.0" mnemonicParsing="false" onAction="#pickOnClick"
-            prefHeight="43.0" prefWidth="97.0" text="Pick"/>
-    <Button fx:id="exit" layoutX="1164.0" layoutY="624.0" mnemonicParsing="false" onAction="#exitOnClick"
-            prefHeight="43.0" prefWidth="97.0" text="Exit"/>
+
     <GridPane fx:id="mainBoard" layoutX="23.0" layoutY="25.0" prefHeight="460.0" prefWidth="459.0">
         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
         </columnConstraints>
@@ -57,7 +29,111 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
         </rowConstraints>
     </GridPane>
+
+
+    <!-- PERSONAL SHELF -->
+    <ImageView fitHeight="438.0" fitWidth="398.0" layoutX="522.0" layoutY="308.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@../17_MyShelfie_BGA/boards/bookshelf.png"/>
+    </ImageView>
+
+    <!-- PLAYER 1 -->
+    <Label fx:id="player1" alignment="CENTER" layoutX="530.0" layoutY="51.0" text="Player1">
+        <font>
+            <Font size="35.0"/>
+        </font>
+    </Label>
+    <ImageView fx:id="player1ShelfImage" fitHeight="229.0" fitWidth="174.0" layoutX="530.0" layoutY="94.0"
+               pickOnBounds="true" preserveRatio="true">
+        <Image url="@../17_MyShelfie_BGA/boards/bookshelf_orth.png"/>
+    </ImageView>
+    <GridPane fx:id="player1ShelfGrid" layoutX="551.0" layoutY="105.0" prefHeight="141.0" prefWidth="134.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+    </GridPane>
+
+
+    <!-- PLAYER 2 -->
+    <Label fx:id="player2" alignment="CENTER" layoutX="760.0" layoutY="51.0" text="Player2">
+        <font>
+            <Font size="35.0"/>
+        </font>
+    </Label>
+    <ImageView fx:id="player2ShelfImage" fitHeight="229.0" fitWidth="174.0" layoutX="760.0" layoutY="94.0"
+               pickOnBounds="true" preserveRatio="true">
+        <Image url="@../17_MyShelfie_BGA/boards/bookshelf_orth.png"/>
+    </ImageView>
+    <GridPane fx:id="player2ShelfGrid" layoutX="781.0" layoutY="105.0" prefHeight="141.0" prefWidth="134.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+    </GridPane>
+
+    <!-- PLAYER 3 -->
+    <Label fx:id="player3" alignment="CENTER" layoutX="990.0" layoutY="51.0" text="Player3">
+        <font>
+            <Font size="35.0"/>
+        </font>
+    </Label>
+    <ImageView fx:id="player3ShelfImage" fitHeight="229.0" fitWidth="174.0" layoutX="990.0" layoutY="93.0"
+               pickOnBounds="true" preserveRatio="true">
+        <Image url="@../17_MyShelfie_BGA/boards/bookshelf_orth.png"/>
+    </ImageView>
+    <GridPane fx:id="player3ShelfGrid" layoutX="1008.0" layoutY="105.0" prefHeight="141.0" prefWidth="134.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+    </GridPane>
+
+    <!-- BUTTONS -->
+    <Button fx:id="pickButton" layoutX="1054.0" layoutY="624.0" onAction="#handlePickActionEvent"
+            prefHeight="43.0" prefWidth="97.0" text="Pick"/>
+    <Button fx:id="exitButton" layoutX="1164.0" layoutY="624.0" onAction="#handleExitActionEvent"
+            prefHeight="43.0" prefWidth="97.0" text="Exit"/>
 
 </AnchorPane>

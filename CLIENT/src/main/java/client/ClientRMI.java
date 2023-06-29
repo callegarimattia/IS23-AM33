@@ -1,24 +1,18 @@
 package client;
+
 import client.clientModel.ClientDataStructure;
-import client.clientModel.Lobby;
 import common.ServerRMI;
 import common.VirtualViewRMI;
 import org.json.simple.JSONObject;
 
 import java.net.MalformedURLException;
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.rmi.Naming;
 import java.util.stream.Collectors;
 
 import static java.lang.System.exit;
@@ -168,21 +162,9 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     @Override
-    public String getUserName() {
-        return username;
-    }
-
-
-    @Override
     public void sendChatMessage(String text, String recipient) {
 
     }
-
-    @Override
-    public void setUserName(String userName) {
-
-    }
-
 
     @Override
     public void GameUpdate(List<String> players /* ...TBD...*/) throws RemoteException {

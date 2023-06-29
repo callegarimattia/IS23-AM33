@@ -15,7 +15,7 @@ public class ClientTCP implements Client {
     private final ObjectOutputStream out;
     private final String ip = "127.0.0.1";   // saranno poi da prendere da arg / json
     private final int port = 2345;  // saranno poi da prendere da arg / json
-    private ClientDataStructure data;
+    private final ClientDataStructure data;
     private Socket socket;
 
     public ClientTCP(CLI cli) throws IOException {
@@ -119,15 +119,6 @@ public class ClientTCP implements Client {
     @Override
     public void sendChatMessage(String userName, String message, int visibility) {
 
-    }
-
-    @Override
-    public String getUserName() {
-        return data.getMyUsername();
-    }
-
-    public void setUserName(String userName) {
-        data.setMyUsername(userName);
     }
 
     public ClientDataStructure getData() {
