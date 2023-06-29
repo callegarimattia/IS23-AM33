@@ -2,6 +2,8 @@ package client.clientModel;
 
 import common.Tile;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.json.simple.JSONArray;
@@ -19,6 +21,7 @@ public class ClientDataStructure {
     private final ObservableList<Lobby> lobbies;
     private Integer myLobbyID;
     private String myUsername;
+    private final BooleanProperty gameStarted;
     private boolean gui = false;
 
     public ClientDataStructure() {
@@ -27,6 +30,7 @@ public class ClientDataStructure {
         mainBoard = new Tile[9][9];
         myGoal = null;
         lobbies = FXCollections.observableArrayList();
+        gameStarted = new SimpleBooleanProperty(false);
     }
 
     public void addPlayer(String username) {
@@ -297,6 +301,7 @@ public class ClientDataStructure {
 
     public void startGame(JSONObject obj) {  // 777
         System.out.println("GAME STARTED");
+        setGameStarted(true);
         JSONArray array = (JSONArray) obj.get("playersUsernames");  //  already shuffled (first player at [0])
         for (int i = 0; i < array.size(); i++)
             addPlayer(array.get(i).toString());
@@ -374,4 +379,15 @@ public class ClientDataStructure {
         this.myUsername = myUsername;
     }
 
+    public boolean isGameStarted() {
+        return gameStarted.get();
+    }
+
+    private void setGameStarted(boolean gameStarted) {
+        this.gameStarted.set(gameStarted);
+    }
+
+    public BooleanProperty gameStartedProperty() {
+        return gameStarted;
+    }
 }

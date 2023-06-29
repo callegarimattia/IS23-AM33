@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface ServerRMI extends Remote {
 
-    //  interfaccia usata dal client
-
     List<String> createUser(String newUsername, VirtualViewRMI virtualView, Object obj) throws RemoteException;
 
     int joinLobby(int ID, VirtualViewRMI virtualView, Object obj) throws RemoteException;

@@ -3,12 +3,10 @@ package server.controller;
 import common.ServerRMI;
 import common.VirtualViewRMI;
 import org.json.simple.JSONObject;
-import server.exceptions.LobbiesHandlerException;
 import server.listenerStuff.LobbiesUpdateEvent;
 import server.model.Lobby;
 import server.model.User;
 
-import javax.swing.text.html.ObjectView;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -29,6 +27,11 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
 
     private final int TCPport = 2345;  // sarebbe meglio prenderla da arg/json
 
+    /**
+     * <p>Default constructor. Initializes the RMI checker</p>
+     *
+     * @throws RemoteException when RMI checker throws an error
+     */
     public LobbiesHandlerImpl() throws RemoteException {
         Runnable r = new RMIchecker(this);
         Thread t = new Thread(r);
@@ -36,11 +39,10 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
     }
 
     /**
-     * Creates and then adds a new user to the users pool with given username.
-     * It checks whether the username is already present and throws an exception if true.
+     * <p>Creates and then adds a new user to the users pool with given username.
+     * It checks whether the username is already present and throws an exception if true.</p>
      *
-     * @param newUsername
-     * @throws LobbiesHandlerException
+     * @param newUsername username of the user to be created
      */
     @Override
     public List<String> createUser(String newUsername, VirtualViewRMI virtualView, Object parser) {
@@ -75,10 +77,9 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
         }
     }
 
-
     /**
-     * Search the given username in the pool of users.
-     * If found returns the corresponding user. Otherwise it returns null.
+     * <p>Search the given username in the pool of users.
+     * If found returns the corresponding user. Otherwise it returns null. </p>
      *
      * @param username of user to be searched
      * @return user or null if not present
@@ -90,19 +91,31 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
         return false;
     }
 
+    /**
+     * <p>Search username in pool of users</p>
+     *
+     * @param userName username to be searched
+     * @return the user class associated with the given username. null if user is not present
+     */
     @Override
     public User searchUser(String userName) {
-        for(User user: users)
-            if(user.getUserName().equals(userName))
+        for (User user : users)
+            if (user.getUserName().equals(userName))
                 return user;
         return null;
     }
+
+    /**
+     * <p>Removes the user with given username</p>
+     *
+     * @param toBeRemovedUsername string of the username
+     */
 
     public void removeUser(String toBeRemovedUsername) {  // rimuove uno user da lista users e waiting lobbies
         synchronized (this) {
             User toBeRem = searchUser(toBeRemovedUsername);
             for (User user : users)
-                if (user.equals(toBeRem)){
+                if (user.equals(toBeRem)) {
                     users.remove(user);
                     break;
                 }
@@ -140,13 +153,21 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
 
     }
 
+    /**
+     * <p>Request lobby list</p>
+     *
+     * @param virtualView
+     * @param parser
+     * @return
+     */
+
     @Override
     public JSONObject lobbyListRequest(VirtualViewRMI virtualView, Object parser) {
         JSONObject answer = new JSONObject();
         answer.put("type", 1);
 
         User user = associatedUser(virtualView, parser);
-        if(user!= null && user.isInGame()){
+        if (user != null && user.isInGame()) {
             answer.put("answer", "-1");
             return answer;
         }
@@ -165,27 +186,37 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
             answer.put("IDs", lobbiesIDs);
             answer.put("CurrentSizes", lobbiesCurrentSize);
             answer.put("MaxSizes", lobbiesMaxSizes);
-        }
-        else {
-            answer.put("answer","0");
+        } else {
+            answer.put("answer", "0");
         }
         return answer;
     }
 
-    private User associatedUser(VirtualViewRMI virtualView, Object parser){
+    /**
+     * Return the associated user with TCP or RMI from reference.
+     *
+     * @param virtualView
+     * @param parser
+     * @return
+     */
+
+    private User associatedUser(VirtualViewRMI virtualView, Object parser) {
         for (User user : users)
-            if(parser!=null && user.getMyParser()!=null && user.getMyParser().equals(parser) ||
-                    virtualView!=null && user.getMyClient()!=null &&user.getMyClient().equals(virtualView))
+            if (parser != null && user.getMyParser() != null && user.getMyParser().equals(parser) ||
+                    virtualView != null && user.getMyClient() != null && user.getMyClient().equals(virtualView))
                 return user;
         return null;
     }
 
     /**
-     * Given a user and a gameSize it creates a lobby with given gameSize.
-     * If user isn't in the user pool, the game size is invalid or user is alrteady in a lobby or game,
-     * it throws an exception
+     * <p>Given a user and a gameSize it creates a lobby with given gameSize.
+     * If user isn't in the user pool, the game size is invalid or user is already in a lobby or game,
+     * returns an error code </p>
      *
-     * @param gameSize
+     * @param gameSize gameSize
+     * @param virtualView virtualView user
+     * @param parser TCP util
+     * @return message with confirm/error
      */
     @Override
     public synchronized List<Integer> createLobby(int gameSize, VirtualViewRMI virtualView, Object parser) {
@@ -211,32 +242,40 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
         Lobby newLobby = new Lobby(gameSize);
         waitingLobbies.add(newLobby);
         System.out.println("CREATED NEW LOBBY ID(" + newLobby.getID() + ") WITH GAME SIZE " + gameSize);
-        joinLobby(newLobby.getID(),firstUser.getMyClient(),firstUser.getMyParser());
+        joinLobby(newLobby.getID(), firstUser.getMyClient(), firstUser.getMyParser());
         ans.add(0, 1);
         ans.add(1, newLobby.getID());
         return ans;
     }
 
-
-
-
+    /**
+     * <p> Search for a lobby given it's ID</p>
+     *
+     * @param ID id of the lobby to be searched
+     * @return lobby class instance corresponding to id or null
+     */
     @Override
     public Lobby searchLobby(int ID) {
-        for(Lobby lobby : waitingLobbies)
-            if(lobby.getID() == ID)
+        for (Lobby lobby : waitingLobbies)
+            if (lobby.getID() == ID)
                 return lobby;
-        for(Lobby lobby : inGameLobbies)
-            if(lobby.getID() == ID)
+        for (Lobby lobby : inGameLobbies)
+            if (lobby.getID() == ID)
                 return lobby;
         return null;
     }
 
+    /**
+     * Abort the lobby of given user with username when game ends
+     *
+     * @param userName string of the user
+     */
     public void abortLobby(String userName) {  // cancella la lobby e tutti i suoi user (metodo chiamato quando finisce la partita per qualche motivo)
         synchronized (inGameLobbies) {
-            for(Lobby lobby : inGameLobbies)
-                for(User user: lobby.getUsers())
-                    if(user.getUserName().equals(userName)){
-                        for(User us : lobby.getUsers())
+            for (Lobby lobby : inGameLobbies)
+                for (User user : lobby.getUsers())
+                    if (user.getUserName().equals(userName)) {
+                        for (User us : lobby.getUsers())
                             users.remove(us);
                         inGameLobbies.remove(lobby);
                         System.out.println("LOBBY " + lobby.getID() + " ABORTED");
@@ -247,13 +286,13 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
     }
 
 
-
     /**
-     * Let a valid user, which is not in a lobby or game, join a not full lobby which hasn't started its game yet.
-     * If one of the conditions isn't met it throws an exception.
-     *
-
-     * @throws LobbiesHandlerException
+     *  <p>Let a valid user, which is not in a lobby or game, join a not full lobby which hasn't started its game yet.
+     *  Returns a message with validation or error</p>
+     * @param ID
+     * @param virtualView
+     * @param obj
+     * @return
      */
     @Override
     public synchronized int joinLobby(int ID, VirtualViewRMI virtualView, Object obj) {
@@ -272,7 +311,7 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
                     LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
                     OnLobbyUpdate(evt);
                     System.out.println("LOBBY ID(" + ID + ") JOINED BY ('" + joiningUser.getUserName() + "')");
-                    if(lobby.isFull()) // controllo se deve partire il game
+                    if (lobby.isFull()) // controllo se deve partire il game
                         startGame(lobby.getID());
                     return 1;
                 }
@@ -280,14 +319,19 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
         return -1; // lobby doesn't exist
     }
 
+    /**
+     * Listener event update for lobbies
+     *
+     * @param evt
+     */
     private void OnLobbyUpdate(LobbiesUpdateEvent evt) {
-        JSONObject data = lobbyListRequest(null,null);
+        JSONObject data = lobbyListRequest(null, null);
         List<Integer> size = (List<Integer>) data.get("IDs");
-        if(size != null)
+        if (size != null)
             for (User user : users)
-                if(!user.isInGame()){
+                if (!user.isInGame()) {
 
-                    if (user.getMyClient() != null){   // RMI:
+                    if (user.getMyClient() != null) {   // RMI:
                         try {
                             user.getMyClient().LobbiesUpdate(data);
                         } catch (RemoteException e) {
@@ -309,11 +353,10 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
     }
 
     /**
-     * Lets a user leave a lobby.
-     * If user is invalid, or isn't in a lobby, or is in a game, then it throws an exception.
-     *
-
-     * @throws LobbiesHandlerException
+     * Let a user leave it's lobby
+     * @param virtualView
+     * @param obj
+     * @return a message with validation or error
      */
     @Override
     public synchronized String leaveLobby(VirtualViewRMI virtualView, Object obj) {
@@ -364,11 +407,21 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
         return true;
     }
 
+    /**
+     * Getter of pool of users
+     *
+     * @return set of users
+     */
     @Override
     public Set<User> getUsers() {  // delete
         return users;
     }
 
+    /**
+     * Getter of waiting lobbies
+     *
+     * @return set of lobbies
+     */
     @Override
     public Set<Lobby> getWaitingLobbies() {  // delete
         return waitingLobbies;
@@ -406,6 +459,9 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
         System.out.println("------------------- RMI SERVER ONLINE -------------------");
     }
 
+    /**
+     * start server method
+     */
     @Override
     public void startServer() {
         startTCP();
@@ -437,33 +493,45 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
             }
         }
 
-        System.out.print("\nPRE GAME LOBBIES: " );
-        for(Lobby lobby : waitingLobbies){
+        System.out.print("\nPRE GAME LOBBIES: ");
+        for (Lobby lobby : waitingLobbies) {
             System.out.println("\n\nID:  " + lobby.getID());
             System.out.println("Current size:  " + lobby.getUsers().size());
             System.out.println("To be reached size:  " + lobby.getGameSize());
             System.out.println("isFull:  " + lobby.isFull());
             System.out.print("users: ");
-            for(User us : lobby.getUsers())
+            for (User us : lobby.getUsers())
                 System.out.print(us.getUserName() + " ");
         }
         System.out.println("\n");
     }
 
+    /**
+     * Link TCP parser to user
+     *
+     * @param newUserUsername username
+     * @param parser          tcp parser instance
+     */
+
     @Override
     public void addTCPparserToUser(String newUserUsername, TCPclientParser parser) {
-        for (User user: users)
-            if(user.getUserName().equals(newUserUsername))
+        for (User user : users)
+            if (user.getUserName().equals(newUserUsername))
                 user.setMyParser(parser);
     }
 
-    public void disconnectedUser(String userName){
+    /**
+     * Deletes the user who disconnects
+     *
+     * @param userName username of the disconnected user
+     */
+    public void disconnectedUser(String userName) {
         User me = searchUser(userName);
-        if(me == null) return;
+        if (me == null) return;
         Lobby myLobby = null;
-        if(me.isInGame()){
+        if (me.isInGame()) {
             for (Lobby lobby : inGameLobbies)
-                for(User user : lobby.getUsers())
+                for (User user : lobby.getUsers())
                     if (user.equals(me)) {
                         myLobby = lobby;
                         break;
@@ -471,13 +539,11 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
             myLobby.getGameHandler().abortGame(me.getUserName());  // manda messaggio finale e chiude tutti i 4 (potenzialmente) thread parser
             abortLobby(userName);  // ed elimina anche tuttu i (4) user
             return;
-        }
-        else{  // sia che sia in una waitingLobby sia che sia un user e basta
+        } else{  // sia che sia in una waitingLobby sia che sia un user e basta
             removeUser(me.getUserName());
         }
         System.out.println("connection with user "+ userName +" closed and user deleted");
     }
-
 }
 
 

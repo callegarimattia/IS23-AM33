@@ -3,10 +3,11 @@ package common;
 public enum Tile {
 
     /**
-     * EMPTY will be used for the locations that still could be occupied in a player's
+     * <p>EMPTY will be used for the locations that still could be occupied in a player's
      * matrix or for the locations from which a tile was taken in the dashboard
      * UNAVAILABLE will be used for the positions in the dashboard that are not
      * valid due to the rules about number of players in the game
+     * </p>
      */
     EMPTY,
     UNAVAILABLE,
@@ -17,6 +18,11 @@ public enum Tile {
     TROPHY,
     PLANT;
 
+    /**
+     * <p> Convert tile type to int</p>
+     *
+     * @return int value corresponding to tile ENUM
+     */
     public int toInt() {
         switch (this) {
             case EMPTY:
@@ -39,6 +45,12 @@ public enum Tile {
         return -666;
     }
 
+    /**
+     * <p>Returns the tile type corresponding to x value</p>
+     *
+     * @param x enum value of tile
+     * @return tile type corresponding to x
+     */
     public Tile toTile(int x) {
         switch (x) {
             case 0:
@@ -61,8 +73,14 @@ public enum Tile {
         return UNAVAILABLE;
     }
 
-    public String toString(){
-        switch (this){
+    /**
+     * <p> Convert tile to string</p>
+     *
+     * @return string conversion of tile type
+     */
+
+    public String toString() {
+        switch (this) {
             case EMPTY:
                 return ("\u001B[37m" + "EMPTY" + "\u001B[0m");
             case UNAVAILABLE:

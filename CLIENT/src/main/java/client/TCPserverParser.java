@@ -1,11 +1,12 @@
 package client;
+
 import client.clientModel.ClientDataStructure;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -118,9 +119,5 @@ public class TCPserverParser implements Runnable {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
     }
-
-
-
 }

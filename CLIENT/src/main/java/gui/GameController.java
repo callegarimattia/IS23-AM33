@@ -37,12 +37,12 @@ public class GameController {
 
     public void init(Client client) {
         this.client = client;
+        client.getData().gameStartedProperty().addListener(observable -> startGame());
     }
 
     private void startGame() {
         initializeMainBoard();
         showShelfs();
-        initializeShelfs();
         showCommonGoals();
         showPersonalGoal();
     }
@@ -80,10 +80,6 @@ public class GameController {
             player2ShelfGrid.setVisible(false);
             player2.setVisible(false);
         }
-    }
-
-    private void initializeShelfs() {
-
     }
 
     private void showCommonGoals() {
