@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClientDataStructure {
     private final Tile[][] mainBoard;
@@ -57,8 +58,7 @@ public class ClientDataStructure {
         for (int i = 0; i < 9; i++) {
             List<Long> lis = intMainBoard.get(i);
             for (int j = 0; j < 9; j++) {
-                int x = lis.get(j).intValue();
-                switch (x) {
+                switch (lis.get(j).intValue()) {
                     case 0:
                         mainBoard[i][j] = Tile.EMPTY;
                         break;
@@ -302,10 +302,9 @@ public class ClientDataStructure {
     public void startGame(JSONObject obj) {  // 777
         System.out.println("GAME STARTED");
         setGameStarted(true);
-        JSONArray array = (JSONArray) obj.get("playersUsernames");  //  already shuffled (first player at [0])
+        List<String> array = (List<String>) obj.get("playersUsernames");  //  already shuffled (first player at [0])
         for (int i = 0; i < array.size(); i++)
-            addPlayer(array.get(i).toString());
-
+            addPlayer(array.get(i));
         List<List<Long>> intMainBoard = (List<List<Long>>) obj.get("mainBoard");
         setMainBoard(intMainBoard);
         setCommonGoal1((String) obj.get("commonGoal1"));

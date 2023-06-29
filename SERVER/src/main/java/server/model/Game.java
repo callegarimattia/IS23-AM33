@@ -265,7 +265,7 @@ public class Game {
             }
             else {
                 try {
-                    player.getMyClient().StartGame(personalMessage);
+                    player.getMyClient().PersonalStartGame(personalMessage);
                 } catch (RemoteException e) {
                     System.out.println(e.getMessage());
                 }

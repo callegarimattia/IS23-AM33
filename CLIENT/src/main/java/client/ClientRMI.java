@@ -180,13 +180,31 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
 
     @Override
     public void StartGame(JSONObject obj) throws RemoteException {
-        System.out.println("arrivato 1");
+
+        List<List<Integer>> intMainBoard = (List<List<Integer>>) obj.get("mainBoard");
+        List<List<Long>> longs = new ArrayList<>();
+        for (int i=0 ; i < intMainBoard.size() ; i++) {
+            List<Long> lis = new ArrayList<>();
+            for (int j=0;j<intMainBoard.size();j++)
+              lis.add(intMainBoard.get(i).get(j).longValue());
+            longs.add(lis);
+        }
+
+        obj.put("mainBoard", longs);
         data.startGame(obj);
     }
 
     @Override
     public void PersonalStartGame(JSONObject obj) throws RemoteException {
-        System.out.println("arrivato 2");
+        List<Integer> coordinatesList = (List<Integer>) obj.get("coordinates");
+        List<Integer> intValues = (List<Integer>) obj.get("values");
+        List<Long> coord = new ArrayList<>(), val = new ArrayList<>();
+        for (int i=0 ; i < coordinatesList.size() ; i++)
+            coord.add(coordinatesList.get(i).longValue());
+        for (int i=0 ; i < intValues.size() ; i++)
+            val.add(intValues.get(i).longValue());
+        obj.put("coordinates", coord);
+        obj.put("values",val);
         data.personalStartGame(obj);
     }
 
