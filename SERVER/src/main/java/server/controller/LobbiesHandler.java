@@ -1,6 +1,7 @@
 package server.controller;
 
 import common.VirtualViewRMI;
+import org.json.simple.JSONObject;
 import server.model.Lobby;
 import server.model.User;
 
@@ -44,6 +45,6 @@ public interface LobbiesHandler {
 
     void disconnectedUser(String userName);
 
-    List<Integer> lobbyListRequest(VirtualViewRMI virtualView, Object parser);
+    JSONObject lobbyListRequest(VirtualViewRMI virtualView, Object parser);
 
 }

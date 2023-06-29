@@ -1,6 +1,5 @@
 package common;
-
-import server.controller.TCPclientParser;
+import org.json.simple.JSONObject;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -21,5 +20,5 @@ public interface ServerRMI extends Remote {
     List<String> shutDownClient(VirtualViewRMI virtualView)throws RemoteException;
     void checkAlive()throws RemoteException;
 
-    List<Integer> lobbyListRequest(VirtualViewRMI virtualView, Object obj)throws RemoteException;
+    JSONObject lobbyListRequest(VirtualViewRMI virtualView, Object obj)throws RemoteException;
 }

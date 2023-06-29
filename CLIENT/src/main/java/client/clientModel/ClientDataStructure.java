@@ -184,24 +184,7 @@ public class ClientDataStructure {
         }
     }
 
-    public void ansLobbyListRequest(List<Long> data) {  // 1
-        switch (data.get(0).toString()){
-            case "1":
-                List<Lobby> refreshedLobbies = new ArrayList<>();
-                for (int i = 1; i < data.size(); i=i+3){
-                    refreshedLobbies.add(new Lobby((int) (long) data.get(i), (int) (long) data.get(i+1), (int) (long) data.get(i+2)));
-                    System.out.println("ID: " + data.get(i) + " current size: " + data.get(i+1) + " max size: " + data.get(i+2));
-                }
-                setLobbies(refreshedLobbies);
-                break;
-            case "0":
-                System.out.println("no lobbies yet");
-                break;
-            case "-1":
-                System.out.println("cant ask lobbies list if game already started");
-                break;
-        }
-    }
+    //  1 inglobata in 99
 
     public void ansNewLobbyCreation(List<Long> ans) {   // 2
         switch (ans.get(0).toString()) {
@@ -225,8 +208,8 @@ public class ClientDataStructure {
     }
 
 
-    public void ansJoinLobbyRequest(JSONObject obj) {  // 3
-        switch ((int) obj.get("answer")) {
+    public void ansJoinLobbyRequest(int ans, int ID) {  // 3
+        switch (ans) {
             case 0:
                 System.out.println("invalid command, user is already in a lobby");
                 break;
@@ -243,7 +226,7 @@ public class ClientDataStructure {
                 System.out.println("invalid input, press 3 again");
                 break;
             case 1:
-                myLobbyID = (int) (long) obj.get("ID");
+                myLobbyID = (ID);
                 System.out.println("lobby successfully joined");
                 break;
         }
@@ -336,17 +319,21 @@ public class ClientDataStructure {
         System.out.println("\nnew commands:\n-1: close app / abort game\n 5: pick and insert\n 6: send chat message");
     }
 
-    public void onLobbyUpdate(List<Long> data) {  //  99
+    public void onLobbyUpdate(JSONObject data) {  //  99
         System.out.println("LOBBIES UPDATE RECIVED:");
+        List<Long> lobbiesIDs = (List<Long>) data.get("IDs");
+        List<Long> lobbiesCurrentSize = (List<Long>) data.get("CurrentSizes");
+        List<Long> lobbiesMaxSizes = (List<Long>) data.get("MaxSizes");
         List<Lobby> refreshedLobbies = new ArrayList<>();
-
-        for (int i = 1; i < data.size(); i=i+3){
-            refreshedLobbies.add(new Lobby((int) (long) data.get(i), (int) (long) data.get(i+1), (int) (long) data.get(i+2)));
-            System.out.println("ID: " + data.get(i) + " current size: " + data.get(i+1) + " max size: " + data.get(i+2));
+        if(lobbiesIDs != null){
+            for (int i = 0; i < lobbiesIDs.size(); i++){
+                Lobby lobby = new Lobby( (int) (long) lobbiesMaxSizes.get(i), (int) (long) lobbiesIDs.get(i), (int) (long) lobbiesCurrentSize.get(i));
+                refreshedLobbies.add(lobby);
+                System.out.println("ID: " + lobbiesIDs.get(i) + " current size: " + lobbiesCurrentSize.get(i) + " max size: " + lobbiesMaxSizes.get(i));
+            }
         }
-
+        else System.out.println("no lobbies yet");
         setLobbies(refreshedLobbies);
-
     }
 
     public void onGameUpdate(JSONObject obj) {  //  100

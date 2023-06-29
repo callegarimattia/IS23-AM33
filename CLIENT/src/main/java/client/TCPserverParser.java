@@ -68,15 +68,18 @@ public class TCPserverParser implements Runnable {
                     data.ansCreateUser(ans);
                     break;
                 case 1:
-                    List<Long> dataList = (List<Long>) obj.get("data");
-                    data.ansLobbyListRequest(dataList);
+                    data.onLobbyUpdate(obj);
                     break;
                 case 2:
                     List<Long> answ = (List<Long>) obj.get("data");
                     data.ansNewLobbyCreation(answ);
                     break;
                 case 3:
-                    data.ansJoinLobbyRequest(obj);
+                    int y = (int) (long) obj.get("answer");
+                    int myLobbyID = 99;
+                    if(y == 1)
+                        myLobbyID = (int) (long) obj.get("ID");
+                    data.ansJoinLobbyRequest(y, myLobbyID);
                     break;
                 case 4:
                     data.ansLeaveLobbyRequest(obj);
@@ -95,8 +98,7 @@ public class TCPserverParser implements Runnable {
                     data.personalStartGame(obj);
                     break;
                 case 99:
-                    List<Long> lobbiesList = (List<Long>) obj.get("data");
-                    data.onLobbyUpdate(lobbiesList);
+                    data.onLobbyUpdate(obj);
                     break;
                 case 100:
                     data.onGameUpdate(obj);

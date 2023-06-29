@@ -1,4 +1,6 @@
 package common;
+import org.json.simple.JSONObject;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -10,6 +12,6 @@ public interface VirtualViewRMI extends Remote {
 
     public void GameUpdate(List<String> players /* ...TBD...*/) throws RemoteException;
 
-    public void LobbiesUpdate(List<Integer> data) throws RemoteException;
+    public void LobbiesUpdate(JSONObject obj) throws RemoteException;
     public boolean checkAlive() throws RemoteException;
 }

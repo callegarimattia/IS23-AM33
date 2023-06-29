@@ -192,10 +192,8 @@ public class TCPclientParser implements Runnable {
 
 
     public void listOfLobbiesRequest(JSONObject answer){  // 1
-        answer.put("type", 1);
-        List<Integer> data = lobbiesHandler.lobbyListRequest(null, this);
-        answer.put("data", data);
-        sendAnswer(answer);
+        JSONObject data = lobbiesHandler.lobbyListRequest(null, this);
+        sendAnswer(data);
     }
 
     private void newLobbyCreationRequest(JSONObject obj, JSONObject answer){ // 2
@@ -219,7 +217,7 @@ public class TCPclientParser implements Runnable {
         answer.put("type", 3);
         int ID;
         if (obj.get("tobeJoinedLobbyID") instanceof Long) {
-            ID = (int) obj.get("tobeJoinedLobbyID");
+            ID = (int) (long) obj.get("tobeJoinedLobbyID");
             try {
                 answer.put("answer",lobbiesHandler.joinLobby(ID,null,this));
             } catch (RemoteException e) {
@@ -234,7 +232,6 @@ public class TCPclientParser implements Runnable {
         answer.put("ID",ID);
 
         sendAnswer(answer);
-
     }
 
 

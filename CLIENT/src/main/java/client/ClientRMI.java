@@ -3,6 +3,7 @@ import client.clientModel.ClientDataStructure;
 import client.clientModel.Lobby;
 import common.ServerRMI;
 import common.VirtualViewRMI;
+import org.json.simple.JSONObject;
 
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
@@ -78,11 +79,26 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     @Override
-    public void LobbiesUpdate(List<Integer> lobbies) throws RemoteException {
-        List<Long> longs = lobbies.stream()
-                .mapToLong(Integer::longValue)
-                .boxed().toList();
-        data.onLobbyUpdate(longs);
+    public void LobbiesUpdate(JSONObject obj) throws RemoteException {  // 99
+        try {
+            JSONObject answer =  server.lobbyListRequest(this, null);
+            List<Integer> lobbiesIDs = (List<Integer>) answer.get("IDs");
+            List<Integer> lobbiesCurrentSize = (List<Integer>) answer.get("CurrentSizes");
+            List<Integer> lobbiesMaxSizes = (List<Integer>) answer.get("MaxSizes");
+            List<Long> lobbiesIDs2 = new ArrayList<>(), lobbiesCurrentSize2 = new ArrayList<>(), lobbiesMaxSizes2 = new ArrayList<>();
+            if(lobbiesIDs != null)
+                for (int i=0;i<lobbiesIDs.size();++i) {
+                    lobbiesIDs2.add(lobbiesIDs.get(i).longValue());
+                    lobbiesCurrentSize2.add(lobbiesCurrentSize.get(i).longValue());
+                    lobbiesMaxSizes2.add(lobbiesMaxSizes.get(i).longValue());
+                }
+            answer.put("IDs", lobbiesIDs2);
+            answer.put("CurrentSizes", lobbiesCurrentSize2);
+            answer.put("MaxSizes", lobbiesMaxSizes2);
+            data.onLobbyUpdate(answer);
+        } catch (RemoteException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
@@ -90,11 +106,8 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void lobbyListRequest() {  // 1
         try {
-            List<Integer> answer =  server.lobbyListRequest(this, null);
-            List<Long> longs = answer.stream()
-                    .mapToLong(Integer::longValue)
-                    .boxed().collect(Collectors.toList());
-            data.ansLobbyListRequest(longs);
+            JSONObject answer =  server.lobbyListRequest(this, null);
+            LobbiesUpdate(answer);
         } catch (RemoteException e) {
             System.out.println(e.getMessage());
         }
@@ -116,10 +129,8 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void joinLobby(int ID) {   // 3
         try {
-            boolean ans = server.joinLobby(ID,this,null);
-
-
-           // data. Ddddwdawd ;
+            int ans = server.joinLobby(ID,this,null);
+            data.ansJoinLobbyRequest(ans, ID);
         } catch (RemoteException e) {
             System.out.println(e.getMessage());
         }

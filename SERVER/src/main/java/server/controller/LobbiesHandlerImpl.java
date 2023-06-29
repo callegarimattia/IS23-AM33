@@ -115,7 +115,7 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
                             waitingLobbies.remove(lobby);
                             LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
                             OnLobbyUpdate(evt);
-                            break;
+                            return;
                         }
                     }
         }
@@ -141,20 +141,34 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
     }
 
     @Override
-    public List<Integer> lobbyListRequest(VirtualViewRMI virtualView, Object parser) {
-        List<Integer> answer = new ArrayList<>();
-        answer.add(0, 1);   // k
-        for(Lobby lobby : waitingLobbies){
-            answer.add(lobby.getID());
-            answer.add(lobby.getUsers().size());
-            answer.add(lobby.getGameSize());
+    public JSONObject lobbyListRequest(VirtualViewRMI virtualView, Object parser) {
+        JSONObject answer = new JSONObject();
+        answer.put("type", 1);
+
+        User user = associatedUser(virtualView, parser);
+        if(user!= null && user.isInGame()){
+            answer.put("answer", "-1");
+            return answer;
         }
-        if(answer.size()<2)
-            answer.set(0, 0);   // no lobbies yet
-        if(virtualView != null)
-            for (User user : users)
-                if (user.getMyClient().equals(virtualView) && user.isInGame())
-                    answer.set(0, -1);  // already in game
+
+        if(getWaitingLobbies().size() > 0){
+            answer.put("answer", "1");
+            List<Integer> lobbiesIDs = new ArrayList<>();
+            List<Integer> lobbiesCurrentSize = new ArrayList<>();
+            List<Integer> lobbiesMaxSizes = new ArrayList<>();
+            Set<Lobby> waitingLobbyList = getWaitingLobbies();
+            for(Lobby lobby : waitingLobbyList){
+                lobbiesIDs.add(lobby.getID());
+                lobbiesCurrentSize.add(lobby.getUsers().size());
+                lobbiesMaxSizes.add(lobby.getGameSize());
+            }
+            answer.put("IDs", lobbiesIDs);
+            answer.put("CurrentSizes", lobbiesCurrentSize);
+            answer.put("MaxSizes", lobbiesMaxSizes);
+        }
+        else {
+            answer.put("answer","0");
+        }
         return answer;
     }
 
@@ -267,30 +281,30 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
     }
 
     private void OnLobbyUpdate(LobbiesUpdateEvent evt) {
-        List<Integer> data = lobbyListRequest(null,null);
-        for (User user : users)
-            if(!user.isInGame()){
+        JSONObject data = lobbyListRequest(null,null);
+        List<Integer> size = (List<Integer>) data.get("IDs");
+        if(size != null)
+            for (User user : users)
+                if(!user.isInGame()){
 
-                if (user.getMyClient() != null){   // RMI:
-                    try {
-                        user.getMyClient().LobbiesUpdate(data);
-                    } catch (RemoteException e) {
-                        System.out.println(e.getMessage());
+                    if (user.getMyClient() != null){   // RMI:
+                        try {
+                            user.getMyClient().LobbiesUpdate(data);
+                        } catch (RemoteException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+
+                    if(user.getMyParser()!= null){    // TCP
+                        ObjectOutputStream myOut = user.getMyParser().getOut();
+                        data.put("type", 99);
+                        try {
+                            myOut.writeObject(data);
+                        } catch (IOException e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
                 }
-
-                if(user.getMyParser()!= null){    // TCP
-                    ObjectOutputStream myOut = user.getMyParser().getOut();
-                    JSONObject answer = new JSONObject();
-                    answer.put("type", 99);
-                    answer.put("data", data);
-                    try {
-                        myOut.writeObject(answer);
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-            }
 
     }
 
