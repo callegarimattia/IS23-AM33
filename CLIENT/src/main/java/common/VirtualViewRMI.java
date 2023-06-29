@@ -10,10 +10,13 @@ public interface VirtualViewRMI extends Remote {
 
     //  ha solo i metodi che chiama il server
 
-    public void GameUpdate(List<String> players /* ...TBD...*/) throws RemoteException;
+    void GameUpdate(List<String> players /* ...TBD...*/) throws RemoteException;
 
-    public void LobbiesUpdate(JSONObject obj) throws RemoteException;
-    public boolean checkAlive() throws RemoteException;
-    public void StartGame(JSONObject data) throws RemoteException;
-    public void PersonalStartGame(JSONObject data) throws RemoteException;
+    void LobbiesUpdate(JSONObject obj) throws RemoteException;
+
+    boolean checkAlive() throws RemoteException;
+
+    void StartGame(JSONObject data) throws RemoteException;
+
+    void PersonalStartGame(JSONObject data) throws RemoteException;
 }

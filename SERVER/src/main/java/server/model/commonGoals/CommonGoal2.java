@@ -17,10 +17,7 @@ public class CommonGoal2 extends CommonGoal{
         if(matrix[4][0]==matrix[3][1]&&matrix[4][0]==matrix[2][2]&&matrix[1][3]==matrix[4][0]&&matrix[0][4]==matrix[4][0]){
             return true;
         }
-        if(matrix[4][1]==matrix[3][2]&&matrix[4][1]==matrix[2][3]&&matrix[4][1]==matrix[1][4]&&matrix[4][1]==matrix[5][0]){
-            return true;
-        }
-        return false;
+        return matrix[4][1] == matrix[3][2] && matrix[4][1] == matrix[2][3] && matrix[4][1] == matrix[1][4] && matrix[4][1] == matrix[5][0];
     }
 
     public String getDescription() {

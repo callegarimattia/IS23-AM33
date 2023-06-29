@@ -12,7 +12,7 @@ import java.util.List;
 
 public class TCPserverParser implements Runnable {
     private final CLI cli;
-    private ClientDataStructure data = new ClientDataStructure();
+    private final ClientDataStructure data = new ClientDataStructure();
     private final Socket socket;
     private final Client client;  // devo poi usare l interfaccia ma per ora ho i metodi solo su TCP
 
@@ -20,7 +20,7 @@ public class TCPserverParser implements Runnable {
     public TCPserverParser(Socket socket, Client client, CLI cli) {
         this.socket = socket;
         this.client = client;
-        this.cli = cli;;
+        this.cli = cli;
     }
 
 

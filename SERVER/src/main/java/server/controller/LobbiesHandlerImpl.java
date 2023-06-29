@@ -56,7 +56,7 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
                 }
 
             for (User user : users)
-                if (virtualView!= null && user.getMyClient()!=null && user.getMyClient().equals(virtualView) ){
+                if (user.getMyClient() != null && user.getMyClient().equals(virtualView)) {
                     message.set(0, "-1");  // already asscociated
                     return message;
                 }
@@ -202,8 +202,8 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
 
     private User associatedUser(VirtualViewRMI virtualView, Object parser) {
         for (User user : users)
-            if (parser != null && user.getMyParser() != null && user.getMyParser().equals(parser) ||
-                    virtualView != null && user.getMyClient() != null && user.getMyClient().equals(virtualView))
+            if (user.getMyParser() != null && user.getMyParser().equals(parser) ||
+                    user.getMyClient() != null && user.getMyClient().equals(virtualView))
                 return user;
         return null;
     }

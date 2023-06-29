@@ -1,4 +1,5 @@
 package server.model;
+
 import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -7,6 +8,7 @@ import com.google.gson.JsonParser;
 import common.MainBoardCoordinates;
 import common.Tile;
 import server.exceptions.NotPickableException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -104,8 +106,7 @@ public class Board {
     public Tile[][] copyMatrix() {
         Tile[][] copy = new Tile[9][9];
         for (int x = 0; x < 9; x++)
-            for (int y = 0; y < 9; y++)
-                copy[x][y] = mainBoard[x][y];
+            System.arraycopy(mainBoard[x], 0, copy[x], 0, 9);
         return copy;
     }
 

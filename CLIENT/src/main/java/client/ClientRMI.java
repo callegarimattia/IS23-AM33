@@ -23,7 +23,7 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     int lobbyID;
     CLI cli;
     Scanner scanner = new Scanner(System.in);
-    private ClientDataStructure data = new ClientDataStructure();
+    private final ClientDataStructure data = new ClientDataStructure();
 
     public ClientRMI(CLI cli) throws RemoteException {
         this.cli = cli;

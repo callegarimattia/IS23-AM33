@@ -18,7 +18,6 @@ public class CommonGoal9 extends CommonGoal{
                     i = ROW_NUMBER - 1;
                     empty = true;
                 }
-                ;
                 if (matrix[i][j] == Tile.BOOK) b++;
                 if (matrix[i][j] == Tile.CAT) c++;
                 if (matrix[i][j] == Tile.GAME) g++;
@@ -32,7 +31,7 @@ public class CommonGoal9 extends CommonGoal{
             if(f>0) count++;
             if(g>0) count++;
             if (c > 0) count++;
-            if (count <= 3 && empty == false) validColumn++;
+            if (count <= 3 && !empty) validColumn++;
             if (validColumn == 3) return true;
         }
         return false;

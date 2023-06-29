@@ -43,7 +43,7 @@ public class CommonGoal4 extends CommonGoal{
                 }
                 if (matrix[i][j] == Tile.EMPTY) empty = true;
             }
-            if (counter <= 3 && empty != true) {
+            if (counter <= 3 && !empty) {
                 rowCount++;
             }
         }

@@ -3,9 +3,7 @@ package server.model;
 import common.Tile;
 import server.exceptions.LastRoundException;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Shelf {
     private final int ROW_NUMBER = 6;
@@ -110,8 +108,7 @@ public class Shelf {
     public Tile[][] copyMatrix (){
         Tile[][] copy = new Tile[6][5];
         for (int x = 0; x < 6; x++)
-            for (int y = 0; y < 5; y++)
-                copy[x][y] = shelf[x][y];
+            System.arraycopy(shelf[x], 0, copy[x], 0, 5);
         return copy;
     }
 

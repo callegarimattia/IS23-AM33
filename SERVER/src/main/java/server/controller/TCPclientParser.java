@@ -1,24 +1,23 @@
 package server.controller;
+
+import common.MainBoardCoordinates;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import server.exceptions.InputException;
 import server.exceptions.LastRoundException;
-import server.model.Lobby;
-import common.MainBoardCoordinates;
 import server.model.User;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class TCPclientParser implements Runnable {
     private final Socket mySocket;
-    private LobbiesHandler lobbiesHandler;
+    private final LobbiesHandler lobbiesHandler;
     private GameHandler gameHandler = null;
     ObjectInputStream in = null;
     ObjectOutputStream out = null;

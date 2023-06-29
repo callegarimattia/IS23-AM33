@@ -17,7 +17,7 @@ public class GuiApplication extends Application{
         this.stage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 200);
-        LoginController loginController = (LoginController) fxmlLoader.getController();
+        LoginController loginController = fxmlLoader.getController();
         loginController.init(this, stage);
         stage.setOnCloseRequest(t -> {
             Platform.exit();

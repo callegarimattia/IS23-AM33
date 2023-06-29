@@ -105,7 +105,7 @@ public class LobbiesController {
         FXMLLoader fxmlLoader = new FXMLLoader(LobbiesController.class.getResource("Game.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage thisStage = (Stage) refreshButton.getScene().getWindow();
-        GameController gameController = (GameController) fxmlLoader.getController();
+        GameController gameController = fxmlLoader.getController();
         gameController.init(client);
         thisStage.setScene(scene);
         thisStage.setTitle("Game");
