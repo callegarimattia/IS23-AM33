@@ -5,6 +5,6 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface GameServerRMI extends Remote {
-    JSONObject pickAndInsert(List<Integer> rows, List<Integer> columns, int myColumn) throws RemoteException;
-    JSONObject sendChatMessage(String text, String recipient) throws RemoteException;
+    JSONObject pickAndInsert(JSONObject obj) throws RemoteException;
+    JSONObject sendChatMessage(JSONObject obj) throws RemoteException;
 }

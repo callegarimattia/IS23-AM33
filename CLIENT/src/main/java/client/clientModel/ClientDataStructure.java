@@ -91,7 +91,7 @@ public class ClientDataStructure {
     }
 
     private void printMainBoard() {
-        System.out.println("\nMain board: ");
+        System.out.print("\nMain board: \n ");
         for (int i = 0; i < 9; i++)
             System.out.printf("%11s ", (i + 1));
         System.out.println();

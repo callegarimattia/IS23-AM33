@@ -240,62 +240,13 @@ public class TCPclientParser implements Runnable {
 
     private void pickAndInsert(JSONObject obj, JSONObject answer){  // 5
         answer.put("type", 5);
-        if(gameHandler == null)
+        if(gameHandler == null){
             answer.put("answer","0");  // not in game
-        else {
-            if(userName != gameHandler.getCurrPlayer()){
-                answer.put("answer","-1");  // not current player
-                sendAnswer(answer);
-                return;
-            }
-
-            int myColumn = -1;
-            List<Long> columns = null;
-            List<Long> rows = null;
-            if (obj.get("myColumn") instanceof Long)
-                myColumn = (int) (long) obj.get("myColumn");
-            if (obj.get("columns") instanceof List){
-                try {
-                    columns = (List<Long>) obj.get("columns");
-                }catch (Exception e){
-                    answer.put("answer","-8");  // invalid input
-                    sendAnswer(answer);
-                    return;
-                }
-            }
-
-            if (obj.get("rows") instanceof List){
-                try {
-                    rows = (List<Long>) obj.get("rows");
-                }catch (Exception e){
-                    answer.put("answer","-8");  // invalid input
-                    sendAnswer(answer);
-                    return;
-                }
-            }
-
-            List<MainBoardCoordinates> coordinates = new ArrayList<>();
-            for(int i = 0; i < columns.size(); i++){
-                MainBoardCoordinates coord;
-                try {
-                    coord = new MainBoardCoordinates(rows.get(i).intValue(),columns.get(i).intValue());
-                } catch (Exception e) {
-                    answer.put("answer","-7");
-                    sendAnswer(answer);
-                    return;
-                }
-                coordinates.add(coord);
-            }
-
-            int x = -7456;
-            try {
-                x = gameHandler.pickAndInsert(userName,coordinates, myColumn);
-            } catch (InputException | LastRoundException e) {
-                System.out.println(e.getMessage());
-            }
-            answer.put("answer",Integer.toString(x));
+            sendAnswer(answer);
         }
-        sendAnswer(answer);
+        JSONObject ans = gameHandler.pickAndInsert(obj);
+        ans.put("type", 5);
+        sendAnswer(ans);
     }
 
     private void chatMessage(JSONObject obj, JSONObject answer){  // 6

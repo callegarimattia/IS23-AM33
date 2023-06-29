@@ -12,15 +12,16 @@ import java.util.List;
 
 public class TCPserverParser implements Runnable {
     private final CLI cli;
-    private final ClientDataStructure data = new ClientDataStructure();
+    private final ClientDataStructure data;
     private final Socket socket;
     private final Client client;  // devo poi usare l interfaccia ma per ora ho i metodi solo su TCP
 
 
-    public TCPserverParser(Socket socket, Client client, CLI cli) {
+    public TCPserverParser(Socket socket, Client client, CLI cli, ClientDataStructure data) {
         this.socket = socket;
         this.client = client;
         this.cli = cli;
+        this.data = data;
     }
 
 

@@ -146,7 +146,6 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
         try {
             data.setMyLobbyID(ID);
             int ans = server.joinLobby(ID,this,null);
-            System.out.println("qui è arrivata, risp : " + ans);
             data.ansJoinLobbyRequest(ans, ID);
         } catch (RemoteException e) {
             System.out.println(e.getMessage());
@@ -166,11 +165,24 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
 
     @Override
     public void pickAndInsert(List<Integer> rows, List<Integer> columns, int myColumn) {  //  5
-        System.out.println("è tornato WOW");
+        JSONObject obj = new JSONObject();
+
+        List<Long> columns2 = columns.stream()
+                .mapToLong(Integer::longValue)
+                .boxed().toList();
+        List<Long> rows2 = rows.stream()
+                .mapToLong(Integer::longValue)
+                .boxed().toList();
+
+        obj.put("columns", columns2);
+        obj.put("rows", rows2);
+        obj.put("myColumn", myColumn);
+        obj.put("name", data.getMyUsername());
         try {
-            JSONObject obj = gameServer.pickAndInsert(rows,columns,myColumn);
-            data.ansPickAndInsert(obj);   // sara da modificare come al solito con i long
+            JSONObject ans = gameServer.pickAndInsert(obj);
+            data.ansPickAndInsert(ans);   // sara da modificare come al solito con i long
         } catch (RemoteException e) {
+            System.out.println("you are not in game yet");
             System.out.println(e.getMessage());
         }
     }
@@ -185,6 +197,8 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void sendChatMessage(String text, String recipient) {
 
+
+        System.out.println("you are not in game yet");
     }
 
     @Override

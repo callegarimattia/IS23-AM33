@@ -2,7 +2,10 @@ package server.controller;
 
 import common.GameServerRMI;
 import common.MainBoardCoordinates;
+import common.VirtualViewRMI;
 import org.json.simple.JSONObject;
+import server.exceptions.InputException;
+import server.exceptions.LastRoundException;
 import server.model.Game;
 import server.model.Player;
 
@@ -13,6 +16,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -40,8 +44,8 @@ public class GameHandlerImpl  extends UnicastRemoteObject implements GameHandler
      * @return pickAndInsert value from game method
      */
 
-    @Override
-    public int pickAndInsert(String userName, List<MainBoardCoordinates> coordinates, int column) {
+
+    private int pickAndInsert2(String userName, List<MainBoardCoordinates> coordinates, int column) {
         for (Player ply : myGame.getPlayers()) {
             if (userName.equals(ply.getUserName())) {
                 return myGame.pickAndInsert(ply.getUserName(), coordinates, column);
@@ -49,6 +53,61 @@ public class GameHandlerImpl  extends UnicastRemoteObject implements GameHandler
         }
         return 99;  // never reached
     }
+
+    @Override
+    public JSONObject pickAndInsert(JSONObject obj) {
+        JSONObject answer = new JSONObject();
+        String userName = obj.get("name").toString();
+        if(!userName.equals(getCurrPlayer())) {
+            answer.put("answer","-1");  // not current player
+            return answer;
+        }
+        int myColumn = -1;
+        List<Long> columns = null;
+        List<Long> rows = null;
+        if (obj.get("myColumn") instanceof Long)
+            myColumn = (int) (long) obj.get("myColumn");
+        else myColumn = (int) obj.get("myColumn");
+        System.out.println("la colonna è " + myColumn);
+        if (obj.get("columns") instanceof List){
+            try {
+                columns = (List<Long>) obj.get("columns");
+            }catch (Exception e){
+                answer.put("answer","-8");  // invalid input
+                return answer;
+            }
+        }
+
+        if (obj.get("rows") instanceof List){
+            try {
+                rows = (List<Long>) obj.get("rows");
+            }catch (Exception e){
+                answer.put("answer","-8");  // invalid input
+                return answer;
+            }
+        }
+
+        System.out.print("prova coordinate: ");
+        System.out.println(rows.get(0).intValue() +"/" + columns.get(0).intValue());
+        System.out.println("finita");
+        List<MainBoardCoordinates> coordinates = new ArrayList<>();
+        for(int i = 0; i < columns.size(); i++){
+            MainBoardCoordinates coord;
+            try {
+                coord = new MainBoardCoordinates(rows.get(i).intValue(),columns.get(i).intValue());
+            } catch (Exception e) {
+                answer.put("answer","-7");
+                return answer;
+            }
+            coordinates.add(coord);
+        }
+        int x = -7456;
+        x = pickAndInsert2(userName,coordinates, myColumn);
+        answer.put("answer",Integer.toString(x));
+        return answer;
+    }
+
+
 
     /**
      * <p>Close connection when player disconnects </p>
@@ -121,13 +180,10 @@ public class GameHandlerImpl  extends UnicastRemoteObject implements GameHandler
         System.out.println("------------------- " + binder + " RMI online-------------------");
     }
 
-    @Override
-    public JSONObject pickAndInsert(List<Integer> rows, List<Integer> columns, int myColumn) throws RemoteException {
-        return null;
-    }
+
 
     @Override
-    public JSONObject sendChatMessage(String text, String recipient) {
+    public JSONObject sendChatMessage(JSONObject obj) {
         return null;
     }
 

@@ -22,7 +22,7 @@ public class ClientTCP implements Client {
         data = new ClientDataStructure();
         newConnection(ip, port);
         out = new ObjectOutputStream(socket.getOutputStream());
-        Runnable parser = new TCPserverParser(socket, this, cli);
+        Runnable parser = new TCPserverParser(socket, this, cli, data);
         Thread th = new Thread(parser);
         th.start();
     }
@@ -104,6 +104,7 @@ public class ClientTCP implements Client {
         obj.put("columns", columns);
         obj.put("rows", rows);
         obj.put("myColumn", myColumn);
+        obj.put("name", data.getMyUsername());
         sendMessage(obj.toString());
     }
 
