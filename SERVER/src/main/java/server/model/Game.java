@@ -84,8 +84,8 @@ public class Game {
         for(Player player: players) {  // RMI
             if (player.getMyClient() != null) {
                 try {
-                    List<String> daCancellare2 = null;
-                     player.getMyClient().GameUpdate(daCancellare2);
+
+                     player.getMyClient().GameUpdate(null);  // non centra niente
 
                     //     player.getMyClient().GameUpdate(evt);  prima era cosi, da rifare perche non gli passo la classe
                 } catch (RemoteException e) {
@@ -195,9 +195,7 @@ public class Game {
         for(Player player: players) {  // RMI
             if (player.getMyClient() != null) {
                 try {
-                    List<String> daCancellare = null;
-                    player.getMyClient().GameUpdate(daCancellare);
-               //     player.getMyClient().GameUpdate(evt);  prima era cosi, da rifare perche non gli passo la classe
+                    player.getMyClient().GameUpdate(gameUpdateMessage);
                 } catch (RemoteException e) {
                     System.out.println("remote method invocation failed");
                 }

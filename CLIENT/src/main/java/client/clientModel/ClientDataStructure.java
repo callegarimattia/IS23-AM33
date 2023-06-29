@@ -370,15 +370,17 @@ public class ClientDataStructure {
     }
 
     public void onGameUpdate(JSONObject obj) {  //  100
-        System.out.println("GAME UPDATE RECIVED:");
+        System.out.println("\nGAME UPDATE RECIVED:");
         List<Long> longCols = (List<Long>) obj.get("cols");
         List<Long> longRows = (List<Long>) obj.get("rows");
         int[] cols = longCols.stream().mapToInt(i -> Math.toIntExact(i)).toArray();
         int[] rows = longRows.stream().mapToInt(i -> Math.toIntExact(i)).toArray();
         String updater = (String) obj.get("updater");
         String newCurrPlayer = (String) obj.get("newCurrPlayer");
-        int column = (int) (long) obj.get("column");
-
+        int column;
+        if (obj.get("column") instanceof Long)
+            column = (int) (long) obj.get("column");
+        else column = (int) obj.get("column");
         for (int i = 0; i < cols.length; i++) {
             Tile myTile = getAndSetEmpty(rows[i], cols[i]);
             for (ClientPlayer player : players)

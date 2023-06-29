@@ -10,7 +10,7 @@ public interface VirtualViewRMI extends Remote {
 
     //  ha solo i metodi che chiama il server
 
-    void GameUpdate(List<String> players /* ...TBD...*/) throws RemoteException;
+    void GameUpdate(JSONObject data) throws RemoteException;
 
     void LobbiesUpdate(JSONObject data) throws RemoteException;
 
