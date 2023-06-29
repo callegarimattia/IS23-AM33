@@ -1,17 +1,13 @@
 package client.clientModel;
-
 import common.Tile;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ClientDataStructure {
     private final Tile[][] mainBoard;
@@ -20,7 +16,7 @@ public class ClientDataStructure {
     private String commonGoal2;
     private ClientPersonalGoal myGoal;
     private final ObservableList<Lobby> lobbies;
-    private Integer myLobbyID;
+    private int myLobbyID;
     private String myUsername;
     private final BooleanProperty gameStarted;
     private boolean gui = false;
@@ -150,6 +146,34 @@ public class ClientDataStructure {
         this.gui = gui;
     }
 
+    public String getMyUsername() {
+        return myUsername;
+    }
+
+    public void setMyUsername(String myUsername) {
+        this.myUsername = myUsername;
+    }
+
+    public boolean isGameStarted() {
+        return gameStarted.get();
+    }
+
+    private void setGameStarted(boolean gameStarted) {
+        this.gameStarted.set(gameStarted);
+    }
+
+    public BooleanProperty gameStartedProperty() {
+        return gameStarted;
+    }
+
+    public Integer getMyLobbyID() {
+        return myLobbyID;
+    }
+
+    public void setMyLobbyID(int myLobbyID) {
+        this.myLobbyID = myLobbyID;
+    }
+
     ////////////  ANSWERS ////////////
 
 
@@ -211,6 +235,9 @@ public class ClientDataStructure {
 
     public void ansJoinLobbyRequest(int ans, int ID) {  // 3
         switch (ans) {
+            default:
+                System.out.println("something went wrong in joining lobby");
+                break;
             case 0:
                 System.out.println("invalid command, user is already in a lobby");
                 break;
@@ -370,23 +397,5 @@ public class ClientDataStructure {
         System.out.println(text);
     }
 
-    public String getMyUsername() {
-        return myUsername;
-    }
 
-    public void setMyUsername(String myUsername) {
-        this.myUsername = myUsername;
-    }
-
-    public boolean isGameStarted() {
-        return gameStarted.get();
-    }
-
-    private void setGameStarted(boolean gameStarted) {
-        this.gameStarted.set(gameStarted);
-    }
-
-    public BooleanProperty gameStartedProperty() {
-        return gameStarted;
-    }
 }

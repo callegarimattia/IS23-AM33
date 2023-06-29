@@ -1,6 +1,7 @@
 package client;
 
 import client.clientModel.ClientDataStructure;
+import common.GameServerRMI;
 import common.ServerRMI;
 import common.VirtualViewRMI;
 import org.json.simple.JSONObject;
@@ -19,10 +20,10 @@ import static java.lang.System.exit;
 
 public class ClientRMI extends UnicastRemoteObject implements Client, VirtualViewRMI {
     ServerRMI server;
-    String username = null;
-    int lobbyID;
+    String serverIP = null;
     CLI cli;
     Scanner scanner = new Scanner(System.in);
+    private GameServerRMI gameServer= null;
     private final ClientDataStructure data = new ClientDataStructure();
 
     public ClientRMI(CLI cli) throws RemoteException {
@@ -46,7 +47,27 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
         Runnable r = new RMIchecker(server, cli);
         Thread th = new Thread(r);
         th.start();
+        this.serverIP = serverIP;
     }
+
+    private void connectGame(){
+        int ID = data.getMyLobbyID();
+        String binder = "GameServer" + ID;
+        try {
+            gameServer = (GameServerRMI) Naming.lookup("rmi://" + serverIP + "/"+ binder);
+        } catch (NotBoundException | MalformedURLException| RemoteException e) {
+            System.out.print("game RMI not found...");
+            exit(-1);
+        }
+
+     /*   try {
+            gameServer = (GameServerRMI) Naming.lookup("rmi://" + serverIP + "prova");
+        } catch (NotBoundException | MalformedURLException| RemoteException e) {
+            System.out.print("game RMI not found...");
+            exit(-1);
+        }  */
+    }
+
 
     @Override
     public void shutDown() { // -1
@@ -123,7 +144,9 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void joinLobby(int ID) {   // 3
         try {
+            data.setMyLobbyID(ID);
             int ans = server.joinLobby(ID,this,null);
+            System.out.println("qui è arrivata, risp : " + ans);
             data.ansJoinLobbyRequest(ans, ID);
         } catch (RemoteException e) {
             System.out.println(e.getMessage());
@@ -142,17 +165,15 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
 
 
     @Override
-    public void pickAndInsert(List<Integer> rows, List<Integer> columns, int myColumn) {
-
+    public void pickAndInsert(List<Integer> rows, List<Integer> columns, int myColumn) {  //  5
+        System.out.println("è tornato WOW");
+        try {
+            JSONObject obj = gameServer.pickAndInsert(rows,columns,myColumn);
+            data.ansPickAndInsert(obj);   // sara da modificare come al solito con i long
+        } catch (RemoteException e) {
+            System.out.println(e.getMessage());
+        }
     }
-
-
-
-
-
-
-
-
 
 
 
@@ -180,7 +201,6 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
 
     @Override
     public void StartGame(JSONObject obj) throws RemoteException {
-
         List<List<Integer>> intMainBoard = (List<List<Integer>>) obj.get("mainBoard");
         List<List<Long>> longs = new ArrayList<>();
         for (int i=0 ; i < intMainBoard.size() ; i++) {
@@ -189,7 +209,6 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
               lis.add(intMainBoard.get(i).get(j).longValue());
             longs.add(lis);
         }
-
         obj.put("mainBoard", longs);
         data.startGame(obj);
     }
@@ -206,6 +225,12 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
         obj.put("coordinates", coord);
         obj.put("values",val);
         data.personalStartGame(obj);
+
+        this.connectGame();
+
     }
+
+
+
 
 }

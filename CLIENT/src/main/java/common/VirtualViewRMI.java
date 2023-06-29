@@ -1,10 +1,8 @@
 package common;
 import org.json.simple.JSONObject;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
-
 
 public interface VirtualViewRMI extends Remote {
 

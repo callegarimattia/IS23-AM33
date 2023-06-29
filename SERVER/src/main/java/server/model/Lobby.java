@@ -2,6 +2,8 @@ package server.model;
 import server.controller.GameEnder;
 import server.controller.GameHandler;
 import server.controller.GameHandlerImpl;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -55,8 +57,14 @@ public class Lobby {
             else
                 players.add(new Player(user.getUserName(), user.getMyParser().getOut()));
         }
+        try {
+            gameHandler = new GameHandlerImpl(ID);
+        } catch (RemoteException e) {
+            System.out.println(e.getMessage());
+        }
         Game myGame = new Game(players, ender);
-        gameHandler = new GameHandlerImpl(myGame);
+        gameHandler.setMyGame(myGame);
+
         return gameHandler;
     }
 

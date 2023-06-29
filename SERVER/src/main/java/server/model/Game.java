@@ -1,5 +1,4 @@
 package server.model;
-
 import common.MainBoardCoordinates;
 import common.Tile;
 import org.json.simple.JSONObject;
@@ -11,7 +10,6 @@ import server.listenerStuff.GameUpdateEvent;
 import server.model.commonGoals.CommonGoal;
 import server.model.commonGoals.CommonGoalDrawer;
 import server.model.personalGoals.PersonalGoalDrawer;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;

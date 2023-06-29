@@ -1,5 +1,6 @@
 package server.controller;
 
+import common.GameServerRMI;
 import common.MainBoardCoordinates;
 import org.json.simple.JSONObject;
 import server.model.Game;
@@ -7,20 +8,26 @@ import server.model.Player;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 
-public class GameHandlerImpl implements GameHandler {   // controller per Game
+public class GameHandlerImpl  extends UnicastRemoteObject implements GameHandler, GameServerRMI {   // controller per Game
 
-    private final Game myGame;
+    private Game myGame;
 
     /**
      * <p>Constructor of the controller</p>
      *
-     * @param myGame game model controlled by the controller
+     *
      */
-    public GameHandlerImpl(Game myGame) {
-        this.myGame = myGame;
+    public GameHandlerImpl( int ID) throws RemoteException {
+        super();
+        startRMI(ID);
     }
 
     /**
@@ -101,5 +108,30 @@ public class GameHandlerImpl implements GameHandler {   // controller per Game
 
     public int chatMessage(String text, String recipient, String addresser) {
         return myGame.chatMessage(text, recipient, addresser);
+    }
+
+    private void startRMI(int ID){
+        String binder = "GameServer" + ID;
+        try {
+            Registry registry = LocateRegistry.getRegistry(1099);
+            registry.bind(binder, this);
+        } catch (RemoteException | AlreadyBoundException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println("------------------- " + binder + " RMI online-------------------");
+    }
+
+    @Override
+    public JSONObject pickAndInsert(List<Integer> rows, List<Integer> columns, int myColumn) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public JSONObject sendChatMessage(String text, String recipient) {
+        return null;
+    }
+
+    public void setMyGame(Game myGame) {
+        this.myGame = myGame;
     }
 }
