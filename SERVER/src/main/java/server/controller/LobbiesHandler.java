@@ -22,9 +22,9 @@ public interface LobbiesHandler {
 
     Lobby searchLobby(int ID);
 
-    int createLobby(String firstUser, int gameSize);
+    List<Integer> createLobby(int gameSize, VirtualViewRMI virtualView, Object obj);
 
-    boolean joinLobby(String joiningUser, int lobbyID);
+    int joinLobby(int ID, VirtualViewRMI virtualView, Object obj) throws RemoteException;
 
     boolean leaveLobby(String leavingUser);
 
@@ -44,6 +44,6 @@ public interface LobbiesHandler {
 
     void disconnectedUser(String userName);
 
-    public List<Integer> lobbyListRequest(VirtualViewRMI virtualView, Object parser);
+    List<Integer> lobbyListRequest(VirtualViewRMI virtualView, Object parser);
 
 }

@@ -72,7 +72,8 @@ public class TCPserverParser implements Runnable {
                     data.ansLobbyListRequest(dataList);
                     break;
                 case 2:
-                    data.ansNewLobbyCreation(obj);
+                    List<Long> answ = (List<Long>) obj.get("data");
+                    data.ansNewLobbyCreation(answ);
                     break;
                 case 3:
                     data.ansJoinLobbyRequest(obj);

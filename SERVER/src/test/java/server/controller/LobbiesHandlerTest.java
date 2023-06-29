@@ -63,8 +63,8 @@ class LobbiesHandlerTest {
     @DisplayName("Lobby creation test")
     void createLobby(int numOfPlayers) {
         lobbyTester.createUser("Mattia", null,null);
-        int lobbyID = lobbyTester.createLobby("Mattia", numOfPlayers);
-        assertTrue(lobbyID >= 0);
+        List<Integer> ans = lobbyTester.createLobby(numOfPlayers,null,null);
+        assertTrue(ans.get(1) >= 0);
     }
 
     @ParameterizedTest
@@ -72,6 +72,6 @@ class LobbiesHandlerTest {
     @DisplayName("Lobby creation with invalid game size")
     void createLobby_InvalidGameSizes(int numOfPlayers) {
         lobbyTester.createUser("Mattia",null,null);
-        assertEquals(lobbyTester.createLobby("Mattia", numOfPlayers), -3);
+        assertEquals(777,lobbyTester.createLobby(numOfPlayers,null,null));
     }
 }

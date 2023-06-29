@@ -12,11 +12,11 @@ public interface ServerRMI extends Remote {
 
     List<String> createUser(String newUsername, VirtualViewRMI virtualView, Object obj) throws RemoteException;
 
-    boolean joinLobby(String user, int lobbyID) throws RemoteException;
+    int joinLobby(int ID, VirtualViewRMI virtualView, Object obj) throws RemoteException;
 
     boolean leaveLobby(String user) throws RemoteException;
 
-    int createLobby(String firstUser, int gameSize) throws RemoteException;
+    List<Integer> createLobby(int gameSize, VirtualViewRMI virtualView, Object obj) throws RemoteException;
 
     List<String> shutDownClient(VirtualViewRMI virtualView)throws RemoteException;
     void checkAlive()throws RemoteException;

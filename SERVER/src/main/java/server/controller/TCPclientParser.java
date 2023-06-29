@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -199,77 +200,39 @@ public class TCPclientParser implements Runnable {
 
     private void newLobbyCreationRequest(JSONObject obj, JSONObject answer){ // 2
         answer.put("type", 2);
-        if ( !inUser) {
-            answer.put("answer", "-1");  // bisogna prima creare lo user
-            sendAnswer(answer);
-            return;
-        }
-        User myUser = lobbiesHandler.searchUser(userName);
-        if(myUser.isInGame()|| myUser.isInLobby()){
-            answer.put("answer", "0");  // cant create lobby when in a game or in a lobby
-            sendAnswer(answer);
-            return;
-        }
-
+        List<Integer> ans = new ArrayList<>();
         if (obj.get("size") instanceof Long){
-            if((Long) obj.get("size") > 4 || (Long) obj.get("size") < 2){
-                answer.put("answer", "-2");  // invalid game size
-                sendAnswer(answer);
-                return;
-            }
+
         } else {
-            answer.put("answer", "-3");  // invalid input
+            ans.add(0,-3);
+            answer.put("datar", ans);  // invalid input
             sendAnswer(answer);
             return;
         }
 
-        long size = (long) obj.get("size");
-        int newID = lobbiesHandler.createLobby(userName,(int)size);
-        answer.put("answer","1");
-        answer.put("ID", newID);
+        ans = lobbiesHandler.createLobby((int) (long) obj.get("size"),null, this );
+        answer.put("data", ans);
         sendAnswer(answer);
     }
 
     private void joinLobbyRequest(JSONObject obj, JSONObject answer){  // 3
         answer.put("type", 3);
-        if (!inUser) {
-            answer.put("answer", "-2");  // bisogna prima creare lo user
-            sendAnswer(answer);
-            return;
+        int ID;
+        if (obj.get("tobeJoinedLobbyID") instanceof Long) {
+            ID = (int) obj.get("tobeJoinedLobbyID");
+            try {
+                answer.put("answer",lobbiesHandler.joinLobby(ID,null,this));
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         }
-        User toBeAddedUser = lobbiesHandler.searchUser(userName);
-        if(toBeAddedUser.isInLobby()){
-            answer.put("answer","0");  // user è gia in una lobby
-            sendAnswer(answer);
-            return;
-        }
-
-        Lobby myLobby = null;
-        if (obj.get("tobeJoinedLobbyID") instanceof Long)
-            myLobby = lobbiesHandler.searchLobby((int)(long) obj.get("tobeJoinedLobbyID"));
         else {
-            answer.put("answer","-4");  // invalid input
+            answer.put("answer", 4);  // invalid input
             sendAnswer(answer);
             return;
         }
+        answer.put("ID",ID);
 
-        if(myLobby == null){
-            answer.put("answer","-1");  // lobby doesn't exist
-            sendAnswer(answer);
-            return;
-        }
-        System.out.println("size: " + myLobby.getUsers().size());
-
-        if(myLobby.isFull()){
-            answer.put("answer","-3");
-            answer.put("ID",myLobby.getID());
-            sendAnswer(answer);
-            return;
-        }
-
-        lobbiesHandler.joinLobby(userName,myLobby.getID());
-        answer.put("answer",1);
-        answer.put("ID",myLobby.getID());
         sendAnswer(answer);
 
     }

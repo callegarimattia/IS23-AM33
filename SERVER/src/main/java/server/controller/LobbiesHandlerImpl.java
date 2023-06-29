@@ -111,11 +111,12 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
                 for (User user : lobby.getUsers())
                     if (user.equals(toBeRem)){
                         lobby.removeUser(user);
-                        if(lobby.getUsers().size() == 0)
+                        if(lobby.getUsers().size() == 0){
                             waitingLobbies.remove(lobby);
-                        LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
-                        OnLobbyUpdate(evt);
-                        break;
+                            LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
+                            OnLobbyUpdate(evt);
+                            break;
+                        }
                     }
         }
     }
@@ -141,7 +142,7 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
 
     @Override
     public List<Integer> lobbyListRequest(VirtualViewRMI virtualView, Object parser) {
-        List<Integer> answer = new ArrayList<>(1);
+        List<Integer> answer = new ArrayList<>();
         answer.add(0, 1);   // k
         for(Lobby lobby : waitingLobbies){
             answer.add(lobby.getID());
@@ -157,31 +158,49 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
         return answer;
     }
 
+    private User associatedUser(VirtualViewRMI virtualView, Object parser){
+        for (User user : users)
+            if(parser!=null && user.getMyParser()!=null && user.getMyParser().equals(parser) ||
+                    virtualView!=null && user.getMyClient()!=null &&user.getMyClient().equals(virtualView))
+                return user;
+        return null;
+    }
 
     /**
      * Given a user and a gameSize it creates a lobby with given gameSize.
      * If user isn't in the user pool, the game size is invalid or user is alrteady in a lobby or game,
      * it throws an exception
      *
-     * @param username
      * @param gameSize
      */
     @Override
-    public synchronized int createLobby(String username, int gameSize) {
-        User firstUser = searchUser(username);
-        if (firstUser == null) return -1;
+    public synchronized List<Integer> createLobby(int gameSize, VirtualViewRMI virtualView, Object parser) {
+        List<Integer> ans = new ArrayList<>(2);
+        User firstUser = null;
+        firstUser = associatedUser(virtualView, parser);
 
-        if (firstUser.isInLobby() ||
-                firstUser.isInGame()) return -2;
+        if (firstUser == null){
+            ans.add(0,-1) ; // bisogna prima creare user
+            return ans;
+        }
 
-        if (gameSize > 4 || gameSize < 2) return -3;
+        if (firstUser.isInLobby() || firstUser.isInGame()){
+            ans.add(0,-2);   // gia in lobby/game
+            return ans;
+        }
+
+        if (gameSize > 4 || gameSize < 2){
+            ans.add(0,-3);   // invalid game size
+            return ans;
+        }
 
         Lobby newLobby = new Lobby(gameSize);
         waitingLobbies.add(newLobby);
         System.out.println("CREATED NEW LOBBY ID(" + newLobby.getID() + ") WITH GAME SIZE " + gameSize);
-        joinLobby(username, newLobby.getID());
-
-        return newLobby.getID();
+        joinLobby(newLobby.getID(),firstUser.getMyClient(),firstUser.getMyParser());
+        ans.add(0, 1);
+        ans.add(1, newLobby.getID());
+        return ans;
     }
 
 
@@ -219,35 +238,32 @@ public class LobbiesHandlerImpl extends UnicastRemoteObject implements LobbiesHa
      * Let a valid user, which is not in a lobby or game, join a not full lobby which hasn't started its game yet.
      * If one of the conditions isn't met it throws an exception.
      *
-     * @param username
-     * @param lobbyID
+
      * @throws LobbiesHandlerException
      */
     @Override
-    public synchronized boolean joinLobby(String username, int lobbyID) {
+    public synchronized int joinLobby(int ID, VirtualViewRMI virtualView, Object obj) {
         User joiningUser = null;
-        for (User user : users) {
-            if (user.getUserName().equals(username)) joiningUser = user;
-        }
-        if (joiningUser == null) return false;
+        joiningUser = associatedUser(virtualView, obj);
 
-        if (joiningUser.isInLobby()
-                || joiningUser.isInGame()) return false;
+        if (joiningUser == null) return -2;  // bisogna prima creare lo user
+
+        if (joiningUser.isInLobby() || joiningUser.isInGame()) return 0;  // user è gia in una lobby
 
         for (Lobby lobby : waitingLobbies)
-            if (lobby.getID() == lobbyID) {
-                if (lobby.isFull()) return false;
+            if (lobby.getID() == ID) {
+                if (lobby.isFull()) return -3;  // full
                 else {
                     lobby.add(joiningUser);
                     LobbiesUpdateEvent evt = new LobbiesUpdateEvent(this, waitingLobbies);
                     OnLobbyUpdate(evt);
-                    System.out.println("LOBBY ID(" + lobbyID + ") JOINED BY ('" + username + "')");
+                    System.out.println("LOBBY ID(" + ID + ") JOINED BY ('" + joiningUser.getUserName() + "')");
                     if(lobby.isFull()) // controllo se deve partire il game
                         startGame(lobby.getID());
-                    return true;
+                    return 1;
                 }
             }
-        return false;
+        return -1; // lobby doesn't exist
     }
 
     private void OnLobbyUpdate(LobbiesUpdateEvent evt) {

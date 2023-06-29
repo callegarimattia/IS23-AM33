@@ -89,13 +89,37 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
 
     @Override
     public void lobbyListRequest() {  // 1
-        List<Integer> answer;
         try {
-            answer =  server.lobbyListRequest(this, null);
+            List<Integer> answer =  server.lobbyListRequest(this, null);
             List<Long> longs = answer.stream()
                     .mapToLong(Integer::longValue)
                     .boxed().collect(Collectors.toList());
             data.ansLobbyListRequest(longs);
+        } catch (RemoteException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
+    public void createLobby(int gameSize) {  // 2
+        try {
+            List<Integer> ans = server.createLobby(gameSize,this,null);
+            List<Long> longs = ans.stream()
+                    .mapToLong(Integer::longValue)
+                    .boxed().collect(Collectors.toList());
+            data.ansNewLobbyCreation(longs);
+        } catch (RemoteException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
+    public void joinLobby(int ID) {   // 3
+        try {
+            boolean ans = server.joinLobby(ID,this,null);
+
+
+           // data. Ddddwdawd ;
         } catch (RemoteException e) {
             System.out.println(e.getMessage());
         }
@@ -111,23 +135,7 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
 
 
 
-    @Override
-    public void joinLobby(int ID) {  // DA RIFARE
-        try {
-            System.out.println("Client: provide a lobbyID to be joined");
-            int lobbyID = scanner.nextInt();
-            while (server.joinLobby(this.username, lobbyID)) {
-                System.out.println("ServerRMI: the selected lobby can't be joined!");
-                System.out.println("Client: provide a different lobbyID or -1 to exit");
-                lobbyID = scanner.nextInt();
-                if (lobbyID == -1) return;
-            }
-            this.lobbyID = lobbyID;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-    }
+
 
     @Override
     public void leaveLobby() {
@@ -140,30 +148,7 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
         }
     }
 
-    @Override
-    public void createLobby(int gameSize) {
-     /*   int tmp;
-        try {
-            System.out.println("Client: insert a gameSize (2,3,4 are accepted):");
-            int gameSize = scanner.nextInt();
-            while ((tmp = server.createLobby(this.username, gameSize)) < 0) {
-                if (tmp == -2) {
-                    System.out.println("ServerRMI: can't create a lobby while in game.");
-                    return;
-                }
-                if (tmp == -1) {
-                    System.out.println("ServerRMI: Username unknown -> ERROR");
-                    System.exit(-1);
-                }
-                System.out.println("ServerRMI: game size invalid (only 2,3,4 are accepted)");
-                System.out.println("Client: please provide a new game size");
-                gameSize = scanner.nextInt();
-            }
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        } */
-    }
+
 
     @Override
     public void sendChatMessage(String userName, String message, int visibility) {

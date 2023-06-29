@@ -203,8 +203,8 @@ public class ClientDataStructure {
         }
     }
 
-    public void ansNewLobbyCreation(JSONObject obj) {   // 2
-        switch (obj.get("answer").toString()) {
+    public void ansNewLobbyCreation(List<Long> ans) {   // 2
+        switch (ans.get(0).toString()) {
             case "0":
                 System.out.println("cant create lobby when in a game or in a lobby, press 2 again");
                 break;
@@ -218,7 +218,7 @@ public class ClientDataStructure {
                 System.out.println("invalid input, press 2 again");
                 break;
             case "1":
-                myLobbyID = (int) (long) obj.get("ID");
+                myLobbyID = (int) (long) ans.get(1);
                 System.out.println("new lobby created (and joined), ID: " + myLobbyID);
                 break;
         }
@@ -226,23 +226,23 @@ public class ClientDataStructure {
 
 
     public void ansJoinLobbyRequest(JSONObject obj) {  // 3
-        switch (obj.get("answer").toString()) {
-            case "0":
+        switch ((int) obj.get("answer")) {
+            case 0:
                 System.out.println("invalid command, user is already in a lobby");
                 break;
-            case "-1":
+            case -1:
                 System.out.println("lobby doesn't exist, press 3 again: ");
                 break;
-            case "-2":
+            case -2:
                 System.out.println("cant join lobby without creating an user first");
                 break;
-            case "-3":
+            case -3:
                 System.out.println("lobby is full / already started, try again");
                 break;
-            case "-4":
+            case -4:
                 System.out.println("invalid input, press 3 again");
                 break;
-            case "1":
+            case 1:
                 myLobbyID = (int) (long) obj.get("ID");
                 System.out.println("lobby successfully joined");
                 break;
