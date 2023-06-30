@@ -4,7 +4,6 @@ import common.Tile;
 import org.json.simple.JSONObject;
 import server.controller.GameEnder;
 import server.exceptions.GameEndedException;
-import server.exceptions.LastRoundException;
 import server.exceptions.NotPickableException;
 import server.listenerStuff.GameUpdateEvent;
 import server.model.commonGoals.CommonGoal;
@@ -55,7 +54,7 @@ public class Game {
 
 
     private boolean pickNextPlayer() {
-        if (!lastRound || indexCurrentPlayer != players.size()) {
+        if (!lastRound || indexCurrentPlayer != 0) {
             indexCurrentPlayer = (indexCurrentPlayer + 1) % players.size();
             return true;
         }
@@ -147,15 +146,17 @@ public class Game {
             System.out.print("[" + coordinates.get(i).getRow() + "][" + coordinates.get(i).getCol() + "]: " + pickedTiles.get(i) + "   ");
 
 
-        try {
-            if (!players.get(indexCurrentPlayer).getMyShelf().insertTiles(column, pickedTiles))
+        switch (players.get(indexCurrentPlayer).getMyShelf().insertTiles(column, pickedTiles)){
+            case 0 :
                 return -6;  //  not insertable in player's shelf
-        } catch (LastRoundException e) {  // last lap begins
-            if(!lastRound){
+            case 1:
+                break;
+            case 2:
+                System.out.println("siamo nell ultimo round");
                 lastRound = true;
-                gameEndTrigger = players.get(indexCurrentPlayer).getUserName();
-            }
+                break;
         }
+
 
         System.out.println(" and inserted in column n°" + column);
 

@@ -1,11 +1,8 @@
 package server.controller;
 
-import common.MainBoardCoordinates;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import server.exceptions.InputException;
-import server.exceptions.LastRoundException;
 import server.model.User;
 
 import java.io.IOException;
