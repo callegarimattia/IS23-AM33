@@ -1,0 +1,948 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/mattiacallegari/GitHub/IS23-AM33/SERVER</OriginalElement>
+  <nodes>
+    <node x="1030.0" y="852.0">server.model.commonGoals.CommonGoal10</node>
+    <node x="1961.5" y="863.0">server.model.commonGoals.CommonGoalDrawer</node>
+    <node x="4241.098502304148" y="1099.0">server.model.User</node>
+    <node x="2115.8485023041476" y="2322.0">server.controller.LobbiesHandlerTest</node>
+    <node x="1364.4585253456219" y="1165.0">server.model.commonGoals.CommonGoal12Test</node>
+    <node x="3195.0" y="852.0">server.model.commonGoals.CommonGoal4</node>
+    <node x="164.84850230414713" y="1198.0">server.model.commonGoals.CommonGoal8Test</node>
+    <node x="6741.348502304147" y="-7.0">server.model.TilesBag</node>
+    <node x="2933.5" y="863.0">server.controller.TCPaccepter</node>
+    <node x="5505.25" y="852.0">common.GameServerRMI</node>
+    <node x="3479.0" y="852.0">server.model.commonGoals.CommonGoal9</node>
+    <node x="6549.098502304147" y="314.0">server.model.Board</node>
+    <node x="1036.8485023041474" y="1198.0">server.model.commonGoals.CommonGoal10Test</node>
+    <node x="3747.8485023041476" y="1165.0">server.model.commonGoals.CommonGoal2Test</node>
+    <node x="4527.0" y="358.0">server.controller.GameHandler</node>
+    <node x="448.84850230414713" y="1198.0">server.model.commonGoals.CommonGoal5Test</node>
+    <node x="998.0" y="2560.0">server.exceptions.LastRoundException</node>
+    <node x="1921.5985023041476" y="1725.0">server.controller.LobbiesHandlerImpl</node>
+    <node x="1689.5" y="852.0">server.model.commonGoals.CommonGoal11</node>
+    <node x="3485.8485023041476" y="1198.0">server.model.commonGoals.CommonGoal9Test</node>
+    <node x="2217.5" y="402.0">server.controller.GameEnder</node>
+    <node x="432.0" y="2560.0">server.AppServer</node>
+    <node x="673.0" y="2560.0">server.exceptions.LobbiesHandlerException</node>
+    <node x="6297.098502304147" y="402.0">server.model.personalGoals.PersonalGoalDrawer</node>
+    <node x="1548.0" y="2560.0">server.exceptions.InputException</node>
+    <node x="710.8485023041474" y="1198.0">server.model.commonGoals.CommonGoal3Test</node>
+    <node x="1921.5985023041476" y="1467.0">common.ServerRMI</node>
+    <node x="5097.25" y="819.0">server.listenerStuff.GameUpdateEvent</node>
+    <node x="3217.8485023041476" y="1198.0">server.model.commonGoals.CommonGoal4Test</node>
+    <node x="1689.5" y="237.0">server.controller.LobbiesHandler</node>
+    <node x="1273.0" y="2560.0">server.exceptions.GameEndedException</node>
+    <node x="1812.3485023041476" y="1198.0">server.model.commonGoals.CommonGoal11Test</node>
+    <node x="3773.0" y="852.0">server.model.commonGoals.CommonGoal2</node>
+    <node x="158.0" y="852.0">server.model.commonGoals.CommonGoal8</node>
+    <node x="736.0" y="852.0">server.model.commonGoals.CommonGoal3</node>
+    <node x="2212.3485023041476" y="1198.0">server.model.commonGoals.CommonGoal7Test</node>
+    <node x="6255.098502304147" y="-7.0">server.model.personalGoals.PersonalGoal</node>
+    <node x="2761.5" y="852.0">server.controller.RMIchecker</node>
+    <node x="2205.5" y="852.0">server.model.commonGoals.CommonGoal7</node>
+    <node x="2665.3485023041476" y="1176.0">server.model.commonGoals.CommonGoal1Test</node>
+    <node x="5248.139976958526" y="-51.0">server.model.Shelf</node>
+    <node x="4951.458525345623" y="314.0">server.model.ShelfTest</node>
+    <node x="4844.598502304147" y="1967.0">server.listenerStuff.LobbiesUpdateEvent</node>
+    <node x="5049.098502304147" y="1132.0">server.controller.GameHandlerImpl</node>
+    <node x="5417.598502304147" y="303.0">server.model.Player</node>
+    <node x="-195.5" y="852.0">server.model.commonGoals.CommonGoal6</node>
+    <node x="6682.139976958526" y="852.0">server.model.BoardTest</node>
+    <node x="135.0" y="2560.0">server.exceptions.NotPickableException</node>
+    <node x="2135.5" y="-273.0">common.Tile</node>
+    <node x="5873.25" y="753.0">server.model.Game</node>
+    <node x="4836.598502304147" y="1456.0">server.model.Lobby</node>
+    <node x="442.0" y="852.0">server.model.commonGoals.CommonGoal5</node>
+    <node x="1392.5" y="852.0">server.model.commonGoals.CommonGoal12</node>
+    <node x="2769.8899769585255" y="391.0">server.model.commonGoals.CommonGoal</node>
+    <node x="-188.65149769585287" y="1198.0">server.model.commonGoals.CommonGoal6Test</node>
+    <node x="4784.848502304147" y="-62.0">common.VirtualViewRMI</node>
+    <node x="5769.598502304147" y="380.0">common.MainBoardCoordinates</node>
+    <node x="2489.5" y="852.0">server.model.commonGoals.CommonGoal1</node>
+    <node x="-258.0" y="2560.0">server.listenerStuff.ModelUpdateListener</node>
+    <node x="7053.098502304147" y="336.0">server.model.PersonalGoalTest</node>
+    <node x="4046.0" y="742.0">server.controller.TCPclientParser</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="server.model.commonGoals.CommonGoal5Test" target="server.model.commonGoals.CommonGoal5" relationship="CREATE">
+      <point x="-59.0" y="-52.5" />
+      <point x="507.84850230414713" y="1077.0" />
+      <point x="525.0985023041474" y="1077.0" />
+      <point x="525.0985023041474" y="1067.0" />
+      <point x="505.0" y="1067.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal7Test" target="common.Tile" relationship="CREATE">
+      <point x="-59.0" y="-52.5" />
+      <point x="2271.3485023041476" y="1077.0" />
+      <point x="2288.5985023041476" y="1077.0" />
+      <point x="2288.5985023041476" y="1067.0" />
+      <point x="2195.0" y="1067.0" />
+      <point x="2195.0" y="-83.0" />
+      <point x="1524.0" y="-83.0" />
+      <point x="1524.0" y="-103.0" />
+      <point x="2186.5" y="-103.0" />
+      <point x="-51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal8Test" target="server.model.commonGoals.CommonGoal8" relationship="TO_ONE">
+      <point x="59.0" y="-52.5" />
+      <point x="341.84850230414713" y="1077.0" />
+      <point x="324.59850230414713" y="1077.0" />
+      <point x="324.59850230414713" y="1067.0" />
+      <point x="347.0" y="1067.0" />
+      <point x="63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal6Test" target="server.model.commonGoals.CommonGoal6" relationship="TO_ONE">
+      <point x="59.0" y="-52.5" />
+      <point x="-11.651497695852868" y="1077.0" />
+      <point x="-28.901497695852868" y="1077.0" />
+      <point x="-28.901497695852868" y="1067.0" />
+      <point x="-6.5" y="1067.0" />
+      <point x="63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.ShelfTest" target="server.model.Shelf" relationship="TO_ONE">
+      <point x="-65.0" y="-118.5" />
+      <point x="5016.458525345623" y="215.0" />
+      <point x="5027.011520737327" y="215.0" />
+      <point x="5027.011520737327" y="205.0" />
+      <point x="5527.139976958526" y="205.0" />
+      <point x="93.0" y="96.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal12Test" target="server.model.commonGoals.CommonGoal12" relationship="TO_ONE">
+      <point x="77.0" y="-85.5" />
+      <point x="1595.4585253456219" y="1077.0" />
+      <point x="1559.0985023041474" y="1077.0" />
+      <point x="1559.0985023041474" y="1067.0" />
+      <point x="1581.5" y="1067.0" />
+      <point x="63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal5Test" target="common.Tile" relationship="TO_MANY">
+      <point x="59.0" y="-52.5" />
+      <point x="625.8485023041471" y="1077.0" />
+      <point x="608.5985023041474" y="1077.0" />
+      <point x="608.5985023041474" y="1067.0" />
+      <point x="704.5" y="1067.0" />
+      <point x="704.5" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.controller.LobbiesHandlerImpl" target="server.controller.LobbiesHandler" relationship="REALIZATION">
+      <point x="-121.0" y="-272.5" />
+      <point x="2042.5985023041476" y="1703.0" />
+      <point x="1331.5985023041474" y="1703.0" />
+      <point x="1331.5985023041474" y="1693.0" />
+      <point x="107.25" y="1693.0" />
+      <point x="107.25" y="680.0" />
+      <point x="1810.5" y="680.0" />
+      <point x="-121.0" y="195.5" />
+    </edge>
+    <edge source="server.model.Lobby" target="server.model.User" relationship="TO_MANY">
+      <point x="0.0" y="-107.5" />
+      <point x="4986.598502304147" y="1424.0" />
+      <point x="4395.098502304148" y="1424.0" />
+      <point x="0.0" y="151.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal3Test" target="common.Tile" relationship="TO_MANY">
+      <point x="75.0" y="-52.5" />
+      <point x="935.8485023041474" y="1077.0" />
+      <point x="902.5985023041474" y="1077.0" />
+      <point x="902.5985023041474" y="1067.0" />
+      <point x="998.5" y="1067.0" />
+      <point x="998.5" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal7Test" target="server.model.commonGoals.CommonGoal7" relationship="CREATE">
+      <point x="-59.0" y="-52.5" />
+      <point x="2271.3485023041476" y="1077.0" />
+      <point x="2288.5985023041476" y="1077.0" />
+      <point x="2288.5985023041476" y="1067.0" />
+      <point x="2268.5" y="1067.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal1Test" target="server.model.commonGoals.CommonGoal1" relationship="TO_ONE">
+      <point x="63.0" y="-74.5" />
+      <point x="2854.3485023041476" y="1077.0" />
+      <point x="2833.0985023041476" y="1077.0" />
+      <point x="2833.0985023041476" y="1067.0" />
+      <point x="2678.5" y="1067.0" />
+      <point x="63.0" y="41.5" />
+    </edge>
+    <edge source="server.controller.TCPclientParser" target="server.controller.LobbiesHandler" relationship="TO_ONE">
+      <point x="0.0" y="-151.5" />
+      <point x="4276.0" y="690.0" />
+      <point x="2940.8899769585255" y="690.0" />
+      <point x="2940.8899769585255" y="670.0" />
+      <point x="2052.5" y="670.0" />
+      <point x="121.0" y="195.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal9Test" target="common.Tile" relationship="CREATE">
+      <point x="-59.0" y="-52.5" />
+      <point x="3544.8485023041476" y="1077.0" />
+      <point x="3562.0985023041476" y="1077.0" />
+      <point x="3562.0985023041476" y="1067.0" />
+      <point x="3468.5" y="1067.0" />
+      <point x="3468.5" y="-83.0" />
+      <point x="1524.0" y="-83.0" />
+      <point x="1524.0" y="-103.0" />
+      <point x="2186.5" y="-103.0" />
+      <point x="-51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal11Test" target="common.Tile" relationship="TO_MANY">
+      <point x="59.0" y="-52.5" />
+      <point x="1989.3485023041476" y="1077.0" />
+      <point x="1972.0985023041476" y="1077.0" />
+      <point x="1972.0985023041476" y="1067.0" />
+      <point x="2184.0" y="1067.0" />
+      <point x="2184.0" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.User" target="server.controller.TCPclientParser" relationship="TO_ONE">
+      <point x="0.0" y="-151.5" />
+      <point x="4395.098502304148" y="1077.0" />
+      <point x="4276.0" y="1077.0" />
+      <point x="0.0" y="151.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal1Test" target="common.Tile" relationship="TO_MANY">
+      <point x="63.0" y="-74.5" />
+      <point x="2854.3485023041476" y="1077.0" />
+      <point x="2833.0985023041476" y="1077.0" />
+      <point x="2833.0985023041476" y="1067.0" />
+      <point x="3106.0" y="1067.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.Player" target="server.model.Shelf" relationship="TO_ONE">
+      <point x="0.0" y="-129.5" />
+      <point x="5583.598502304147" y="175.0" />
+      <point x="5527.139976958526" y="175.0" />
+      <point x="93.0" y="96.5" />
+    </edge>
+    <edge source="server.listenerStuff.GameUpdateEvent" target="common.MainBoardCoordinates" relationship="TO_MANY">
+      <point x="0.0" y="-74.5" />
+      <point x="5291.25" y="720.0" />
+      <point x="5832.598502304147" y="720.0" />
+      <point x="-63.0" y="52.5" />
+    </edge>
+    <edge source="server.controller.GameHandlerImpl" target="server.model.Game" relationship="TO_ONE">
+      <point x="129.0" y="-118.5" />
+      <point x="5436.098502304147" y="1077.0" />
+      <point x="6127.25" y="1077.0" />
+      <point x="0.0" y="140.5" />
+    </edge>
+    <edge source="server.controller.LobbiesHandlerImpl" target="server.model.Lobby" relationship="TO_MANY">
+      <point x="121.0" y="-272.5" />
+      <point x="2284.5985023041476" y="1703.0" />
+      <point x="2416.0985023041476" y="1703.0" />
+      <point x="2416.0985023041476" y="1693.0" />
+      <point x="4986.598502304147" y="1693.0" />
+      <point x="0.0" y="107.5" />
+    </edge>
+    <edge source="server.model.PersonalGoalTest" target="server.model.personalGoals.PersonalGoal" relationship="TO_MANY">
+      <point x="0.0" y="-96.5" />
+      <point x="7175.098502304147" y="205.0" />
+      <point x="6413.098502304147" y="205.0" />
+      <point x="0.0" y="52.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal9Test" target="server.model.commonGoals.CommonGoal9" relationship="CREATE">
+      <point x="-59.0" y="-52.5" />
+      <point x="3544.8485023041476" y="1077.0" />
+      <point x="3562.0985023041476" y="1077.0" />
+      <point x="3562.0985023041476" y="1067.0" />
+      <point x="3542.0" y="1067.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal3Test" target="common.Tile" relationship="CREATE">
+      <point x="-75.0" y="-52.5" />
+      <point x="785.8485023041474" y="1077.0" />
+      <point x="819.0985023041474" y="1077.0" />
+      <point x="819.0985023041474" y="1067.0" />
+      <point x="725.5" y="1067.0" />
+      <point x="725.5" y="-83.0" />
+      <point x="1524.0" y="-83.0" />
+      <point x="1524.0" y="-103.0" />
+      <point x="2186.5" y="-103.0" />
+      <point x="-51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal3Test" target="server.model.commonGoals.CommonGoal3" relationship="TO_ONE">
+      <point x="75.0" y="-52.5" />
+      <point x="935.8485023041474" y="1077.0" />
+      <point x="902.5985023041474" y="1077.0" />
+      <point x="902.5985023041474" y="1067.0" />
+      <point x="925.0" y="1067.0" />
+      <point x="63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal2Test" target="server.model.commonGoals.CommonGoal2" relationship="CREATE">
+      <point x="-75.0" y="-85.5" />
+      <point x="3822.8485023041476" y="1077.0" />
+      <point x="3856.0985023041476" y="1077.0" />
+      <point x="3856.0985023041476" y="1067.0" />
+      <point x="3836.0" y="1067.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal5Test" target="server.model.commonGoals.CommonGoal5" relationship="TO_ONE">
+      <point x="59.0" y="-52.5" />
+      <point x="625.8485023041471" y="1077.0" />
+      <point x="608.5985023041474" y="1077.0" />
+      <point x="608.5985023041474" y="1067.0" />
+      <point x="631.0" y="1067.0" />
+      <point x="63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal11Test" target="server.model.commonGoals.CommonGoal11" relationship="CREATE">
+      <point x="-59.0" y="-52.5" />
+      <point x="1871.3485023041476" y="1077.0" />
+      <point x="1772.5985023041474" y="1077.0" />
+      <point x="1772.5985023041474" y="1067.0" />
+      <point x="1752.5" y="1067.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal5Test" target="common.Tile" relationship="CREATE">
+      <point x="-59.0" y="-52.5" />
+      <point x="507.84850230414713" y="1077.0" />
+      <point x="525.0985023041474" y="1077.0" />
+      <point x="525.0985023041474" y="1067.0" />
+      <point x="431.5" y="1067.0" />
+      <point x="431.5" y="-83.0" />
+      <point x="1524.0" y="-83.0" />
+      <point x="1524.0" y="-103.0" />
+      <point x="2186.5" y="-103.0" />
+      <point x="-51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.Game" target="server.model.Player" relationship="TO_MANY">
+      <point x="0.0" y="-140.5" />
+      <point x="6127.25" y="660.0" />
+      <point x="5583.598502304147" y="660.0" />
+      <point x="0.0" y="129.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal10Test" target="common.Tile" relationship="CREATE">
+      <point x="-59.0" y="-52.5" />
+      <point x="1095.8485023041474" y="1077.0" />
+      <point x="1113.0985023041474" y="1077.0" />
+      <point x="1113.0985023041474" y="1067.0" />
+      <point x="1019.5" y="1067.0" />
+      <point x="1019.5" y="-83.0" />
+      <point x="1524.0" y="-83.0" />
+      <point x="1524.0" y="-103.0" />
+      <point x="2186.5" y="-103.0" />
+      <point x="-51.0" y="74.5" />
+    </edge>
+    <edge source="server.controller.LobbiesHandlerTest" target="server.controller.LobbiesHandlerImpl" relationship="CREATE">
+      <point x="-87.0" y="-96.5" />
+      <point x="2202.8485023041476" y="2296.0" />
+      <point x="2163.5985023041476" y="2296.0" />
+      <point x="0.0" y="272.5" />
+    </edge>
+    <edge source="server.model.personalGoals.PersonalGoal" target="common.Tile" relationship="TO_MANY">
+      <point x="0.0" y="-52.5" />
+      <point x="6413.098502304147" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.controller.GameHandlerImpl" target="server.controller.GameHandler" relationship="REALIZATION">
+      <point x="-129.0" y="-118.5" />
+      <point x="5178.098502304147" y="1077.0" />
+      <point x="5083.098502304147" y="1077.0" />
+      <point x="5083.098502304147" y="1067.0" />
+      <point x="4788.0" y="1067.0" />
+      <point x="87.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal8Test" target="common.Tile" relationship="TO_MANY">
+      <point x="59.0" y="-52.5" />
+      <point x="341.84850230414713" y="1077.0" />
+      <point x="324.59850230414713" y="1077.0" />
+      <point x="324.59850230414713" y="1067.0" />
+      <point x="420.5" y="1067.0" />
+      <point x="420.5" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.PersonalGoalTest" target="common.Tile" relationship="TO_MANY">
+      <point x="0.0" y="-96.5" />
+      <point x="7175.098502304147" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.controller.RMIchecker" target="server.controller.LobbiesHandler" relationship="TO_ONE">
+      <point x="0.0" y="-41.5" />
+      <point x="2837.5" y="720.0" />
+      <point x="2940.8899769585255" y="720.0" />
+      <point x="2940.8899769585255" y="670.0" />
+      <point x="2052.5" y="670.0" />
+      <point x="121.0" y="195.5" />
+    </edge>
+    <edge source="server.controller.TCPaccepter" target="server.controller.LobbiesHandler" relationship="TO_ONE">
+      <point x="0.0" y="-30.5" />
+      <point x="3014.5" y="720.0" />
+      <point x="2940.8899769585255" y="720.0" />
+      <point x="2940.8899769585255" y="670.0" />
+      <point x="2052.5" y="670.0" />
+      <point x="121.0" y="195.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal10Test" target="server.model.commonGoals.CommonGoal10" relationship="TO_ONE">
+      <point x="59.0" y="-52.5" />
+      <point x="1213.8485023041474" y="1077.0" />
+      <point x="1196.5985023041474" y="1077.0" />
+      <point x="1196.5985023041474" y="1067.0" />
+      <point x="1219.0" y="1067.0" />
+      <point x="63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.ShelfTest" target="server.model.Shelf" relationship="CREATE">
+      <point x="65.0" y="-118.5" />
+      <point x="5146.458525345623" y="195.0" />
+      <point x="5341.139976958526" y="195.0" />
+      <point x="-93.0" y="96.5" />
+    </edge>
+    <edge source="server.model.Lobby" target="server.controller.GameHandlerImpl" relationship="TO_ONE">
+      <point x="0.0" y="-107.5" />
+      <point x="4986.598502304147" y="1434.0" />
+      <point x="5307.098502304147" y="1434.0" />
+      <point x="0.0" y="118.5" />
+    </edge>
+    <edge source="server.controller.LobbiesHandlerImpl" target="common.ServerRMI" relationship="REALIZATION">
+      <point x="-121.0" y="-272.5" />
+      <point x="2042.5985023041476" y="1703.0" />
+      <point x="1331.5985023041474" y="1703.0" />
+      <point x="1331.5985023041474" y="1693.0" />
+      <point x="2163.5985023041476" y="1693.0" />
+      <point x="0.0" y="96.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal12Test" target="common.Tile" relationship="CREATE">
+      <point x="-77.0" y="-85.5" />
+      <point x="1441.4585253456219" y="1077.0" />
+      <point x="1475.5985023041474" y="1077.0" />
+      <point x="1475.5985023041474" y="1067.0" />
+      <point x="1382.0" y="1067.0" />
+      <point x="1382.0" y="-83.0" />
+      <point x="1524.0" y="-83.0" />
+      <point x="1524.0" y="-103.0" />
+      <point x="2186.5" y="-103.0" />
+      <point x="-51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.Player" target="server.model.personalGoals.PersonalGoal" relationship="TO_ONE">
+      <point x="0.0" y="-129.5" />
+      <point x="5583.598502304147" y="215.0" />
+      <point x="6413.098502304147" y="215.0" />
+      <point x="0.0" y="52.5" />
+    </edge>
+    <edge source="server.controller.GameHandlerImpl" target="common.GameServerRMI" relationship="REALIZATION">
+      <point x="-129.0" y="-118.5" />
+      <point x="5178.098502304147" y="1077.0" />
+      <point x="5083.098502304147" y="1077.0" />
+      <point x="5083.098502304147" y="1067.0" />
+      <point x="5679.25" y="1067.0" />
+      <point x="0.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal11Test" target="server.model.commonGoals.CommonGoal11" relationship="TO_ONE">
+      <point x="59.0" y="-52.5" />
+      <point x="1989.3485023041476" y="1077.0" />
+      <point x="1972.0985023041476" y="1077.0" />
+      <point x="1972.0985023041476" y="1067.0" />
+      <point x="1878.5" y="1067.0" />
+      <point x="63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.Game" target="server.controller.GameEnder" relationship="TO_ONE">
+      <point x="0.0" y="-140.5" />
+      <point x="6127.25" y="660.0" />
+      <point x="2388.5" y="660.0" />
+      <point x="57.0" y="30.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal6" target="server.model.commonGoals.CommonGoal" relationship="GENERALIZATION">
+      <point x="0.0" y="-41.5" />
+      <point x="-69.5" y="710.0" />
+      <point x="1815.5" y="710.0" />
+      <point x="1815.5" y="680.0" />
+      <point x="2832.8899769585255" y="680.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal4Test" target="server.model.commonGoals.CommonGoal4" relationship="CREATE">
+      <point x="-51.0" y="-52.5" />
+      <point x="3268.8485023041476" y="1077.0" />
+      <point x="3278.0985023041476" y="1077.0" />
+      <point x="3278.0985023041476" y="1067.0" />
+      <point x="3258.0" y="1067.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal8Test" target="common.Tile" relationship="CREATE">
+      <point x="-59.0" y="-52.5" />
+      <point x="223.84850230414713" y="1077.0" />
+      <point x="241.09850230414713" y="1077.0" />
+      <point x="241.09850230414713" y="1067.0" />
+      <point x="147.5" y="1067.0" />
+      <point x="147.5" y="-83.0" />
+      <point x="1524.0" y="-83.0" />
+      <point x="1524.0" y="-103.0" />
+      <point x="2186.5" y="-103.0" />
+      <point x="-51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal7" target="server.model.commonGoals.CommonGoal" relationship="GENERALIZATION">
+      <point x="0.0" y="-41.5" />
+      <point x="2331.5" y="710.0" />
+      <point x="1815.5" y="710.0" />
+      <point x="1815.5" y="680.0" />
+      <point x="2832.8899769585255" y="680.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal6Test" target="common.Tile" relationship="TO_MANY">
+      <point x="59.0" y="-52.5" />
+      <point x="-11.651497695852868" y="1077.0" />
+      <point x="-28.901497695852868" y="1077.0" />
+      <point x="-28.901497695852868" y="1067.0" />
+      <point x="67.0" y="1067.0" />
+      <point x="67.0" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal4" target="server.model.commonGoals.CommonGoal" relationship="GENERALIZATION">
+      <point x="0.0" y="-41.5" />
+      <point x="3321.0" y="710.0" />
+      <point x="1815.5" y="710.0" />
+      <point x="1815.5" y="680.0" />
+      <point x="2832.8899769585255" y="680.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.BoardTest" target="server.model.Board" relationship="CREATE">
+      <point x="0.0" y="-41.5" />
+      <point x="6804.139976958526" y="650.0" />
+      <point x="6912.098502304147" y="650.0" />
+      <point x="121.0" y="118.5" />
+    </edge>
+    <edge source="server.model.Board" target="server.model.TilesBag" relationship="TO_ONE">
+      <point x="0.0" y="-118.5" />
+      <point x="6791.098502304147" y="195.0" />
+      <point x="6851.348502304147" y="195.0" />
+      <point x="0.0" y="52.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal5" target="server.model.commonGoals.CommonGoal" relationship="GENERALIZATION">
+      <point x="0.0" y="-41.5" />
+      <point x="568.0" y="710.0" />
+      <point x="1815.5" y="710.0" />
+      <point x="1815.5" y="680.0" />
+      <point x="2832.8899769585255" y="680.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal8" target="server.model.commonGoals.CommonGoal" relationship="GENERALIZATION">
+      <point x="0.0" y="-41.5" />
+      <point x="284.0" y="710.0" />
+      <point x="1815.5" y="710.0" />
+      <point x="1815.5" y="680.0" />
+      <point x="2832.8899769585255" y="680.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.Game" target="server.model.commonGoals.CommonGoal" relationship="TO_ONE">
+      <point x="0.0" y="-140.5" />
+      <point x="6127.25" y="680.0" />
+      <point x="2958.8899769585255" y="680.0" />
+      <point x="63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal9" target="server.model.commonGoals.CommonGoal" relationship="GENERALIZATION">
+      <point x="0.0" y="-41.5" />
+      <point x="3605.0" y="710.0" />
+      <point x="1815.5" y="710.0" />
+      <point x="1815.5" y="680.0" />
+      <point x="2832.8899769585255" y="680.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal6Test" target="server.model.commonGoals.CommonGoal6" relationship="CREATE">
+      <point x="-59.0" y="-52.5" />
+      <point x="-129.65149769585287" y="1077.0" />
+      <point x="-112.40149769585287" y="1077.0" />
+      <point x="-112.40149769585287" y="1067.0" />
+      <point x="-132.5" y="1067.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.controller.LobbiesHandlerImpl" target="server.model.User" relationship="TO_MANY">
+      <point x="121.0" y="-272.5" />
+      <point x="2284.5985023041476" y="1703.0" />
+      <point x="2416.0985023041476" y="1703.0" />
+      <point x="2416.0985023041476" y="1434.0" />
+      <point x="4395.098502304148" y="1434.0" />
+      <point x="0.0" y="151.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal4Test" target="common.Tile" relationship="TO_MANY">
+      <point x="51.0" y="-52.5" />
+      <point x="3370.8485023041476" y="1077.0" />
+      <point x="3361.5985023041476" y="1077.0" />
+      <point x="3361.5985023041476" y="1067.0" />
+      <point x="3457.5" y="1067.0" />
+      <point x="3457.5" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal2" target="server.model.commonGoals.CommonGoal" relationship="GENERALIZATION">
+      <point x="0.0" y="-41.5" />
+      <point x="3899.0" y="710.0" />
+      <point x="1815.5" y="710.0" />
+      <point x="1815.5" y="680.0" />
+      <point x="2832.8899769585255" y="680.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal3" target="server.model.commonGoals.CommonGoal" relationship="GENERALIZATION">
+      <point x="0.0" y="-41.5" />
+      <point x="862.0" y="710.0" />
+      <point x="1815.5" y="710.0" />
+      <point x="1815.5" y="680.0" />
+      <point x="2832.8899769585255" y="680.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal1" target="server.model.commonGoals.CommonGoal" relationship="GENERALIZATION">
+      <point x="0.0" y="-41.5" />
+      <point x="2615.5" y="710.0" />
+      <point x="1815.5" y="710.0" />
+      <point x="1815.5" y="680.0" />
+      <point x="2832.8899769585255" y="680.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal7Test" target="server.model.commonGoals.CommonGoal7" relationship="TO_ONE">
+      <point x="59.0" y="-52.5" />
+      <point x="2389.3485023041476" y="1077.0" />
+      <point x="2372.0985023041476" y="1077.0" />
+      <point x="2372.0985023041476" y="1067.0" />
+      <point x="2394.5" y="1067.0" />
+      <point x="63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal11" target="server.model.commonGoals.CommonGoal" relationship="GENERALIZATION">
+      <point x="0.0" y="-41.5" />
+      <point x="1815.5" y="680.0" />
+      <point x="2832.8899769585255" y="680.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal12" target="server.model.commonGoals.CommonGoal" relationship="GENERALIZATION">
+      <point x="0.0" y="-41.5" />
+      <point x="1518.5" y="710.0" />
+      <point x="1815.5" y="710.0" />
+      <point x="1815.5" y="680.0" />
+      <point x="2832.8899769585255" y="680.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal10" target="server.model.commonGoals.CommonGoal" relationship="GENERALIZATION">
+      <point x="0.0" y="-41.5" />
+      <point x="1156.0" y="710.0" />
+      <point x="1815.5" y="710.0" />
+      <point x="1815.5" y="680.0" />
+      <point x="2832.8899769585255" y="680.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal8Test" target="server.model.commonGoals.CommonGoal8" relationship="CREATE">
+      <point x="-59.0" y="-52.5" />
+      <point x="223.84850230414713" y="1077.0" />
+      <point x="241.09850230414713" y="1077.0" />
+      <point x="241.09850230414713" y="1067.0" />
+      <point x="221.0" y="1067.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.controller.LobbiesHandlerImpl" target="server.controller.GameEnder" relationship="REALIZATION">
+      <point x="-121.0" y="-272.5" />
+      <point x="2042.5985023041476" y="1703.0" />
+      <point x="1331.5985023041474" y="1703.0" />
+      <point x="1331.5985023041474" y="1693.0" />
+      <point x="1332.75" y="1693.0" />
+      <point x="1332.75" y="690.0" />
+      <point x="2274.5" y="690.0" />
+      <point x="-57.0" y="30.5" />
+    </edge>
+    <edge source="server.model.Board" target="server.model.Game" relationship="TO_ONE">
+      <point x="-121.0" y="118.5" />
+      <point x="6670.098502304147" y="660.0" />
+      <point x="6127.25" y="660.0" />
+      <point x="0.0" y="-140.5" />
+    </edge>
+    <edge source="server.model.Game" target="server.model.Board" relationship="TO_ONE">
+      <point x="0.0" y="-140.5" />
+      <point x="6127.25" y="660.0" />
+      <point x="6670.098502304147" y="660.0" />
+      <point x="-121.0" y="118.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal9Test" target="server.model.commonGoals.CommonGoal9" relationship="TO_ONE">
+      <point x="59.0" y="-52.5" />
+      <point x="3662.8485023041476" y="1077.0" />
+      <point x="3645.5985023041476" y="1077.0" />
+      <point x="3645.5985023041476" y="1067.0" />
+      <point x="3668.0" y="1067.0" />
+      <point x="63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal2Test" target="common.Tile" relationship="TO_MANY">
+      <point x="75.0" y="-85.5" />
+      <point x="3972.8485023041476" y="1077.0" />
+      <point x="3939.5985023041476" y="1077.0" />
+      <point x="3939.5985023041476" y="1067.0" />
+      <point x="4035.5" y="1067.0" />
+      <point x="4035.5" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.Shelf" target="common.Tile" relationship="TO_MANY">
+      <point x="0.0" y="-96.5" />
+      <point x="5434.139976958526" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal1Test" target="common.Tile" relationship="CREATE">
+      <point x="-63.0" y="-74.5" />
+      <point x="2728.3485023041476" y="1077.0" />
+      <point x="2572.5985023041476" y="1077.0" />
+      <point x="2572.5985023041476" y="1067.0" />
+      <point x="2479.0" y="1067.0" />
+      <point x="2479.0" y="-83.0" />
+      <point x="1524.0" y="-83.0" />
+      <point x="1524.0" y="-103.0" />
+      <point x="2186.5" y="-103.0" />
+      <point x="-51.0" y="74.5" />
+    </edge>
+    <edge source="server.listenerStuff.LobbiesUpdateEvent" target="server.model.Lobby" relationship="TO_MANY">
+      <point x="0.0" y="-30.5" />
+      <point x="0.0" y="107.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal2Test" target="server.model.commonGoals.CommonGoal2" relationship="TO_ONE">
+      <point x="75.0" y="-85.5" />
+      <point x="3972.8485023041476" y="1077.0" />
+      <point x="3939.5985023041476" y="1077.0" />
+      <point x="3939.5985023041476" y="1067.0" />
+      <point x="3962.0" y="1067.0" />
+      <point x="63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.Board" target="common.Tile" relationship="TO_MANY">
+      <point x="0.0" y="-118.5" />
+      <point x="6791.098502304147" y="195.0" />
+      <point x="6730.848502304147" y="195.0" />
+      <point x="6730.848502304147" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal2Test" target="common.Tile" relationship="CREATE">
+      <point x="-75.0" y="-85.5" />
+      <point x="3822.8485023041476" y="1077.0" />
+      <point x="3856.0985023041476" y="1077.0" />
+      <point x="3856.0985023041476" y="1067.0" />
+      <point x="3762.5" y="1067.0" />
+      <point x="3762.5" y="-83.0" />
+      <point x="1524.0" y="-83.0" />
+      <point x="1524.0" y="-103.0" />
+      <point x="2186.5" y="-103.0" />
+      <point x="-51.0" y="74.5" />
+    </edge>
+    <edge source="server.controller.LobbiesHandlerTest" target="server.controller.LobbiesHandler" relationship="TO_ONE">
+      <point x="87.0" y="-96.5" />
+      <point x="2376.8485023041476" y="2296.0" />
+      <point x="3148.25" y="2296.0" />
+      <point x="3148.25" y="720.0" />
+      <point x="2940.8899769585255" y="720.0" />
+      <point x="2940.8899769585255" y="670.0" />
+      <point x="2052.5" y="670.0" />
+      <point x="121.0" y="195.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal10Test" target="common.Tile" relationship="TO_MANY">
+      <point x="59.0" y="-52.5" />
+      <point x="1213.8485023041474" y="1077.0" />
+      <point x="1196.5985023041474" y="1077.0" />
+      <point x="1196.5985023041474" y="1067.0" />
+      <point x="1292.5" y="1067.0" />
+      <point x="1292.5" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.personalGoals.PersonalGoalDrawer" target="server.model.personalGoals.PersonalGoal" relationship="TO_MANY">
+      <point x="0.0" y="-30.5" />
+      <point x="0.0" y="52.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal12Test" target="server.model.commonGoals.CommonGoal12" relationship="CREATE">
+      <point x="-77.0" y="-85.5" />
+      <point x="1441.4585253456219" y="1077.0" />
+      <point x="1475.5985023041474" y="1077.0" />
+      <point x="1475.5985023041474" y="1067.0" />
+      <point x="1455.5" y="1067.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal12Test" target="common.Tile" relationship="TO_MANY">
+      <point x="77.0" y="-85.5" />
+      <point x="1595.4585253456219" y="1077.0" />
+      <point x="1559.0985023041474" y="1077.0" />
+      <point x="1559.0985023041474" y="1067.0" />
+      <point x="1655.0" y="1067.0" />
+      <point x="1655.0" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal1Test" target="server.model.commonGoals.CommonGoal1" relationship="CREATE">
+      <point x="-63.0" y="-74.5" />
+      <point x="2728.3485023041476" y="1077.0" />
+      <point x="2572.5985023041476" y="1077.0" />
+      <point x="2572.5985023041476" y="1067.0" />
+      <point x="2552.5" y="1067.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.controller.TCPclientParser" target="server.controller.GameHandler" relationship="TO_ONE">
+      <point x="0.0" y="-151.5" />
+      <point x="4276.0" y="720.0" />
+      <point x="4614.0" y="720.0" />
+      <point x="-87.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal9Test" target="common.Tile" relationship="TO_MANY">
+      <point x="59.0" y="-52.5" />
+      <point x="3662.8485023041476" y="1077.0" />
+      <point x="3645.5985023041476" y="1077.0" />
+      <point x="3645.5985023041476" y="1067.0" />
+      <point x="3741.5" y="1067.0" />
+      <point x="3741.5" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.Player" target="common.VirtualViewRMI" relationship="TO_ONE">
+      <point x="0.0" y="-129.5" />
+      <point x="5583.598502304147" y="185.0" />
+      <point x="4942.848502304147" y="185.0" />
+      <point x="0.0" y="107.5" />
+    </edge>
+    <edge source="server.model.ShelfTest" target="common.Tile" relationship="TO_MANY">
+      <point x="-65.0" y="-118.5" />
+      <point x="5016.458525345623" y="215.0" />
+      <point x="5027.011520737327" y="215.0" />
+      <point x="5027.011520737327" y="195.0" />
+      <point x="4654.0" y="195.0" />
+      <point x="4654.0" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal11Test" target="common.Tile" relationship="CREATE">
+      <point x="-59.0" y="-52.5" />
+      <point x="1871.3485023041476" y="1077.0" />
+      <point x="1772.5985023041474" y="1077.0" />
+      <point x="1772.5985023041474" y="1067.0" />
+      <point x="1679.0" y="1067.0" />
+      <point x="1679.0" y="-83.0" />
+      <point x="1524.0" y="-83.0" />
+      <point x="1524.0" y="-103.0" />
+      <point x="2186.5" y="-103.0" />
+      <point x="-51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal10Test" target="server.model.commonGoals.CommonGoal10" relationship="CREATE">
+      <point x="-59.0" y="-52.5" />
+      <point x="1095.8485023041474" y="1077.0" />
+      <point x="1113.0985023041474" y="1077.0" />
+      <point x="1113.0985023041474" y="1067.0" />
+      <point x="1093.0" y="1067.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal4Test" target="server.model.commonGoals.CommonGoal4" relationship="TO_ONE">
+      <point x="51.0" y="-52.5" />
+      <point x="3370.8485023041476" y="1077.0" />
+      <point x="3361.5985023041476" y="1077.0" />
+      <point x="3361.5985023041476" y="1067.0" />
+      <point x="3384.0" y="1067.0" />
+      <point x="63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal4Test" target="common.Tile" relationship="CREATE">
+      <point x="-51.0" y="-52.5" />
+      <point x="3268.8485023041476" y="1077.0" />
+      <point x="3278.0985023041476" y="1077.0" />
+      <point x="3278.0985023041476" y="1067.0" />
+      <point x="3184.5" y="1067.0" />
+      <point x="3184.5" y="-83.0" />
+      <point x="1524.0" y="-83.0" />
+      <point x="1524.0" y="-103.0" />
+      <point x="2186.5" y="-103.0" />
+      <point x="-51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.Game" target="server.model.personalGoals.PersonalGoalDrawer" relationship="TO_ONE">
+      <point x="0.0" y="-140.5" />
+      <point x="6127.25" y="660.0" />
+      <point x="6413.098502304147" y="660.0" />
+      <point x="0.0" y="30.5" />
+    </edge>
+    <edge source="server.model.BoardTest" target="common.MainBoardCoordinates" relationship="CREATE">
+      <point x="0.0" y="-41.5" />
+      <point x="6804.139976958526" y="650.0" />
+      <point x="5958.598502304147" y="650.0" />
+      <point x="63.0" y="52.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal6Test" target="common.Tile" relationship="CREATE">
+      <point x="-59.0" y="-52.5" />
+      <point x="-129.65149769585287" y="1077.0" />
+      <point x="-112.40149769585287" y="1077.0" />
+      <point x="-112.40149769585287" y="1067.0" />
+      <point x="-206.0" y="1067.0" />
+      <point x="-206.0" y="-83.0" />
+      <point x="1524.0" y="-83.0" />
+      <point x="1524.0" y="-103.0" />
+      <point x="2186.5" y="-103.0" />
+      <point x="-51.0" y="74.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoalDrawer" target="server.model.commonGoals.CommonGoal" relationship="TO_MANY">
+      <point x="0.0" y="-30.5" />
+      <point x="2067.5" y="700.0" />
+      <point x="2958.8899769585255" y="700.0" />
+      <point x="63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal3Test" target="server.model.commonGoals.CommonGoal3" relationship="CREATE">
+      <point x="-75.0" y="-52.5" />
+      <point x="785.8485023041474" y="1077.0" />
+      <point x="819.0985023041474" y="1077.0" />
+      <point x="819.0985023041474" y="1067.0" />
+      <point x="799.0" y="1067.0" />
+      <point x="-63.0" y="41.5" />
+    </edge>
+    <edge source="server.model.User" target="common.VirtualViewRMI" relationship="TO_ONE">
+      <point x="0.0" y="-151.5" />
+      <point x="4395.098502304148" y="1077.0" />
+      <point x="4516.5" y="1077.0" />
+      <point x="4516.5" y="215.0" />
+      <point x="4942.848502304147" y="215.0" />
+      <point x="0.0" y="107.5" />
+    </edge>
+    <edge source="server.model.commonGoals.CommonGoal7Test" target="common.Tile" relationship="TO_MANY">
+      <point x="59.0" y="-52.5" />
+      <point x="2389.3485023041476" y="1077.0" />
+      <point x="2372.0985023041476" y="1077.0" />
+      <point x="2372.0985023041476" y="1067.0" />
+      <point x="2468.0" y="1067.0" />
+      <point x="2468.0" y="-93.0" />
+      <point x="3106.0" y="-93.0" />
+      <point x="3106.0" y="-103.0" />
+      <point x="2288.5" y="-103.0" />
+      <point x="51.0" y="74.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.46072925204820997" showDependencies="true" x="1643.458296526528" y="1085.6089364092343" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
