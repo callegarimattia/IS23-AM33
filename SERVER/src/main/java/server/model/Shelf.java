@@ -1,7 +1,6 @@
 package server.model;
 
 import common.Tile;
-import server.exceptions.LastRoundException;
 
 import java.util.ArrayList;
 
@@ -28,25 +27,25 @@ public class Shelf {
         return count >= numTilesToBeInserted;
     }
 
-    public boolean insertTiles(int column, ArrayList<Tile> pickedTiles) throws LastRoundException {
+    public int insertTiles(int column, ArrayList<Tile> pickedTiles) {
         int ROW =  ROW_NUMBER-1;  // 6-1
         if (!isColumnValid(pickedTiles.size(), column)) {
             System.out.println("la colonna non va bene");
-            return false;
+            return 0;
         }
         while (!shelf[ROW][column].equals(Tile.EMPTY))
             ROW--;
         for (int x=0; x< pickedTiles.size(); x++){
             shelf[ROW - x][column]=pickedTiles.get(x);
         }
-        if(isFull()) throw new LastRoundException();  // to be handled
-        return true;
+        if(isFull()) return 2;
+        return 1;
     }
 
     private boolean isFull(){
         for (int ROW = 0; ROW < ROW_NUMBER; ROW++)
             for (int COL = 0; COL < COL_NUMBER; COL++) {
-                if(!shelf[ROW][COL].equals(Tile.EMPTY))
+                if(!shelf[ROW][COL].equals(Tile.EMPTY) || !shelf[ROW][COL].equals(Tile.UNAVAILABLE))
                     return false;
             }
         return true;
