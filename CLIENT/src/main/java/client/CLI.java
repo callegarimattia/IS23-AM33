@@ -128,7 +128,7 @@ public class CLI implements Runnable {
 
     private void pickAndInsert() {  // 5
         Scanner in = new Scanner(System.in);
-        System.out.print("(-1 to cancel method call) \ninsert num of tiles you want to pick from the mainBoard : ");
+        System.out.print("(-1 to cancel method call) \ninsert num of tiles you want to pick from the mainBoard (1 to 3) : ");
         String str = in.next();
         while (!str.matches("-?\\d+(\\.\\d+)?")) {
             System.out.print("insert a valid integer please: ");

@@ -112,9 +112,7 @@ public class TCPserverParser implements Runnable {
                     data.boardUpdate(obj);
                     break;
                 case 999:
-                    //  messaggio con punteggi e vincitori
-                    //  bool = false;
-                    //  mando messaggi finali
+                    data.endGame(obj);
                     break;
             }
         }

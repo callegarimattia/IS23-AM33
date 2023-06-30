@@ -84,8 +84,9 @@ public class ClientDataStructure {
         }
     }
 
-    public Tile getAndSetEmpty(int row, int col) {
-        Tile myTile = mainBoard[row][col];
+    public Tile getAndSetEmpty(int row, int col, int type) {
+        Tile useles = Tile.EMPTY;
+        Tile myTile = useles.toTile(type);
         mainBoard[row][col] = Tile.EMPTY;
         return myTile;
     }
@@ -373,16 +374,19 @@ public class ClientDataStructure {
         System.out.println("\nGAME UPDATE RECIVED:");
         List<Long> longCols = (List<Long>) obj.get("cols");
         List<Long> longRows = (List<Long>) obj.get("rows");
+        List<Long> types = (List<Long>) obj.get("types");
         int[] cols = longCols.stream().mapToInt(i -> Math.toIntExact(i)).toArray();
         int[] rows = longRows.stream().mapToInt(i -> Math.toIntExact(i)).toArray();
+        int[] typ = types.stream().mapToInt(i -> Math.toIntExact(i)).toArray();
         String updater = (String) obj.get("updater");
         String newCurrPlayer = (String) obj.get("newCurrPlayer");
         int column;
         if (obj.get("column") instanceof Long)
             column = (int) (long) obj.get("column");
         else column = (int) obj.get("column");
+
         for (int i = 0; i < cols.length; i++) {
-            Tile myTile = getAndSetEmpty(rows[i], cols[i]);
+            Tile myTile = getAndSetEmpty(rows[i], cols[i], typ[i]);
             for (ClientPlayer player : players)
                 if (player.getUserName().equals(updater))
                     player.addTile(myTile, column);
@@ -402,6 +406,15 @@ public class ClientDataStructure {
     public void boardUpdate(JSONObject obj){  // 123
         List<List<Long>> intMainBoard = (List<List<Long>>) obj.get("board");
         setMainBoard(intMainBoard);
+    }
+
+    public void endGame(JSONObject obj){  // 999
+        int winner = (int) obj.get("winnerIndex");
+        List<String> players = (List<String>) obj.get("players");
+        List<Long> scores = (List<Long>) obj.get("scores");
+        System.out.println("\n\n\nGAME ENDED\nwinner is " + players.get(winner)+"\n\n");
+        for (int i = 0; i <  players.size(); i++)
+            System.out.println("player: " + players.get(i) + "  score: " + scores.get(i));
     }
 
 

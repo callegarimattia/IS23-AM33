@@ -11,7 +11,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import static java.lang.System.exit;
@@ -218,14 +217,19 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     public void GameUpdate(JSONObject obj) throws RemoteException {
         List<Integer> cols = (List<Integer>) obj.get("cols");
         List<Integer> rows = (List<Integer>) obj.get("rows");
+        List<Integer> types= (List<Integer>) obj.get("types");
         List<Long> cols2 = cols.stream()
                 .mapToLong(Integer::longValue)
                 .boxed().toList();
         List<Long> rows2 = rows.stream()
                 .mapToLong(Integer::longValue)
                 .boxed().toList();
+        List<Long> types2 = types.stream()
+                .mapToLong(Integer::longValue)
+                .boxed().toList();
         obj.put("cols",cols2);
         obj.put("rows",rows2);
+        obj.put("types",types2);
         data.onGameUpdate(obj);
     }
 
@@ -268,6 +272,16 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void sendChatMessage(JSONObject obj) throws Exception {
         data.recivedChatMessage(obj);
+    }
+
+    @Override
+    public void endGameMessage(JSONObject obj) throws RemoteException {
+        List<Integer> scores = (List<Integer>) obj.get("scores");
+        List<Long> longs = scores.stream()
+                .mapToLong(Integer::longValue)
+                .boxed().toList();
+        obj.put("scores", longs);
+        data.endGame(obj);
     }
 
 

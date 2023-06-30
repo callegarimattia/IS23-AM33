@@ -10,13 +10,15 @@ public class GameUpdateEvent extends EventObject {
     private final String updater;   //  they guy that did the command
     private final int column;  // where have been placed
     private final String newCurrPlayer;
+    private List<Integer> types;
 
-    public GameUpdateEvent(Object source, List<MainBoardCoordinates> coordinates, String updater, int column, String newCurrPlayer) {
+    public GameUpdateEvent(Object source, List<MainBoardCoordinates> coordinates, String updater, int column, String newCurrPlayer, List<Integer> types) {
         super(source);
         this.coordinates = coordinates;
         this.updater = updater;
         this.column = column;
         this.newCurrPlayer = newCurrPlayer;
+        this.types = types;
     }
 
     public List<MainBoardCoordinates> getCoordinates() {
@@ -33,5 +35,9 @@ public class GameUpdateEvent extends EventObject {
 
     public String getNewCurrPlayer() {
         return newCurrPlayer;
+    }
+
+    public List<Integer> getTypes() {
+        return types;
     }
 }

@@ -2,7 +2,6 @@ package common;
 import org.json.simple.JSONObject;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
 
 public interface VirtualViewRMI extends Remote {
 
@@ -20,4 +19,6 @@ public interface VirtualViewRMI extends Remote {
     void PersonalStartGame(JSONObject data) throws RemoteException;
 
     void sendChatMessage(JSONObject object) throws Exception;
+
+    void endGameMessage(JSONObject data) throws RemoteException;
 }

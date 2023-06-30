@@ -55,10 +55,11 @@ public class Game {
 
 
     private boolean pickNextPlayer() {
-        if (!lastRound || indexCurrentPlayer != 0) {
+        if (!lastRound || indexCurrentPlayer != players.size()) {
             indexCurrentPlayer = (indexCurrentPlayer + 1) % players.size();
             return true;
         }
+        System.out.println("ENDGAME ENTERED");
         endGame();
         return false;
     }
@@ -77,17 +78,14 @@ public class Game {
 
         JSONObject endGameMessage = new JSONObject();
         endGameMessage.put("type", 999);
-        endGameMessage.put("winner", winner);
+        endGameMessage.put("winnerIndex", winner);
         endGameMessage.put("players", playersCopy);
         endGameMessage.put("scores", scores);
 
         for(Player player: players) {  // RMI
             if (player.getMyClient() != null) {
                 try {
-
-                     player.getMyClient().GameUpdate(null);  // non centra niente
-
-                    //     player.getMyClient().GameUpdate(evt);  prima era cosi, da rifare perche non gli passo la classe
+                     player.getMyClient().endGameMessage(endGameMessage);
                 } catch (RemoteException e) {
                     System.out.println("remote method invocation failed");
                 }
@@ -101,7 +99,6 @@ public class Game {
                 }
             }
         }
-
         ender.abortLobby(players.get(0).getUserName());
     }
 
@@ -131,19 +128,19 @@ public class Game {
             return -2;
         }
         if (!nickName.equals(players.get(indexCurrentPlayer).getUserName()))
-            return -3;                // controlli che user è currPlayer
+            return -3;                // user is not currPlayer
         if (!players.get(indexCurrentPlayer).getMyShelf().isColumnValid(coordinates.size(), column))
             return -4;    //  invalid player column
         ArrayList<Tile> pickedTiles = null;
         try {
-            pickedTiles = mainBoard.removeTiles(coordinates);   //  prendo le tiles da pickare
+            pickedTiles = mainBoard.removeTiles(coordinates);   //  take the tiles
         }
         catch (NotPickableException e){
             System.out.println("Invalid Pick");
             return -5;
         }
 
-        // e poi le metto nella shelf del player
+        // put the tiles in the player's shelf
 
         System.out.print(players.get(indexCurrentPlayer).getUserName() + " has picked: ");
         for(int i = 0; i < pickedTiles.size(); i++)
@@ -152,22 +149,24 @@ public class Game {
 
         try {
             if (!players.get(indexCurrentPlayer).getMyShelf().insertTiles(column, pickedTiles))
-                return -6;  //  non inseribili in player
-        } catch (LastRoundException e) {  // inizia l utimo giro se primo a completare shelf, da gestire le conseguenze
+                return -6;  //  not insertable in player's shelf
+        } catch (LastRoundException e) {  // last lap begins
             if(!lastRound){
                 lastRound = true;
                 gameEndTrigger = players.get(indexCurrentPlayer).getUserName();
             }
-
         }
 
-        System.out.println(" and inserted in his column n°" + column);
+        System.out.println(" and inserted in column n°" + column);
 
         players.get(indexCurrentPlayer).setScore(updateCurrPlayerScore());
         String updater = players.get(indexCurrentPlayer).getUserName();
         pickNextPlayer();
 
-        GameUpdateEvent ev = new GameUpdateEvent(this, coordinates,updater,column,players.get(indexCurrentPlayer).getUserName());
+        List<Integer> types = new ArrayList<>();
+        for (int i = 0; i < pickedTiles.size(); i++)
+            types.add(pickedTiles.get(i).toInt());
+        GameUpdateEvent ev = new GameUpdateEvent(this, coordinates,updater,column,players.get(indexCurrentPlayer).getUserName(),types);
         OnGameUpdate(ev);
 
 
@@ -192,6 +191,7 @@ public class Game {
         gameUpdateMessage.put("rows", rows);
         gameUpdateMessage.put("cols", cols);
         gameUpdateMessage.put("newCurrPlayer", newCurrPlayer);
+        gameUpdateMessage.put("types", evt.getTypes());
         for(Player player: players) {  // RMI
             if (player.getMyClient() != null) {
                 try {

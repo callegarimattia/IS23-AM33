@@ -65,7 +65,6 @@ public class GameHandlerImpl  extends UnicastRemoteObject implements GameHandler
         if (obj.get("myColumn") instanceof Long)
             myColumn = (int) (long) obj.get("myColumn");
         else myColumn = (int) obj.get("myColumn");
-        System.out.println("la colonna è " + myColumn);
         if (obj.get("columns") instanceof List){
             try {
                 columns = (List<Long>) obj.get("columns");
@@ -83,10 +82,6 @@ public class GameHandlerImpl  extends UnicastRemoteObject implements GameHandler
                 return answer;
             }
         }
-
-        System.out.print("prova coordinate: ");
-        System.out.println(rows.get(0).intValue() +"/" + columns.get(0).intValue());
-        System.out.println("finita");
         List<MainBoardCoordinates> coordinates = new ArrayList<>();
         for(int i = 0; i < columns.size(); i++){
             MainBoardCoordinates coord;
