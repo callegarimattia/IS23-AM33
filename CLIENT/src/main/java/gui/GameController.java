@@ -37,17 +37,25 @@ public class GameController {
 
     public void init(Client client) {
         this.client = client;
-        client.getData().gameStartedProperty().addListener(observable -> startGame());
+        client.getData().updateProperty().addListener(observable -> refreshScene());
     }
 
     private void startGame() {
         initializeMainBoard();
-        showShelfs();
-        showCommonGoals();
-        showPersonalGoal();
+    }
+
+    private void refreshScene(){
+        if(client.getData().getUpdate() == 1) {
+            showShelfs();
+            showPersonalGoal();
+            showCommonGoals();
+        }
+        initializeMainBoard();
+        initializeShelfs();
     }
 
     private void initializeMainBoard() {
+        if (mainBoard == null) throw new RuntimeException();
         int tileSize = 9 * 9;
         Image[][] mainBoard = new Image[9][9];
         for (int i = 0; i < 9; i++) {
@@ -66,6 +74,10 @@ public class GameController {
                 this.mainBoard.add(imageView, x, y);
             }
         }
+    }
+
+    private void initializeShelfs(){
+
     }
 
     private void showShelfs() {
@@ -104,5 +116,4 @@ public class GameController {
     private void handlePickActionEvent(ActionEvent event) {
 
     }
-
 }

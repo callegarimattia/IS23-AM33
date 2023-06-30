@@ -1,10 +1,7 @@
 package client.clientModel;
 import common.Tile;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.json.simple.JSONObject;
@@ -14,29 +11,29 @@ import java.util.List;
 
 public class ClientDataStructure {
     private final Tile[][] mainBoard;
-    private final List<ClientPlayer> players;
+    private final ObservableList<ClientPlayer> players;
     private String commonGoal1;
     private String commonGoal2;
     private ClientPersonalGoal myGoal;
     private final ObservableList<Lobby> lobbies;
     private int myLobbyID;
     private final StringProperty myUsername = new SimpleStringProperty();
-    private final BooleanProperty gameStarted;
+    private final IntegerProperty update;
     private boolean gui = false;
 
     public ClientDataStructure() {
-        players = new ArrayList<>();
+        players = FXCollections.observableArrayList();
         mainBoard = new Tile[9][9];
         myGoal = null;
         lobbies = FXCollections.observableArrayList();
-        gameStarted = new SimpleBooleanProperty(false);
+        update = new SimpleIntegerProperty(0);
     }
 
     public void addPlayer(String username) {
         players.add(new ClientPlayer(username));
     }
 
-    public List<ClientPlayer> getPlayers() {
+    public ObservableList<ClientPlayer> getPlayers() {
         return players;
     }
 
@@ -160,16 +157,16 @@ public class ClientDataStructure {
         return myUsername;
     }
 
-    public boolean isGameStarted() {
-        return gameStarted.get();
+    public int getUpdate() {
+        return update.get();
     }
 
-    private void setGameStarted(boolean gameStarted) {
-        this.gameStarted.set(gameStarted);
+    public IntegerProperty updateProperty() {
+        return update;
     }
 
-    public BooleanProperty gameStartedProperty() {
-        return gameStarted;
+    public void receivedUpdate(){
+        update.set(update.get() + 1);
     }
 
     public Integer getMyLobbyID() {
@@ -335,7 +332,6 @@ public class ClientDataStructure {
 
     public void startGame(JSONObject obj) {  // 777
         System.out.println("GAME STARTED");
-        setGameStarted(true);
         List<String> array = (List<String>) obj.get("playersUsernames");  //  already shuffled (first player at [0])
         for (int i = 0; i < array.size(); i++)
             addPlayer(array.get(i));
@@ -395,6 +391,7 @@ public class ClientDataStructure {
                     player.addTile(myTile, column);
         }
         refresh();
+        receivedUpdate();
         System.out.println("new current player is " + newCurrPlayer);
     }
 
@@ -410,6 +407,4 @@ public class ClientDataStructure {
         List<List<Long>> intMainBoard = (List<List<Long>>) obj.get("board");
         setMainBoard(intMainBoard);
     }
-
-
 }

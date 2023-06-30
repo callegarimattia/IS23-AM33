@@ -59,7 +59,7 @@ public class LoginController {
             if (client.getData().getMyUsername().equals(username.getText())) openLobbiesScene();
         });
         client.createUser(username.getText());
-        delay(500, this::checkUsernameError);
+        delay(300, this::checkUsernameError);
     }
 
     private void checkUsernameError() {
@@ -83,6 +83,7 @@ public class LoginController {
         lobbiesController.init(gui);
         mainStage.setScene(scene);
         mainStage.setTitle("Lobbies");
+        mainStage.centerOnScreen();
         mainStage.show();
     }
 }
