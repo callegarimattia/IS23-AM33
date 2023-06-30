@@ -17,7 +17,7 @@ Java implementation of the table game [My Shelfie](https://craniointernational.c
 |Partite Multiple|:white_check_mark:|
 |Persistenza|:x:|
 |Resilienza disconnessioni|:x:|
-|Chat|:x:|
+|Chat|:white_check_mark:|
 
 ### Legenda
 :construction: = In sviluppo\
