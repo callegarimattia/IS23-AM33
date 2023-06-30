@@ -2,10 +2,7 @@ package server.controller;
 
 import common.GameServerRMI;
 import common.MainBoardCoordinates;
-import common.VirtualViewRMI;
 import org.json.simple.JSONObject;
-import server.exceptions.InputException;
-import server.exceptions.LastRoundException;
 import server.model.Game;
 import server.model.Player;
 
@@ -165,8 +162,17 @@ public class GameHandlerImpl  extends UnicastRemoteObject implements GameHandler
      * @return myGame.chatMessage return value
      */
 
-    public int chatMessage(String text, String recipient, String addresser) {
+    public int chatMessage2(String text, String recipient, String addresser) {
         return myGame.chatMessage(text, recipient, addresser);
+    }
+    public JSONObject sendChatMessage(JSONObject obj){
+        String text = obj.get("text").toString();
+        String recipient = obj.get("recipient").toString();
+        String name= obj.get("name").toString();
+        int ans = chatMessage2(text,recipient,name);
+        JSONObject answer = new JSONObject();
+        answer.put("answer", ans);
+        return answer;
     }
 
     private void startRMI(int ID){
@@ -179,12 +185,6 @@ public class GameHandlerImpl  extends UnicastRemoteObject implements GameHandler
         }
     }
 
-
-
-    @Override
-    public JSONObject sendChatMessage(JSONObject obj) {
-        return null;
-    }
 
     public void setMyGame(Game myGame) {
         this.myGame = myGame;

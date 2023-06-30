@@ -22,9 +22,6 @@ public interface Client {
 
     void leaveLobby();
 
-    void sendChatMessage(String userName, String message, int visibility);
-
-
     void createUser(String userName);
 
     void lobbyListRequest();

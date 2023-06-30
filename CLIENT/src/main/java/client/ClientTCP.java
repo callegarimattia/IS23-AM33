@@ -113,14 +113,10 @@ public class ClientTCP implements Client {
         obj.put("type", 6);
         obj.put("text", text);
         obj.put("recipient", recipient);
+        obj.put("name", data.getMyUsername());
         sendMessage(obj.toString());
     }
 
-
-    @Override
-    public void sendChatMessage(String userName, String message, int visibility) {
-
-    }
 
     public ClientDataStructure getData() {
         return data;

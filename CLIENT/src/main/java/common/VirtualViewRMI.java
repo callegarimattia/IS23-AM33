@@ -18,4 +18,6 @@ public interface VirtualViewRMI extends Remote {
     void StartGame(JSONObject data) throws RemoteException;
 
     void PersonalStartGame(JSONObject data) throws RemoteException;
+
+    void sendChatMessage(JSONObject object) throws Exception;
 }

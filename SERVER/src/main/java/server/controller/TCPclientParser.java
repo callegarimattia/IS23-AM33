@@ -252,16 +252,13 @@ public class TCPclientParser implements Runnable {
     private void chatMessage(JSONObject obj, JSONObject answer){  // 6
         answer.put("type", 6);
         if(gameHandler == null){
-            answer.put("answer", "0");  // non in ancora in game
+            answer.put("answer", "0");  // non ancora in game
             sendAnswer(answer);
             return;
         }
-        String recipient = (String) obj.get("recipient");
-        String text = (String) obj.get("text");
-        if(gameHandler.chatMessage(text,recipient,userName) == 1)
-            answer.put("answer", "1");
-        else answer.put("answer", "-1");
-        sendAnswer(answer);
+        JSONObject ans = gameHandler.sendChatMessage(obj);
+        ans.put("type", 6);
+        sendAnswer(ans);
     }
 
 

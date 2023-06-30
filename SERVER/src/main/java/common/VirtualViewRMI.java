@@ -20,4 +20,6 @@ public interface VirtualViewRMI extends Remote {
 
     boolean checkAlive() throws RemoteException;
 
+    void sendChatMessage(JSONObject data) throws RemoteException;
+
 }

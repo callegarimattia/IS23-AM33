@@ -7,4 +7,5 @@ import java.util.List;
 public interface GameServerRMI extends Remote {
     JSONObject pickAndInsert(JSONObject obj) throws RemoteException;
     JSONObject sendChatMessage(JSONObject obj) throws RemoteException;
+
 }

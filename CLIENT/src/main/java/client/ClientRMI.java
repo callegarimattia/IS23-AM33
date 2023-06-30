@@ -1,11 +1,9 @@
 package client;
-
 import client.clientModel.ClientDataStructure;
 import common.GameServerRMI;
 import common.ServerRMI;
 import common.VirtualViewRMI;
 import org.json.simple.JSONObject;
-
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -22,7 +20,6 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     ServerRMI server;
     String serverIP = null;
     CLI cli;
-    Scanner scanner = new Scanner(System.in);
     private GameServerRMI gameServer= null;
     private final ClientDataStructure data = new ClientDataStructure();
 
@@ -166,7 +163,6 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void pickAndInsert(List<Integer> rows, List<Integer> columns, int myColumn) {  //  5
         JSONObject obj = new JSONObject();
-
         List<Long> columns2 = columns.stream()
                 .mapToLong(Integer::longValue)
                 .boxed().toList();
@@ -190,15 +186,18 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
 
 
     @Override
-    public void sendChatMessage(String userName, String message, int visibility) {
-
-    }
-
-    @Override
-    public void sendChatMessage(String text, String recipient) {
-
-
-        System.out.println("you are not in game yet");
+    public void sendChatMessage(String text, String recipient) {  // 6
+        JSONObject obj = new JSONObject();
+        obj.put("text", text);
+        obj.put("recipient", recipient);
+        obj.put("name", data.getMyUsername());
+        try {
+            JSONObject ans = gameServer.sendChatMessage(obj);
+            data.ansChatMessage(ans);
+        } catch (RemoteException e) {
+            System.out.println("you are not in game yet");
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
@@ -263,12 +262,13 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
         obj.put("coordinates", coord);
         obj.put("values",val);
         data.personalStartGame(obj);
-
         this.connectGame();
-
     }
 
-
+    @Override
+    public void sendChatMessage(JSONObject obj) throws Exception {
+        data.recivedChatMessage(obj);
+    }
 
 
 }

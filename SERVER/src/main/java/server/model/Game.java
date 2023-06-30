@@ -278,12 +278,17 @@ public class Game {
         textmessage.put("addresser", addresser);
         textmessage.put("recipient", recipient);
 
-        int done = 0;
+        int done = -1;
         for(Player player: players) {
             if(player.getUserName().equals(recipient) || recipient.equals("all")){
                 if (player.getMyClient() != null) {  // RMI
-                    //  TBD
+                    try {
+                        player.getMyClient().sendChatMessage(textmessage);
+                    } catch (RemoteException e) {
+                        System.out.println("remote method invocation failed");
+                    }
                 }
+
                 if (player.getOut() != null) {
                     System.out.println("sto mandando text: "+text+" a "+player.getUserName());
                     try {

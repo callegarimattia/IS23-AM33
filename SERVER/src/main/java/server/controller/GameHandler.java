@@ -15,5 +15,5 @@ public interface GameHandler {
     void abortGame(String disconnectedPlayer);
     void refresh();
     String getCurrPlayer();
-    int chatMessage(String text, String recipient, String addresser);
+    JSONObject sendChatMessage(JSONObject obj);
 }
