@@ -109,6 +109,7 @@ public class LobbiesController {
         gameController.init(client);
         thisStage.setScene(scene);
         thisStage.setTitle("Game");
+        thisStage.centerOnScreen();
         thisStage.setResizable(false);
         thisStage.setMaximized(true);
         thisStage.show();

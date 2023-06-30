@@ -55,13 +55,15 @@ public class LoginController {
         else
             client = new ClientTCP(null);
         client.getData().setGui(true);
+        client.getData().myUsernameProperty().addListener((obs, oldValue, newValue) -> {
+            if (client.getData().getMyUsername().equals(username.getText())) openLobbiesScene();
+        });
         client.createUser(username.getText());
-        delay(500, this::checkUsername);
+        delay(300, this::checkUsernameError);
     }
 
-    private void checkUsername() {
-        if (client.getData().getMyUsername().equals("")) openLobbiesScene();
-        else {
+    private void checkUsernameError() {
+        if (client.getData().getMyUsername() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Username Invalid", ButtonType.CLOSE);
             alert.show();
             username.clear();
@@ -81,6 +83,7 @@ public class LoginController {
         lobbiesController.init(gui);
         mainStage.setScene(scene);
         mainStage.setTitle("Lobbies");
+        mainStage.centerOnScreen();
         mainStage.show();
     }
 }

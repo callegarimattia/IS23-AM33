@@ -46,16 +46,16 @@
     </ImageView>
 
     <!-- PLAYER 1 -->
-    <Label fx:id="player1" alignment="CENTER" layoutX="530.0" layoutY="51.0" text="Player1">
+    <Label fx:id="player1" alignment="CENTER" layoutX="530.0" layoutY="51.0" text="Player1" disable="true" visible="false">
         <font>
             <Font size="35.0"/>
         </font>
     </Label>
     <ImageView fx:id="player1ShelfImage" fitHeight="229.0" fitWidth="174.0" layoutX="530.0" layoutY="94.0"
-               pickOnBounds="true" preserveRatio="true">
+               pickOnBounds="true" preserveRatio="true" visible="false">
         <Image url="@../17_MyShelfie_BGA/boards/bookshelf_orth.png"/>
     </ImageView>
-    <GridPane fx:id="player1ShelfGrid" layoutX="551.0" layoutY="105.0" prefHeight="141.0" prefWidth="134.0">
+    <GridPane fx:id="player1ShelfGrid" layoutX="551.0" layoutY="105.0" prefHeight="141.0" prefWidth="134.0" disable="true">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
@@ -75,16 +75,16 @@
 
 
     <!-- PLAYER 2 -->
-    <Label fx:id="player2" alignment="CENTER" layoutX="760.0" layoutY="51.0" text="Player2">
+    <Label fx:id="player2" alignment="CENTER" layoutX="760.0" layoutY="51.0" text="Player2" disable="true" visible="false">
         <font>
             <Font size="35.0"/>
         </font>
     </Label>
     <ImageView fx:id="player2ShelfImage" fitHeight="229.0" fitWidth="174.0" layoutX="760.0" layoutY="94.0"
-               pickOnBounds="true" preserveRatio="true">
+               pickOnBounds="true" preserveRatio="true" visible="false">
         <Image url="@../17_MyShelfie_BGA/boards/bookshelf_orth.png"/>
     </ImageView>
-    <GridPane fx:id="player2ShelfGrid" layoutX="781.0" layoutY="105.0" prefHeight="141.0" prefWidth="134.0">
+    <GridPane fx:id="player2ShelfGrid" layoutX="781.0" layoutY="105.0" prefHeight="141.0" prefWidth="134.0" disable="true">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
@@ -103,16 +103,16 @@
     </GridPane>
 
     <!-- PLAYER 3 -->
-    <Label fx:id="player3" alignment="CENTER" layoutX="990.0" layoutY="51.0" text="Player3">
+    <Label fx:id="player3" alignment="CENTER" layoutX="990.0" layoutY="51.0" text="Player3" disable="true" visible="false">
         <font>
             <Font size="35.0"/>
         </font>
     </Label>
     <ImageView fx:id="player3ShelfImage" fitHeight="229.0" fitWidth="174.0" layoutX="990.0" layoutY="93.0"
-               pickOnBounds="true" preserveRatio="true">
+               pickOnBounds="true" preserveRatio="true" visible="false">
         <Image url="@../17_MyShelfie_BGA/boards/bookshelf_orth.png"/>
     </ImageView>
-    <GridPane fx:id="player3ShelfGrid" layoutX="1008.0" layoutY="105.0" prefHeight="141.0" prefWidth="134.0">
+    <GridPane fx:id="player3ShelfGrid" layoutX="1008.0" layoutY="105.0" prefHeight="141.0" prefWidth="134.0" disable="true">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
