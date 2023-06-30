@@ -1,0 +1,222 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class AppClient {
+  + main(String[]): void
+}
+class CLI {
+  + run(): void
+  - leaveLobby(): void
+  + shutDownClient(): void
+  - lobbyListRequest(): void
+  - createUser(): void
+  - createLobby(): void
+  - pickAndInsert(): void
+  + shutDown(): void
+  - chatMessage(): void
+  - createClient(String): void
+  - joinLobby(): void
+}
+interface Client << interface >> {
+  + shutDown(): void
+  + lobbyListRequest(): void
+  + sendChatMessage(String, String): void
+  + newConnection(String, int): void
+  + joinLobby(int): void
+  + leaveLobby(): void
+  + pickAndInsert(List<Integer>, List<Integer>, int): void
+  + createUser(String): void
+  + getData(): ClientDataStructure
+  + createLobby(int): void
+}
+class ClientDataStructure {
+  + getCommonGoal1(): String
+  + setCommonGoal2(String): void
+  + ansClientClosingApp(String, String): void
+  + startGame(JSONObject): void
+  + setCommonGoal1(String): void
+  + gameStartedProperty(): BooleanProperty
+  + onGameUpdate(JSONObject): void
+  + ansCreateUser(List<String>): void
+  - setGameStarted(boolean): void
+  + setGui(boolean): void
+  + ansChatMessage(JSONObject): void
+  + isGameStarted(): boolean
+  + getLobbies(): ObservableList<Lobby>
+  + setLobbies(List<Lobby>): void
+  + recivedChatMessage(JSONObject): void
+  + ansLeaveLobbyRequest(String): void
+  + getCommonGoal2(): String
+  + getPlayers(): List<ClientPlayer>
+  + setMyGoal(int[], Tile[]): void
+  + getMyUsername(): String
+  + setMyUsername(String): void
+  + onLobbyUpdate(JSONObject): void
+  + refresh(): void
+  + getMyGoal(): ClientPersonalGoal
+  + addPlayer(String): void
+  + getMainBoard(): Tile[][]
+  + ansPickAndInsert(JSONObject): void
+  + personalStartGame(JSONObject): void
+  + ansNewLobbyCreation(List<Long>): void
+  - printMainBoard(): void
+  + ansJoinLobbyRequest(int, int): void
+  + setMainBoard(List<List<Long>>): void
+  + getAndSetEmpty(int, int): Tile
+}
+class ClientPersonalGoal {
+  + print(): void
+}
+class ClientPlayer {
+  + setUserName(String): void
+  + getUserName(): String
+  + refresh(): void
+  - initShelf(): void
+  + addTile(Tile, int): void
+  - printShelf(): void
+}
+class ClientRMI {
+  + endGameMessage(JSONObject): void
+  + BoardUpdate(JSONObject): void
+  + sendChatMessage(JSONObject): void
+  + lobbyListRequest(): void
+  + getData(): ClientDataStructure
+  - connectGame(): void
+  + pickAndInsert(List<Integer>, List<Integer>, int): void
+  + joinLobby(int): void
+  + StartGame(JSONObject): void
+  + sendChatMessage(String, String): void
+  + GameUpdate(JSONObject): void
+  + checkAlive(): boolean
+  + LobbiesUpdate(JSONObject): void
+  + leaveLobby(): void
+  + newConnection(String, int): void
+  + createLobby(int): void
+  + createUser(String): void
+  + PersonalStartGame(JSONObject): void
+  + shutDown(): void
+}
+class ClientTCP {
+  + sendChatMessage(String, String): void
+  + createLobby(int): void
+  + joinLobby(int): void
+  + newConnection(String, int): void
+  + lobbyListRequest(): void
+  + pickAndInsert(List<Integer>, List<Integer>, int): void
+  - sendMessage(String): void
+  + getData(): ClientDataStructure
+  + createUser(String): void
+  + leaveLobby(): void
+  + shutDown(): void
+}
+class GameController {
+  + init(Client): void
+  - endgame(): void
+  - handlePickActionEvent(ActionEvent): void
+  - showPersonalGoal(): void
+  - showCommonGoals(): void
+  - showShelfs(): void
+  - initializeMainBoard(): void
+  - startGame(): void
+  - handleExitActionEvent(ActionEvent): void
+}
+interface GameServerRMI << interface >> {
+  + pickAndInsert(JSONObject): JSONObject
+  + sendChatMessage(JSONObject): JSONObject
+}
+class GuiApplication {
+  + start(Stage): void
+}
+class LobbiesController {
+  - handleRefreshAction(ActionEvent): void
+  - openGameWindow(): void
+  + setClient(Client): void
+  + init(GuiApplication): void
+  - handleCreateLobbyAction(ActionEvent): void
+  - refreshLobbies(): void
+}
+class Lobby {
+  + getGameSize(): int
+  + getNumCurrPlayers(): int
+  + toString(): String
+  + getLobbyId(): int
+  + equals(Object): boolean
+  + hashCode(): int
+}
+class LoginController {
+  + init(GuiApplication, Stage): void
+  - openLobbiesScene(): void
+  + delay(long, Runnable): void
+  # handleSubmitButtonAction(ActionEvent): void
+  - checkUsername(): void
+}
+class MainBoardCoordinates {
+  + getCol(): int
+  + getRow(): int
+  + getMaxCol(): int
+  - set(int, int): void
+  + getMaxRow(): int
+}
+class RMIchecker {
+  + run(): void
+}
+interface ServerRMI << interface >> {
+  + leaveLobby(VirtualViewRMI, Object): String
+  + checkAlive(): void
+  + createUser(String, VirtualViewRMI, Object): List<String>
+  + joinLobby(int, VirtualViewRMI, Object): int
+  + createLobby(int, VirtualViewRMI, Object): List<Integer>
+  + lobbyListRequest(VirtualViewRMI, Object): JSONObject
+  + shutDownClient(VirtualViewRMI): List<String>
+}
+class TCPserverParser {
+  + run(): void
+}
+enum Tile << enumeration >> {
+  + toString(): String
+  + valueOf(String): Tile
+  + values(): Tile[]
+  + toImage(): Image
+  + toTile(int): Tile
+  + toInt(): int
+}
+interface VirtualViewRMI << interface >> {
+  + StartGame(JSONObject): void
+  + BoardUpdate(JSONObject): void
+  + endGameMessage(JSONObject): void
+  + sendChatMessage(JSONObject): void
+  + PersonalStartGame(JSONObject): void
+  + GameUpdate(JSONObject): void
+  + checkAlive(): boolean
+  + LobbiesUpdate(JSONObject): void
+}
+
+CLI                  "1" *-[#bbbbbb,plain]-> "client\n1" Client               
+ClientDataStructure  "1" *-[#bbbbbb,plain]-> "myGoal\n1" ClientPersonalGoal   
+ClientDataStructure  "1" *-[#bbbbbb,plain]-> "players\n*" ClientPlayer         
+ClientDataStructure  "1" *-[#bbbbbb,plain]-> "lobbies\n*" Lobby                
+ClientDataStructure  "1" *-[#bbbbbb,plain]-> "mainBoard\n*" Tile                 
+ClientPersonalGoal   "1" *-[#bbbbbb,plain]-> "matrix\n*" Tile                 
+ClientPlayer         "1" *-[#bbbbbb,plain]-> "myShelf\n*" Tile                 
+ClientRMI            "1" *-[#bbbbbb,plain]-> "cli\n1" CLI                  
+ClientRMI             -[#609350,dashed]-^  Client               
+ClientRMI            "1" *-[#bbbbbb,plain]-> "data\n1" ClientDataStructure  
+ClientRMI            "1" *-[#bbbbbb,plain]-> "gameServer\n1" GameServerRMI        
+ClientRMI            "1" *-[#bbbbbb,plain]-> "server\n1" ServerRMI            
+ClientRMI             -[#609350,dashed]-^  VirtualViewRMI       
+ClientTCP             -[#609350,dashed]-^  Client               
+ClientTCP            "1" *-[#bbbbbb,plain]-> "data\n1" ClientDataStructure  
+GameController       "1" *-[#bbbbbb,plain]-> "client\n1" Client               
+LobbiesController    "1" *-[#bbbbbb,plain]-> "client\n1" Client               
+LobbiesController    "1" *-[#bbbbbb,plain]-> "gui\n1" GuiApplication       
+LoginController      "1" *-[#bbbbbb,plain]-> "client\n1" Client               
+LoginController      "1" *-[#bbbbbb,plain]-> "gui\n1" GuiApplication       
+RMIchecker           "1" *-[#bbbbbb,plain]-> "cli\n1" CLI                  
+RMIchecker           "1" *-[#bbbbbb,plain]-> "server\n1" ServerRMI            
+TCPserverParser      "1" *-[#bbbbbb,plain]-> "cli\n1" CLI                  
+TCPserverParser      "1" *-[#bbbbbb,plain]-> "client\n1" Client               
+TCPserverParser      "1" *-[#bbbbbb,plain]-> "data\n1" ClientDataStructure  
+@enduml

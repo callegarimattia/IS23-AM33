@@ -1,0 +1,492 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class AppServer {
+  + main(String[]): void
+}
+class Board {
+  + removeTiles(List<MainBoardCoordinates>): ArrayList<Tile>
+  + getMainBoard(): Tile[][]
+  - isPickable(MainBoardCoordinates): boolean
+  + copyMatrix(): Tile[][]
+  + toInt(): List<List<Integer>>
+  - deserializeJSONBoard(int): void
+  + refresh(): void
+  - RandomTiles(TilesBag, Tile[][]): void
+  - initM(): void
+}
+class BoardTest {
+  ~ initializeBoard(int): void
+  ~ removeTilesTester(): void
+}
+class CommonGoal {
+  + getDescription(): String
+  + isSolved(Tile[][]): boolean
+}
+class CommonGoal1 {
+  + isSolved(Tile[][]): boolean
+  + getDescription(): String
+}
+class CommonGoal10 {
+  + isSolved(Tile[][]): boolean
+  + getDescription(): String
+}
+class CommonGoal10Test {
+  ~ emptyMatrixTest(): void
+  ~ wrongMatrixTest(): void
+  ~ correctMatrixTest(): void
+}
+class CommonGoal11 {
+  + getDescription(): String
+  + isSolved(Tile[][]): boolean
+}
+class CommonGoal11Test {
+  ~ wrongMatrixTest(): void
+  ~ emptyMatrixTest(): void
+  ~ correctMatrixTest(): void
+}
+class CommonGoal12 {
+  + isSolved(Tile[][]): boolean
+  + getDescription(): String
+}
+class CommonGoal12Test {
+  ~ correctMatrixesTest(): void
+  ~ thirdDiagonalMatrixesTest(): void
+  ~ emptyMatrixTest(): void
+  ~ secondDiagonalMatrixTest(): void
+  ~ fourthDiagonalMatrixesTest(): void
+  ~ wrongMatrixTest(): void
+}
+class CommonGoal1Test {
+  ~ IncorrectMatrixTest(): void
+  ~ TooManyCoupleTest(): void
+  ~ EmptyMatrixTest(): void
+  ~ TooManyCatsTest(): void
+  ~ CorrectMatrixTest(): void
+}
+class CommonGoal2 {
+  + getDescription(): String
+  + isSolved(Tile[][]): boolean
+}
+class CommonGoal2Test {
+  ~ EmptyMatrixIsSolvedTest(): void
+  ~ FirstDiagonalCorrectTest(): void
+  ~ SecondDiagonalCorrectTest(): void
+  ~ IncorrectMatrixTest(): void
+  ~ FourthDiagonalCorrectTest(): void
+  ~ ThirdDiagonalCorrectTest(): void
+}
+class CommonGoal3 {
+  + isSolved(Tile[][]): boolean
+  + getDescription(): String
+}
+class CommonGoal3Test {
+  ~ WrongMatrixIsSolvedTest(): void
+  ~ EmptyMatrixIsSolvedTest(): void
+  ~ CorrectMatrixIsSolvedTest(): void
+}
+class CommonGoal4 {
+  + getDescription(): String
+  + isSolved(Tile[][]): boolean
+}
+class CommonGoal4Test {
+  ~ correctMatrix(): void
+  ~ wrongMatrix(): void
+  ~ emptyMatrix(): void
+}
+class CommonGoal5 {
+  + getDescription(): String
+  + isSolved(Tile[][]): boolean
+}
+class CommonGoal5Test {
+  ~ wrongMatrixTest(): void
+  ~ correctMatrixTest(): void
+  ~ emptyMatrixTest(): void
+}
+class CommonGoal6 {
+  + getDescription(): String
+  + isSolved(Tile[][]): boolean
+}
+class CommonGoal6Test {
+  ~ emptyMatrixTest(): void
+  ~ correctMatrixTest(): void
+  ~ wrongMatrixTest(): void
+}
+class CommonGoal7 {
+  + isSolved(Tile[][]): boolean
+  + getDescription(): String
+}
+class CommonGoal7Test {
+  ~ emptyMatrixTest(): void
+  ~ correctMatrixTest(): void
+  ~ wrongMatrixTest(): void
+}
+class CommonGoal8 {
+  + isSolved(Tile[][]): boolean
+  + getDescription(): String
+}
+class CommonGoal8Test {
+  ~ emptyMatrixTest(): void
+  ~ correctMatrixTest(): void
+  ~ wrongMatrixTest(): void
+}
+class CommonGoal9 {
+  + isSolved(Tile[][]): boolean
+  + getDescription(): String
+}
+class CommonGoal9Test {
+  ~ correctMatrixTest(): void
+  ~ wrongMatrixTest(): void
+  ~ emptyMatrixTest(): void
+}
+class CommonGoalDrawer {
+  + draw(): CommonGoal
+}
+class Game {
+  - updateCurrPlayerScore(): int
+  + BoardRefreshedUpdate(): void
+  - clientStartGame(): void
+  + endGame(): void
+  + getPlayers(): List<Player>
+  - pickNextPlayer(): boolean
+  - OnGameUpdate(GameUpdateEvent): void
+  + getCurrentPlayer(): String
+  + pickAndInsert(String, List<MainBoardCoordinates>, int): int
+  + chatMessage(String, String, String): int
+  + refresh(): void
+}
+class GameEndedException
+interface GameEnder << interface >> {
+  + abortLobby(String): void
+}
+interface GameHandler << interface >> {
+  + pickAndInsert(JSONObject): JSONObject
+  + abortGame(String): void
+  + sendChatMessage(JSONObject): JSONObject
+  + refresh(): void
+  + getCurrPlayer(): String
+}
+class GameHandlerImpl {
+  + sendChatMessage(JSONObject): JSONObject
+  + abortGame(String): void
+  + chatMessage2(String, String, String): int
+  - pickAndInsert2(String, List<MainBoardCoordinates>, int): int
+  + refresh(): void
+  - startRMI(int): void
+  + setMyGame(Game): void
+  + pickAndInsert(JSONObject): JSONObject
+  + getCurrPlayer(): String
+}
+interface GameServerRMI << interface >> {
+  + pickAndInsert(JSONObject): JSONObject
+  + sendChatMessage(JSONObject): JSONObject
+}
+class GameUpdateEvent {
+  + getUpdater(): String
+  + getColumn(): int
+  + getNewCurrPlayer(): String
+  + getTypes(): List<Integer>
+  + getCoordinates(): List<MainBoardCoordinates>
+}
+class InputException
+class LastRoundException
+interface LobbiesHandler << interface >> {
+  + createUser(String, VirtualViewRMI, Object): List<String>
+  + joinLobby(int, VirtualViewRMI, Object): int
+  + createLobby(int, VirtualViewRMI, Object): List<Integer>
+  + leaveLobby(VirtualViewRMI, Object): String
+  + addTCPparserToUser(String, TCPclientParser): void
+  + getWaitingLobbies(): Set<Lobby>
+  + startServer(): void
+  + abortLobby(String): void
+  + lobbyListRequest(VirtualViewRMI, Object): JSONObject
+  + searchUser(String): User
+  + removeUser(String): void
+  + isUserPresent(String): boolean
+  + disconnectedUser(String): void
+  + searchLobby(int): Lobby
+  + getUsers(): Set<User>
+  + refresh(): void
+}
+class LobbiesHandlerException
+class LobbiesHandlerImpl {
+  + isUserPresent(String): boolean
+  + leaveLobby(VirtualViewRMI, Object): String
+  + shutDownClient(VirtualViewRMI): List<String>
+  + lobbyListRequest(VirtualViewRMI, Object): JSONObject
+  - OnLobbyUpdate(LobbiesUpdateEvent): void
+  + disconnectedUser(String): void
+  + searchLobby(int): Lobby
+  - startRMI(): void
+  + getUsers(): Set<User>
+  + createLobby(int, VirtualViewRMI, Object): List<Integer>
+  + getWaitingLobbies(): Set<Lobby>
+  + joinLobby(int, VirtualViewRMI, Object): int
+  + createUser(String, VirtualViewRMI, Object): List<String>
+  + checkAlive(): void
+  + searchUser(String): User
+  + startServer(): void
+  + abortLobby(String): void
+  - associatedUser(VirtualViewRMI, Object): User
+  + refresh(): void
+  - startTCP(): void
+  + removeUser(String): void
+  - startGame(int): boolean
+  + addTCPparserToUser(String, TCPclientParser): void
+}
+class LobbiesHandlerTest {
+  ~ createLobby_InvalidGameSizes(int): void
+  ~ createUser(): void
+  ~ createLobby(int): void
+  ~ init(): void
+  ~ createUser_SameName(): void
+  ~ teardown(): void
+  ~ searchUser(): void
+}
+class LobbiesUpdateEvent {
+  + getWaitingLobbies(): Set<Lobby>
+}
+class Lobby {
+  + getID(): int
+  + isFull(): boolean
+  + removeUser(User): void
+  + initGame(GameEnder): GameHandler
+  + getGameSize(): int
+  + getUsers(): List<User>
+  + getGameHandler(): GameHandlerImpl
+  + add(User): void
+}
+class MainBoardCoordinates {
+  + getCol(): int
+  + getRow(): int
+  - set(int, int): void
+}
+interface ModelUpdateListener << interface >> {
+  + OnLobbyUpdate(LobbiesUpdateEvent): void
+  + OnGameUpdate(GameUpdateEvent): void
+}
+class NotPickableException {
+  + none(): void
+}
+class PersonalGoal {
+  + getValuesToIntList(): List<Integer>
+  + getCoordinatesList(): List<Integer>
+  + calcPoints(Tile[][]): int
+}
+class PersonalGoalDrawer {
+  + draw(): PersonalGoal
+}
+class PersonalGoalTest {
+  ~ CountRightsTester5(): void
+  ~ init(): void
+  ~ CountRightsTester4(): void
+  ~ CountRightsTester1(): void
+  ~ CountRightsTester3(): void
+  ~ CountRightsTester2(): void
+  ~ CountRightsTester6(): void
+}
+class Player {
+  + setScore(int): void
+  + getMyShelf(): Shelf
+  + getMyClient(): VirtualViewRMI
+  + setPersonalGoal(PersonalGoal): void
+  + getUserName(): String
+  + refresh(): void
+  + getPersonalGoalScoreAndCluster(): int
+  + getPersonalGoal(): PersonalGoal
+  + getOut(): ObjectOutputStream
+  + getScore(): int
+}
+class RMIchecker {
+  + run(): void
+  - doJob(): void
+}
+interface ServerRMI << interface >> {
+  + createUser(String, VirtualViewRMI, Object): List<String>
+  + joinLobby(int, VirtualViewRMI, Object): int
+  + createLobby(int, VirtualViewRMI, Object): List<Integer>
+  + leaveLobby(VirtualViewRMI, Object): String
+  + shutDownClient(VirtualViewRMI): List<String>
+  + checkAlive(): void
+  + lobbyListRequest(VirtualViewRMI, Object): JSONObject
+}
+class Shelf {
+  + copyMatrix(): Tile[][]
+  + getShelf(): Tile[][]
+  - isFull(): boolean
+  + refresh(): void
+  + isColumnValid(int, int): boolean
+  + clusterScore(Tile[][]): int
+  + insertTiles(int, ArrayList<Tile>): boolean
+}
+class ShelfTest {
+  ~ Matrix9PointsTester(): void
+  ~ Matrix20PointsTester(): void
+  ~ Matrix8PointsTester(): void
+  ~ init(): void
+  ~ EmptyMatrixTester(): void
+  ~ Matrix2PointsTester(): void
+  ~ Matrix4PointsTester(): void
+  ~ Matrix3PointsTester(): void
+  ~ Matrix5PointsTester(): void
+}
+class TCPaccepter {
+  + run(): void
+}
+class TCPclientParser {
+  - sendAnswer(JSONObject): void
+  + getOut(): ObjectOutputStream
+  + setGameHandler(GameHandler): void
+  - pickAndInsert(JSONObject, JSONObject): void
+  - newLobbyCreationRequest(JSONObject, JSONObject): void
+  - joinLobbyRequest(JSONObject, JSONObject): void
+  + run(): void
+  - newUser(JSONObject, JSONObject): void
+  - leaveLobbyRequest(JSONObject, JSONObject): void
+  - clientClosingApp(JSONObject, JSONObject): void
+  - chatMessage(JSONObject, JSONObject): void
+  + listOfLobbiesRequest(JSONObject): void
+}
+enum Tile << enumeration >> {
+  + valueOf(String): Tile
+  + toString(): String
+  + toTile(int): Tile
+  + toInt(): int
+  + values(): Tile[]
+}
+class TilesBag {
+  + pickedTile(): Tile
+  + getTotalTiles(): int
+  + RestoreTile(Tile): void
+}
+class User {
+  + isInGame(): boolean
+  + setInGame(boolean): void
+  + setMyClient(VirtualViewRMI): void
+  + setInLobby(boolean): void
+  + isInLobby(): boolean
+  + getUserName(): String
+  + toString(): String
+  + getMyClient(): VirtualViewRMI
+  + getMyParser(): TCPclientParser
+  + equals(Object): boolean
+  + hashCode(): int
+  + setMyParser(TCPclientParser): void
+}
+interface VirtualViewRMI << interface >> {
+  + BoardUpdate(JSONObject): void
+  + LobbiesUpdate(JSONObject): void
+  + checkAlive(): boolean
+  + GameUpdate(JSONObject): void
+  + StartGame(JSONObject): void
+  + PersonalStartGame(JSONObject): void
+  + endGameMessage(JSONObject): void
+  + sendChatMessage(JSONObject): void
+}
+
+Board                   "1" *-[#bbbbbb,plain]-> "game\n1" Game                    
+Board                   "1" *-[#bbbbbb,plain]-> "mainBoard\n*" Tile                    
+Board                   "1" *-[#bbbbbb,plain]-> "myBag\n1" TilesBag                
+BoardTest                -[#bbbbbb,dashed]->  Board                   : "«create»"
+BoardTest                -[#bbbbbb,dashed]->  MainBoardCoordinates    : "«create»"
+CommonGoal1              -[#589df6,plain]-^  CommonGoal              
+CommonGoal10             -[#589df6,plain]-^  CommonGoal              
+CommonGoal10Test         -[#bbbbbb,dashed]->  CommonGoal10            : "«create»"
+CommonGoal10Test        "1" *-[#bbbbbb,plain]-> "commonGoal10\n1" CommonGoal10            
+CommonGoal10Test         -[#bbbbbb,dashed]->  Tile                    : "«create»"
+CommonGoal10Test        "1" *-[#bbbbbb,plain]-> "emptyMatrix\n*" Tile                    
+CommonGoal11             -[#589df6,plain]-^  CommonGoal              
+CommonGoal11Test        "1" *-[#bbbbbb,plain]-> "commonGoal11\n1" CommonGoal11            
+CommonGoal11Test         -[#bbbbbb,dashed]->  CommonGoal11            : "«create»"
+CommonGoal11Test         -[#bbbbbb,dashed]->  Tile                    : "«create»"
+CommonGoal11Test        "1" *-[#bbbbbb,plain]-> "emptyMatrix\n*" Tile                    
+CommonGoal12             -[#589df6,plain]-^  CommonGoal              
+CommonGoal12Test        "1" *-[#bbbbbb,plain]-> "commonGoal12\n1" CommonGoal12            
+CommonGoal12Test         -[#bbbbbb,dashed]->  CommonGoal12            : "«create»"
+CommonGoal12Test         -[#bbbbbb,dashed]->  Tile                    : "«create»"
+CommonGoal12Test        "1" *-[#bbbbbb,plain]-> "emptyMatrix\n*" Tile                    
+CommonGoal1Test          -[#bbbbbb,dashed]->  CommonGoal1             : "«create»"
+CommonGoal1Test         "1" *-[#bbbbbb,plain]-> "commonGoal1\n1" CommonGoal1             
+CommonGoal1Test          -[#bbbbbb,dashed]->  Tile                    : "«create»"
+CommonGoal1Test         "1" *-[#bbbbbb,plain]-> "emptyMatrix\n*" Tile                    
+CommonGoal2              -[#589df6,plain]-^  CommonGoal              
+CommonGoal2Test         "1" *-[#bbbbbb,plain]-> "commonGoal2\n1" CommonGoal2             
+CommonGoal2Test          -[#bbbbbb,dashed]->  CommonGoal2             : "«create»"
+CommonGoal2Test          -[#bbbbbb,dashed]->  Tile                    : "«create»"
+CommonGoal2Test         "1" *-[#bbbbbb,plain]-> "emptyMatrix\n*" Tile                    
+CommonGoal3              -[#589df6,plain]-^  CommonGoal              
+CommonGoal3Test         "1" *-[#bbbbbb,plain]-> "commonGoal3\n1" CommonGoal3             
+CommonGoal3Test          -[#bbbbbb,dashed]->  CommonGoal3             : "«create»"
+CommonGoal3Test         "1" *-[#bbbbbb,plain]-> "emptyMatrix\n*" Tile                    
+CommonGoal3Test          -[#bbbbbb,dashed]->  Tile                    : "«create»"
+CommonGoal4              -[#589df6,plain]-^  CommonGoal              
+CommonGoal4Test          -[#bbbbbb,dashed]->  CommonGoal4             : "«create»"
+CommonGoal4Test         "1" *-[#bbbbbb,plain]-> "commonGoal4\n1" CommonGoal4             
+CommonGoal4Test          -[#bbbbbb,dashed]->  Tile                    : "«create»"
+CommonGoal4Test         "1" *-[#bbbbbb,plain]-> "emptyMatrix\n*" Tile                    
+CommonGoal5              -[#589df6,plain]-^  CommonGoal              
+CommonGoal5Test          -[#bbbbbb,dashed]->  CommonGoal5             : "«create»"
+CommonGoal5Test         "1" *-[#bbbbbb,plain]-> "commonGoal5\n1" CommonGoal5             
+CommonGoal5Test          -[#bbbbbb,dashed]->  Tile                    : "«create»"
+CommonGoal5Test         "1" *-[#bbbbbb,plain]-> "emptyMatrix\n*" Tile                    
+CommonGoal6              -[#589df6,plain]-^  CommonGoal              
+CommonGoal6Test         "1" *-[#bbbbbb,plain]-> "commonGoal6\n1" CommonGoal6             
+CommonGoal6Test          -[#bbbbbb,dashed]->  CommonGoal6             : "«create»"
+CommonGoal6Test          -[#bbbbbb,dashed]->  Tile                    : "«create»"
+CommonGoal6Test         "1" *-[#bbbbbb,plain]-> "emptyMatrix\n*" Tile                    
+CommonGoal7              -[#589df6,plain]-^  CommonGoal              
+CommonGoal7Test         "1" *-[#bbbbbb,plain]-> "commonGoal7\n1" CommonGoal7             
+CommonGoal7Test          -[#bbbbbb,dashed]->  CommonGoal7             : "«create»"
+CommonGoal7Test          -[#bbbbbb,dashed]->  Tile                    : "«create»"
+CommonGoal7Test         "1" *-[#bbbbbb,plain]-> "emptyMatrix\n*" Tile                    
+CommonGoal8              -[#589df6,plain]-^  CommonGoal              
+CommonGoal8Test         "1" *-[#bbbbbb,plain]-> "commonGoal8\n1" CommonGoal8             
+CommonGoal8Test          -[#bbbbbb,dashed]->  CommonGoal8             : "«create»"
+CommonGoal8Test         "1" *-[#bbbbbb,plain]-> "emptyMatrix\n*" Tile                    
+CommonGoal8Test          -[#bbbbbb,dashed]->  Tile                    : "«create»"
+CommonGoal9              -[#589df6,plain]-^  CommonGoal              
+CommonGoal9Test          -[#bbbbbb,dashed]->  CommonGoal9             : "«create»"
+CommonGoal9Test         "1" *-[#bbbbbb,plain]-> "commonGoal9\n1" CommonGoal9             
+CommonGoal9Test         "1" *-[#bbbbbb,plain]-> "emptyMatrix\n*" Tile                    
+CommonGoal9Test          -[#bbbbbb,dashed]->  Tile                    : "«create»"
+CommonGoalDrawer        "1" *-[#bbbbbb,plain]-> "pile\n*" CommonGoal              
+Game                    "1" *-[#bbbbbb,plain]-> "mainBoard\n1" Board                   
+Game                    "1" *-[#bbbbbb,plain]-> "comG1\n1" CommonGoal              
+Game                    "1" *-[#bbbbbb,plain]-> "ender\n1" GameEnder               
+Game                    "1" *-[#bbbbbb,plain]-> "personalGoalDrawer\n1" PersonalGoalDrawer      
+Game                    "1" *-[#bbbbbb,plain]-> "players\n*" Player                  
+GameHandlerImpl         "1" *-[#bbbbbb,plain]-> "myGame\n1" Game                    
+GameHandlerImpl          -[#609350,dashed]-^  GameHandler             
+GameHandlerImpl          -[#609350,dashed]-^  GameServerRMI           
+GameUpdateEvent         "1" *-[#bbbbbb,plain]-> "coordinates\n*" MainBoardCoordinates    
+LobbiesHandlerImpl       -[#609350,dashed]-^  GameEnder               
+LobbiesHandlerImpl       -[#609350,dashed]-^  LobbiesHandler          
+LobbiesHandlerImpl      "1" *-[#bbbbbb,plain]-> "waitingLobbies\n*" Lobby                   
+LobbiesHandlerImpl       -[#609350,dashed]-^  ServerRMI               
+LobbiesHandlerImpl      "1" *-[#bbbbbb,plain]-> "users\n*" User                    
+LobbiesHandlerTest      "1" *-[#bbbbbb,plain]-> "lobbyTester\n1" LobbiesHandler          
+LobbiesHandlerTest       -[#bbbbbb,dashed]->  LobbiesHandlerImpl      : "«create»"
+LobbiesUpdateEvent      "1" *-[#bbbbbb,plain]-> "waitingLobbies\n*" Lobby                   
+Lobby                   "1" *-[#bbbbbb,plain]-> "gameHandler\n1" GameHandlerImpl         
+Lobby                   "1" *-[#bbbbbb,plain]-> "lobbyUsers\n*" User                    
+PersonalGoal            "1" *-[#bbbbbb,plain]-> "values\n*" Tile                    
+PersonalGoalDrawer      "1" *-[#bbbbbb,plain]-> "pile\n*" PersonalGoal            
+PersonalGoalTest        "1" *-[#bbbbbb,plain]-> "list\n*" PersonalGoal            
+PersonalGoalTest        "1" *-[#bbbbbb,plain]-> "goalMatrices\n*" Tile                    
+Player                  "1" *-[#bbbbbb,plain]-> "personalGoal\n1" PersonalGoal            
+Player                  "1" *-[#bbbbbb,plain]-> "myShelf\n1" Shelf                   
+Player                  "1" *-[#bbbbbb,plain]-> "myClient\n1" VirtualViewRMI          
+RMIchecker              "1" *-[#bbbbbb,plain]-> "lobbiesHandler\n1" LobbiesHandler          
+Shelf                   "1" *-[#bbbbbb,plain]-> "shelf\n*" Tile                    
+ShelfTest               "1" *-[#bbbbbb,plain]-> "myShelf\n1" Shelf                   
+ShelfTest                -[#bbbbbb,dashed]->  Shelf                   : "«create»"
+ShelfTest               "1" *-[#bbbbbb,plain]-> "shelfs\n*" Tile                    
+TCPaccepter             "1" *-[#bbbbbb,plain]-> "lobbiesHandler\n1" LobbiesHandler          
+TCPclientParser         "1" *-[#bbbbbb,plain]-> "gameHandler\n1" GameHandler             
+TCPclientParser         "1" *-[#bbbbbb,plain]-> "lobbiesHandler\n1" LobbiesHandler          
+User                    "1" *-[#bbbbbb,plain]-> "myParser\n1" TCPclientParser         
+User                    "1" *-[#bbbbbb,plain]-> "myClient\n1" VirtualViewRMI          
+@enduml
