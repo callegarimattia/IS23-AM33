@@ -10,13 +10,12 @@ public class CLI implements Runnable {
     Client client;
     private boolean inGame;
 
-
-    public CLI() {
-        createClient();
+    public CLI(String arg) {
+        createClient(arg);
         inGame = true;
     }
 
-    private void createClient(){
+    private void createClient(String arg){
         Scanner in = new Scanner(System.in);
 
         System.out.println("Usage: T (or R) IPserver (T = TCP, R = RMI)");
@@ -29,13 +28,13 @@ public class CLI implements Runnable {
 
         if (str.equals("T") || str.equals("t")) {
             try {
-                client = new ClientTCP(this);
+                client = new ClientTCP(this, arg);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         } else {
             try {
-                client = new ClientRMI(this);
+                client = new ClientRMI(this, arg);
             } catch (RemoteException e) {
                 System.out.println(e.getMessage());
             }

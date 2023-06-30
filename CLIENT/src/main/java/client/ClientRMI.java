@@ -17,14 +17,15 @@ import static java.lang.System.exit;
 
 public class ClientRMI extends UnicastRemoteObject implements Client, VirtualViewRMI {
     ServerRMI server;
-    String serverIP = null;
+    String serverIP;
     CLI cli;
     private GameServerRMI gameServer= null;
     private final ClientDataStructure data = new ClientDataStructure();
 
-    public ClientRMI(CLI cli) throws RemoteException {
+    public ClientRMI(CLI cli, String serverIP) throws RemoteException {
+        this.serverIP = serverIP;
         this.cli = cli;
-        newConnection("localhost", 1099);
+        newConnection(serverIP, 1099);
     }
 
     @Override
@@ -55,13 +56,6 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
             System.out.print("game RMI not found...");
             exit(-1);
         }
-
-     /*   try {
-            gameServer = (GameServerRMI) Naming.lookup("rmi://" + serverIP + "prova");
-        } catch (NotBoundException | MalformedURLException| RemoteException e) {
-            System.out.print("game RMI not found...");
-            exit(-1);
-        }  */
     }
 
 

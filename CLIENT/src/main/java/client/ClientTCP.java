@@ -13,14 +13,13 @@ import static java.lang.System.exit;
 
 public class ClientTCP implements Client {
     private final ObjectOutputStream out;
-    private final String ip = "127.0.0.1";   // saranno poi da prendere da arg / json
     private final int port = 2345;  // saranno poi da prendere da arg / json
     private final ClientDataStructure data;
     private Socket socket;
 
-    public ClientTCP(CLI cli) throws IOException {
+    public ClientTCP(CLI cli, String serverIP) throws IOException {
         data = new ClientDataStructure();
-        newConnection(ip, port);
+        newConnection(serverIP, port);
         out = new ObjectOutputStream(socket.getOutputStream());
         Runnable parser = new TCPserverParser(socket, this, cli, data);
         Thread th = new Thread(parser);
