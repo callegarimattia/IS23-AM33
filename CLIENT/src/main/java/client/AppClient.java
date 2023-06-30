@@ -21,7 +21,7 @@ public class AppClient {
         }
 
         if (str.equals("C") || str.equals("c")) {  // CLI
-            Runnable r = new CLI();
+            Runnable r = new CLI(args[0]);
             Thread th = new Thread(r);
             th.start();
             th.join();

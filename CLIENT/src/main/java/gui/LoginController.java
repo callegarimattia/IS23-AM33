@@ -51,9 +51,9 @@ public class LoginController {
     @FXML
     protected void handleSubmitButtonAction(ActionEvent event) throws IOException {
         if (rmi.isSelected())
-            client = new ClientRMI(null);
+            client = new ClientRMI(null, null);
         else
-            client = new ClientTCP(null);
+            client = new ClientTCP(null, null);
         client.getData().setGui(true);
         client.createUser(username.getText());
         delay(500, this::checkUsername);
