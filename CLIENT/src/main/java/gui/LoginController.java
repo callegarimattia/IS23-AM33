@@ -3,6 +3,9 @@ package gui;
 import client.Client;
 import client.ClientRMI;
 import client.ClientTCP;
+import javafx.beans.binding.Binding;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,11 +29,17 @@ public class LoginController {
     @FXML
     private Button signIn;
 
+
     public void init(GuiApplication gui, Stage mainStage) {
         this.gui = gui;
         this.mainStage = mainStage;
-        username.textProperty().addListener((ov, oldValue, newValue) ->
-                signIn.setDisable(newValue.isEmpty()));
+        BooleanBinding usernameValid = Bindings.createBooleanBinding(() ->{
+            return !username.getText().isEmpty();
+        }, username.textProperty());
+        BooleanBinding serveripValid = Bindings.createBooleanBinding(() ->{
+            return !serverIP.getText().isEmpty();
+        }, serverIP.textProperty());
+        signIn.disableProperty().bind(usernameValid.not().or(serveripValid.not()));
     }
 
     public static void delay(long millis, Runnable continuation) {
@@ -51,9 +60,9 @@ public class LoginController {
     @FXML
     protected void handleSubmitButtonAction(ActionEvent event) throws IOException {
         if (rmi.isSelected())
-            client = new ClientRMI(null, null);
+            client = new ClientRMI(null, serverIP.getText());
         else
-            client = new ClientTCP(null, null);
+            client = new ClientTCP(null, serverIP.getText());
         client.getData().setGui(true);
         client.createUser(username.getText());
         delay(500, this::checkUsername);
