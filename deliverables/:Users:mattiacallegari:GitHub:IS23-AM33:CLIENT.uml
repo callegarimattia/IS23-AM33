@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/mattiacallegari/GitHub/IS23-AM33/CLIENT</OriginalElement>
+  <nodes>
+    <node x="-242.0" y="1562.0">common.MainBoardCoordinates</node>
+    <node x="1487.65" y="468.0">common.VirtualViewRMI</node>
+    <node x="1643.418181818182" y="1060.0">client.ClientRMI</node>
+    <node x="1111.65" y="457.0">gui.GameController</node>
+    <node x="2559.6681818181814" y="-61.0">gui.GuiApplication</node>
+    <node x="14.0" y="-116.0">client.clientModel.Lobby</node>
+    <node x="584.0" y="193.0">client.clientModel.ClientDataStructure</node>
+    <node x="55.0" y="1562.0">client.AppClient</node>
+    <node x="1823.65" y="435.0">client.CLI</node>
+    <node x="3247.6499999999996" y="479.0">common.ServerRMI</node>
+    <node x="250.64999999999986" y="-383.0">common.Tile</node>
+    <node x="387.65" y="1148.0">client.ClientTCP</node>
+    <node x="-242.0" y="-116.0">client.clientModel.ClientPlayer</node>
+    <node x="959.75" y="-160.0">client.Client</node>
+    <node x="875.6500000000001" y="1258.0">client.TCPserverParser</node>
+    <node x="2487.6499999999996" y="534.0">common.GameServerRMI</node>
+    <node x="2855.6499999999996" y="490.0">gui.LobbiesController</node>
+    <node x="262.0" y="-61.0">client.clientModel.ClientPersonalGoal</node>
+    <node x="2087.65" y="501.0">gui.LoginController</node>
+    <node x="3413.6499999999996" y="1258.0">client.RMIchecker</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="client.clientModel.ClientDataStructure" target="client.clientModel.ClientPlayer" relationship="TO_MANY">
+      <point x="0.0" y="-382.5" />
+      <point x="766.0" y="171.0" />
+      <point x="264.16818181818167" y="171.0" />
+      <point x="264.16818181818167" y="161.0" />
+      <point x="-124.0" y="161.0" />
+      <point x="0.0" y="85.5" />
+    </edge>
+    <edge source="client.ClientTCP" target="client.Client" relationship="REALIZATION">
+      <point x="-117.0" y="-140.5" />
+      <point x="504.65" y="1039.0" />
+      <point x="548.15" y="1039.0" />
+      <point x="548.15" y="161.0" />
+      <point x="742.1681818181818" y="161.0" />
+      <point x="742.1681818181818" y="141.0" />
+      <point x="1076.75" y="141.0" />
+      <point x="-117.0" y="129.5" />
+    </edge>
+    <edge source="client.TCPserverParser" target="client.clientModel.ClientDataStructure" relationship="TO_ONE">
+      <point x="0.0" y="-30.5" />
+      <point x="976.6500000000001" y="1009.0" />
+      <point x="766.0" y="1009.0" />
+      <point x="0.0" y="382.5" />
+    </edge>
+    <edge source="client.RMIchecker" target="client.CLI" relationship="TO_ONE">
+      <point x="0.0" y="-30.5" />
+      <point x="3489.6499999999996" y="979.0" />
+      <point x="1945.65" y="979.0" />
+      <point x="0.0" y="140.5" />
+    </edge>
+    <edge source="gui.LoginController" target="gui.GuiApplication" relationship="TO_ONE">
+      <point x="0.0" y="-74.5" />
+      <point x="2277.65" y="171.0" />
+      <point x="2655.6681818181814" y="171.0" />
+      <point x="0.0" y="30.5" />
+    </edge>
+    <edge source="client.ClientRMI" target="common.GameServerRMI" relationship="TO_ONE">
+      <point x="117.0" y="-228.5" />
+      <point x="1994.418181818182" y="1039.0" />
+      <point x="2299.668181818182" y="1039.0" />
+      <point x="2299.668181818182" y="1019.0" />
+      <point x="2661.6499999999996" y="1019.0" />
+      <point x="0.0" y="41.5" />
+    </edge>
+    <edge source="client.RMIchecker" target="common.ServerRMI" relationship="TO_ONE">
+      <point x="0.0" y="-30.5" />
+      <point x="0.0" y="96.5" />
+    </edge>
+    <edge source="client.clientModel.ClientDataStructure" target="client.clientModel.ClientPersonalGoal" relationship="TO_ONE">
+      <point x="0.0" y="-382.5" />
+      <point x="766.0" y="171.0" />
+      <point x="264.16818181818167" y="171.0" />
+      <point x="264.16818181818167" y="161.0" />
+      <point x="378.0" y="161.0" />
+      <point x="0.0" y="30.5" />
+    </edge>
+    <edge source="client.ClientRMI" target="client.clientModel.ClientDataStructure" relationship="TO_ONE">
+      <point x="117.0" y="-228.5" />
+      <point x="1994.418181818182" y="1039.0" />
+      <point x="2299.668181818182" y="1039.0" />
+      <point x="2299.668181818182" y="999.0" />
+      <point x="766.0" y="999.0" />
+      <point x="0.0" y="382.5" />
+    </edge>
+    <edge source="client.TCPserverParser" target="client.CLI" relationship="TO_ONE">
+      <point x="0.0" y="-30.5" />
+      <point x="976.6500000000001" y="1029.0" />
+      <point x="1945.65" y="1029.0" />
+      <point x="0.0" y="140.5" />
+    </edge>
+    <edge source="gui.LobbiesController" target="client.Client" relationship="TO_ONE">
+      <point x="0.0" y="-85.5" />
+      <point x="3041.6499999999996" y="131.0" />
+      <point x="1942.6045454545456" y="131.0" />
+      <point x="1942.6045454545456" y="121.0" />
+      <point x="1310.75" y="121.0" />
+      <point x="117.0" y="129.5" />
+    </edge>
+    <edge source="gui.LoginController" target="client.Client" relationship="TO_ONE">
+      <point x="0.0" y="-74.5" />
+      <point x="2277.65" y="141.0" />
+      <point x="1942.6045454545456" y="141.0" />
+      <point x="1942.6045454545456" y="121.0" />
+      <point x="1310.75" y="121.0" />
+      <point x="117.0" y="129.5" />
+    </edge>
+    <edge source="client.clientModel.ClientPlayer" target="common.Tile" relationship="TO_MANY">
+      <point x="0.0" y="-85.5" />
+      <point x="-124.0" y="-186.0" />
+      <point x="352.64999999999986" y="-186.0" />
+      <point x="0.0" y="85.5" />
+    </edge>
+    <edge source="client.ClientTCP" target="client.clientModel.ClientDataStructure" relationship="TO_ONE">
+      <point x="117.0" y="-140.5" />
+      <point x="738.65" y="1039.0" />
+      <point x="766.0" y="1039.0" />
+      <point x="0.0" y="382.5" />
+    </edge>
+    <edge source="client.ClientRMI" target="client.CLI" relationship="TO_ONE">
+      <point x="117.0" y="-228.5" />
+      <point x="1994.418181818182" y="1039.0" />
+      <point x="2299.668181818182" y="1039.0" />
+      <point x="2299.668181818182" y="989.0" />
+      <point x="1945.65" y="989.0" />
+      <point x="0.0" y="140.5" />
+    </edge>
+    <edge source="client.ClientRMI" target="common.ServerRMI" relationship="TO_ONE">
+      <point x="117.0" y="-228.5" />
+      <point x="1994.418181818182" y="1039.0" />
+      <point x="2299.668181818182" y="1039.0" />
+      <point x="2299.668181818182" y="1029.0" />
+      <point x="3489.6499999999996" y="1029.0" />
+      <point x="0.0" y="96.5" />
+    </edge>
+    <edge source="gui.GameController" target="client.Client" relationship="TO_ONE">
+      <point x="0.0" y="-118.5" />
+      <point x="1289.65" y="151.0" />
+      <point x="1942.6045454545456" y="151.0" />
+      <point x="1942.6045454545456" y="121.0" />
+      <point x="1310.75" y="121.0" />
+      <point x="117.0" y="129.5" />
+    </edge>
+    <edge source="client.CLI" target="client.Client" relationship="TO_ONE">
+      <point x="0.0" y="-140.5" />
+      <point x="1945.65" y="151.0" />
+      <point x="1942.6045454545456" y="151.0" />
+      <point x="1942.6045454545456" y="121.0" />
+      <point x="1310.75" y="121.0" />
+      <point x="117.0" y="129.5" />
+    </edge>
+    <edge source="gui.LobbiesController" target="gui.GuiApplication" relationship="TO_ONE">
+      <point x="0.0" y="-85.5" />
+      <point x="3041.6499999999996" y="121.0" />
+      <point x="2655.6681818181814" y="121.0" />
+      <point x="0.0" y="30.5" />
+    </edge>
+    <edge source="client.ClientRMI" target="client.Client" relationship="REALIZATION">
+      <point x="-117.0" y="-228.5" />
+      <point x="1760.418181818182" y="1039.0" />
+      <point x="1369.418181818182" y="1039.0" />
+      <point x="1369.418181818182" y="989.0" />
+      <point x="1101.15" y="989.0" />
+      <point x="1101.15" y="161.0" />
+      <point x="742.1681818181818" y="161.0" />
+      <point x="742.1681818181818" y="141.0" />
+      <point x="1076.75" y="141.0" />
+      <point x="-117.0" y="129.5" />
+    </edge>
+    <edge source="client.clientModel.ClientPersonalGoal" target="common.Tile" relationship="TO_MANY">
+      <point x="0.0" y="-30.5" />
+      <point x="378.0" y="-186.0" />
+      <point x="352.64999999999986" y="-186.0" />
+      <point x="0.0" y="85.5" />
+    </edge>
+    <edge source="client.ClientRMI" target="common.VirtualViewRMI" relationship="REALIZATION">
+      <point x="-117.0" y="-228.5" />
+      <point x="1760.418181818182" y="1039.0" />
+      <point x="1369.418181818182" y="1039.0" />
+      <point x="1369.418181818182" y="989.0" />
+      <point x="1645.65" y="989.0" />
+      <point x="0.0" y="107.5" />
+    </edge>
+    <edge source="client.clientModel.ClientDataStructure" target="client.clientModel.Lobby" relationship="TO_MANY">
+      <point x="0.0" y="-382.5" />
+      <point x="766.0" y="171.0" />
+      <point x="264.16818181818167" y="171.0" />
+      <point x="264.16818181818167" y="161.0" />
+      <point x="128.0" y="161.0" />
+      <point x="0.0" y="85.5" />
+    </edge>
+    <edge source="client.clientModel.ClientDataStructure" target="common.Tile" relationship="TO_MANY">
+      <point x="0.0" y="-382.5" />
+      <point x="766.0" y="171.0" />
+      <point x="264.16818181818167" y="171.0" />
+      <point x="264.16818181818167" y="161.0" />
+      <point x="504.5" y="161.0" />
+      <point x="504.5" y="-186.0" />
+      <point x="352.64999999999986" y="-186.0" />
+      <point x="0.0" y="85.5" />
+    </edge>
+    <edge source="client.TCPserverParser" target="client.Client" relationship="TO_ONE">
+      <point x="0.0" y="-30.5" />
+      <point x="976.6500000000001" y="1019.0" />
+      <point x="1002.0" y="1019.0" />
+      <point x="1002.0" y="151.0" />
+      <point x="1942.6045454545456" y="151.0" />
+      <point x="1942.6045454545456" y="121.0" />
+      <point x="1310.75" y="121.0" />
+      <point x="117.0" y="129.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.5206043956043956" showDependencies="true" x="553.5" y="335.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
