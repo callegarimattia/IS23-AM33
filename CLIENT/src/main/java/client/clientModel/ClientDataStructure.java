@@ -399,5 +399,10 @@ public class ClientDataStructure {
         System.out.println(text);
     }
 
+    public void boardUpdate(JSONObject obj){  // 123
+        List<List<Long>> intMainBoard = (List<List<Long>>) obj.get("board");
+        setMainBoard(intMainBoard);
+    }
+
 
 }

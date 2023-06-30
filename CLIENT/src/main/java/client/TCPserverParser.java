@@ -108,6 +108,9 @@ public class TCPserverParser implements Runnable {
                 case 101:
                     data.recivedChatMessage(obj);
                     break;
+                case 123:
+                    data.boardUpdate(obj);
+                    break;
                 case 999:
                     //  messaggio con punteggi e vincitori
                     //  bool = false;

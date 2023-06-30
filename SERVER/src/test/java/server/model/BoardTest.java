@@ -18,7 +18,7 @@ class BoardTest {
     @ValueSource(ints = {2, 3, 4})
     @DisplayName("Main board initialisation test")
     void initializeBoard(int numOfPlayers) {
-        Board testBoard = new Board(numOfPlayers);
+        Board testBoard = new Board(numOfPlayers, null);
         Tile[][] mainBoard = testBoard.getMainBoard();
         if (numOfPlayers == 4) assertTrue(true); //da fare :C
         if (numOfPlayers == 3) assertTrue(
@@ -46,7 +46,7 @@ class BoardTest {
     @Test
     @DisplayName("Remove Tiles Test")
     void removeTilesTester() throws Exception {
-        Board board = new Board(4);
+        Board board = new Board(4,null);
         MainBoardCoordinates coordinates00 = new MainBoardCoordinates(0,0);
         MainBoardCoordinates coordinates08 = new MainBoardCoordinates(0,8);
         MainBoardCoordinates coordinates80 = new MainBoardCoordinates(8,0);

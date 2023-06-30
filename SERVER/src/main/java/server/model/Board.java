@@ -20,16 +20,22 @@ public class Board {
     private final int MAX_ROW_NUM = 9;
     private final int MAX_COL_NUM = 9;
     private final Tile[][] mainBoard = new Tile[MAX_ROW_NUM][MAX_COL_NUM];
-    private final TilesBag MyBag;
+    private final TilesBag myBag;
+    private  int totTiles;
+    private Game game;
 
-    public Board(int numOfPlayers) {
-        MyBag = new TilesBag();
+    public Board(int numOfPlayers, Game game) {
+        this.game = game;
+        myBag = new TilesBag();
+        totTiles = myBag.getTotalTiles();
         try {
             deserializeJSONBoard(numOfPlayers);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        RandomTiles(MyBag, mainBoard);
+        RandomTiles(myBag, mainBoard);
+        initM();
+        totTiles = totTiles - myBag.getTotalTiles();
     }
 
     private void deserializeJSONBoard(int numOfPlayers) throws IOException {
@@ -54,6 +60,13 @@ public class Board {
         for (int i = 0; i < 9; i++) {
             mainBoard[i] = new Gson().fromJson(matrix.get(i), Tile[].class);
         }
+    }
+
+    private void initM(){
+        for (int x = 0; x < 9; x++)
+            for (int y = 0; y < 9; y++)
+                if(mainBoard[x][y].equals(Tile.EMPTY))
+                    mainBoard[x][y] = (Tile.UNAVAILABLE);
     }
 
     private void RandomTiles(TilesBag myBag, Tile[][] mainBoard) {
@@ -96,6 +109,12 @@ public class Board {
             pickedTiles.add(mainBoard[XY.getRow()][XY.getCol()]);
             mainBoard[XY.getRow()][XY.getCol()] = Tile.EMPTY;
         }
+        totTiles = totTiles - coordinates.size();
+        if(totTiles == 0){
+            RandomTiles(myBag,mainBoard);
+            game.BoardRefreshedUpdate();
+        }
+
         return pickedTiles;
     }
 

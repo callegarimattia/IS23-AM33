@@ -202,6 +202,20 @@ public class ClientRMI extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     @Override
+    public void BoardUpdate(JSONObject obj) throws RemoteException {
+        List<List<Integer>> intMainBoard = (List<List<Integer>>) obj.get("board");
+        List<List<Long>> longs = new ArrayList<>();
+        for (int i=0 ; i < intMainBoard.size() ; i++) {
+            List<Long> lis = new ArrayList<>();
+            for (int j=0;j<intMainBoard.size();j++)
+                lis.add(intMainBoard.get(i).get(j).longValue());
+            longs.add(lis);
+        }
+        obj.put("board", longs);
+        data.boardUpdate(obj);
+    }
+
+    @Override
     public void GameUpdate(JSONObject obj) throws RemoteException {
         List<Integer> cols = (List<Integer>) obj.get("cols");
         List<Integer> rows = (List<Integer>) obj.get("rows");

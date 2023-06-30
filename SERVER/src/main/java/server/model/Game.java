@@ -42,7 +42,7 @@ public class Game {
         }
         this.players = players;
         players.forEach(player -> player.setPersonalGoal(personalGoalDrawer.draw()));
-        mainBoard = new Board(players.size());
+        mainBoard = new Board(players.size(), this);
         CommonGoalDrawer drawer = new CommonGoalDrawer();
         comG1 = drawer.draw();
         comG2 = drawer.draw();
@@ -309,6 +309,33 @@ public class Game {
         System.out.println();
 
         for (Player player : players) player.refresh();
+    }
+
+    public void BoardRefreshedUpdate(){
+        JSONObject data = new JSONObject();
+        List<List<Integer>> board = mainBoard.toInt();
+
+        data.put("type", 123);
+        data.put("board", board);
+
+        for(Player player: players) {  // RMI
+            if (player.getMyClient() != null) {
+                try {
+                    player.getMyClient().BoardUpdate(data);
+                } catch (RemoteException e) {
+                    System.out.println("remote method invocation failed");
+                }
+            }
+
+            if (player.getOut() != null) {  // TCP
+                try {
+                    player.getOut().writeObject(data);
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+
+            }
+        }
     }
 
     public List<Player> getPlayers() {

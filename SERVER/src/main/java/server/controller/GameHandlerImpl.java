@@ -177,7 +177,6 @@ public class GameHandlerImpl  extends UnicastRemoteObject implements GameHandler
         } catch (RemoteException | AlreadyBoundException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("------------------- " + binder + " RMI online-------------------");
     }
 
 

@@ -7,6 +7,7 @@ import java.util.List;
 public interface VirtualViewRMI extends Remote {
 
     //  ha solo i metodi che chiama il server
+    void BoardUpdate(JSONObject data) throws RemoteException;
 
     void GameUpdate(JSONObject data) throws RemoteException;
 
