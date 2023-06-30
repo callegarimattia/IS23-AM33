@@ -3,9 +3,12 @@ import common.Tile;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +20,12 @@ public class ClientDataStructure {
     private ClientPersonalGoal myGoal;
     private final ObservableList<Lobby> lobbies;
     private int myLobbyID;
-    private String myUsername;
+    private final StringProperty myUsername = new SimpleStringProperty();
     private final BooleanProperty gameStarted;
     private boolean gui = false;
 
     public ClientDataStructure() {
         players = new ArrayList<>();
-        myUsername = "";
         mainBoard = new Tile[9][9];
         myGoal = null;
         lobbies = FXCollections.observableArrayList();
@@ -147,11 +149,15 @@ public class ClientDataStructure {
     }
 
     public String getMyUsername() {
-        return myUsername;
+        return myUsername.get();
     }
 
     public void setMyUsername(String myUsername) {
-        this.myUsername = myUsername;
+        this.myUsername.set(myUsername);
+    }
+
+    public StringProperty myUsernameProperty() {
+        return myUsername;
     }
 
     public boolean isGameStarted() {
@@ -197,7 +203,8 @@ public class ClientDataStructure {
                 System.out.println("username already taken, press 0 and enter a new one: ");
                 break;
             case "1":
-                setMyUsername(ans.get(1));
+                if (gui) Platform.runLater(() -> setMyUsername(ans.get(1)));
+                else setMyUsername(ans.get(1));
                 System.out.println("userName " + getMyUsername() + " successfully set");
                 break;
             case "-1":
